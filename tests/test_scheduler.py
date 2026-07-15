@@ -29,14 +29,15 @@ class TestInterleave(unittest.TestCase):
             self.assertLess(idx[SessionKind.AUTHOR_A1], idx[SessionKind.REVIEW_A2])
             self.assertLess(idx[SessionKind.AUTHOR_A1], idx[SessionKind.REVIEW_B])
 
-    def test_no_arm_runs_three_in_a_row_while_others_pend(self):
+    def test_no_arm_runs_twice_in_a_row_while_others_pend(self):
+        # Tightened from no-triples to no-pairs (cross-vendor review
+        # 2026-07-15): D-012 says "never a block of one arm".
         sched = self._schedule(12)
         # Tail of the schedule can legitimately drain one queue; check the body.
-        body = sched[: len(sched) - 3]
-        for i in range(len(body) - 2):
-            kinds = {body[i].kind, body[i + 1].kind, body[i + 2].kind}
-            self.assertGreater(len(kinds), 1,
-                               f"three consecutive {body[i].kind} at position {i}")
+        body = sched[: len(sched) - 2]
+        for i in range(len(body) - 1):
+            self.assertNotEqual(body[i].kind, body[i + 1].kind,
+                                f"same-arm pair {body[i].kind} at position {i}")
 
     def test_single_case_still_valid(self):
         sched = interleave(["only"])

@@ -22,7 +22,7 @@ import html
 import json
 from dataclasses import dataclass
 
-from .band2 import _MARKER_RE, anonymize
+from .band2 import _MARKER_RE, anonymize, format_claim
 from .models import Claim, JudgeVerdict
 
 RUBRIC_OPTIONS = ("catch", "no_catch", "false_alarm", "unscorable")
@@ -71,11 +71,9 @@ def _card_html(card: AdjudicationCard, idx: int) -> str:
         f"<label><input type='radio' name='ruling-{idx}' value='{opt}'> {opt}</label>"
         for opt in RUBRIC_OPTIONS
     )
-    claim_text = anonymize(card.claim.description)
-    loc = ""
-    if card.claim.file:
-        loc = f" <code>{_esc(card.claim.file)}" + (
-            f":{card.claim.line}</code>" if card.claim.line is not None else "</code>")
+    # The human rules on EXACTLY the artifact the judges saw: same shared
+    # formatting, same anonymization (cross-vendor review 2026-07-15, Medium).
+    claim_text = anonymize(format_claim(card.claim))
 
     snippet = ""
     if card.code_snippet:
@@ -86,7 +84,7 @@ def _card_html(card: AdjudicationCard, idx: int) -> str:
 <section class='card' data-case='{_esc(card.case_id)}' data-condition='{_esc(card.condition)}' data-source='{_esc(card.source)}'>
   <h2>{idx + 1}. {_esc(card.case_id)} <small>[{_esc(card.condition)} · {_esc(card.source)}]</small></h2>
   <div class='block key'><h3>Answer key — planted-bug annotation</h3><p>{_esc(anonymize(card.defect_annotation))}</p></div>
-  <div class='block claim'><h3>Reviewer's claim (anonymized — as the judges saw it)</h3><p>{_esc(claim_text)}{loc}</p></div>
+  <div class='block claim'><h3>Reviewer's claim (anonymized — as the judges saw it)</h3><p>{_esc(claim_text)}</p></div>
   <div class='block judges'><h3>Judges</h3>{judges}</div>
   {snippet}
   <div class='block rubric'><h3>Ruling</h3>{buttons}

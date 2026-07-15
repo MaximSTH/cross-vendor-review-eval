@@ -60,6 +60,21 @@ class TestExtractClaims(unittest.TestCase):
         self.assertIsNone(claims[0].file)
         self.assertFalse(claims[0].fully_localized)
 
+    def test_claims_null_raises_format_error_not_typeerror(self):
+        # Peer review 2026-07-15 (Medium): "claims": null hit enumerate() and
+        # raised TypeError, bypassing the record-not-raise contract.
+        with self.assertRaises(ClaimFormatError):
+            extract_claims('```json\n{"claims": null}\n```')
+
+    def test_non_string_file_raises_format_error(self):
+        # Self-review 2026-07-15: "file": 123 crashed later in normalize_path.
+        with self.assertRaises(ClaimFormatError):
+            extract_claims('```json\n{"claims": [{"description": "d", "file": 123}]}\n```')
+
+    def test_uppercase_fence_tag_accepted(self):
+        claims = extract_claims('```JSON\n{"claims": []}\n```')
+        self.assertEqual(claims, ())
+
 
 class TestRunner(unittest.TestCase):
     def _executor(self, calls):
@@ -137,6 +152,74 @@ class TestCorpusFilters(unittest.TestCase):
                  _cand("m", date(2026, 4, 1))]
         picked = select_first_n(cands, 2)
         self.assertEqual([c.task_id for c in picked], ["m", "a"])
+
+    def test_selection_records_dropped_tail(self):
+        # Self-review 2026-07-15: selection was the one step with silent drops.
+        report = FilterReport()
+        cands = [_cand(f"t{i}", date(2026, 4, 1 + i)) for i in range(5)]
+        select_first_n(cands, 3, report)
+        dropped = [tid for ids in report.dropped.values() for tid in ids]
+        self.assertEqual(sorted(dropped), ["t3", "t4"])
+
+
+class TestCLIJudgeBackend(unittest.TestCase):
+    """Self-review 2026-07-15: judges.py had zero coverage — the module that
+    physically implements the D-015 binding condition."""
+
+    def _backend(self, stdout="", stderr="", rc=0, family="anthropic", seen=None):
+        from harness.judges import CLIJudgeBackend
+
+        def fake(cmd, stdin, cwd):
+            if seen is not None:
+                seen.append((tuple(cmd), stdin, cwd))
+            return ExecResult(stdout, stderr, rc)
+        return CLIJudgeBackend(family, executor=fake)
+
+    def _payload(self, claim="off-by-one in pagination"):
+        from harness.scoring.band2 import JudgePayload
+        return JudgePayload(defect_annotation="loop stops early", claim_text=claim)
+
+    def test_parses_verdict(self):
+        b = self._backend('```json\n{"is_match": true, "reasoning": "same bug"}\n```')
+        v = b.judge(self._payload())
+        self.assertTrue(v.is_match)
+        self.assertEqual(v.judge_family, "anthropic")
+
+    def test_prompt_carries_only_the_two_artifacts(self):
+        seen = []
+        b = self._backend('```json\n{"is_match": false, "reasoning": "no"}\n```',
+                          seen=seen)
+        b.judge(self._payload(claim="CLAIMTEXT"))
+        (_cmd, stdin, cwd) = seen[-1]
+        self.assertIn("CLAIMTEXT", stdin)
+        self.assertIn("loop stops early", stdin)
+        self.assertNotIn("case", stdin.lower().replace("in case", ""))  # no case ids
+        self.assertTrue(str(cwd).startswith("/") and "judge-" in str(cwd))
+
+    def test_nonzero_exit_raises(self):
+        from harness.judges import JudgeCallError
+        with self.assertRaises(JudgeCallError):
+            self._backend(rc=1, stderr="boom").judge(self._payload())
+
+    def test_missing_block_raises(self):
+        from harness.judges import JudgeCallError
+        with self.assertRaises(JudgeCallError):
+            self._backend("I think yes?").judge(self._payload())
+
+    def test_malformed_json_raises(self):
+        from harness.judges import JudgeCallError
+        with self.assertRaises(JudgeCallError):
+            self._backend('```json\n{"is_match": }\n```').judge(self._payload())
+
+    def test_missing_is_match_raises(self):
+        from harness.judges import JudgeCallError
+        with self.assertRaises(JudgeCallError):
+            self._backend('```json\n{"reasoning": "sure"}\n```').judge(self._payload())
+
+    def test_unknown_family_rejected(self):
+        from harness.judges import CLIJudgeBackend
+        with self.assertRaises(ValueError):
+            CLIJudgeBackend("acme")
 
 
 if __name__ == "__main__":

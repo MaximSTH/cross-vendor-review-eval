@@ -60,7 +60,9 @@ VENDOR_CLIS = {
                         ("antigravity", "--version")),
 }
 
-_JSON_BLOCK_RE = re.compile(r"```json\s*(\{.*?\})\s*```", re.DOTALL)
+# Case-insensitive fence tag: models occasionally emit ```JSON. Shared with
+# judges.py (cross-vendor review 2026-07-15: was duplicated + case-sensitive).
+JSON_BLOCK_RE = re.compile(r"```json\s*(\{.*?\})\s*```", re.DOTALL | re.IGNORECASE)
 
 
 class ClaimFormatError(ValueError):
@@ -72,8 +74,11 @@ def extract_claims(output: str) -> tuple[Claim, ...]:
 
     The prompt requires the block to be the final element; taking the last
     match tolerates earlier fenced examples the agent may have echoed.
+    Every malformed shape raises ClaimFormatError — never a bare TypeError —
+    so run_review_session records format errors instead of crashing
+    (cross-vendor review 2026-07-15, Medium).
     """
-    matches = _JSON_BLOCK_RE.findall(output)
+    matches = JSON_BLOCK_RE.findall(output)
     if not matches:
         raise ClaimFormatError("no fenced json claims block in reviewer output")
     try:
@@ -82,6 +87,9 @@ def extract_claims(output: str) -> tuple[Claim, ...]:
         raise ClaimFormatError(f"claims block is not valid JSON: {e}") from e
     if not isinstance(payload, dict) or "claims" not in payload:
         raise ClaimFormatError('claims block must be an object with a "claims" list')
+    if not isinstance(payload["claims"], list):
+        raise ClaimFormatError('"claims" must be a list (got '
+                               f'{type(payload["claims"]).__name__})')
     claims = []
     for i, c in enumerate(payload["claims"]):
         if not isinstance(c, dict) or "description" not in c:
@@ -89,8 +97,11 @@ def extract_claims(output: str) -> tuple[Claim, ...]:
         line = c.get("line")
         if line is not None and not isinstance(line, int):
             raise ClaimFormatError(f"claim {i} line must be int or null")
+        file = c.get("file")
+        if file is not None and not isinstance(file, str):
+            raise ClaimFormatError(f"claim {i} file must be string or null")
         claims.append(Claim(description=str(c["description"]),
-                            file=c.get("file"), line=line))
+                            file=file, line=line))
     return tuple(claims)
 
 

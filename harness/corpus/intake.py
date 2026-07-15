@@ -75,10 +75,21 @@ def star_cap(
     return kept
 
 
-def select_first_n(candidates: list[CandidateTask], n: int) -> list[CandidateTask]:
+def select_first_n(
+    candidates: list[CandidateTask],
+    n: int,
+    report: Optional[FilterReport] = None,
+) -> list[CandidateTask]:
     """The fixed selection rule (§8): oldest-first by merged_at, ties by task_id.
 
     Deterministic and documented — no hand-picking. Applied AFTER all filters.
+    Candidates beyond n are recorded in the report, same as every other
+    dropping step (no silent drops — cross-vendor review 2026-07-15).
     """
+    report = report if report is not None else FilterReport()
     ordered = sorted(candidates, key=lambda c: (c.merged_at.isoformat(), c.task_id))
-    return ordered[:n]
+    kept, beyond = ordered[:n], ordered[n:]
+    for c in beyond:
+        report.drop(c, f"beyond selection cap n={n}")
+    report.kept = kept
+    return kept

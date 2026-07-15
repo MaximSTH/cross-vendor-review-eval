@@ -92,6 +92,19 @@ class TestAnonymizer(unittest.TestCase):
         self.assertIn("src/db/query.py", red)
         self.assertIn("120", red)
 
+    def test_spaced_model_forms_fully_redacted(self):
+        # Cross-vendor review 2026-07-15 (High): spaced forms left tails.
+        for leak in ("gpt 5", "gemini 2.5 pro", "claude 3.5 sonnet"):
+            self.assertEqual(band2.anonymize(leak), "[REDACTED]", leak)
+
+    def test_bare_codenames_redacted(self):
+        # Self-review 2026-07-15 (anchored): bare codenames passed through.
+        for leak in ("running on Sonnet 4.5", "I'm Fable", "an Opus response",
+                     "Haiku said so"):
+            red = band2.anonymize(leak).lower()
+            for token in ("sonnet", "fable", "opus", "haiku"):
+                self.assertNotIn(token, red, leak)
+
 
 class TestPanelAndPipeline(unittest.TestCase):
     def _panel(self, a: bool, b: bool):
@@ -127,6 +140,24 @@ class TestPanelAndPipeline(unittest.TestCase):
         self.assertEqual(card.case_id, "t")
         self.assertEqual(len(card.judge_verdicts), 2)
 
+    def test_agreed_catch_beats_earlier_disagreement(self):
+        # Self-review 2026-07-15 (anchored): the old loop short-circuited to
+        # Band 3 on the first disagreement, missing a later agreed catch.
+        script = {"ambiguous first": (True, False),   # judges split
+                  "clearly right":  (True, True)}     # judges agree: match
+
+        def judge_for(slot):
+            return band2.MockJudgeBackend(
+                f"fam{slot}", lambda p: script[
+                    next(k for k in script if k in p.claim_text)][slot])
+        panel = band2.JudgePanel([judge_for(0), judge_for(1)])
+        result, card = pipeline.score_case(
+            _key(), _review([Claim("ambiguous first"), Claim("clearly right")]),
+            panel=panel)
+        self.assertIs(result.verdict, Verdict.CATCH)
+        self.assertIs(result.band, Band.JUDGE)
+        self.assertIsNone(card)
+
     def test_no_panel_marks_pending_judge(self):
         result, card = pipeline.score_case(_key(), _review([Claim("vague")]), panel=None)
         self.assertIs(result.verdict, Verdict.PENDING_JUDGE)
@@ -155,9 +186,16 @@ class TestJudgeInputBundle(unittest.TestCase):
     def test_payload_fields_are_exactly_the_ratified_bundle(self):
         import dataclasses
         fields = {f.name for f in dataclasses.fields(band2.JudgePayload)}
-        self.assertEqual(fields, {"case_id", "defect_annotation", "claim_text"},
+        self.assertEqual(fields, {"defect_annotation", "claim_text"},
                          "JudgePayload changed: reopens D-015 interpretation, "
                          "log the decision before changing this test")
+
+    def test_payload_claim_includes_location_when_present(self):
+        # Cards must show the SAME artifact judges receive; format shared.
+        key = AnswerKey(case_id="c", is_defective=True,
+                        regions=(DefectRegion("f.py", 1, 2),), annotation="bug")
+        p = band2.build_payload(key, Claim("desc", file="src/a.py"))
+        self.assertIn("src/a.py (line unspecified)", p.claim_text)
 
     def test_build_payload_anonymizes_both_artifacts(self):
         key = AnswerKey(case_id="c", is_defective=True,
@@ -253,6 +291,13 @@ class TestRotation(unittest.TestCase):
             router.panel_for("anthropic")  # would leave a one-judge panel
         # author outside the dict: both backends are non-authoring, fine
         self.assertEqual(len(router.panel_for("openai").backends), 2)
+
+    def test_router_rejects_wider_than_two_panels(self):
+        # D-015: EXACTLY the two non-authoring families (peer review, Medium).
+        four = {f: band2.MockJudgeBackend(f, lambda _p: True)
+                for f in ("anthropic", "openai", "google", "acme")}
+        with self.assertRaises(ValueError):
+            band2.PanelRouter(four).panel_for("anthropic")  # 3 others
 
     def test_panel_and_router_are_mutually_exclusive(self):
         router = self._router([])

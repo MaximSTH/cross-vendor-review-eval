@@ -69,34 +69,46 @@ def _score(key, review, claims, panel, tolerance):
         )
         return result, None
 
-    # Judge each semantic claim; first agreed MATCH is a catch. Any
-    # disagreement escalates the case to Band 3 (conservative: humans see it).
+    # Judge EVERY semantic claim before deciding — mirrors Band 1's
+    # catch-first-across-all-claims scan (cross-vendor review 2026-07-15:
+    # short-circuiting on the first disagreement could miss a later agreed
+    # catch and under-count the headline metric). Priority: agreed catch >
+    # Band 3 escalation > agreed no-catch.
     all_verdicts = []
+    agreed_catch = None
+    first_disagreement = None
     for claim in b1.band2_claims:
         payload = band2.build_payload(key, claim)
         outcome = panel.evaluate(payload)
         all_verdicts.extend(outcome.verdicts)
-        if not outcome.agreed:
-            result = CaseResult(
-                case_id=key.case_id, condition=review.session.condition,
-                verdict=Verdict.PENDING_HUMAN, band=Band.HUMAN,
-                band2_claims=b1.band2_claims, judge_verdicts=tuple(all_verdicts),
-                notes=["judge disagreement -> Band 3"],
-            )
-            card = AdjudicationCard(
-                case_id=key.case_id, condition=review.session.condition.value,
-                defect_annotation=key.annotation, claim=claim,
-                judge_verdicts=outcome.verdicts, source="judge_disagreement",
-            )
-            return result, card
-        if outcome.is_match:
-            result = CaseResult(
-                case_id=key.case_id, condition=review.session.condition,
-                verdict=Verdict.CATCH, band=Band.JUDGE,
-                matched_claim=claim, band2_claims=b1.band2_claims,
-                judge_verdicts=tuple(all_verdicts),
-            )
-            return result, None
+        if outcome.agreed and outcome.is_match and agreed_catch is None:
+            agreed_catch = claim
+        if not outcome.agreed and first_disagreement is None:
+            first_disagreement = (claim, outcome)
+
+    if agreed_catch is not None:
+        result = CaseResult(
+            case_id=key.case_id, condition=review.session.condition,
+            verdict=Verdict.CATCH, band=Band.JUDGE,
+            matched_claim=agreed_catch, band2_claims=b1.band2_claims,
+            judge_verdicts=tuple(all_verdicts),
+        )
+        return result, None
+
+    if first_disagreement is not None:
+        claim, outcome = first_disagreement
+        result = CaseResult(
+            case_id=key.case_id, condition=review.session.condition,
+            verdict=Verdict.PENDING_HUMAN, band=Band.HUMAN,
+            band2_claims=b1.band2_claims, judge_verdicts=tuple(all_verdicts),
+            notes=["judge disagreement -> Band 3"],
+        )
+        card = AdjudicationCard(
+            case_id=key.case_id, condition=review.session.condition.value,
+            defect_annotation=key.annotation, claim=claim,
+            judge_verdicts=outcome.verdicts, source="judge_disagreement",
+        )
+        return result, card
 
     # Judges agreed every semantic claim is not the defect.
     result = CaseResult(

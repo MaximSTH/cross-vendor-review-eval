@@ -33,7 +33,11 @@ def interleave(case_ids: list[str]) -> list[ScheduledSession]:
     Properties (tested):
       * an A2/B review of a case never precedes that case's authoring session,
       * while more than one kind has pending work, the same kind never runs
-        more than twice consecutively.
+        twice consecutively. (Under the current call contract this reduces to
+        strict A1/A2/B alternation per case — the offset-scan generality only
+        matters if a future caller feeds uneven queues. Cross-vendor review
+        2026-07-15 tightened the tested property from "no triples" to
+        "no pairs".)
     """
     authors = deque(case_ids)
     ready: dict[SessionKind, deque[str]] = {

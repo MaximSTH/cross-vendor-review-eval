@@ -1,10 +1,12 @@
 """Real Band 2 judge backends: headless, single-shot CLI calls (D-013, D-015).
 
-Judges are NOT agentic: one prompt in, one verdict out, no repo access — the
-D-015 binding condition (judges see exactly the anonymized claim and the
-answer-key annotation, never patch or repo content) is enforced structurally
-by JudgePayload and physically here by running the CLI in an empty scratch
-directory with only the payload text on stdin.
+Judges are NOT agentic: one prompt in, one verdict out — the D-015 binding
+condition (judges see exactly the anonymized claim and the answer-key
+annotation, never patch or repo content) is enforced structurally by
+JudgePayload: nothing else is ever sent. Running in an empty scratch directory
+is defense-in-depth, NOT proof of isolation — an agentic-capable CLI could in
+principle read absolute paths if it chose to (self-review 2026-07-15, external
+claim). Pilot task: verify per-CLI tool-restriction flags and pin them here.
 
 Which binary serves each family is runner config (mechanics, per OQ-1
 resolution): anthropic -> claude, openai -> codex, google -> gemini
@@ -15,16 +17,23 @@ model family).
 from __future__ import annotations
 
 import json
-import re
 import tempfile
 from pathlib import Path
 
-from .runner import Executor, _default_executor
+from .runner import Executor, JSON_BLOCK_RE, _default_executor
 from .scoring.band2 import JudgePayload
 from .scoring.models import JudgeVerdict
 
+# Anthropic judge runs with tools disallowed — probe 2026-07-15 confirmed a
+# bare `claude -p` in an empty dir CAN read absolute repo paths on request,
+# and with this list it cannot (MCP connectors are a residual not covered by
+# the flag; payloads contain no pointers). Codex/Gemini equivalents: pilot
+# task — no verified no-tools flag yet; structural payload-only content
+# remains the primary defense (D-015).
+_CLAUDE_JUDGE_DISALLOWED = "Read,Bash,Glob,Grep,WebFetch,WebSearch,Task,Write,Edit,NotebookEdit"
+
 JUDGE_CMDS: dict[str, tuple[str, ...]] = {
-    "anthropic": ("claude", "-p"),
+    "anthropic": ("claude", "-p", "--disallowedTools", _CLAUDE_JUDGE_DISALLOWED),
     "openai": ("codex", "exec", "--skip-git-repo-check", "-"),
     "google": ("gemini", "-p"),
 }
@@ -49,9 +58,6 @@ Answer with ONLY a fenced JSON block:
 ```
 """
 
-_JSON_BLOCK_RE = re.compile(r"```json\s*(\{.*?\})\s*```", re.DOTALL)
-
-
 class JudgeCallError(RuntimeError):
     """The judge CLI failed or returned an unparseable verdict."""
 
@@ -74,7 +80,7 @@ class CLIJudgeBackend:
         if result.returncode != 0:
             raise JudgeCallError(
                 f"{self.family} judge exited {result.returncode}: {result.stderr[:500]}")
-        matches = _JSON_BLOCK_RE.findall(result.stdout)
+        matches = JSON_BLOCK_RE.findall(result.stdout)
         if not matches:
             raise JudgeCallError(f"{self.family} judge returned no verdict block")
         try:
