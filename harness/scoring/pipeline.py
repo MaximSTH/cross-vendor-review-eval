@@ -11,6 +11,11 @@ from . import band1, band2
 from .band3 import AdjudicationCard
 from .models import AnswerKey, Band, CaseResult, ReviewOutput, Verdict
 
+# D-016: pre-registered claims cap. The prompt instructs reviewers to submit at
+# most k claims ranked most-confident first; the harness enforces the same cap
+# defensively — scoring uses the ranked list AS SUBMITTED, truncated at k.
+MAX_CLAIMS_PER_REVIEW = 5
+
 
 def score_case(
     key: AnswerKey,
@@ -31,7 +36,18 @@ def score_case(
             raise ValueError("pass panel or router, not both")
         panel = router.panel_for(review.session.vendor)
 
-    b1 = band1.score(key, review.claims, tolerance)
+    # D-016 cap: ranked list as submitted, truncated at k.
+    claims = review.claims[:MAX_CLAIMS_PER_REVIEW]
+    truncated = len(review.claims) - len(claims)
+
+    result, card = _score(key, review, claims, panel, tolerance)
+    if truncated:
+        result.notes.append(f"truncated {truncated} claim(s) beyond cap k={MAX_CLAIMS_PER_REVIEW} (D-016)")
+    return result, card
+
+
+def _score(key, review, claims, panel, tolerance):
+    b1 = band1.score(key, claims, tolerance)
 
     if b1.verdict is not None:  # Band 1 decided
         result = CaseResult(
@@ -49,7 +65,7 @@ def score_case(
             case_id=key.case_id, condition=review.session.condition,
             verdict=Verdict.PENDING_JUDGE, band=Band.JUDGE,
             band2_claims=b1.band2_claims,
-            notes=["no judge backend configured (OQ-1 open)"],
+            notes=["no judge backend configured"],
         )
         return result, None
 

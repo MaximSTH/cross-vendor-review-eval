@@ -146,6 +146,72 @@ class TestPanelAndPipeline(unittest.TestCase):
         self.assertNotIn("gpt", seen["text"].lower())
 
 
+class TestJudgeInputBundle(unittest.TestCase):
+    """D-015 binding condition: judges receive exactly two artifacts —
+    the anonymized claim and the answer-key annotation. Never patch/diff,
+    never repo content. Structural: adding any field fails this test and
+    goes to DECISIONS.md first."""
+
+    def test_payload_fields_are_exactly_the_ratified_bundle(self):
+        import dataclasses
+        fields = {f.name for f in dataclasses.fields(band2.JudgePayload)}
+        self.assertEqual(fields, {"case_id", "defect_annotation", "claim_text"},
+                         "JudgePayload changed: reopens D-015 interpretation, "
+                         "log the decision before changing this test")
+
+    def test_build_payload_anonymizes_both_artifacts(self):
+        key = AnswerKey(case_id="c", is_defective=True,
+                        regions=(DefectRegion("f.py", 1, 2),),
+                        annotation="Claude Code introduced a null deref")
+        payload = band2.build_payload(key, Claim("gpt-5 style off-by-one"))
+        self.assertNotIn("claude", payload.defect_annotation.lower())
+        self.assertNotIn("gpt", payload.claim_text.lower())
+
+
+class TestClaimsCap(unittest.TestCase):
+    """D-016: ranked list as submitted, truncated at k."""
+
+    def test_catch_beyond_cap_is_not_counted(self):
+        from harness.scoring.pipeline import MAX_CLAIMS_PER_REVIEW
+        filler = [Claim(f"miss {i}", file="src/x.py", line=900 + i)
+                  for i in range(MAX_CLAIMS_PER_REVIEW)]
+        winning = Claim("real one", file="src/x.py", line=15)  # ranked 6th
+        result, _ = pipeline.score_case(_key(), _review(filler + [winning]))
+        self.assertIs(result.verdict, Verdict.NO_CATCH)
+        self.assertTrue(any("truncated 1 claim" in n for n in result.notes))
+
+    def test_catch_within_cap_counts(self):
+        claims = [Claim("miss", file="src/x.py", line=900),
+                  Claim("real one", file="src/x.py", line=15)]
+        result, _ = pipeline.score_case(_key(), _review(claims))
+        self.assertIs(result.verdict, Verdict.CATCH)
+        self.assertFalse(any("truncated" in n for n in result.notes))
+
+
+class TestVerbosityMetrics(unittest.TestCase):
+    """D-016: mean claims-per-task and precision-on-buggy-tasks."""
+
+    def test_metrics_expose_shotgunning(self):
+        from harness.scoring import metrics
+        buggy, clean = _key(), _key(defective=False)
+        stats = [
+            # sniper: 1 claim, 1 hit
+            metrics.make_stat(buggy, "sniper", "B", (Claim("d", file="src/x.py", line=15),)),
+            # shotgun: 5 claims, 1 hit
+            metrics.make_stat(buggy, "shotgun", "B", tuple(
+                [Claim("d", file="src/x.py", line=15)] +
+                [Claim(f"m{i}", file="src/x.py", line=800 + i) for i in range(4)])),
+            metrics.make_stat(clean, "sniper", "B", ()),
+            metrics.make_stat(clean, "shotgun", "B", (Claim("ghost"),)),
+        ]
+        mean = metrics.mean_claims_per_task(stats)
+        self.assertEqual(mean["sniper"], 0.5)
+        self.assertEqual(mean["shotgun"], 3.0)
+        prec = metrics.precision_on_buggy_tasks(stats)
+        self.assertEqual(prec["sniper"], 1.0)
+        self.assertEqual(prec["shotgun"], 0.2)
+
+
 FAMILIES = ("anthropic", "openai", "google")
 
 

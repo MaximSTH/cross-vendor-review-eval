@@ -47,9 +47,16 @@ def _parse(fix: dict) -> tuple[AnswerKey, ReviewOutput, dict | None]:
     return key, ReviewOutput(session=sess, claims=claims), fix.get("judge_script")
 
 
-def main() -> int:
+def main(real: bool = False) -> int:
     fixtures = json.loads(CASES.read_text())["canaries"]
     failures, cards = [], []
+
+    real_router = None
+    if real:
+        from harness.judges import CLIJudgeBackend
+        real_router = band2.PanelRouter({
+            fam: CLIJudgeBackend(fam) for fam in ("anthropic", "openai", "google")
+        })
 
     for fix in fixtures:
         key, review, script = _parse(fix)
@@ -61,7 +68,7 @@ def main() -> int:
                       f"includes authoring family {review.session.vendor}")
                 failures.append(fix["id"])
                 continue
-            router = band2.PanelRouter({
+            router = real_router if real else band2.PanelRouter({
                 family: band2.MockJudgeBackend(family, lambda _p, ans=answer: ans)
                 for family, answer in script.items()
             })
@@ -83,11 +90,13 @@ def main() -> int:
         OUT.write_text(render_cards_html(cards, title="Canary Band-3 cards"))
         print(f"\n  Band 3 card(s) written: {OUT.relative_to(ROOT)}")
 
-    print(f"\n  {len(fixtures) - len(failures)}/{len(fixtures)} canaries pass via mock judges."
-          "\n  D-015 binding note: build acceptance requires re-running canaries 3-4"
-          "\n  against the real rotating judge backend. Not yet claimable.")
+    mode = "REAL rotating judge backend" if real else "mock judges"
+    print(f"\n  {len(fixtures) - len(failures)}/{len(fixtures)} canaries pass via {mode}.")
+    if not real:
+        print("  D-015 binding note: build acceptance requires re-running canaries 3-4"
+              "\n  against the real rotating judge backend (--real). Not yet claimable.")
     return 1 if failures else 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(real="--real" in sys.argv))

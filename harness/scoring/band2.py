@@ -45,7 +45,14 @@ def anonymize(text: str) -> str:
 
 @dataclass(frozen=True)
 class JudgePayload:
-    """Exactly what a judge is allowed to see. Built only via build_payload()."""
+    """Exactly what a judge is allowed to see. Built only via build_payload().
+
+    D-015 binding condition (supervisor-ratified): judges receive exactly two
+    artifacts — the anonymized claim and the answer-key annotation. Never the
+    patch/diff, never repo content. Adding any field here reopens the D-015
+    interpretation and goes to DECISIONS.md first. A structural test enforces
+    this field set.
+    """
     case_id: str
     defect_annotation: str
     claim_text: str

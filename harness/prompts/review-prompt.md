@@ -1,8 +1,8 @@
-# Review prompt — DRAFT, pending ratification (OQ-3)
+# Review prompt — DRAFT v2, pending ratification (OQ-3)
 
 Identical, verbatim, across all three conditions (§4, §8). Do not vary per
 vendor, per condition, or per case. Status: **draft — supervisor ratification
-required before pilot** (OQ-3).
+required before pilot** (OQ-3). v2 adds the D-016 claims cap and ranking.
 
 ---
 
@@ -29,6 +29,8 @@ format, as the last thing in your response:
 Rules:
 - Report only defects you believe are real. An empty list (`"claims": []`) is a
   valid and correct answer for a clean change.
+- Report at most 5 claims, ranked most-confident first. Claims beyond the
+  fifth are discarded unread.
 - Give `file` and `line` whenever you can localize the defect. Use `null` only
   when you genuinely cannot.
 - One claim per distinct defect. Do not pad.

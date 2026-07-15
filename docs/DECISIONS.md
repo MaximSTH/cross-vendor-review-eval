@@ -197,6 +197,15 @@ Excluding both reviewer and patch-author families would leave a one-judge panel
 under B, violating D-013. Flagged for supervisor correction if intended
 otherwise.
 
+**Ratified 2026-07-15 (supervisor), with one binding condition.** Rationale for
+the record: the judged artifact is the claim text, whose stylistic fingerprint
+belongs to its author — the reviewer; that is the leak vector rotation closes.
+**Binding condition:** judges receive exactly two artifacts — the anonymized
+claim and the answer-key annotation. Never the patch/diff, never repo content.
+Any future design change that would put patch content in front of judges
+reopens this interpretation and goes to this log first. Enforced by a
+structural test on the judge input bundle.
+
 **Band 3 blindness (same ruling):** under rotation, naming the judging families
 reveals the authoring vendor as the missing third. Cards therefore label judges
 by role only ("Judge A (non-authoring)"), render only the anonymized claim text
@@ -217,6 +226,22 @@ validates routing and blinding only. Build acceptance is claimable **only**
 after all four canaries pass against the real rotating judge backend. Carried
 as an explicit unchecked item in the design doc §9 build gate.
 
+## D-016 · 2026-07-15 · Claims cap k=5 (ranked) + verbosity metrics
+
+**Chosen over:** an unbounded claims list.
+
+**Why (supervisor directive):** Under the P-001 boundary rules, missed-bug
+flags on buggy tasks carry no penalty, so an unbounded list lets a reviewer
+shotgun claims and inflate catch-rate at zero cost. Closure: (a) the prompt
+caps claims at a pre-registered **k = 5**, ranked most-confident first —
+justification: each task plants a single defect, and k=5 matches the standard
+top-5 convention in fault-localization evaluation while bounding shotgun
+strategies; (b) scoring computes catch-rate against the ranked list as
+submitted (harness truncates at k defensively and records truncation); (c)
+results additionally report per-vendor **mean claims-per-task** and
+**precision-on-buggy-tasks**, so verbosity differences are visible rather than
+laundered into catch-rate.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
@@ -235,5 +260,29 @@ judge) are implementation, not design, and live in the runner config.
 
 §8 names prompt sensitivity as a threat and commits the identical, verbatim
 prompt to the repo. The prompt is therefore an experimental artifact, not an
-implementation detail. A draft lives at `harness/prompts/review-prompt.md`;
-it must be ratified (or amended) by the supervisor before pilot authorization.
+implementation detail. Draft v2 (with the D-016 cap) lives at
+`harness/prompts/review-prompt.md`; the shotgun gap is closed per D-016; the
+full text has been sent to the supervisor inline for sign-off on the exact
+string. **Still open until ratified.**
+
+## OQ-4 · 2026-07-15 · Canary 4 pass criterion under REAL judges
+
+The judge-bait fixture guarantees a panel split only with scripted mock judges;
+real judges may legitimately agree. The D-015 binding acceptance item ("all
+four canaries pass against the real backend") therefore needs a defined pass
+criterion for canary 4 in real mode. **Proposal:** canary 4 passes iff it does
+NOT score `catch` — i.e., either Band-3 escalation (judges split) or an agreed
+`no_catch` (consistent with precedent P-001); an agreed `catch` is a failure of
+the judge method and blocks acceptance. Awaiting ratification; mock-mode
+expectation (must escalate to Band 3) unchanged.
+
+## OQ-5 · 2026-07-15 · Google-family judge execution is blocked pending authorization
+
+The Antigravity CLI is not installed; the `gemini` CLI refuses headless
+execution in untrusted directories (`--skip-trust` crashes; the
+`GEMINI_CLI_TRUST_WORKSPACE=true` env var is a safety-bypass the harness
+operator has not authorized). Real-backend canary re-run requires the Google
+judge (rotation assigns openai+google to anthropic-authored claims). Options,
+supervisor to pick: (a) authorize the trust env var for judge scratch dirs,
+(b) trust a fixed judge workspace once interactively, (c) install/authorize
+Antigravity CLI as the Google-family judge binary.

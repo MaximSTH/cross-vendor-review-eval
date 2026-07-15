@@ -141,6 +141,15 @@ range(s). Reviewer output is structured: findings as `{file, line, description}`
 claims (forced format) — a requirement that exists precisely to push as much
 scoring as possible into Band 1.
 
+**Claims cap (D-016).** Missed-bug flags on buggy tasks carry no penalty under
+the rubric, so an unbounded claims list would let a reviewer shotgun claims and
+inflate catch-rate at zero cost. Therefore: at most **k = 5** claims per
+review, ranked most-confident first — pre-registered; rationale: each task
+plants a single defect, and k=5 matches the standard top-5 convention in
+fault-localization evaluation while bounding shotgun strategies. Scoring uses
+the ranked list **as submitted**, truncated at k (the harness enforces the cap
+even if a reviewer ignores it, and records the truncation).
+
 ### Band 1 — mechanical (primary; maximized)
 
 Wherever the reviewer claim and the answer key both carry file + line (or
@@ -232,6 +241,10 @@ an interface defect to fix, not a case to escalate.
   FPR convention).
 - **Band composition** — the fraction of cases resolved in each band is itself
   reported; a high Band 1 fraction is a quality signal of the method.
+- **Verbosity metrics (D-016)** — per-vendor **mean claims-per-task** and
+  **precision-on-buggy-tasks** (matching claims ÷ total claims on defective
+  changes) are reported alongside catch-rate, so verbosity differences are
+  visible rather than laundered into catch-rate.
 - **Paired analysis:** every defective change is reviewed under all three
   conditions, so comparisons are within-item (McNemar-style paired tests +
   confidence intervals), which buys power at small n.
