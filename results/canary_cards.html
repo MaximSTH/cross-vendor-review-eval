@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>Canary Band-3 cards</title>
+<style>
+ body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5}
+ .card{border:1px solid #ccc;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+ .block{margin:.75rem 0} h2{margin:.1rem 0 .5rem} h3{margin:.2rem 0;font-size:.85rem;
+ text-transform:uppercase;letter-spacing:.05em;color:#555}
+ .key{background:#f6f3e8;padding:.5rem .75rem;border-radius:6px}
+ .claim{background:#eef3f9;padding:.5rem .75rem;border-radius:6px}
+ .judge{font-size:.92rem;margin:.2rem 0}
+ .rubric label{margin-right:1rem;cursor:pointer}
+ .note{display:block;margin-top:.5rem;width:100%;padding:.3rem}
+ #export{position:fixed;bottom:1rem;right:1rem;padding:.6rem 1rem;font-size:1rem;cursor:pointer}
+ pre{overflow-x:auto;background:#f4f4f4;padding:.5rem;border-radius:6px}
+</style></head><body>
+<h1>Canary Band-3 cards</h1>
+<p>1 case(s). Rule each from the card alone — if a ruling requires opening
+the repo, flag it as an interface defect instead of ruling.</p>
+
+<section class='card' data-case='canary4_judge_bait' data-condition='B' data-source='judge_disagreement'>
+  <h2>1. canary4_judge_bait <small>[B · judge_disagreement]</small></h2>
+  <div class='block key'><h3>Answer key — planted-bug annotation</h3><p>SQL query builds WHERE clause by string concatenation of user input (injection).</p></div>
+  <div class='block claim'><h3>Reviewer's claim (verbatim)</h3><p>Input validation seems thin around the database layer; sanitization may be missing in places.</p></div>
+  <div class='block judges'><h3>Judges</h3><div class='judge'><b>Judge neutral-family</b>: MATCH — mock[neutral-family] fixture decision</div><div class='judge'><b>Judge second-family</b>: NO MATCH — mock[second-family] fixture decision</div></div>
+  
+  <div class='block rubric'><h3>Ruling</h3><label><input type='radio' name='ruling-0' value='catch'> catch</label><label><input type='radio' name='ruling-0' value='no_catch'> no_catch</label><label><input type='radio' name='ruling-0' value='false_alarm'> false_alarm</label><label><input type='radio' name='ruling-0' value='unscorable'> unscorable</label>
+    <input type='text' class='note' placeholder='optional note' id='note-0'></div>
+</section>
+<button id="export">Export rulings (JSON)</button>
+<script>
+const manifest = [{"case_id": "canary4_judge_bait", "condition": "B", "source": "judge_disagreement"}];
+document.getElementById('export').addEventListener('click', () => {
+  const rulings = manifest.map((m, i) => {
+    const sel = document.querySelector(`input[name="ruling-${i}"]:checked`);
+    const note = document.getElementById(`note-${i}`).value;
+    return {...m, ruling: sel ? sel.value : null, note};
+  });
+  const blob = new Blob([JSON.stringify(rulings, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'band3-rulings.json';
+  a.click();
+});
+</script></body></html>

@@ -1,0 +1,71 @@
+{
+  "_comment": "Canary suite per design doc §9 / D-014. Known-outcome fixtures exercising every band. judge_script drives the MockJudgeBackend per case (pre-OQ-1); canaries 3-4 re-run against the real judge backend once OQ-1 is decided.",
+  "canaries": [
+    {
+      "id": "canary1_mechanical_catch",
+      "expect": {"verdict": "catch", "band": 1},
+      "answer_key": {
+        "case_id": "canary1_mechanical_catch",
+        "is_defective": true,
+        "annotation": "Off-by-one in pagination: loop stops one row short of the final page.",
+        "regions": [{"path": "src/app/pagination.py", "line_start": 42, "line_end": 44}]
+      },
+      "review": {
+        "session": {"condition": "B", "vendor": "vendorX", "model_id": "model-x-1", "harness_version": "0.0-canary", "batch_id": "canary"},
+        "claims": [
+          {"description": "The loop bound excludes the last element; final page is truncated.", "file": "b/src/app/pagination.py", "line": 43}
+        ]
+      }
+    },
+    {
+      "id": "canary2_clean_false_alarm",
+      "expect": {"verdict": "false_alarm", "band": 1},
+      "answer_key": {
+        "case_id": "canary2_clean_false_alarm",
+        "is_defective": false,
+        "annotation": "Change is test-confirmed correct.",
+        "regions": []
+      },
+      "review": {
+        "session": {"condition": "A2", "vendor": "vendorY", "model_id": "model-y-1", "harness_version": "0.0-canary", "batch_id": "canary"},
+        "claims": [
+          {"description": "Possible race condition in the cache write path.", "file": "src/cache.py", "line": 10}
+        ]
+      }
+    },
+    {
+      "id": "canary3_vague_but_correct",
+      "expect": {"verdict": "catch", "band": 2},
+      "judge_script": {"neutral-family": true, "second-family": true},
+      "answer_key": {
+        "case_id": "canary3_vague_but_correct",
+        "is_defective": true,
+        "annotation": "Timezone handling: naive datetime compared against aware datetime raises at runtime on DST boundary.",
+        "regions": [{"path": "src/app/scheduling.py", "line_start": 88, "line_end": 95}]
+      },
+      "review": {
+        "session": {"condition": "A2", "vendor": "vendorX", "model_id": "model-x-1", "harness_version": "0.0-canary", "batch_id": "canary"},
+        "claims": [
+          {"description": "Somewhere in the scheduling logic, naive and timezone-aware datetimes get mixed; this will crash when comparing across a DST change.", "file": null, "line": null}
+        ]
+      }
+    },
+    {
+      "id": "canary4_judge_bait",
+      "expect": {"verdict": "pending_human", "band": 3},
+      "judge_script": {"neutral-family": true, "second-family": false},
+      "answer_key": {
+        "case_id": "canary4_judge_bait",
+        "is_defective": true,
+        "annotation": "SQL query builds WHERE clause by string concatenation of user input (injection).",
+        "regions": [{"path": "src/db/query.py", "line_start": 120, "line_end": 131}]
+      },
+      "review": {
+        "session": {"condition": "B", "vendor": "vendorY", "model_id": "model-y-1", "harness_version": "0.0-canary", "batch_id": "canary"},
+        "claims": [
+          {"description": "Input validation seems thin around the database layer; sanitization may be missing in places.", "file": null, "line": null}
+        ]
+      }
+    }
+  ]
+}
