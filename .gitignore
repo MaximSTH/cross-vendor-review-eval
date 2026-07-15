@@ -1,0 +1,21 @@
+# secrets / keys
+.env
+.env.*
+!.env.example
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/
+
+# run artifacts (kept out of git until we decide what to publish)
+data/cache/
+results/runs/
+*.log
