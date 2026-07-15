@@ -178,24 +178,62 @@ meta-layer-starter's protocol with the report attached; **(pilot)** every Band 3
 ruling makeable from its self-contained card alone — a case requiring cold-reading
 a diff is an interface defect, not an escalation.
 
+## D-015 · 2026-07-15 · Rotating judge panels; Band 3 blind end to end; OQ-1/OQ-2 resolved; n=75 ratified
+
+**Chosen over:** the OQ-1 proposal of a "neutral" Google judge.
+
+**Why (supervisor ruling):** There is no neutral family — Antigravity is a
+vendor under test like the others. Panel assignment is **per-case rotation**:
+the panel is exactly the two families that did not author the judged output.
+The router uses authorship for panel assignment only; judge inputs remain fully
+anonymized per D-013. Symmetric across all three vendors; same-family judging
+eliminated by construction; enforced by a property test.
+
+*Recorded interpretation:* "the output" = the judged artifact, i.e. the
+reviewer's claim, so the excluded family is the reviewing session's. Under
+A1/A2 this coincides with the patch author's family; under B it follows the
+claim's author (the judge sees only annotation + claim, never the patch).
+Excluding both reviewer and patch-author families would leave a one-judge panel
+under B, violating D-013. Flagged for supervisor correction if intended
+otherwise.
+
+**Band 3 blindness (same ruling):** under rotation, naming the judging families
+reveals the authoring vendor as the missing third. Cards therefore label judges
+by role only ("Judge A (non-authoring)"), render only the anonymized claim text
+(the same artifact judges receive), and card generation lints its rendered
+output, failing closed on any vendor/model/harness identifier. Ruling-boundary
+helper text (catch / no_catch / false_alarm / unscorable, reader-actionability
+policy) is embedded in every card set; precedent P-001 (canary4 → no_catch)
+recorded in design doc §5.
+
+**OQ-2 resolved (ratified with amendment):** ±5 is the pre-registered primary
+tolerance; Band 1 additionally rescored at ±1 and ±10, sensitivity sweep
+reported in an appendix. Deterministic rescoring only; no design change.
+
+**Band 3 sample ratified:** n = 75.
+
+**Binding acceptance note:** canaries 3–4 passing against fixture judges
+validates routing and blinding only. Build acceptance is claimable **only**
+after all four canaries pass against the real rotating judge backend. Carried
+as an explicit unchecked item in the design doc §9 build gate.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
 
-## OQ-1 · 2026-07-15 · Band 2 judge backend under subscription-only execution
+## OQ-1 · 2026-07-15 · ~~Band 2 judge backend~~ — **RESOLVED by D-015**
 
-Which two (or more) judge families, accessed how? No API budget exists (D-012).
-Available via subscriptions: Anthropic (Claude Code headless), OpenAI (Codex CLI
-exec), Google (Antigravity CLI). Note both *reviewed* vendors are Anthropic and
-OpenAI — a Google-family judge is the only fully-neutral option; anonymization
-(D-013) mitigates but does not moot the choice. **Proposal for consideration:**
-panel = Google (neutral) + one of Anthropic/OpenAI, chosen per-case to never
-judge its own vendor's (anonymized) output. Build impact: judge layer is built
-behind a pluggable interface with a fixture-driven mock; canaries 3–4 validate
-routing logic now and re-run against the real backend once decided.
+Superseded: the "neutral Google judge" proposal was rejected; per-case rotation
+adopted. Remaining mechanics (how each family's CLI is invoked headless as a
+judge) are implementation, not design, and live in the runner config.
 
-## OQ-2 · 2026-07-15 · Localization tolerance N — final pre-registered value
+## OQ-2 · 2026-07-15 · ~~Localization tolerance N~~ — **RESOLVED by D-015**
 
-§5 requires N fixed in advance with sensitivity reported. **Proposal:** N = ±5
-lines. The scoring pipeline takes N as a parameter; the value must be ratified
-(or replaced) before pilot authorization and logged as a decision.
+±5 primary, ±1/±10 sensitivity sweep in appendix.
+
+## OQ-3 · 2026-07-15 · Review prompt — exact wording requires ratification
+
+§8 names prompt sensitivity as a threat and commits the identical, verbatim
+prompt to the repo. The prompt is therefore an experimental artifact, not an
+implementation detail. A draft lives at `harness/prompts/review-prompt.md`;
+it must be ratified (or amended) by the supervisor before pilot authorization.

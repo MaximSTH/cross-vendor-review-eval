@@ -1,5 +1,5 @@
 {
-  "_comment": "Canary suite per design doc §9 / D-014. Known-outcome fixtures exercising every band. judge_script drives the MockJudgeBackend per case (pre-OQ-1); canaries 3-4 re-run against the real judge backend once OQ-1 is decided.",
+  "_comment": "Canary suite per design doc §9 / D-014 / D-015. judge_script drives MockJudgeBackends per case; under D-015 rotation the panel must be exactly the families that did not author the judged claim (= the reviewing session's vendor is excluded). Canaries 3-4 must re-run against the real rotating judge backend before build acceptance is claimable (D-015 binding note).",
   "canaries": [
     {
       "id": "canary1_mechanical_catch",
@@ -11,7 +11,7 @@
         "regions": [{"path": "src/app/pagination.py", "line_start": 42, "line_end": 44}]
       },
       "review": {
-        "session": {"condition": "B", "vendor": "vendorX", "model_id": "model-x-1", "harness_version": "0.0-canary", "batch_id": "canary"},
+        "session": {"condition": "B", "vendor": "anthropic", "model_id": "runtime-reported", "harness_version": "0.0-canary", "batch_id": "canary"},
         "claims": [
           {"description": "The loop bound excludes the last element; final page is truncated.", "file": "b/src/app/pagination.py", "line": 43}
         ]
@@ -27,7 +27,7 @@
         "regions": []
       },
       "review": {
-        "session": {"condition": "A2", "vendor": "vendorY", "model_id": "model-y-1", "harness_version": "0.0-canary", "batch_id": "canary"},
+        "session": {"condition": "A2", "vendor": "openai", "model_id": "runtime-reported", "harness_version": "0.0-canary", "batch_id": "canary"},
         "claims": [
           {"description": "Possible race condition in the cache write path.", "file": "src/cache.py", "line": 10}
         ]
@@ -36,7 +36,7 @@
     {
       "id": "canary3_vague_but_correct",
       "expect": {"verdict": "catch", "band": 2},
-      "judge_script": {"neutral-family": true, "second-family": true},
+      "judge_script": {"openai": true, "google": true},
       "answer_key": {
         "case_id": "canary3_vague_but_correct",
         "is_defective": true,
@@ -44,7 +44,7 @@
         "regions": [{"path": "src/app/scheduling.py", "line_start": 88, "line_end": 95}]
       },
       "review": {
-        "session": {"condition": "A2", "vendor": "vendorX", "model_id": "model-x-1", "harness_version": "0.0-canary", "batch_id": "canary"},
+        "session": {"condition": "A2", "vendor": "anthropic", "model_id": "runtime-reported", "harness_version": "0.0-canary", "batch_id": "canary"},
         "claims": [
           {"description": "Somewhere in the scheduling logic, naive and timezone-aware datetimes get mixed; this will crash when comparing across a DST change.", "file": null, "line": null}
         ]
@@ -53,7 +53,9 @@
     {
       "id": "canary4_judge_bait",
       "expect": {"verdict": "pending_human", "band": 3},
-      "judge_script": {"neutral-family": true, "second-family": false},
+      "judge_script": {"openai": true, "google": false},
+      "precedent_human_ruling": "no_catch",
+      "_precedent": "P-001 (2026-07-15): supervisor ruled no_catch under the reader-actionability test — correct region, no failure class or location, hedged throughout. See design doc §5 rubric guidance.",
       "answer_key": {
         "case_id": "canary4_judge_bait",
         "is_defective": true,
@@ -61,7 +63,7 @@
         "regions": [{"path": "src/db/query.py", "line_start": 120, "line_end": 131}]
       },
       "review": {
-        "session": {"condition": "B", "vendor": "vendorY", "model_id": "model-y-1", "harness_version": "0.0-canary", "batch_id": "canary"},
+        "session": {"condition": "B", "vendor": "anthropic", "model_id": "runtime-reported", "harness_version": "0.0-canary", "batch_id": "canary"},
         "claims": [
           {"description": "Input validation seems thin around the database layer; sanitization may be missing in places.", "file": null, "line": null}
         ]

@@ -146,5 +146,115 @@ class TestPanelAndPipeline(unittest.TestCase):
         self.assertNotIn("gpt", seen["text"].lower())
 
 
+FAMILIES = ("anthropic", "openai", "google")
+
+
+class TestRotation(unittest.TestCase):
+    """D-015: no judge ever scores its own family's output."""
+
+    def _router(self, judged: list[str]):
+        def make(family):
+            def decide(_payload, fam=family):
+                judged.append(fam)
+                return True
+            return band2.MockJudgeBackend(family, decide)
+        return band2.PanelRouter({f: make(f) for f in FAMILIES})
+
+    def test_panel_never_contains_output_author_family(self):
+        for author in FAMILIES:
+            judged: list[str] = []
+            router = self._router(judged)
+            sess = SessionMeta(condition=Condition.A2, vendor=author, model_id="m",
+                               harness_version="h", batch_id="b")
+            review = ReviewOutput(session=sess, claims=(Claim("vague claim"),))
+            pipeline.score_case(_key(), review, router=router)
+            self.assertNotIn(author, judged, f"author family {author} judged its own output")
+            self.assertEqual(sorted(judged), sorted(set(FAMILIES) - {author}))
+
+    def test_rotation_is_symmetric_across_all_three_vendors(self):
+        panels = {a: sorted(b.family for b in self._router([]).panel_for(a).backends)
+                  for a in FAMILIES}
+        for author, families in panels.items():
+            self.assertEqual(len(families), 2)
+            self.assertNotIn(author, families)
+
+    def test_two_family_router_rejects_author_inside_it(self):
+        router = band2.PanelRouter({
+            "anthropic": band2.MockJudgeBackend("anthropic", lambda _p: True),
+            "google": band2.MockJudgeBackend("google", lambda _p: True),
+        })
+        with self.assertRaises(ValueError):
+            router.panel_for("anthropic")  # would leave a one-judge panel
+        # author outside the dict: both backends are non-authoring, fine
+        self.assertEqual(len(router.panel_for("openai").backends), 2)
+
+    def test_panel_and_router_are_mutually_exclusive(self):
+        router = self._router([])
+        panel = router.panel_for("anthropic")
+        sess = SessionMeta(condition=Condition.B, vendor="openai", model_id="m",
+                           harness_version="h", batch_id="b")
+        with self.assertRaises(ValueError):
+            pipeline.score_case(_key(), ReviewOutput(session=sess, claims=(Claim("x"),)),
+                                panel=panel, router=router)
+
+
+class TestSensitivitySweep(unittest.TestCase):
+    def test_sweep_reports_per_tolerance_verdicts(self):
+        from harness.scoring.band1 import sensitivity_sweep
+        # region 10-20; line 5 catches at ±5/±10, misses at ±1
+        sweep = sensitivity_sweep(_key(), (Claim("d", file="src/x.py", line=5),))
+        self.assertEqual(sweep, {1: Verdict.NO_CATCH, 5: Verdict.CATCH, 10: Verdict.CATCH})
+
+    def test_sweep_preserves_band2_routing_as_none(self):
+        from harness.scoring.band1 import sensitivity_sweep
+        sweep = sensitivity_sweep(_key(), (Claim("vague"),))
+        self.assertEqual(sweep, {1: None, 5: None, 10: None})
+
+
+class TestCardBlindness(unittest.TestCase):
+    """D-015: Band 3 is blind to authorship end to end."""
+
+    def _card(self, **overrides):
+        from harness.scoring.band3 import AdjudicationCard
+        from harness.scoring.models import JudgeVerdict
+        defaults = dict(
+            case_id="case-77", condition="B",
+            defect_annotation="Claude Code's patch concatenates SQL from user input.",
+            claim=Claim("The gpt-5 reviewer thinks sanitization may be missing."),
+            judge_verdicts=(
+                JudgeVerdict("openai", True, "matches the injection annotation"),
+                JudgeVerdict("google", False, "too vague, per Gemini analysis"),
+            ),
+        )
+        defaults.update(overrides)
+        return AdjudicationCard(**defaults)
+
+    def test_vendor_laced_inputs_render_clean(self):
+        from harness.scoring.band3 import lint_blindness, render_cards_html
+        page = render_cards_html([self._card()])
+        self.assertEqual(lint_blindness(page), [])
+        self.assertNotIn("openai", page.lower())
+        self.assertNotIn("gemini", page.lower())
+
+    def test_judge_labels_are_role_only(self):
+        from harness.scoring.band3 import render_cards_html
+        page = render_cards_html([self._card()])
+        self.assertIn("Judge A (non-authoring)", page)
+        self.assertIn("Judge B (non-authoring)", page)
+
+    def test_unanonymizable_leak_raises(self):
+        from harness.scoring.band3 import render_cards_html
+        # A vendor marker in a field the renderer escapes but cannot redact
+        # (case_id is an identifier, not prose) must fail closed.
+        with self.assertRaises(ValueError):
+            render_cards_html([self._card(case_id="claude-code-run-12")])
+
+    def test_rubric_help_is_present(self):
+        from harness.scoring.band3 import render_cards_html
+        page = render_cards_html([self._card()])
+        self.assertIn("reader-actionability", page)
+        self.assertIn("false_alarm", page)
+
+
 if __name__ == "__main__":
     unittest.main()

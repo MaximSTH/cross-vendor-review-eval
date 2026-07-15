@@ -16,12 +16,21 @@ def score_case(
     key: AnswerKey,
     review: ReviewOutput,
     panel: Optional[band2.JudgePanel] = None,
+    router: Optional[band2.PanelRouter] = None,
     tolerance: int = band1.DEFAULT_TOLERANCE,
 ) -> tuple[CaseResult, Optional[AdjudicationCard]]:
     """Score one (answer key, review output) pair.
 
-    Returns the result plus an adjudication card iff the case escalated to Band 3.
+    Pass `router` for D-015 per-case panel rotation (excludes the reviewing
+    session's family — the author of the judged claim); `panel` is for direct
+    use in tests. Returns the result plus an adjudication card iff the case
+    escalated to Band 3.
     """
+    if router is not None:
+        if panel is not None:
+            raise ValueError("pass panel or router, not both")
+        panel = router.panel_for(review.session.vendor)
+
     b1 = band1.score(key, review.claims, tolerance)
 
     if b1.verdict is not None:  # Band 1 decided

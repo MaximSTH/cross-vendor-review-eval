@@ -146,7 +146,9 @@ scoring as possible into Band 1.
 Wherever the reviewer claim and the answer key both carry file + line (or
 equivalently precise localization), scoring is **deterministic path/coordinate
 comparison — no model in the loop**. A **catch** = correct file + line within
-tolerance ±N (fixed in advance; sensitivity to N reported). Any defect claim
+tolerance **±5** (pre-registered primary value, OQ-2 ratified in D-015; Band 1
+is additionally rescored at ±1 and ±10 and the sensitivity sweep reported in an
+appendix — deterministic rescoring only, never a design change). Any defect claim
 against a test-confirmed-correct change is a **false alarm** — also Band 1. This
 is the deliberate contrast with SWE-PRBench's judge-mediated scoring (κ=0.75):
 coordinate matching is exactly reproducible and immune to judge-family bias.
@@ -161,25 +163,65 @@ tool-specific formatting, and authorship-leaking stylistic markers are stripped
 before the judge sees the claim. Rationale: self-preference bias concentrates on
 the self diagonal and anonymization suppresses it (arXiv:2603.04582); an
 unblinded judge would reintroduce, one layer up, the exact bias this study
-measures. Judges come from **at least two model families**; per-case agreement
-is logged; any disagreement escalates to Band 3.
+measures.
+
+**Panel assignment — per-case rotation (D-015).** There is no neutral family:
+all three vendor stacks (Anthropic, OpenAI, Google) are under test. For each
+judged case the panel is **exactly the two families that did not author the
+judged output** (the reviewer's claim; under A1/A2 this coincides with the
+patch author's family). This is symmetric across all three vendors and
+eliminates same-family judging by construction — enforced by a property test.
+The router uses authorship for panel assignment only; judge inputs remain fully
+anonymized per D-013. Per-case agreement is logged; any disagreement escalates
+to Band 3.
 
 ### Band 3 — human audit
 
 The methodology owner adjudicates: **(a)** a pre-registered random sample of
-Band 2 cases — **n = 75** (proposed from the pre-registered 50–100 range;
-reducible only if Band 2 yields fewer cases, never after seeing results) — and
-**(b) every judge-disagreement case**. Human–judge agreement (Cohen's κ) is
-computed and reported in the paper as the validation of the Band 2 method.
+Band 2 cases — **n = 75** (ratified from the pre-registered 50–100 range,
+D-015; reducible only if Band 2 yields fewer cases, never after seeing
+results) — and **(b) every judge-disagreement case**. Human–judge agreement
+(Cohen's κ) is computed and reported in the paper as the validation of the
+Band 2 method.
+
+**Band 3 is blind to authorship end to end (D-015).** Under per-case rotation,
+naming the two judging families would reveal the authoring vendor as the
+missing third. Therefore: judge labels on cards identify **role only** ("Judge
+A (non-authoring)"), never family; cards render only the **anonymized claim
+text** — the same artifact the judges receive per D-013, never the raw CLI
+transcript; and card generation lints its own output, failing closed if any
+vendor/model/harness identifier appears anywhere in rendered content.
 
 ### Band 3 adjudication interface (pilot acceptance criterion)
 
 Band 3 cases are served as **self-contained cards**: the answer-key defect
-annotation, the reviewer's verbatim claim, the judges' proposed calls with
-reasoning, rubric options as buttons, and an optional code snippet as expandable
-context only. **Acceptance test:** every Band 3 ruling must be makeable from the
-card alone, without opening the repo. A case that requires cold-reading a diff
-to rule is an interface defect to fix, not a case to escalate.
+annotation, the reviewer's claim (anonymized, as above), the judges' proposed
+calls with reasoning, rubric options as buttons with the ruling-boundary helper
+text below, and an optional code snippet as expandable context only.
+**Acceptance test:** every Band 3 ruling must be makeable from the card alone,
+without opening the repo. A case that requires cold-reading a diff to rule is
+an interface defect to fix, not a case to escalate.
+
+### Band 3 rubric guidance (adjudication policy)
+
+- **catch** — the operative test is **reader-actionability**: would a busy
+  engineer reading this review locate and fix the planted bug? A claim naming
+  the correct region without the failure class or location, hedged throughout,
+  fails this test.
+- **no_catch** — the task has a planted bug and the review fails the
+  actionability test, **even if it raises other concerns**.
+- **false_alarm** — applies **only** to flags raised against clean
+  (test-confirmed-correct) patches; never applicable on planted-bug tasks.
+- **unscorable** — the card itself is insufficient to rule; flagged as an
+  interface defect, never guessed through.
+
+**Precedents** (append-only):
+
+- **P-001 · 2026-07-15 · canary4_judge_bait → no_catch.** Claim: "input
+  validation seems thin around the database layer; sanitization may be missing
+  in places" against a planted SQL injection. Correct region, no vulnerability
+  class, no location, hedged throughout → fails reader-actionability. First
+  precedent case, ruled by the methodology owner from the card alone.
 
 ### Reported metrics
 
@@ -291,6 +333,11 @@ mid-study. Structure:
       **Acceptance:** all four canaries score correctly end-to-end, AND the
       harness + scoring code itself passes cross-vendor review per
       meta-layer-starter's protocol, report attached.
+      - [x] canaries 1–4 pass via fixture judges (validates routing + blinding
+            only — D-015 binding note)
+      - [ ] **canaries re-run against the real rotating judge backend (D-015)
+            — build acceptance is claimable only after this passes**
+      - [ ] cross-vendor review of harness + scoring code, report attached
 - [ ] **Step 2b — pilot (separately gated: requires explicit supervisor
       authorization, expected ~2 weeks out).** One recency-gated task flows
       through real sessions: agent authors → hidden test sorts → three agentic

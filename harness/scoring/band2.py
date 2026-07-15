@@ -105,3 +105,28 @@ class JudgePanel:
         agreed = len(answers) == 1
         return PanelOutcome(verdicts=verdicts, agreed=agreed,
                             is_match=(answers == {True}))
+
+
+class PanelRouter:
+    """D-015: per-case rotation — the panel is exactly the families that did NOT
+    author the judged output.
+
+    There is no neutral family: all three vendor stacks are under test. The
+    judged output in Band 2 is the reviewer's claim, so the excluded family is
+    the reviewing session's (under A1/A2 this coincides with the patch author's;
+    under B it follows the claim's author — the judge never sees the patch).
+    Authorship is used for panel assignment ONLY; judge inputs remain fully
+    anonymized per D-013.
+    """
+
+    def __init__(self, backends: dict[str, JudgeBackend]):
+        self.backends = {family.lower(): b for family, b in backends.items()}
+
+    def panel_for(self, output_author_family: str) -> JudgePanel:
+        author = output_author_family.lower()
+        others = [b for fam, b in self.backends.items() if fam != author]
+        if len(others) < 2:
+            raise ValueError(
+                f"rotation for author '{output_author_family}' leaves "
+                f"{len(others)} judge(s); need >=2 non-authoring families (D-015)")
+        return JudgePanel(others)

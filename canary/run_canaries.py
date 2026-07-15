@@ -53,13 +53,19 @@ def main() -> int:
 
     for fix in fixtures:
         key, review, script = _parse(fix)
-        panel = None
+        router = None
         if script:
-            panel = band2.JudgePanel([
-                band2.MockJudgeBackend(family, lambda _p, ans=answer: ans)
+            # D-015 guard: the fixture panel must exclude the claim's author.
+            if review.session.vendor.lower() in {f.lower() for f in script}:
+                print(f"  [FAIL] {fix['id']:<28} fixture defect: judge_script "
+                      f"includes authoring family {review.session.vendor}")
+                failures.append(fix["id"])
+                continue
+            router = band2.PanelRouter({
+                family: band2.MockJudgeBackend(family, lambda _p, ans=answer: ans)
                 for family, answer in script.items()
-            ])
-        result, card = pipeline.score_case(key, review, panel=panel)
+            })
+        result, card = pipeline.score_case(key, review, router=router)
         if card:
             cards.append(card)
 
@@ -77,8 +83,9 @@ def main() -> int:
         OUT.write_text(render_cards_html(cards, title="Canary Band-3 cards"))
         print(f"\n  Band 3 card(s) written: {OUT.relative_to(ROOT)}")
 
-    print(f"\n  {len(fixtures) - len(failures)}/{len(fixtures)} canaries pass."
-          "  (Bands 2-3 via mock judges pending OQ-1.)")
+    print(f"\n  {len(fixtures) - len(failures)}/{len(fixtures)} canaries pass via mock judges."
+          "\n  D-015 binding note: build acceptance requires re-running canaries 3-4"
+          "\n  against the real rotating judge backend. Not yet claimable.")
     return 1 if failures else 0
 
 

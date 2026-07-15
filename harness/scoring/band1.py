@@ -16,8 +16,11 @@ from typing import Optional
 
 from .models import AnswerKey, Band, Claim, DefectRegion, Verdict
 
-# OQ-2 proposal: ±5 lines. Parameterized; final value ratified before pilot.
+# Pre-registered primary tolerance: ±5 (OQ-2 ratified, D-015). Band 1 is
+# additionally rescored at the sweep tolerances for the sensitivity appendix —
+# deterministic rescoring only, never a design change.
 DEFAULT_TOLERANCE = 5
+SWEEP_TOLERANCES = (1, 5, 10)
 
 
 def normalize_path(path: str) -> str:
@@ -78,3 +81,16 @@ def score(key: AnswerKey, claims: tuple[Claim, ...], tolerance: int = DEFAULT_TO
     # Every claim carried coordinates and none matched: coordinates decide.
     return Band1Outcome(Verdict.NO_CATCH, Band.MECHANICAL,
                         note="all claims fully localized; none within tolerance")
+
+
+def sensitivity_sweep(
+    key: AnswerKey,
+    claims: tuple[Claim, ...],
+    tolerances: tuple[int, ...] = SWEEP_TOLERANCES,
+) -> dict[int, Optional[Verdict]]:
+    """Rescore Band 1 at each sweep tolerance (D-015 / OQ-2 amendment).
+
+    Returns tolerance -> Band 1 verdict (None where Band 1 routes to Band 2).
+    Reported in the appendix; the ±5 primary result is never revised by this.
+    """
+    return {t: score(key, claims, tolerance=t).verdict for t in tolerances}
