@@ -265,6 +265,24 @@ implementation detail. Draft v2 (with the D-016 cap) lives at
 full text has been sent to the supervisor inline for sign-off on the exact
 string. **Still open until ratified.**
 
+*Correction note (2026-07-16):* a worker status message referenced the inline
+prompt as "two turns back" — the pointer was wrong (it was three messages
+back), so the supervisor's verification against the referenced location
+failed. The inline send itself and the D-016 logging both occurred on
+2026-07-15 (commit 608ec8b). Prompt re-sent inline 2026-07-16. Lesson logged:
+status messages cite artifacts by commit/file, not by conversational position.
+
+## OQ-4 · 2026-07-15 · ~~Canary 4 real-mode pass criterion~~ — **RULED 2026-07-16 (supervisor)**
+
+Real-mode pass set for canary 4 is exactly **{no_catch, pending_human}**.
+`catch` fails — judges too lenient on a hedged, non-localized claim,
+contradicting P-001. `false_alarm` fails — planted-bug task; per the boundary
+rules that outcome indicates a pipeline defect. `unscorable` fails —
+well-formed fixture; indicates extraction breakage. Additionally: because
+real-judge agreement would leave Band 3 routing unexercised in real mode, the
+mock-fixture routing test is **retained permanently** in the suite — marked as
+such so it is never retired as redundant.
+
 ## OQ-4 · 2026-07-15 · Canary 4 pass criterion under REAL judges
 
 The judge-bait fixture guarantees a panel split only with scripted mock judges;
@@ -276,13 +294,59 @@ NOT score `catch` — i.e., either Band-3 escalation (judges split) or an agreed
 the judge method and blocks acceptance. Awaiting ratification; mock-mode
 expectation (must escalate to Band 3) unchanged.
 
-## OQ-5 · 2026-07-15 · Google-family judge execution is blocked pending authorization
+## OQ-5 · 2026-07-15 · ~~Google-family judge execution~~ — **RESOLVED by D-017**
 
-The Antigravity CLI is not installed; the `gemini` CLI refuses headless
-execution in untrusted directories (`--skip-trust` crashes; the
-`GEMINI_CLI_TRUST_WORKSPACE=true` env var is a safety-bypass the harness
-operator has not authorized). Real-backend canary re-run requires the Google
-judge (rotation assigns openai+google to anthropic-authored claims). Options,
-supervisor to pick: (a) authorize the trust env var for judge scratch dirs,
-(b) trust a fixed judge workspace once interactively, (c) install/authorize
-Antigravity CLI as the Google-family judge binary.
+## D-017 · 2026-07-16 · Judge execution: env-var trust for Gemini; ALL judges run tools-fully-disabled
+
+**Chosen over:** interactive one-time trust (unreproducible machine state) and
+installing Antigravity for judging (both rejected by supervisor).
+
+**Why (supervisor ruling):** The Google judge uses the environment-variable
+trust mechanism (`GEMINI_CLI_TRUST_WORKSPACE=true`), explicitly authorized for
+judge scratch-dir invocations and documented in provenance with every run.
+Stronger requirement, all three families: **judge invocations run with tools
+fully disabled — no file access, no command execution, no MCP/connectors.**
+Judges receive self-contained text and return a verdict; there is no
+legitimate tool use in that job. Where a CLI supports it, pin explicit
+disallow flags and **verify by probe** (the Anthropic judge's probe pattern
+extended to OpenAI and Google). This also closes the MCP residual from the
+2026-07-15 D-014 review report (closure noted there).
+
+*Execution record (2026-07-16):* Anthropic judge — hardened + probe-verified
+(`mcp__*` added to the disallow list). OpenAI judge — probes show `codex exec`
+reads absolute paths under default and under `-c 'sandbox_permissions=[]'`;
+no supported tools-disable flag found → OQ-7. Google judge — the env-var
+mechanism is **moot**: `gemini` hard-fails `IneligibleTierError` on this
+account (migrated to Antigravity) before any prompt; Antigravity is not
+installed and was ruled out for judging by this very decision → OQ-6. D-017's
+tools-disabled requirement stands; its Google-execution choice needs re-ruling.
+
+## OQ-6 · 2026-07-16 · Google-family judge has NO working execution path on this machine
+
+`gemini` CLI: `IneligibleTierError — no longer supported for Gemini Code
+Assist for individuals; migrate to Antigravity` (probe 2026-07-16; also the
+true cause of the earlier `--skip-trust` crash). Antigravity: not installed;
+rejected for judging by D-017. Consequence: the real-backend canary run
+cannot exercise any panel containing the Google family (all panels for
+anthropic- or openai-authored claims). Options, supervisor to rule:
+(a) reverse the D-017 no-Antigravity clause and use Antigravity CLI as the
+Google judge (tools-disabled flags to be probed there), (b) drop to a
+two-family judge pool — which breaks D-015 rotation for google-authored
+claims and reduces anthropic/openai-authored panels below "exactly two
+non-authoring" unless the design is amended, or (c) defer Google-family
+judging to a machine/account where one of the paths works.
+
+## OQ-7 · 2026-07-16 · Codex judge cannot be tools-disabled with any supported flag found
+
+Probes (2026-07-16, empty scratch dir, absolute-path read request): default
+`codex exec` → read succeeded; `-c 'sandbox_permissions=[]'` → read succeeded;
+sandbox modes (`read-only`/`workspace-write`) govern writes, not reads;
+`--ephemeral`/`--ignore-user-config` reduce state, not capability. D-017
+requires tools fully disabled for all judges. Options, supervisor to rule:
+(a) accept the structural guarantee alone for the OpenAI judge (payload is
+self-contained; claims carry only repo-relative paths that resolve nowhere in
+the scratch dir; capability ≠ behavior), documented in provenance and the
+paper's limitations; (b) wrap the codex judge in an OS-level sandbox
+(macOS `sandbox-exec` deny-read profile) — probe-verifiable but deprecated
+API, brittle across OS updates; (c) escalate to any newer codex flag the
+vendor ships (re-probe at pilot).

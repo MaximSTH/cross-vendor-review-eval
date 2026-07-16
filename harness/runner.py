@@ -33,9 +33,12 @@ class ExecResult:
     returncode: int
 
 
-def _default_executor(cmd: list[str], stdin: Optional[str], cwd: Optional[Path]) -> ExecResult:
+def _default_executor(cmd: list[str], stdin: Optional[str], cwd: Optional[Path],
+                      env: Optional[dict] = None) -> ExecResult:
+    import os
+    merged = {**os.environ, **env} if env else None
     proc = subprocess.run(cmd, input=stdin, cwd=cwd, capture_output=True,
-                          text=True, timeout=3600)
+                          text=True, timeout=3600, env=merged)
     return ExecResult(proc.stdout, proc.stderr, proc.returncode)
 
 

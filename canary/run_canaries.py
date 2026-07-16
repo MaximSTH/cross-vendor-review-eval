@@ -72,16 +72,28 @@ def main(real: bool = False) -> int:
                 family: band2.MockJudgeBackend(family, lambda _p, ans=answer: ans)
                 for family, answer in script.items()
             })
-        result, card = pipeline.score_case(key, review, router=router)
+        try:
+            result, card = pipeline.score_case(key, review, router=router)
+        except Exception as e:  # real-backend family unavailable (e.g. OQ-6)
+            print(f"  [BLOCKED] {fix['id']:<26} {type(e).__name__}: {str(e)[:120]}")
+            failures.append(fix["id"])
+            continue
         if card:
             cards.append(card)
 
-        expected_verdict = Verdict(fix["expect"]["verdict"])
-        expected_band = Band(fix["expect"]["band"])
-        ok = result.verdict is expected_verdict and result.band is expected_band
+        if real and "expect_real" in fix:
+            # Supervisor-ruled real-mode pass SET (OQ-4): verdict-only check.
+            allowed = {Verdict(v) for v in fix["expect_real"]["verdicts"]}
+            ok = result.verdict in allowed
+            expected_desc = "one of {" + ", ".join(sorted(v.value for v in allowed)) + "}"
+        else:
+            expected_verdict = Verdict(fix["expect"]["verdict"])
+            expected_band = Band(fix["expect"]["band"])
+            ok = result.verdict is expected_verdict and result.band is expected_band
+            expected_desc = f"{expected_verdict.value} (band {expected_band.value})"
         status = "PASS" if ok else "FAIL"
         print(f"  [{status}] {fix['id']:<28} -> {result.verdict.value} (band {result.band.value})"
-              + ("" if ok else f"  EXPECTED {expected_verdict.value} (band {expected_band.value})"))
+              + ("" if ok else f"  EXPECTED {expected_desc}"))
         if not ok:
             failures.append(fix["id"])
 

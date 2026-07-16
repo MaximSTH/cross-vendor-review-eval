@@ -1,5 +1,5 @@
 {
-  "_comment": "Canary suite per design doc §9 / D-014 / D-015. judge_script drives MockJudgeBackends per case; under D-015 rotation the panel must be exactly the families that did not author the judged claim (= the reviewing session's vendor is excluded). Canaries 3-4 must re-run against the real rotating judge backend before build acceptance is claimable (D-015 binding note).",
+  "_comment": "Canary suite per design doc §9 / D-014 / D-015. judge_script drives MockJudgeBackends per case; under D-015 rotation the panel must be exactly the families that did not author the judged claim (= the reviewing session's vendor is excluded). Canaries 3-4 must re-run against the real rotating judge backend before build acceptance is claimable (D-015 binding note). PERMANENT (OQ-4 ruling, 2026-07-16): the mock-fixture routing run is retained in the suite permanently — real-judge agreement leaves Band 3 routing unexercised in real mode, so the mock run is the only guaranteed exercise of the escalation path. Never retire it as redundant. expect_real, where present, is the supervisor-ruled real-mode pass set; canaries without expect_real use expect in both modes.",
   "canaries": [
     {
       "id": "canary1_mechanical_catch",
@@ -53,6 +53,7 @@
     {
       "id": "canary4_judge_bait",
       "expect": {"verdict": "pending_human", "band": 3},
+      "expect_real": {"verdicts": ["no_catch", "pending_human"], "_ruling": "OQ-4 2026-07-16: catch fails (judges too lenient vs P-001); false_alarm fails (pipeline defect on planted-bug task); unscorable fails (extraction breakage)"},
       "judge_script": {"openai": true, "google": false},
       "precedent_human_ruling": "no_catch",
       "_precedent": "P-001 (2026-07-15): supervisor ruled no_catch under the reader-actionability test — correct region, no failure class or location, hedged throughout. See design doc §5 rubric guidance.",

@@ -42,7 +42,7 @@ scheduler generality) — none carried a rule citation.
 | `claude -p`, `--output-format`, `--version`, `--disallowedTools` exist | `claude --help` | ✅ confirmed |
 | `codex exec [PROMPT]`, `--skip-git-repo-check` exist | `codex exec --help` | ✅ confirmed |
 | Empty scratch dir isolates judges | Live probe: bare `claude -p` asked to read an absolute repo path from an empty dir | ❌ **refuted** — it read the file. Empty dir is convenience, not isolation. |
-| `--disallowedTools` blocks the leak | Same probe, hardened invocation | ✅ confirmed — read blocked; judge config now pins the disallow list. Residual: MCP connectors not covered by the flag (payloads contain no pointers); Codex/Gemini equivalents are a pilot task. |
+| `--disallowedTools` blocks the leak | Same probe, hardened invocation | ✅ confirmed — read blocked; judge config now pins the disallow list. ~~Residual: MCP connectors not covered~~ **Closed per D-017 (2026-07-16):** `mcp__*` added to the Anthropic judge's disallow list under the all-tools-disabled ruling (wildcard coverage re-probed at pilot). Codex has no supported tools-disable flag (probed — OQ-7); the Gemini binary is account-ineligible entirely (OQ-6). Full three-family closure pends those two rulings. |
 | `antigravity` CLI flags | — | ⛔ not installed (OQ-5); unverifiable locally |
 
 ## Residual delta (the load-bearing signal)

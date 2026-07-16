@@ -24,18 +24,32 @@ from .runner import Executor, JSON_BLOCK_RE, _default_executor
 from .scoring.band2 import JudgePayload
 from .scoring.models import JudgeVerdict
 
-# Anthropic judge runs with tools disallowed — probe 2026-07-15 confirmed a
-# bare `claude -p` in an empty dir CAN read absolute repo paths on request,
-# and with this list it cannot (MCP connectors are a residual not covered by
-# the flag; payloads contain no pointers). Codex/Gemini equivalents: pilot
-# task — no verified no-tools flag yet; structural payload-only content
-# remains the primary defense (D-015).
-_CLAUDE_JUDGE_DISALLOWED = "Read,Bash,Glob,Grep,WebFetch,WebSearch,Task,Write,Edit,NotebookEdit"
+# D-017: ALL judges run tools-fully-disabled; pin flags where the CLI supports
+# it and verify by probe. Probe record:
+#   anthropic 2026-07-15/16: bare `claude -p` READ an absolute repo path from
+#     an empty dir (refuted the isolation assumption); with the disallow list
+#     below the read is blocked (verified). "mcp__*" added per D-017 to cover
+#     connectors; wildcard coverage to be re-probed at pilot.
+#   openai 2026-07-16: `codex exec` read an absolute path under default AND
+#     under -c 'sandbox_permissions=[]'; sandbox modes are write-side only.
+#     NO supported tools-disable flag found -> OQ-7, supervisor ruling needed.
+#   google 2026-07-16: `gemini` hard-fails IneligibleTierError on this account
+#     regardless of the D-017 trust env var (account migrated to Antigravity,
+#     which is not installed and was ruled out for judging) -> OQ-6.
+_CLAUDE_JUDGE_DISALLOWED = (
+    "Read,Bash,Glob,Grep,WebFetch,WebSearch,Task,Write,Edit,NotebookEdit,mcp__*"
+)
 
 JUDGE_CMDS: dict[str, tuple[str, ...]] = {
     "anthropic": ("claude", "-p", "--disallowedTools", _CLAUDE_JUDGE_DISALLOWED),
     "openai": ("codex", "exec", "--skip-git-repo-check", "-"),
-    "google": ("gemini", "-p"),
+    "google": ("gemini",),
+}
+
+# Per-family env for judge invocations (D-017: documented in provenance —
+# results files must record this map verbatim alongside version strings).
+JUDGE_ENVS: dict[str, dict[str, str]] = {
+    "google": {"GEMINI_CLI_TRUST_WORKSPACE": "true"},  # supervisor-authorized, D-017
 }
 
 JUDGE_PROMPT_TEMPLATE = """You are scoring a code-review claim against a known defect. You see only the
@@ -74,9 +88,14 @@ class CLIJudgeBackend:
     def judge(self, payload: JudgePayload) -> JudgeVerdict:
         prompt = JUDGE_PROMPT_TEMPLATE.format(
             annotation=payload.defect_annotation, claim=payload.claim_text)
-        # Empty scratch dir: even an agentic-capable CLI has nothing to read.
+        env = JUDGE_ENVS.get(self.family)
+        # Empty scratch dir is defense-in-depth only (see module docstring).
         with tempfile.TemporaryDirectory(prefix="judge-") as scratch:
-            result = self._executor(list(JUDGE_CMDS[self.family]), prompt, Path(scratch))
+            if env is None:
+                result = self._executor(list(JUDGE_CMDS[self.family]), prompt, Path(scratch))
+            else:
+                result = self._executor(list(JUDGE_CMDS[self.family]), prompt,
+                                        Path(scratch), env)
         if result.returncode != 0:
             raise JudgeCallError(
                 f"{self.family} judge exited {result.returncode}: {result.stderr[:500]}")
