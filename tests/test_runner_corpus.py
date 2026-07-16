@@ -221,6 +221,84 @@ class TestCLIJudgeBackend(unittest.TestCase):
         with self.assertRaises(ValueError):
             CLIJudgeBackend("acme")
 
+    def test_tool_use_in_transcript_invalidates_judgment(self):
+        # D-020: any tool invocation in a judge transcript invalidates.
+        from harness.judges import JudgeComplianceError
+        transcript = ('exec\n$ cat /etc/hosts\n'
+                      '```json\n{"is_match": true, "reasoning": "peeked"}\n```')
+        with self.assertRaises(JudgeComplianceError):
+            self._backend(transcript, family="openai").judge(self._payload())
+
+
+class TestGeminiAPIJudge(unittest.TestCase):
+    """D-019: Google judge is a bare API call — tools-disabled by construction."""
+
+    def _backend(self, status=200, answer='```json\n{"is_match": true, "reasoning": "ok"}\n```',
+                 raw=None, seen=None):
+        from harness.judges import GeminiAPIJudgeBackend
+        import json as _json
+        body = raw if raw is not None else _json.dumps(
+            {"candidates": [{"content": {"parts": [{"text": answer}]}}]})
+
+        def fake_post(url, headers, payload):
+            if seen is not None:
+                seen.append((url, headers, payload))
+            return status, body
+        return GeminiAPIJudgeBackend(api_key="test-key", http_post=fake_post)
+
+    def _payload(self):
+        from harness.scoring.band2 import JudgePayload
+        return JudgePayload(defect_annotation="ann", claim_text="claim")
+
+    def test_parses_api_verdict(self):
+        v = self._backend().judge(self._payload())
+        self.assertTrue(v.is_match)
+        self.assertEqual(v.judge_family, "google")
+
+    def test_missing_key_raises(self):
+        import os
+        from harness.judges import GeminiAPIJudgeBackend, JudgeCallError
+        old = os.environ.pop("GEMINI_API_KEY", None)
+        try:
+            with self.assertRaises(JudgeCallError):
+                GeminiAPIJudgeBackend()
+        finally:
+            if old is not None:
+                os.environ["GEMINI_API_KEY"] = old
+
+    def test_http_error_raises(self):
+        from harness.judges import JudgeCallError
+        with self.assertRaises(JudgeCallError):
+            self._backend(status=429, raw='{"error": "quota"}').judge(self._payload())
+
+    def test_request_carries_only_payload_prompt(self):
+        seen = []
+        self._backend(seen=seen).judge(self._payload())
+        (_url, headers, body) = seen[-1]
+        text = body["contents"][0]["parts"][0]["text"]
+        self.assertIn("ann", text)
+        self.assertIn("claim", text)
+        self.assertIn("x-goog-api-key", headers)
+
+
+class TestReviewerCompliance(unittest.TestCase):
+    """D-018: post-hoc test-suite-invocation scan."""
+
+    def test_detects_test_suite_invocations(self):
+        from harness.compliance import scan_reviewer_transcript
+        for cmd in ("pytest -x tests/", "python3 -m unittest discover",
+                    "npm test", "go test ./...", "cargo test", "make test",
+                    "yarn test --watch=false", "dotnet test"):
+            self.assertTrue(scan_reviewer_transcript(f"I ran `{cmd}` to check"),
+                            cmd)
+
+    def test_clean_transcript_passes(self):
+        from harness.compliance import scan_reviewer_transcript
+        clean = ("I read src/x.py, ran the linter, and inspected the diff. "
+                 "The unit under test is the pagination helper. I did not "
+                 "protest the design.")
+        self.assertEqual(scan_reviewer_transcript(clean), [])
+
 
 if __name__ == "__main__":
     unittest.main()

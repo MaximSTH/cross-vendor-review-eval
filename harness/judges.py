@@ -20,6 +20,7 @@ import json
 import tempfile
 from pathlib import Path
 
+from . import compliance
 from .runner import Executor, JSON_BLOCK_RE, _default_executor
 from .scoring.band2 import JudgePayload
 from .scoring.models import JudgeVerdict
@@ -73,7 +74,12 @@ Answer with ONLY a fenced JSON block:
 """
 
 class JudgeCallError(RuntimeError):
-    """The judge CLI failed or returned an unparseable verdict."""
+    """The judge backend failed or returned an unparseable verdict."""
+
+
+class JudgeComplianceError(RuntimeError):
+    """D-020: tool invocation detected in a judge transcript — the judgment is
+    invalid; the caller re-runs and counts it in the reported audit metric."""
 
 
 class CLIJudgeBackend:
@@ -99,17 +105,90 @@ class CLIJudgeBackend:
         if result.returncode != 0:
             raise JudgeCallError(
                 f"{self.family} judge exited {result.returncode}: {result.stderr[:500]}")
-        matches = JSON_BLOCK_RE.findall(result.stdout)
-        if not matches:
-            raise JudgeCallError(f"{self.family} judge returned no verdict block")
+        # D-020: transcript audit — any tool invocation invalidates.
+        hits = compliance.audit_judge_transcript(
+            self.family, result.stdout + "\n" + result.stderr)
+        if hits:
+            raise JudgeComplianceError(
+                f"{self.family} judge transcript shows tool use: {hits}")
+        return _parse_verdict(self.family, result.stdout)
+
+
+def _parse_verdict(family: str, text: str) -> JudgeVerdict:
+    matches = JSON_BLOCK_RE.findall(text)
+    if not matches:
+        raise JudgeCallError(f"{family} judge returned no verdict block")
+    try:
+        verdict = json.loads(matches[-1])
+    except json.JSONDecodeError as e:
+        raise JudgeCallError(f"{family} judge verdict not valid JSON: {e}") from e
+    if not isinstance(verdict.get("is_match"), bool):
+        raise JudgeCallError(f"{family} judge verdict missing boolean is_match")
+    return JudgeVerdict(
+        judge_family=family,
+        is_match=verdict["is_match"],
+        reasoning=str(verdict.get("reasoning", "")),
+    )
+
+
+# --- D-019: Google judge = free-tier Gemini API call -----------------------
+
+GEMINI_API_MODEL = "gemini-2.5-flash"  # free-tier model; recorded in provenance
+_GEMINI_API_URL = ("https://generativelanguage.googleapis.com/v1beta/models/"
+                   f"{GEMINI_API_MODEL}:generateContent")
+
+
+def _default_http_post(url: str, headers: dict, body: dict) -> tuple[int, str]:
+    import urllib.error
+    import urllib.request
+    req = urllib.request.Request(
+        url, data=json.dumps(body).encode(), method="POST",
+        headers={"Content-Type": "application/json", **headers})
+    try:
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            return resp.status, resp.read().decode()
+    except urllib.error.HTTPError as e:
+        return e.code, e.read().decode()
+
+
+class GeminiAPIJudgeBackend:
+    """D-019: a bare text-completion API call — tools-disabled by construction
+    (no filesystem, no command execution, no MCP exists in this path)."""
+
+    family = "google"
+
+    def __init__(self, api_key: str | None = None, http_post=_default_http_post):
+        import os
+        self._api_key = api_key or os.environ.get("GEMINI_API_KEY", "")
+        if not self._api_key:
+            raise JudgeCallError(
+                "google judge needs GEMINI_API_KEY set (free tier, D-019)")
+        self._post = http_post
+
+    def judge(self, payload: JudgePayload) -> JudgeVerdict:
+        prompt = JUDGE_PROMPT_TEMPLATE.format(
+            annotation=payload.defect_annotation, claim=payload.claim_text)
+        status, text = self._post(
+            _GEMINI_API_URL, {"x-goog-api-key": self._api_key},
+            {"contents": [{"parts": [{"text": prompt}]}]})
+        if status != 200:
+            raise JudgeCallError(f"google judge API returned {status}: {text[:300]}")
         try:
-            verdict = json.loads(matches[-1])
-        except json.JSONDecodeError as e:
-            raise JudgeCallError(f"{self.family} judge verdict not valid JSON: {e}") from e
-        if not isinstance(verdict.get("is_match"), bool):
-            raise JudgeCallError(f"{self.family} judge verdict missing boolean is_match")
-        return JudgeVerdict(
-            judge_family=self.family,
-            is_match=verdict["is_match"],
-            reasoning=str(verdict.get("reasoning", "")),
-        )
+            data = json.loads(text)
+            answer = "".join(
+                part.get("text", "")
+                for part in data["candidates"][0]["content"]["parts"])
+        except (json.JSONDecodeError, KeyError, IndexError, TypeError) as e:
+            raise JudgeCallError(f"google judge API response unparseable: {e}") from e
+        return _parse_verdict(self.family, answer)
+
+
+def make_real_router(executor: Executor = _default_executor):
+    """The D-015 rotating router over the three real judge backends
+    (D-017/D-019/D-020 isolation per family)."""
+    from .scoring.band2 import PanelRouter
+    return PanelRouter({
+        "anthropic": CLIJudgeBackend("anthropic", executor=executor),
+        "openai": CLIJudgeBackend("openai", executor=executor),
+        "google": GeminiAPIJudgeBackend(),
+    })

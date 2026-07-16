@@ -263,7 +263,9 @@ prompt to the repo. The prompt is therefore an experimental artifact, not an
 implementation detail. Draft v2 (with the D-016 cap) lives at
 `harness/prompts/review-prompt.md`; the shotgun gap is closed per D-016; the
 full text has been sent to the supervisor inline for sign-off on the exact
-string. **Still open until ratified.**
+string. **RATIFIED 2026-07-16 (supervisor).** The prompt body is pinned
+verbatim in design doc §8; any future edit to that string reopens
+ratification, no exceptions. Reviewer compliance enforcement added as D-018.
 
 *Correction note (2026-07-16):* a worker status message referenced the inline
 prompt as "two turns back" — the pointer was wrong (it was three messages
@@ -320,8 +322,61 @@ mechanism is **moot**: `gemini` hard-fails `IneligibleTierError` on this
 account (migrated to Antigravity) before any prompt; Antigravity is not
 installed and was ruled out for judging by this very decision → OQ-6. D-017's
 tools-disabled requirement stands; its Google-execution choice needs re-ruling.
+OQ-6 → resolved by D-019 (API judge); OQ-7 → resolved by D-020 (behavioral
+enforcement + amended wording).
 
-## OQ-6 · 2026-07-16 · Google-family judge has NO working execution path on this machine
+*Incident record (2026-07-16, supervisor-directed to keep here):* with OQ-7
+still open, the worker attempted the real canary run, which would have
+executed the Codex judge without the required isolation. The harness
+permission layer blocked the command on exactly the standing rule
+(design-level gaps are ruled, never resolved unilaterally). The block was
+correct; the run waited for the D-020 ruling. Standing rule working as
+designed.
+
+## D-018 · 2026-07-16 · Reviewer compliance enforcement — post-hoc test-suite-invocation scan
+
+**Why (supervisor ruling, attached to OQ-3 ratification):** The prompt's
+no-test-suite rule is instruction-only and reviewer CLIs can ignore it. Every
+reviewer session transcript is scanned post-hoc for test-suite invocation
+(pytest, unittest, npm test, go test, and equivalents — pattern list
+maintained in code, `harness/compliance.py`). Violating sessions are
+**excluded and re-run**; exclusions are counted and reported per vendor.
+Pre-registered rule: exclusion happens **before scoring, blind to what the
+review claimed.**
+
+## D-019 · 2026-07-16 · Google judge runs on a free-tier Gemini API key
+
+**Chosen over:** the two OQ-6 logged options (Antigravity reversal; two-family
+pool) — neither adopted.
+
+**Why (supervisor ruling):** A judge is a self-contained text completion, so
+the agentic CLI was never a requirement — and a bare API call satisfies
+D-017's tools-disabled rule **by construction**: no filesystem, no commands,
+no MCP exists in that execution path. Consistent with D-012, which constrains
+budget, not API usage; the tier is $0. The pilot additionally measures
+free-tier daily-quota feasibility against expected Band 2 volume.
+**Pre-registered fallback** if the free tier is unavailable or
+quota-infeasible: reverse D-017's no-Antigravity clause as a documented
+exception, with the same probe-verified tools-disable requirement as the
+Anthropic judge. **The two-family pool is rejected permanently** — it
+reintroduces same-family judging or collapses to a one-judge panel; struck
+from all future option lists.
+
+## D-020 · 2026-07-16 · Codex judge: behavioral enforcement; D-017 wording amended
+
+**Why (supervisor ruling):** No supported tools-disable flag exists for
+`codex exec` (OQ-7 probes). Enforcement is behavioral: **(a)** invoked from an
+empty scratch directory outside any repo path, payload via stdin only;
+**(b)** post-hoc transcript assertion — any tool invocation of any kind in a
+judge transcript **invalidates that judgment**, triggers a re-run, and is
+counted in a reported audit metric; **(c)** D-017's wording is amended to
+"tools disabled by flag where supported; where not supported, isolated by
+environment and audited by transcript, violations invalidating." The
+Anthropic judge keeps flag enforcement **plus** the same transcript audit as
+belt-and-suspenders. The asymmetry is stated plainly in limitations (design
+doc §8, first paragraph) — one sentence, not buried.
+
+## OQ-6 · 2026-07-16 · ~~Google-family judge~~ — **RESOLVED by D-019**
 
 `gemini` CLI: `IneligibleTierError — no longer supported for Gemini Code
 Assist for individuals; migrate to Antigravity` (probe 2026-07-16; also the
@@ -336,7 +391,7 @@ claims and reduces anthropic/openai-authored panels below "exactly two
 non-authoring" unless the design is amended, or (c) defer Google-family
 judging to a machine/account where one of the paths works.
 
-## OQ-7 · 2026-07-16 · Codex judge cannot be tools-disabled with any supported flag found
+## OQ-7 · 2026-07-16 · ~~Codex judge tools-disable~~ — **RESOLVED by D-020**
 
 Probes (2026-07-16, empty scratch dir, absolute-path read request): default
 `codex exec` → read succeeded; `-c 'sandbox_permissions=[]'` → read succeeded;

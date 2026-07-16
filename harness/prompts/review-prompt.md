@@ -1,8 +1,10 @@
-# Review prompt — DRAFT v2, pending ratification (OQ-3)
+# Review prompt — RATIFIED 2026-07-16 (OQ-3)
 
 Identical, verbatim, across all three conditions (§4, §8). Do not vary per
-vendor, per condition, or per case. Status: **draft — supervisor ratification
-required before pilot** (OQ-3). v2 adds the D-016 claims cap and ranking.
+vendor, per condition, or per case. The body below the rule is the
+experimental artifact, pinned verbatim in design doc §8. **Any edit to it
+reopens ratification, no exceptions.** Reviewer compliance with the
+no-test-suite rule is enforced post-hoc per D-018.
 
 ---
 

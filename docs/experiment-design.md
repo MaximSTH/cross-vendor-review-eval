@@ -101,6 +101,13 @@ Conditions are **interleaved within every batch** — never a block of one arm �
 so mid-study vendor updates land on all arms approximately equally. Version
 drift is a **recorded covariate**, not an assumed constant.
 
+**Reviewer compliance (D-018).** The prompt's no-test-suite rule is
+instruction-only, so every reviewer session transcript is scanned post-hoc
+for test-suite invocation (pattern list maintained in
+`harness/compliance.py`). Violating sessions are excluded and re-run;
+exclusions are counted and reported per vendor. Pre-registered: exclusion
+happens before scoring, blind to what the review claimed.
+
 For each code change the hidden test later proves broken (and, for false-alarm
 measurement, an equal-sized sample proved correct):
 
@@ -174,6 +181,15 @@ the self diagonal and anonymization suppresses it (arXiv:2603.04582); an
 unblinded judge would reintroduce, one layer up, the exact bias this study
 measures.
 
+**Judge execution + isolation (D-017/D-019/D-020).** Judges are single-shot,
+non-agentic, and receive exactly two artifacts (the anonymized claim and the
+answer-key annotation — D-015 binding condition). Isolation per family:
+Anthropic — CLI with tools disabled by flag (probe-verified) plus transcript
+audit; OpenAI — CLI isolated by empty-scratch-dir environment and audited by
+transcript, any tool invocation invalidating the judgment (re-run + reported
+audit metric); Google — free-tier Gemini **API** call, tools-disabled by
+construction (no filesystem, commands, or connectors exist in that path).
+
 **Panel assignment — per-case rotation (D-015).** There is no neutral family:
 all three vendor stacks (Anthropic, OpenAI, Google) are under test. For each
 judged case the panel is **exactly the two families that did not author the
@@ -245,6 +261,9 @@ an interface defect to fix, not a case to escalate.
   **precision-on-buggy-tasks** (matching claims ÷ total claims on defective
   changes) are reported alongside catch-rate, so verbosity differences are
   visible rather than laundered into catch-rate.
+- **Compliance metrics (D-018/D-020)** — per-vendor count of reviewer
+  sessions excluded for test-suite invocation, and the judge transcript-audit
+  metric (judgments invalidated for tool use), are both reported.
 - **Paired analysis:** every defective change is reviewed under all three
   conditions, so comparisons are within-item (McNemar-style paired tests +
   confidence intervals), which buys power at small n.
@@ -291,7 +310,9 @@ mid-study. Structure:
   tasks, ≈ 150 authoring runs per direction).
 - **Pilot measures throughput:** sustainable **sessions-per-week under the real
   weekly subscription limits** (shared with the owner's other work), plus
-  per-session variance.
+  per-session variance, plus **free-tier Gemini API daily-quota feasibility
+  against expected Band 2 volume** (D-019; pre-registered fallback: Antigravity
+  exception with probe-verified tools-disable, per D-019).
 - **Final n:** the pre-registered rule applied to measured throughput — the
   design target, *or* the largest n the sustainable schedule supports. Chosen by
   that rule, logged in DECISIONS.md *before* the full run, never after seeing
@@ -315,6 +336,11 @@ mid-study. Structure:
 
 ## 8. Threats to validity
 
+Stated plainly, up front (D-020): **judge tool-isolation is asymmetric across
+vendors — flag-enforced for the Anthropic judge, environment-isolated and
+transcript-audited for the OpenAI judge, and structural (bare API) for the
+Google judge.**
+
 | Threat | Mitigation |
 |---|---|
 | **Training contamination** — reviewer recalls the bug/fix. | §6 protocol; recency gate is primary. Residual risk disclosed. |
@@ -328,6 +354,43 @@ mid-study. Structure:
 | **Prompt sensitivity.** | Identical prompt across conditions; committed in repo. |
 | **Cherry-picking tasks.** | Task set selected by fixed documented rule before any review runs. |
 | **LLM-judge bias.** | Not applicable by construction — primary scoring is mechanical (§5). |
+
+### Ratified review prompt — verbatim (OQ-3, ratified 2026-07-16)
+
+The exact experimental artifact, identical across all conditions. **Any edit
+to the string below reopens ratification, no exceptions.** Canonical copy:
+`harness/prompts/review-prompt.md`.
+
+````text
+Review the code change in this repository's working tree for defects.
+
+You may explore the repository, read any files, and run static tooling, but do
+NOT run the test suite.
+
+When you are done, output your findings as a fenced JSON block in exactly this
+format, as the last thing in your response:
+
+```json
+{
+  "claims": [
+    {
+      "file": "path/relative/to/repo/root.py",
+      "line": 123,
+      "description": "One-sentence statement of the defect and why it is wrong."
+    }
+  ]
+}
+```
+
+Rules:
+- Report only defects you believe are real. An empty list (`"claims": []`) is a
+  valid and correct answer for a clean change.
+- Report at most 5 claims, ranked most-confident first. Claims beyond the
+  fifth are discarded unread.
+- Give `file` and `line` whenever you can localize the defect. Use `null` only
+  when you genuinely cannot.
+- One claim per distinct defect. Do not pad.
+````
 
 ---
 

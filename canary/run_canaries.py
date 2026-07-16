@@ -52,11 +52,13 @@ def main(real: bool = False) -> int:
     failures, cards = [], []
 
     real_router = None
+    real_block_reason = None
     if real:
-        from harness.judges import CLIJudgeBackend
-        real_router = band2.PanelRouter({
-            fam: CLIJudgeBackend(fam) for fam in ("anthropic", "openai", "google")
-        })
+        from harness.judges import JudgeCallError, make_real_router
+        try:
+            real_router = make_real_router()
+        except JudgeCallError as e:  # e.g. GEMINI_API_KEY unset (D-019)
+            real_block_reason = str(e)
 
     for fix in fixtures:
         key, review, script = _parse(fix)
@@ -66,6 +68,10 @@ def main(real: bool = False) -> int:
             if review.session.vendor.lower() in {f.lower() for f in script}:
                 print(f"  [FAIL] {fix['id']:<28} fixture defect: judge_script "
                       f"includes authoring family {review.session.vendor}")
+                failures.append(fix["id"])
+                continue
+            if real and real_router is None:
+                print(f"  [BLOCKED] {fix['id']:<26} {real_block_reason}")
                 failures.append(fix["id"])
                 continue
             router = real_router if real else band2.PanelRouter({
