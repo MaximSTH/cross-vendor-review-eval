@@ -337,6 +337,27 @@ Anthropic judge keeps flag enforcement **plus** the same transcript audit as
 belt-and-suspenders. The asymmetry is stated plainly in limitations (design
 doc §8, first paragraph) — one sentence, not buried.
 
+## D-021 · 2026-07-18 · Pilot scope ratified with amendments; format-failed sessions pre-registered
+
+**Chosen over:** the OQ-8 proposal as drafted.
+
+**Why (supervisor ruling):** Pilot scope is P0 + P1 as proposed, amended:
+**(a)** P1 = 5 tasks ratified; the k=2 repeat extends to **two** tasks, the
+second executing **only if no limit-hit events have occurred by day 3** —
+pre-registered, not discretionary. **(b)** 0.7 safety factor ratified, but
+sustainable sessions/week = **min(observed × 7 × 0.7, owner-declared
+normal-week ceiling)** — pilot days are atypically dedicated; the ceiling is
+declared at pilot go. **(c)** 50% quota-feasibility threshold ratified as
+proposed. **(d)** Format-failure trigger amended: escalate if **any single
+vendor exceeds 20% or aggregate exceeds 30%, whichever first.**
+
+**Pre-registered before P0 — scoring treatment of format-failed sessions:**
+they are **excluded and re-run** (mirroring D-018's
+exclude-before-scoring-blind rule), never scored as empty claims; per-vendor
+format-failure counts are a reported metric. If the re-run also fails format,
+the session is recorded as **unscorable-format**, reported, never silently
+dropped.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
@@ -421,7 +442,7 @@ paper's limitations; (b) wrap the codex judge in an OS-level sandbox
 API, brittle across OS updates; (c) escalate to any newer codex flag the
 vendor ships (re-probe at pilot).
 
-## OQ-8 · 2026-07-18 · Pilot scope: single case only, or +5-task throughput batch?
+## OQ-8 · 2026-07-18 · ~~Pilot scope + thresholds~~ — **RESOLVED by D-021**
 
 §9's pilot is "one case end to end," but §7's throughput/variance measures
 cannot come from n=1. The pilot-protocol proposal (`pilot-protocol.md` §2)
@@ -443,3 +464,10 @@ dates postdate all cutoffs — to be verified live at pilot time, not assumed
 from memory; (c) fallback: own harvest per (a) restricted to Python for
 harness simplicity. Worker presents the evidence table; supervisor picks;
 choice logged as a D-entry before P0.
+
+**Process ratified 2026-07-18 (supervisor); decision rule pre-committed:** a
+verified external continuously-refreshed feed **beats own-harvest** when both
+pass the recency gate and UTBoost hardening — external task provenance
+removes a researcher degree of freedom. Own-harvest (Python-restricted per
+option c) is the fallback. "Verified live, not assumed from memory" stands as
+written. The selection itself logs as a D-entry before P0.

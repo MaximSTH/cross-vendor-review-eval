@@ -108,6 +108,12 @@ for test-suite invocation (pattern list maintained in
 exclusions are counted and reported per vendor. Pre-registered: exclusion
 happens before scoring, blind to what the review claimed.
 
+**Format-failed sessions (D-021).** A session whose output yields no valid
+structured claims block is likewise **excluded and re-run before scoring,
+blind to content** — never scored as empty claims. Per-vendor format-failure
+counts are reported; a re-run that also fails is recorded as
+**unscorable-format**, reported, never silently dropped.
+
 For each code change the hidden test later proves broken (and, for false-alarm
 measurement, an equal-sized sample proved correct):
 
@@ -261,9 +267,10 @@ an interface defect to fix, not a case to escalate.
   **precision-on-buggy-tasks** (matching claims ÷ total claims on defective
   changes) are reported alongside catch-rate, so verbosity differences are
   visible rather than laundered into catch-rate.
-- **Compliance metrics (D-018/D-020)** — per-vendor count of reviewer
-  sessions excluded for test-suite invocation, and the judge transcript-audit
-  metric (judgments invalidated for tool use), are both reported.
+- **Compliance metrics (D-018/D-020/D-021)** — per-vendor counts of reviewer
+  sessions excluded for test-suite invocation, format-failed sessions
+  (including any unscorable-format), and the judge transcript-audit metric
+  (judgments invalidated for tool use) are all reported.
 - **Paired analysis:** every defective change is reviewed under all three
   conditions, so comparisons are within-item (McNemar-style paired tests +
   confidence intervals), which buys power at small n.
