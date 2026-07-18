@@ -242,62 +242,6 @@ results additionally report per-vendor **mean claims-per-task** and
 **precision-on-buggy-tasks**, so verbosity differences are visible rather than
 laundered into catch-rate.
 
----
-
-# Open questions (awaiting supervisor decision — build proceeds around them)
-
-## OQ-1 · 2026-07-15 · ~~Band 2 judge backend~~ — **RESOLVED by D-015**
-
-Superseded: the "neutral Google judge" proposal was rejected; per-case rotation
-adopted. Remaining mechanics (how each family's CLI is invoked headless as a
-judge) are implementation, not design, and live in the runner config.
-
-## OQ-2 · 2026-07-15 · ~~Localization tolerance N~~ — **RESOLVED by D-015**
-
-±5 primary, ±1/±10 sensitivity sweep in appendix.
-
-## OQ-3 · 2026-07-15 · Review prompt — exact wording requires ratification
-
-§8 names prompt sensitivity as a threat and commits the identical, verbatim
-prompt to the repo. The prompt is therefore an experimental artifact, not an
-implementation detail. Draft v2 (with the D-016 cap) lives at
-`harness/prompts/review-prompt.md`; the shotgun gap is closed per D-016; the
-full text has been sent to the supervisor inline for sign-off on the exact
-string. **RATIFIED 2026-07-16 (supervisor).** The prompt body is pinned
-verbatim in design doc §8; any future edit to that string reopens
-ratification, no exceptions. Reviewer compliance enforcement added as D-018.
-
-*Correction note (2026-07-16):* a worker status message referenced the inline
-prompt as "two turns back" — the pointer was wrong (it was three messages
-back), so the supervisor's verification against the referenced location
-failed. The inline send itself and the D-016 logging both occurred on
-2026-07-15 (commit 608ec8b). Prompt re-sent inline 2026-07-16. Lesson logged:
-status messages cite artifacts by commit/file, not by conversational position.
-
-## OQ-4 · 2026-07-15 · ~~Canary 4 real-mode pass criterion~~ — **RULED 2026-07-16 (supervisor)**
-
-Real-mode pass set for canary 4 is exactly **{no_catch, pending_human}**.
-`catch` fails — judges too lenient on a hedged, non-localized claim,
-contradicting P-001. `false_alarm` fails — planted-bug task; per the boundary
-rules that outcome indicates a pipeline defect. `unscorable` fails —
-well-formed fixture; indicates extraction breakage. Additionally: because
-real-judge agreement would leave Band 3 routing unexercised in real mode, the
-mock-fixture routing test is **retained permanently** in the suite — marked as
-such so it is never retired as redundant.
-
-## OQ-4 · 2026-07-15 · Canary 4 pass criterion under REAL judges
-
-The judge-bait fixture guarantees a panel split only with scripted mock judges;
-real judges may legitimately agree. The D-015 binding acceptance item ("all
-four canaries pass against the real backend") therefore needs a defined pass
-criterion for canary 4 in real mode. **Proposal:** canary 4 passes iff it does
-NOT score `catch` — i.e., either Band-3 escalation (judges split) or an agreed
-`no_catch` (consistent with precedent P-001); an agreed `catch` is a failure of
-the judge method and blocks acceptance. Awaiting ratification; mock-mode
-expectation (must escalate to Band 3) unchanged.
-
-## OQ-5 · 2026-07-15 · ~~Google-family judge execution~~ — **RESOLVED by D-017**
-
 ## D-017 · 2026-07-16 · Judge execution: env-var trust for Gemini; ALL judges run tools-fully-disabled
 
 **Chosen over:** interactive one-time trust (unreproducible machine state) and
@@ -393,6 +337,60 @@ Anthropic judge keeps flag enforcement **plus** the same transcript audit as
 belt-and-suspenders. The asymmetry is stated plainly in limitations (design
 doc §8, first paragraph) — one sentence, not buried.
 
+---
+
+# Open questions (awaiting supervisor decision — build proceeds around them)
+
+## OQ-1 · 2026-07-15 · ~~Band 2 judge backend~~ — **RESOLVED by D-015**
+
+Superseded: the "neutral Google judge" proposal was rejected; per-case rotation
+adopted. Remaining mechanics (how each family's CLI is invoked headless as a
+judge) are implementation, not design, and live in the runner config.
+
+## OQ-2 · 2026-07-15 · ~~Localization tolerance N~~ — **RESOLVED by D-015**
+
+±5 primary, ±1/±10 sensitivity sweep in appendix.
+
+## OQ-3 · 2026-07-15 · Review prompt — exact wording requires ratification
+
+§8 names prompt sensitivity as a threat and commits the identical, verbatim
+prompt to the repo. The prompt is therefore an experimental artifact, not an
+implementation detail. Draft v2 (with the D-016 cap) lives at
+`harness/prompts/review-prompt.md`; the shotgun gap is closed per D-016; the
+full text has been sent to the supervisor inline for sign-off on the exact
+string. **RATIFIED 2026-07-16 (supervisor).** The prompt body is pinned
+verbatim in design doc §8; any future edit to that string reopens
+ratification, no exceptions. Reviewer compliance enforcement added as D-018.
+
+*Correction note (2026-07-16):* a worker status message referenced the inline
+prompt as "two turns back" — the pointer was wrong (it was three messages
+back), so the supervisor's verification against the referenced location
+failed. The inline send itself and the D-016 logging both occurred on
+2026-07-15 (commit 608ec8b). Prompt re-sent inline 2026-07-16. Lesson logged:
+status messages cite artifacts by commit/file, not by conversational position.
+
+## OQ-4 · 2026-07-15 · Canary 4 pass criterion under REAL judges — **RULED 2026-07-16 (supervisor)**
+
+The judge-bait fixture guarantees a panel split only with scripted mock judges;
+real judges may legitimately agree. The D-015 binding acceptance item ("all
+four canaries pass against the real backend") therefore needs a defined pass
+criterion for canary 4 in real mode. **Proposal:** canary 4 passes iff it does
+NOT score `catch` — i.e., either Band-3 escalation (judges split) or an agreed
+`no_catch` (consistent with precedent P-001); an agreed `catch` is a failure of
+the judge method and blocks acceptance. Awaiting ratification; mock-mode
+expectation (must escalate to Band 3) unchanged.
+
+**Ruling:** Real-mode pass set for canary 4 is exactly **{no_catch, pending_human}**.
+`catch` fails — judges too lenient on a hedged, non-localized claim,
+contradicting P-001. `false_alarm` fails — planted-bug task; per the boundary
+rules that outcome indicates a pipeline defect. `unscorable` fails —
+well-formed fixture; indicates extraction breakage. Additionally: because
+real-judge agreement would leave Band 3 routing unexercised in real mode, the
+mock-fixture routing test is **retained permanently** in the suite — marked as
+such so it is never retired as redundant.
+
+## OQ-5 · 2026-07-15 · ~~Google-family judge execution~~ — **RESOLVED by D-017**
+
 ## OQ-6 · 2026-07-16 · ~~Google-family judge~~ — **RESOLVED by D-019**
 
 `gemini` CLI: `IneligibleTierError — no longer supported for Gemini Code
@@ -409,6 +407,19 @@ non-authoring" unless the design is amended, or (c) defer Google-family
 judging to a machine/account where one of the paths works.
 
 ## OQ-7 · 2026-07-16 · ~~Codex judge tools-disable~~ — **RESOLVED by D-020**
+
+Probes (2026-07-16, empty scratch dir, absolute-path read request): default
+`codex exec` → read succeeded; `-c 'sandbox_permissions=[]'` → read succeeded;
+sandbox modes (`read-only`/`workspace-write`) govern writes, not reads;
+`--ephemeral`/`--ignore-user-config` reduce state, not capability. D-017
+requires tools fully disabled for all judges. Options, supervisor to rule:
+(a) accept the structural guarantee alone for the OpenAI judge (payload is
+self-contained; claims carry only repo-relative paths that resolve nowhere in
+the scratch dir; capability ≠ behavior), documented in provenance and the
+paper's limitations; (b) wrap the codex judge in an OS-level sandbox
+(macOS `sandbox-exec` deny-read profile) — probe-verifiable but deprecated
+API, brittle across OS updates; (c) escalate to any newer codex flag the
+vendor ships (re-probe at pilot).
 
 ## OQ-8 · 2026-07-18 · Pilot scope: single case only, or +5-task throughput batch?
 
@@ -432,16 +443,3 @@ dates postdate all cutoffs — to be verified live at pilot time, not assumed
 from memory; (c) fallback: own harvest per (a) restricted to Python for
 harness simplicity. Worker presents the evidence table; supervisor picks;
 choice logged as a D-entry before P0.
-
-Probes (2026-07-16, empty scratch dir, absolute-path read request): default
-`codex exec` → read succeeded; `-c 'sandbox_permissions=[]'` → read succeeded;
-sandbox modes (`read-only`/`workspace-write`) govern writes, not reads;
-`--ephemeral`/`--ignore-user-config` reduce state, not capability. D-017
-requires tools fully disabled for all judges. Options, supervisor to rule:
-(a) accept the structural guarantee alone for the OpenAI judge (payload is
-self-contained; claims carry only repo-relative paths that resolve nowhere in
-the scratch dir; capability ≠ behavior), documented in provenance and the
-paper's limitations; (b) wrap the codex judge in an OS-level sandbox
-(macOS `sandbox-exec` deny-read profile) — probe-verifiable but deprecated
-API, brittle across OS updates; (c) escalate to any newer codex flag the
-vendor ships (re-probe at pilot).
