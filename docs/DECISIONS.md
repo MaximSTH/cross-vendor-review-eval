@@ -368,6 +368,33 @@ cite the bias papers (arXiv:2603.04582, arXiv:2605.21537) — never
 **any outreach text generated from the repo** (README, talk abstracts, press
 pitches, arXiv comments).
 
+## D-023 · 2026-07-18 · Corpus ruling: recency gate, UTBoost-clause interpretation, SWE-bench-Live/MultiLang selected
+
+*(Numbering note: the supervisor designated this ruling "D-022"; that number
+was already assigned to the adoption-claims rule earlier the same day
+(commit e1bfdf3), so this entry logs as D-023 with content unchanged.)*
+
+**Why (supervisor ruling, on the OQ-9 evidence table):**
+
+**(a)** Operative recency gate ratified at **> 2026-03-01** (buffer over the
+2026-02-16 hard max, per Anthropic month-granularity).
+
+**(b)** UTBoost clause interpretation, ratified verbatim: D-010 adopted
+UTBoost's treatment stance — bundled-test passes are never certified-correct —
+**as a pipeline rule, not a feed-shipping requirement.** Feed-native filtering
+plus our §6.4 rule satisfies the pre-commitment.
+
+**(c)** Corpus selected: **(b1) SWE-bench-Live/MultiLang**, conditional on P0
+validating the RepoLaunch Docker flow. Rationale for the record: largest
+measured post-gate supply (322), freshest, external provenance per the OQ-9
+pre-committed preference; the language mix is neutralized in the headline
+comparison by the paired design (same task, all three arms) and recorded as a
+covariate. **Pre-registered fallback:** (b2) SWE-rebench, triggering only if
+P0's RepoLaunch validation fails — the exact-count re-query runs only if the
+fallback triggers.
+
+**(d)** P0's task comes from the **JS/TS slice**.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
@@ -462,7 +489,7 @@ ratification: the 0.7 sessions/week safety factor, the 50%-of-quota
 feasibility threshold, and the 30% claim-format-failure escalation trigger.
 Supervisor ratifies scope + thresholds (or amends) at pilot go/no-go.
 
-## OQ-9 · 2026-07-18 · Corpus source shortlist for pilot ratification
+## OQ-9 · 2026-07-18 · ~~Corpus source shortlist~~ — **RESOLVED by D-023** (evidence: `oq9-corpus-evidence.md`)
 
 §3/D-010 fix the corpus source at pilot. Candidates to evaluate and present
 with evidence at pilot start (recency-gate compliance vs all model cutoffs,
