@@ -358,6 +358,16 @@ format-failure counts are a reported metric. If the re-run also fails format,
 the session is recorded as **unscorable-format**, reported, never silently
 dropped.
 
+## D-022 · 2026-07-18 · Write-up honesty rule: no adoption claims without adoption data
+
+**Why (supervisor standing rule, logged for the drafting phase):** Write-up
+motivation must **never claim industry adoption without adoption data**. The
+practice is **"advocated and publicly tooled"** — cite `meta-layer-starter`,
+cite the bias papers (arXiv:2603.04582, arXiv:2605.21537) — never
+"increasingly used by teams." Applies to the abstract, the introduction, and
+**any outreach text generated from the repo** (README, talk abstracts, press
+pitches, arXiv comments).
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
