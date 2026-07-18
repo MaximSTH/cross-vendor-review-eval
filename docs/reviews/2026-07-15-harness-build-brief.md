@@ -1,7 +1,7 @@
 # Session brief — harness build review (D-014 gate)
 
 **Artifact under review:** the build-phase harness of `cross-vendor-review-eval`
-— everything under `harness/`, `canary/`, `tests/` at commit `608ec8b`.
+— everything under `harness/`, `canary/`, `tests/` at commit `ac1dd43`.
 
 **Scope claims (what this code is supposed to do):**
 

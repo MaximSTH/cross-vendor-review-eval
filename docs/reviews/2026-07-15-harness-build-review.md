@@ -1,6 +1,6 @@
 # Cross-vendor review report — harness build (D-014 gate)
 
-**Target:** `harness/`, `canary/`, `tests/` at commit `608ec8b`.
+**Target:** `harness/`, `canary/`, `tests/` at commit `ac1dd43`.
 **Protocol:** meta-layer-starter cross-vendor review — worker self-check in
 fresh context + peer vendor (Codex CLI), anchored-observations rubric, brief at
 [`2026-07-15-harness-build-brief.md`](2026-07-15-harness-build-brief.md).

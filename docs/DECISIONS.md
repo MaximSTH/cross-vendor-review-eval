@@ -372,7 +372,7 @@ pitches, arXiv comments).
 
 *(Numbering note: the supervisor designated this ruling "D-022"; that number
 was already assigned to the adoption-claims rule earlier the same day
-(commit e1bfdf3), so this entry logs as D-023 with content unchanged.)*
+(commit 1c37d36), so this entry logs as D-023 with content unchanged.)*
 
 **Why (supervisor ruling, on the OQ-9 evidence table):**
 
@@ -394,6 +394,20 @@ P0's RepoLaunch validation fails — the exact-count re-query runs only if the
 fallback triggers.
 
 **(d)** P0's task comes from the **JS/TS slice**.
+
+## D-024 · 2026-07-18 · Pre-publication history rewrite: author/committer email → GitHub noreply
+
+**Why (supervisor ruling):** Email privacy — GitHub blocked the publication
+push because commits carried the owner's private email; publication must
+precede results (design-public-before-results). **Scope:** all 17 commits at
+ruling time, plus the hash-map commit added per the ruling's ordering (18
+total rewritten). Author and committer email → the owner's GitHub noreply
+address; names, messages, content, and dates unchanged. **Hash map:**
+`docs/hash-map.md` — old→new for every rewritten commit, dry-run-predicted
+and verified identical against the real rewrite. Every commit hash cited in
+docs was updated via the map; the repo's local git config now uses the
+noreply address so all future commits are clean at birth. Secrets scan re-run
+on the rewritten history before push.
 
 ---
 
@@ -424,7 +438,7 @@ ratification, no exceptions. Reviewer compliance enforcement added as D-018.
 prompt as "two turns back" — the pointer was wrong (it was three messages
 back), so the supervisor's verification against the referenced location
 failed. The inline send itself and the D-016 logging both occurred on
-2026-07-15 (commit 608ec8b). Prompt re-sent inline 2026-07-16. Lesson logged:
+2026-07-15 (commit ac1dd43). Prompt re-sent inline 2026-07-16. Lesson logged:
 status messages cite artifacts by commit/file, not by conversational position.
 
 ## OQ-4 · 2026-07-15 · Canary 4 pass criterion under REAL judges — **RULED 2026-07-16 (supervisor)**

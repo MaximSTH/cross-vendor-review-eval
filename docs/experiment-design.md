@@ -428,7 +428,7 @@ Rules:
             the OQ-4 pass set; canary-4 trace reviewed: rotation correct
             (authoring family never fired), audits clean, unanimous Band 2
             resolution consistent with P-001. Run provenance: commit
-            `f801371`, judge stack claude (flag-hardened) / codex
+            `e1f7beb`, judge stack claude (flag-hardened) / codex
             (scratch+audit) / gemini API (resolved model gemini-3.5-flash).
             **Build gate closed as of that run. Pilot NOT authorized** —
             separate go/no-go from the supervisor (~2 weeks); until then no

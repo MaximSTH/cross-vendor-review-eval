@@ -9,7 +9,7 @@ last-updated: 2026-07-18
 # Pilot protocol — PROPOSAL (Step 2b)
 
 **Standing state:** build complete (Step 2a accepted 2026-07-18, provenance
-`f801371`); **pilot NOT authorized**. This document is a plan on paper. No
+`e1f7beb`); **pilot NOT authorized**. This document is a plan on paper. No
 reviewer sessions run, no live-repo harvesting happens, until the supervisor's
 explicit go. **Protocol review closed 2026-07-18:** scope and thresholds
 ratified with amendments as **D-021**; the OQ-9 corpus process is ratified
