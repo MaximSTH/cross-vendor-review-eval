@@ -65,10 +65,10 @@ the routing decision this benchmark prices.
 
 | | |
 |---|---|
-| **Phase** | v0.1 — scope locked 2026-07-15; prior-art gate passed (see `docs/DECISIONS.md` D-009) |
+| **Phase** | v0.1 — scope locked 2026-07-15; build complete, Step 2a accepted 2026-07-18 (real canaries 4/4); **pilot not yet authorized** |
 | **Corpus** | Recency-gated SWE-bench-style tasks (source fixed at pilot; SWE-bench Lite as-is rejected for contamination) |
 | **Vendors** | Anthropic (Claude Code) ↔ OpenAI (Codex CLI) — shipped subscription CLIs, versions logged at runtime |
-| **Next step** | Step 2a build — scoring pipeline, adjudication cards, canary suite; pilot separately gated (`docs/experiment-design.md` §9) |
+| **Next step** | Pilot protocol proposal under supervisor review (`docs/pilot-protocol.md`); pilot go/no-go is a separate supervisor decision |
 
 ## What's here
 

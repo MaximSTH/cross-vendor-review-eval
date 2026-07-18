@@ -362,6 +362,14 @@ Anthropic judge. **The two-family pool is rejected permanently** — it
 reintroduces same-family judging or collapses to a one-judge panel; struck
 from all future option lists.
 
+*Alias ruling (2026-07-18, supervisor — appended per directive):* the
+`gemini-flash-latest` switch is **ratified**, with one pre-registered
+addition: the judge is a **measurement instrument**, so if the resolved judge
+model changes mid-pilot or mid-study, that is flagged in provenance and Band 2
+judge-agreement rates are compared before/after the shift for discontinuity,
+reported in the write-up. The same principle extends to the other two judge
+stacks: **any runtime-reported judge version change triggers the same check.**
+
 *Key handling (2026-07-18, supervisor):* the key is exported as
 **`CVRE_GEMINI_JUDGE_KEY`** — deliberately not the standard `GEMINI_API_KEY`
 name, so no Google CLI or SDK auto-reads it and the reviewer arm's auth path
@@ -401,6 +409,29 @@ non-authoring" unless the design is amended, or (c) defer Google-family
 judging to a machine/account where one of the paths works.
 
 ## OQ-7 · 2026-07-16 · ~~Codex judge tools-disable~~ — **RESOLVED by D-020**
+
+## OQ-8 · 2026-07-18 · Pilot scope: single case only, or +5-task throughput batch?
+
+§9's pilot is "one case end to end," but §7's throughput/variance measures
+cannot come from n=1. The pilot-protocol proposal (`pilot-protocol.md` §2)
+adds a P1 batch of **5 tasks (~20 sessions over 3–5 days, k=2 repeat on one
+task)** after the single-case P0. Also proposed there and needing the same
+ratification: the 0.7 sessions/week safety factor, the 50%-of-quota
+feasibility threshold, and the 30% claim-format-failure escalation trigger.
+Supervisor ratifies scope + thresholds (or amends) at pilot go/no-go.
+
+## OQ-9 · 2026-07-18 · Corpus source shortlist for pilot ratification
+
+§3/D-010 fix the corpus source at pilot. Candidates to evaluate and present
+with evidence at pilot start (recency-gate compliance vs all model cutoffs,
+harvest tooling effort, hidden-test quality per UTBoost concerns):
+(a) fresh tasks harvested with SWE-bench's open methodology from
+repos passing an RQS-style screen (adapting SWE-PRBench §3.5 mitigations);
+(b) any maintained continuously-refreshed SWE-bench-style feed whose task
+dates postdate all cutoffs — to be verified live at pilot time, not assumed
+from memory; (c) fallback: own harvest per (a) restricted to Python for
+harness simplicity. Worker presents the evidence table; supervisor picks;
+choice logged as a D-entry before P0.
 
 Probes (2026-07-16, empty scratch dir, absolute-path read request): default
 `codex exec` → read succeeded; `-c 'sandbox_permissions=[]'` → read succeeded;

@@ -417,8 +417,16 @@ Rules:
       - [x] cross-vendor review of harness + scoring code — report at
             `docs/reviews/2026-07-15-harness-build-review.md`, 13 findings
             fixed, 1 deferred-with-rationale
-      - [ ] **Step 2a acceptance: pending supervisor review of the 2026-07-18
-            real run**
+      - [x] **Step 2a ACCEPTED 2026-07-18 (supervisor)** — real 4/4 against
+            the OQ-4 pass set; canary-4 trace reviewed: rotation correct
+            (authoring family never fired), audits clean, unanimous Band 2
+            resolution consistent with P-001. Run provenance: commit
+            `f801371`, judge stack claude (flag-hardened) / codex
+            (scratch+audit) / gemini API (resolved model gemini-3.5-flash).
+            **Build gate closed as of that run. Pilot NOT authorized** —
+            separate go/no-go from the supervisor (~2 weeks); until then no
+            reviewer sessions and no live-repo harvesting beyond intake-test
+            needs.
 - [ ] **Step 2b — pilot (separately gated: requires explicit supervisor
       authorization, expected ~2 weeks out).** One recency-gated task flows
       through real sessions: agent authors → hidden test sorts → three agentic
