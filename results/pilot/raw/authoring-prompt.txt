@@ -1,0 +1,32 @@
+Invalid Regular Expression with `h#`
+The following README file produces an error:
+
+```
+This readme causes an error `<p>` text  `<h1>` more text (`</p>`)
+```
+
+However, when the "h" is removed, the code runs just fine. Here is the error log:
+
+```
+/usr/local/lib/node_modules/doctoc/lib/get-html-headers.js:11
+      if (new RegExp(x.text[0]).test(line)) {
+          ^
+SyntaxError: Invalid regular expression: /` element tells the rendering program that the content inside is a form.
+
+The end tag is just like the start tag except that it has a forward slash added just after the less-than sign (`/: Unterminated group
+    at new RegExp (native)
+    at /usr/local/lib/node_modules/doctoc/lib/get-html-headers.js:11:11
+    at Array.map (native)
+    at addLinenos (/usr/local/lib/node_modules/doctoc/lib/get-html-headers.js:8:18)
+    at module.exports (/usr/local/lib/node_modules/doctoc/lib/get-html-headers.js:66:13)
+    at transform (/usr/local/lib/node_modules/doctoc/lib/transform.js:123:13)
+    at /usr/local/lib/node_modules/doctoc/doctoc.js:25:20
+    at Array.map (native)
+    at transformAndSave (/usr/local/lib/node_modules/doctoc/doctoc.js:23:6)
+    at Object.<anonymous> (/usr/local/lib/node_modules/doctoc/doctoc.js:100:3)
+```
+
+
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.

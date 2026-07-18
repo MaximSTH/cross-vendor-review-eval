@@ -1,0 +1,2409 @@
+OpenAI Codex v0.139.0
+--------
+workdir: /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019f7492-64d9-7310-8fee-b8618cfdc64d
+--------
+user
+Invalid Regular Expression with `h#`
+The following README file produces an error:
+
+```
+This readme causes an error `<p>` text  `<h1>` more text (`</p>`)
+```
+
+However, when the "h" is removed, the code runs just fine. Here is the error log:
+
+```
+/usr/local/lib/node_modules/doctoc/lib/get-html-headers.js:11
+      if (new RegExp(x.text[0]).test(line)) {
+          ^
+SyntaxError: Invalid regular expression: /` element tells the rendering program that the content inside is a form.
+
+The end tag is just like the start tag except that it has a forward slash added just after the less-than sign (`/: Unterminated group
+    at new RegExp (native)
+    at /usr/local/lib/node_modules/doctoc/lib/get-html-headers.js:11:11
+    at Array.map (native)
+    at addLinenos (/usr/local/lib/node_modules/doctoc/lib/get-html-headers.js:8:18)
+    at module.exports (/usr/local/lib/node_modules/doctoc/lib/get-html-headers.js:66:13)
+    at transform (/usr/local/lib/node_modules/doctoc/lib/transform.js:123:13)
+    at /usr/local/lib/node_modules/doctoc/doctoc.js:25:20
+    at Array.map (native)
+    at transformAndSave (/usr/local/lib/node_modules/doctoc/doctoc.js:23:6)
+    at Object.<anonymous> (/usr/local/lib/node_modules/doctoc/doctoc.js:100:3)
+```
+
+
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.
+2026-07-18T09:32:59.661443Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when AuthRequired(AuthRequiredError { www_authenticate_header: "Bearer resource_metadata=\"https://mcp.figma.com/.well-known/oauth-protected-resource\",scope=\"mcp:connect\",authorization_uri=\"https://api.figma.com/.well-known/oauth-authorization-server\"" })
+codex
+I’ll trace the HTML heading parser first, then add a focused regression test around the `h#` case before patching the smallest part of the parser that is turning plain text into a regex.
+exec
+/bin/zsh -lc "sed -n '1,220p' lib/get-html-headers.js" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+exec
+/bin/zsh -lc "sed -n '1,260p' lib/transform.js" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+"use strict";
+
+var htmlparser = require("htmlparser2"),
+  md = require("@textlint/markdown-to-ast");
+
+function addLinenos(lines, headers) {
+  var current = 0, line;
+
+  return headers.map(function (x) {
+    for (var lineno = current; lineno < lines.length; lineno++) {
+      line = lines[lineno];
+      if (new RegExp(x.text[0]).test(line)) {
+        current = lineno;
+        x.line = lineno;
+        x.name = x.text.join("");
+        return x;
+      }
+    }
+
+    // in case we didn't find a matching line, which is odd,
+    // we'll have to assume it's right on the next line
+    x.line = ++current;
+    x.name = x.text.join("");
+    return x;
+  });
+}
+
+function rankify(headers, max, min) {
+  return headers
+    .map(function (x) {
+      x.rank = parseInt(x.tag.slice(1), 10);
+      return x;
+    })
+    .filter(function (x) {
+      return x.rank <= max && x.rank >= min;
+    });
+}
+
+var go = (module.exports = function (lines, maxHeaderLevel, minHeaderLevel) {
+  var source = md
+    .parse(lines.join("\n"))
+    .children.filter(function (node) {
+      return node.type === md.Syntax.HtmlBlock || node.type === md.Syntax.Html;
+    })
+    .map(function (node) {
+      return node.raw;
+    })
+    .join("\n");
+
+  //var headers = [], grabbing = null, text = [];
+  var headers = [],
+    grabbing = [],
+    text = [];
+
+  var parser = new htmlparser.Parser(
+    {
+      onopentag: function (name, attr) {
+        // Short circuit if we're already inside a pre
+        if (grabbing[grabbing.length - 1] === "pre") return;
+
+        if (name === "pre" || /h\d/.test(name)) {
+          grabbing.push(name);
+        }
+      },
+      ontext: function (text_) {
+        // Explicitly skip pre tags, and implicitly skip all others
+        if (grabbing.length === 0 || grabbing[grabbing.length - 1] === "pre")
+          return;
+
+        text.push(text_);
+      },
+      onclosetag: function (name) {
+        if (grabbing.length === 0) return;
+        if (grabbing[grabbing.length - 1] === name) {
+          var tag = grabbing.pop();
+          headers.push({ text: text, tag: tag });
+          text = [];
+        }
+      },
+    },
+    { decodeEntities: true },
+  );
+
+  parser.write(source);
+  parser.end();
+
+  headers = addLinenos(lines, headers);
+  // consider anything past h4 to small to warrant a link, may be made configurable in the future
+  headers = rankify(headers, maxHeaderLevel, minHeaderLevel);
+  return headers;
+});
+
+ succeeded in 0ms:
+"use strict";
+
+var anchor = require("anchor-markdown-header"),
+  updateSection = require("update-section"),
+  getHtmlHeaders = require("./get-html-headers"),
+  md = require("@textlint/markdown-to-ast");
+
+var commentTypes = {
+  md: {
+    start: "<!--",
+    end: "-->",
+    escapedStart: "<!--",
+  },
+  mdx: {
+    start: "{/*",
+    end: "*/}",
+    escapedStart: "{\/\\*",
+  }
+}
+
+var { start: startMd , end: endMd } = generateComments('md')
+
+function matchesStart(syntax) {
+  var commentEscapedStart = commentTypes[syntax].escapedStart
+  return function(line){
+    return new RegExp(`${commentEscapedStart} START doctoc `).test(line);
+  }
+}
+
+function matchesEnd(syntax) {
+  var commentEscapedStart = commentTypes[syntax].escapedStart
+  return function(line){
+    return new RegExp(`${commentEscapedStart} END doctoc `).test(line);
+  }
+}
+
+function notNull(x) { return  x !== null; }
+
+function addAnchor(mode, header) {
+  header.anchor = anchor(header.name, mode, header.instance);
+  return header;
+}
+
+function isString(y) {
+  return typeof y === 'string';
+}
+
+function generateComments(syntax){
+  var commentStart = commentTypes[syntax].start
+  , commentEnd = commentTypes[syntax].end;
+
+  var start = `${commentStart} START doctoc generated TOC please keep comment here to allow auto update ${commentEnd}\n` +
+            `${commentStart} DON\'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE ${commentEnd}`
+  , end   = `${commentStart} END doctoc generated TOC please keep comment here to allow auto update ${commentEnd}`
+  , skipTag = `${commentStart} DOCTOC SKIP ${commentEnd}\n`;
+
+  exports.start = start;
+  exports.end = end;
+  return { start, end, skipTag}
+}
+
+function getMarkdownHeaders (lines, maxHeaderLevel, minHeaderLevel) {
+  function extractText (header) {
+    return header.children
+      .map(function (x) {
+        if (x.type === md.Syntax.Link) {
+          return extractText(x);
+        }
+        else if (x.type === md.Syntax.Image) {
+          // Images (at least on GitHub, untested elsewhere) are given a hyphen
+          // in the slug. We can achieve this behavior by adding an '*' to the
+          // TOC entry. Think of it as a "magic char" that represents the image.
+          return '*';
+        }
+        else {
+          return x.raw;
+        }
+      })
+      .join("");
+  }
+
+  return md
+    .parse(lines.join("\n"))
+    .children.filter(function (x) {
+      return x.type === md.Syntax.Header;
+    })
+    .map(function (x) {
+      return x.depth >= minHeaderLevel && (!maxHeaderLevel || x.depth <= maxHeaderLevel)
+        ? { rank :  x.depth
+          , name :  extractText(x)
+          , line :  x.loc.start.line
+          }
+        : null;
+    })
+    .filter(notNull);
+}
+
+function countHeaders(headers, mode) {
+  var instances = {};
+
+  for (var i = 0; i < headers.length; i++) {
+    var header = headers[i];
+    var name = anchor(header.name, mode).split('#')[1].slice(0, -1);
+
+    if (Object.prototype.hasOwnProperty.call(instances, name)) {
+      // `instances.hasOwnProperty(name)` fails when there’s an instance named "hasOwnProperty".
+      instances[name]++;
+    } else {
+      instances[name] = 0;
+    }
+
+    header.instance = instances[name];
+    header.tag = name;
+  }
+
+  return headers;
+}
+
+function getLinesToToc(lines, currentToc, info, processAll) {
+  if (processAll || !currentToc) return lines;
+
+  var tocableStart = 0;
+
+  // when updating an existing toc, we only take the headers into account
+  // that are below the existing toc
+  if (info.hasEnd) tocableStart = info.endIdx + 1;
+
+  return lines.slice(tocableStart);
+}
+
+// Use document context as well as command line args to infer the title
+function determineTitle(title, notitle, lines, info) {
+  var defaultTitle = '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*';
+
+  if (notitle) return "";
+  if (title) return title;
+  return info.hasStart ? lines[info.startIdx + 2] : defaultTitle;
+}
+
+exports = module.exports = function transform(content, mode, maxHeaderLevel, minHeaderLevel, minTocItems, title, notitle, entryPrefix, processAll, updateOnly, syntax, padTitle) {
+  syntax = syntax || "md"
+  var { skipTag, start, end } = generateComments(syntax)
+  var matchesStartBySyntax = matchesStart(syntax)
+  var matchesEndBySyntax = matchesEnd(syntax)
+  var index = content.indexOf(skipTag);
+  if (index === 0 || (index >= 0 && content[index-1] === '\n')) return { transformed: false };
+
+  mode = mode || "github.com";
+  entryPrefix = entryPrefix || "-";
+  minHeaderLevel = minHeaderLevel || 1;
+
+  if (isNaN(minTocItems) || minTocItems < 1){
+    minTocItems = 1;
+  }
+
+  if (padTitle === undefined){
+    padTitle = notitle || false;
+  }
+
+  // only limit *HTML* headings by default
+  var maxHeaderLevelHtml = maxHeaderLevel || 4;
+
+  var lines = content.split('\n')
+    , info = updateSection.parse(lines, matchesStartBySyntax, matchesEndBySyntax)
+
+  if (!info.hasStart && updateOnly) {
+    return { transformed: false };
+  }
+
+  var inferredTitle = determineTitle(title, notitle, lines, info);
+
+  var titleSeparator = inferredTitle ? '\n\n' : '\n';
+  var titlePadding = padTitle && inferredTitle ? '\n' : '';
+
+  var currentToc = info.hasStart && lines.slice(info.startIdx, info.endIdx + 1).join('\n')
+    , linesToToc = getLinesToToc(lines, currentToc, info, processAll);
+
+  var headers = getMarkdownHeaders(linesToToc, maxHeaderLevel, minHeaderLevel)
+    .concat(getHtmlHeaders(linesToToc, maxHeaderLevelHtml, minHeaderLevel))
+
+  headers.sort(function (a, b) {
+    return a.line - b.line;
+  });
+
+  var allHeaders = countHeaders(headers, mode),
+    lowestRank = allHeaders.reduce((min, h) => Math.min(min, h.rank), Infinity),
+    linkedHeaders = allHeaders.map(h => addAnchor(mode, h));
+
+  // 4 spaces required for proper indention on Bitbucket and GitLab
+  var indentation = (mode === 'bitbucket.org' || mode === 'gitlab.com') ? '    ' : '  ';
+
+  var toc = '';
+  var wrappedToc;
+
+  if (linkedHeaders.length >= minTocItems) {
+    toc = 
+      titlePadding
+    + inferredTitle
+    + titleSeparator
+    + linkedHeaders
+        .map(function (x) {
+          return indentation.repeat(x.rank - lowestRank) + entryPrefix + ' ' + x.anchor;
+        })
+        .join('\n')
+    + '\n';
+    wrappedToc = start + '\n' + toc + '\n' + end;
+  }
+  else {
+    wrappedToc =  start + '\n' + end;
+  }
+
+  var data;
+  if (currentToc != wrappedToc){
+    data = updateSection(lines.join('\n'), wrappedToc, matchesStartBySyntax, matchesEndBySyntax, true);
+  }
+  return { transformed : currentToc != wrappedToc, data : data, toc: toc, wrappedToc: wrappedToc };
+};
+
+exports.start = startMd;
+exports.end = endMd;
+
+exec
+/bin/zsh -lc 'git status --short' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+exec
+/bin/zsh -lc 'rg -n "get-html-headers|html" test lib README.md' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+lib/transform.js:5:  getHtmlHeaders = require("./get-html-headers"),
+test/transform.js:379:      '<html><head></head><body>'
+test/transform.js:380:    , '<h1>H1html</h1><h2>H2html</h2><h3>H3html</h3>'
+test/transform.js:381:    , '</body></html>'
+test/transform.js:385:    , '- [H1html](#h1html)\n'
+test/transform.js:386:    , '  - [H2html](#h2html)\n\n\n'
+lib/get-html-headers.js:3:var htmlparser = require("htmlparser2"),
+lib/get-html-headers.js:55:  var parser = new htmlparser.Parser(
+test/transform-html.js:7:test('\ngiven a file that includes html with header tags and maxHeaderLevel 8', function (t) {
+test/transform-html.js:8:  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-html.md', 'utf8');
+test/transform-html.js:26:    , 'generates correct toc for non html and html headers'
+test/transform-html.js:32:test('\ngiven a file that includes html with header tags using default maxHeaderLevel', function (t) {
+test/transform-html.js:33:  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-html.md', 'utf8');
+test/transform-html.js:47:    , 'generates correct toc for non html and html headers omitting headers larger than maxHeaderLevel'
+test/fixtures/readme-with-special-characters.md:61:## Instance properties inherited from [`EventEmitter`](http://nodejs.org/api/events.html)
+
+codex
+The failure is coming from `addLinenos`: it uses the first text chunk from an HTML heading as a raw `RegExp`. Any heading text containing regex metacharacters, like `(` from a copied HTML spec sentence, can throw before TOC generation finishes.
+exec
+/bin/zsh -lc "sed -n '1,180p' test/fixtures/readme-with-html.md" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+exec
+/bin/zsh -lc "sed -n '1,220p' test/transform-html.js" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+exec
+/bin/zsh -lc "sed -n '340,410p' test/transform.js" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+  , undefined
+  , 3
+)
+
+check(
+    [
+      'H1u'
+    , '==='
+    , 'H2u'
+    , '---'
+    , ''
+    , 'Max. level test - underlined'
+    ].join('\n')
+  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+    , '- [H1u](#h1u)\n\n\n'
+    ].join('')
+  , undefined
+  , 1
+)
+
+check(
+    [
+      'H1u'
+    , '==='
+    , 'H2u'
+    , '---'
+    , ''
+    , 'Min. & Max. level both 1 test - underlined'
+    ].join('\n')
+  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+    , '- [H1u](#h1u)\n\n\n'
+    ].join('')
+  , undefined
+  , 1
+  , 1
+)
+
+check(
+    [
+      '<html><head></head><body>'
+    , '<h1>H1html</h1><h2>H2html</h2><h3>H3html</h3>'
+    , '</body></html>'
+    , 'Max. level test - HTML'
+    ].join('\n')
+  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+    , '- [H1html](#h1html)\n'
+    , '  - [H2html](#h2html)\n\n\n'
+    ].join('')
+  , undefined
+  , 2
+)
+
+
+test('transforming when old toc exists', function (t) {
+  var md = [
+      '# Header above'
+    , ''
+    , 'The above header should be ignored since it is above the existing toc'
+    , ''
+    , '<!-- START doctoc generated TOC please keep comment here to allow auto update -->'
+    , '<!-- DON\'T EDIT THIS SECTION INSTEAD RE-RUN doctoc TO UPDATE -->'
+    , '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*'
+    , ''
+    , '- [OldHeader](#oldheader)'
+    , ''
+    , '<!-- END doctoc generated TOC please keep comment here to allow auto update -->'
+    , '## Header'
+    , 'some content'
+    , ''
+    ].join('\n')
+
+
+ succeeded in 0ms:
+'use strict';
+/*jshint asi: true */
+
+var test = require('tap').test
+  , transform = require('../lib/transform')
+
+test('\ngiven a file that includes html with header tags and maxHeaderLevel 8', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-html.md', 'utf8');
+  var headers = transform(content, 'github.com', 8);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+        '',
+        '- [Installation](#installation)',
+        '- [API](#api)',
+        '    - [dockops::Containers(docker) → {Object}](#dockopscontainersdocker-%E2%86%92-object)',
+        '      - [Parameters:](#parameters)',
+        '      - [Returns:](#returns)',
+        '    - [dockops::Containers::activePorts(cb)](#dockopscontainersactiveportscb)',
+        '      - [Parameters:](#parameters-1)',
+        '    - [dockops::Containers::clean(id, cb)](#dockopscontainerscleanid-cb)',
+        '      - [Parameters:](#parameters-2)',
+        '- [License](#license)',
+        '' ]
+    , 'generates correct toc for non html and html headers'
+  )
+
+  t.end()
+})
+
+test('\ngiven a file that includes html with header tags using default maxHeaderLevel', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-html.md', 'utf8');
+  var headers = transform(content);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+        '',
+        '- [Installation](#installation)',
+        '- [API](#api)',
+        '    - [dockops::Containers(docker) → {Object}](#dockopscontainersdocker-%E2%86%92-object)',
+        '    - [dockops::Containers::activePorts(cb)](#dockopscontainersactiveportscb)',
+        '    - [dockops::Containers::clean(id, cb)](#dockopscontainerscleanid-cb)',
+        '- [License](#license)',
+        '' ]
+    , 'generates correct toc for non html and html headers omitting headers larger than maxHeaderLevel'
+  )
+  t.end()
+})
+
+test('\ngiven a file with headers embedded in code', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+  var headers = transform(content);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '## Table of Contents',
+        '',
+        '- [Single Backticks](#single-backticks)',
+        '- [Multiple Backticks](#multiple-backticks)',
+        '- [code tag](#code-tag)',
+        '- [pre tag](#pre-tag)',
+        '' ]
+    , 'generates a correct toc when headers are embedded in code blocks'
+  )
+
+  t.end()
+})
+
+test('\ngiven a file with benign backticks', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-benign-backticks.md', 'utf8');
+  var headers = transform(content);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+        '',
+        '- [Hello, world!](#hello-world)',
+        '- [Add this header](#add-this-header)',
+        '- [And also this one](#and-also-this-one)',
+        '' ]
+    , 'generates a correct toc when readme has benign backticks'
+  )
+
+  t.end()
+})
+
+ succeeded in 0ms:
+# dockops [![build status](https://secure.travis-ci.org/thlorenz/dockops.png)](http://travis-ci.org/thlorenz/dockops)
+
+docker convenience functions on top of dockerode
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Installation](#installation)
+- [API](#api)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+```js
+var dockops = require('dockops')
+var docker = dockops.createDocker({ dockerhost: dockerhost });
+
+var images = new dockops.Images(docker);
+dockops.logEvents(images, 'verbose');
+
+var containers = new dockops.Containers(docker);
+dockops.logEvents(containers, 'verbose');
+
+build('test:uno', testUnoTar, function () {
+  build('toast:uno', toastUnoTar, function () {
+
+    containers.run(.. // run test:uno and toast:uno containers
+
+    containers.listRunning(function (err, res) {
+      inspect(res);
+      containers.stopRemoveGroup('test', function (err, res) {
+        containers.listRunning(function (err, res) {
+          inspect(res);
+          http.request({ port: 49222 }, function (res) {
+            console.log('--------------------------')
+            inspect({ status: res.statusCode, headers: res.headers })
+            res.pipe(process.stdout)
+          }).end()
+        }) 
+      })
+    })
+  })
+})
+```
+
+[full example](https://github.com/thlorenz/dockops/blob/master/example/create-wipe.js)
+
+![output](https://github.com/thlorenz/dockops/raw/master/assets/output.gif)
+
+## Installation
+
+    npm install dockops
+
+## API
+
+<!-- START docme generated API please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
+
+<div>
+<div class="jsdoc-githubify">
+<section>
+<article>
+<div class="container-overview">
+<dl class="details">
+</dl>
+</div>
+<dl>
+<dt>
+<h4 class="name" id="dockops::Containers"><span class="type-signature"></span>dockops::Containers<span class="signature">(docker)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Creates a new containers instance that will use the given docker instance to communicate with docker.</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>docker</code></td>
+<td class="type">
+<span class="param-type">Object</span>
+</td>
+<td class="description last"><p>dockerode instance to communicate with docker</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/thlorenz/dockops/blob/master/containers.js">containers.js</a>
+<span>, </span>
+<a href="https://github.com/thlorenz/dockops/blob/master/containers.js#L24">lineno 24</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>initialized containers</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Object</span>
+</dd>
+</dl>
+</dd>
+<dt>
+<h4 class="name" id="dockops::Containers::activePorts"><span class="type-signature"></span>dockops::Containers::activePorts<span class="signature">(cb)</span><span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Lists all running containers by the ports they expose.</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>cb</code></td>
+<td class="type">
+<span class="param-type">function</span>
+</td>
+<td class="description last"><p>called back with list of containers hashed by their port number</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/thlorenz/dockops/blob/master/containers.js">containers.js</a>
+<span>, </span>
+<a href="https://github.com/thlorenz/dockops/blob/master/containers.js#L275">lineno 275</a>
+</li>
+</ul></dd>
+</dl>
+</dd>
+<dt>
+<h4 class="name" id="dockops::Containers::clean"><span class="type-signature"></span>dockops::Containers::clean<span class="signature">(id, cb)</span><span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Stops and/or kills and then removes a container.</p>
+<p>Heavy machinery clean operation.
+It was useful when running on arch with docker not always working as promised.
+This may not be needed anymore as docker got more stable.</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>id</code></td>
+<td class="type">
+<span class="param-type">string</span>
+</td>
+<td class="description last"><p>container id</p></td>
+
+exec
+/bin/zsh -lc 'cat package.json' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+{
+  "author": "Thorsten Lorenz <thlorenz@gmx.de> (thlorenz.com)",
+  "name": "doctoc",
+  "description": "Generates TOC for markdown files of local git repo.",
+  "version": "0.0.0-development",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thlorenz/doctoc.git"
+  },
+  "scripts": {
+    "test": "tap",
+    "doctoc": "node doctoc.js README.md --update-only"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "doctoc.js",
+  "bin": "doctoc.js",
+  "dependencies": {
+    "@textlint/markdown-to-ast": "^12.1.1",
+    "anchor-markdown-header": "^0.8.2",
+    "htmlparser2": "^7.2.0",
+    "loglevel": "^1.9.2",
+    "minimist": "^1.2.6",
+    "update-section": "^0.3.3"
+  },
+  "devDependencies": {
+    "tap": "^21.5.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "github",
+    "markdown",
+    "documentation",
+    "readme",
+    "parser",
+    "bitbucket",
+    "gitlab",
+    "ghost"
+  ]
+}
+
+codex
+I’m checking the existing HTML tests because the line-number lookup has to keep working when parsed text is decoded differently from the raw markdown line. The likely fix is literal matching rather than adding dependency or widening the parser.
+exec
+/bin/zsh -lc 'rg -n "escape|RegExp|indexOf|includes" lib test' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+lib/transform.js:12:    escapedStart: "<!--",
+lib/transform.js:17:    escapedStart: "{\/\\*",
+lib/transform.js:24:  var commentEscapedStart = commentTypes[syntax].escapedStart
+lib/transform.js:26:    return new RegExp(`${commentEscapedStart} START doctoc `).test(line);
+lib/transform.js:31:  var commentEscapedStart = commentTypes[syntax].escapedStart
+lib/transform.js:33:    return new RegExp(`${commentEscapedStart} END doctoc `).test(line);
+lib/transform.js:145:  var index = content.indexOf(skipTag);
+test/transform.js:777:    , 'generates a correct toc when readme includes duplicate headings with different symbols'
+lib/file.js:14:      x.isDirectory() && !ignoredDirs.includes(x.name)
+lib/file.js:17:      x.isFile() && (extensions[syntax] || []).includes(path.extname(x.name))
+lib/get-html-headers.js:12:      if (new RegExp(x.text[0]).test(line)) {
+test/transform-html.js:7:test('\ngiven a file that includes html with header tags and maxHeaderLevel 8', function (t) {
+test/transform-html.js:32:test('\ngiven a file that includes html with header tags using default maxHeaderLevel', function (t) {
+test/transform-weird-headers.js:78:    , 'generates a correct toc when readme includes formatting in the heading title'
+
+exec
+/bin/zsh -lc "node - <<'NODE'
+'use strict';
+var getHtmlHeaders = require('./lib/get-html-headers');
+var fs = require('fs');
+var content = fs.readFileSync('test/fixtures/readme-with-html.md', 'utf8');
+console.log(getHtmlHeaders(content.split('\\n'), 8, 1).map(function (h) { return { line: h.line, name: h.name, tag: h.tag, rank: h.rank }; }));
+NODE" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+[
+  {
+    line: 69,
+    name: 'dockops::Containers(docker) → {Object}',
+    tag: 'h4',
+    rank: 4
+  },
+  { line: 75, name: 'Parameters:', tag: 'h5', rank: 5 },
+  { line: 104, name: 'Returns:', tag: 'h5', rank: 5 },
+  {
+    line: 118,
+    name: 'dockops::Containers::activePorts(cb)',
+    tag: 'h4',
+    rank: 4
+  },
+  { line: 124, name: 'Parameters:', tag: 'h5', rank: 5 },
+  {
+    line: 155,
+    name: 'dockops::Containers::clean(id, cb)',
+    tag: 'h4',
+    rank: 4
+  },
+  { line: 164, name: 'Parameters:', tag: 'h5', rank: 5 }
+]
+
+exec
+/bin/zsh -lc "node - <<'NODE'
+'use strict';
+var transform = require('./lib/transform');
+var content = 'This readme causes an error "'`<p>` text  `<h1>` more text (`</p>`)'"' + '\\n';
+try {
+  console.log(transform(content).toc);
+} catch (err) {
+  console.error(err.stack);
+  process.exitCode = 1;
+}
+NODE" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+codex
+The minimal one-line snippet by itself does not reproduce in this checkout, which means the reported crash depends on how the markdown parser groups nearby HTML/code text. I’m going to isolate the underlying unsafe operation directly and cover it through the HTML transform path so the regression remains meaningful.
+exec
+/bin/zsh -lc "sed -n '1,140p' test/transform-weird-headers.js" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+'use strict';
+/*jshint asi: true */
+
+var test = require('tap').test
+  , transform = require('../lib/transform');
+
+test('\ngiven a file with edge-case header names', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-weird-headers.md', 'utf8');
+  var headers = transform(content);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '## Table of Contents',
+        '',
+        '- [hasOwnProperty](#hasownproperty)',
+        '- [something else](#something-else)',
+        '' ]
+    , 'generates a correct toc when headers are weird'
+  )
+
+  t.end()
+})
+
+test('\nnameless table headers', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-nameless-table-headers.md', 'utf8');
+  var headers = transform(content);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+        '',
+        '- [Heading One](#heading-one)',
+        '  - [Subheading 2](#subheading-2)',
+        '' ]
+    , 'generates a correct toc when readme has nameless table headers'
+  )
+
+  t.end()
+})
+
+test('\nemoji-first header names', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-emoji-headers.md', 'utf8');
+  var headers = transform(content);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '',
+        '- [🔴 or 🟡 - At Risk](#-or----at-risk)',
+        '- [🔄 Still Need Updates](#-still-need-updates)',
+        '  - [⏱ Past-Due Items](#-past-due-items)',
+        '- [➡ ETA Changes This Week](#-eta-changes-this-week)',
+        '- [🚀 Shipped this week](#-shipped-this-week)',
+        '- [🛠 Availability repair items](#-availability-repair-items)',
+        '- [🎟 Support Tickets](#-support-tickets)',
+        '- [🔬 Team-by-team Breakdown: Hello](#-team-by-team-breakdown-hello)',
+        '' ]
+    , 'generates a correct toc when readme has emojis as the first character for headings'
+  )
+
+  t.end()
+})
+
+
+test('\nformatted headers', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-formatted-headers.md', 'utf8');
+  var headers = transform(content);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '',
+        '- [foo _bar_](#foo-bar)',
+        '- [foo **baz**](#foo-baz)',
+        '- [foo ~baf~](#foo-baf)',
+        '- [bar_foo](#bar_foo)',
+        '- [baz_foo_](#baz_foo_)',
+        '- [_foo_bax_](#foo_bax)',
+        '' ]
+    , 'generates a correct toc when readme includes formatting in the heading title'
+  )
+
+  t.end()
+})
+
+test('\nrandom md characters', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-special-characters.md', 'utf8');
+  var headers = transform(content);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+        '',
+        '- [Title with backslash `\\`](#title-with-backslash-)',
+        '- [4 § Toimielimet](#4--toimielimet)',
+        '- [Урок 8. Кроссплатформенность и виртуализация](#%D1%83%D1%80%D0%BE%D0%BA-8-%D0%BA%D1%80%D0%BE%D1%81%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D1%8C-%D0%B8-%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F)',
+        '- [Interface: SOME\\_NAME<\\>](#interface-some_name)',
+        '- [Version 1.10.5](#version-1105)',
+        '- [Version 1.10.6](#version-1106)',
+        '- [`TEXT 1`](#text-1)',
+        '- [`TEXT 2 ...`](#text-2-)',
+        '- [MikroTik hAP ac²](#mikrotik-hap-ac)',
+        '- [acclk dac %d:[0,acclk_dac_max):dac](#acclk-dac-d0acclk_dac_maxdac)',
+        '- [Övningsuppgifter](#%C3%B6vningsuppgifter)',
+        '- [Sections](#sections)',
+        '- [Тест](#%D1%82%D0%B5%D1%81%D1%82)',
+        '- [There\'s an error here](#theres-an-error-here)',
+        '- [Replace .gitlab-ci.yml](#replace-gitlab-ciyml)',
+        '- [`this identifier`](#this-identifier)',
+        '- [Header & noise](#header--noise)',
+        '- [CJK。](#cjk)',
+        '- [¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿Latin 1](#%C2%AA%C2%B5%C2%BAlatin-1)', //#ªµºLatin 1
+        '- [Instance properties inherited from `EventEmitter`](#instance-properties-inherited-from-eventemitter)',
+        '' ]
+    , 'generates a correct toc when readme has special characters in table headers'
+  )
+
+  t.end()
+})
+
+exec
+/bin/zsh -lc "node - <<'NODE'
+'use strict';
+var md = require('@textlint/markdown-to-ast');
+var content = [
+  '<p>"'` element tells the rendering program that the content inside is a form.'"',
+  '',
+  'The end tag is just like the start tag except that it has a forward slash added just after the less-than sign ("'`</p>`)'"',
+  '',
+  '<h1>Heading</h1>'
+].join('\\n');
+var source = md.parse(content).children.filter(function (node) {
+  return node.type === md.Syntax.HtmlBlock || node.type === md.Syntax.Html;
+}).map(function (node) { return node.raw; }).join('\\n');
+console.log(JSON.stringify(source));
+NODE" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+exec
+/bin/zsh -lc "node - <<'NODE'
+'use strict';
+var md = require('@textlint/markdown-to-ast');
+var content = 'This readme causes an error "'`<p>` text  `<h1>` more text (`</p>`)'"\\n';
+console.log(JSON.stringify(md.parse(content).children, null, 2));
+NODE" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+[
+  {
+    "type": "Paragraph",
+    "children": [
+      {
+        "type": "Str",
+        "value": "This readme causes an error ",
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "range": [
+          0,
+          28
+        ],
+        "raw": "This readme causes an error "
+      },
+      {
+        "type": "Code",
+        "value": "<p>",
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 28
+          },
+          "end": {
+            "line": 1,
+            "column": 33
+          }
+        },
+        "range": [
+          28,
+          33
+        ],
+        "raw": "`<p>`"
+      },
+      {
+        "type": "Str",
+        "value": " text  ",
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 33
+          },
+          "end": {
+            "line": 1,
+            "column": 40
+          }
+        },
+        "range": [
+          33,
+          40
+        ],
+        "raw": " text  "
+      },
+      {
+        "type": "Code",
+        "value": "<h1>",
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 40
+          },
+          "end": {
+            "line": 1,
+            "column": 46
+          }
+        },
+        "range": [
+          40,
+          46
+        ],
+        "raw": "`<h1>`"
+      },
+      {
+        "type": "Str",
+        "value": " more text (",
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 46
+          },
+          "end": {
+            "line": 1,
+            "column": 58
+          }
+        },
+        "range": [
+          46,
+          58
+        ],
+        "raw": " more text ("
+      },
+      {
+        "type": "Code",
+        "value": "</p>",
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 58
+          },
+          "end": {
+            "line": 1,
+            "column": 64
+          }
+        },
+        "range": [
+          58,
+          64
+        ],
+        "raw": "`</p>`"
+      },
+      {
+        "type": "Str",
+        "value": ")",
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 64
+          },
+          "end": {
+            "line": 1,
+            "column": 65
+          }
+        },
+        "range": [
+          64,
+          65
+        ],
+        "raw": ")"
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 65
+      }
+    },
+    "range": [
+      0,
+      65
+    ],
+    "raw": "This readme causes an error `<p>` text  `<h1>` more text (`</p>`)"
+  }
+]
+
+ succeeded in 0ms:
+"<p>` element tells the rendering program that the content inside is a form.\n<h1>Heading</h1>"
+
+codex
+There are two separate concerns here: avoiding the crash, and avoiding a broader rewrite of how doctoc discovers HTML headings. I’m keeping this scoped to the crash by making the existing text lookup treat heading text as literal text, then adding a regression that would have thrown on today’s code.
+exec
+/bin/zsh -lc "sed -n '1,220p' test/fixtures/readme-with-code.md" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+README to test doctoc with edge-case headers.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Single Backticks](#single-backticks)
+- [Multiple Backticks](#multiple-backticks)
+- [code tag](#code-tag)
+- [pre tag](#pre-tag)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+## Single Backticks
+`<h2>not me single backticks</h2>`
+`## nor me single backticks`
+
+## Multiple Backticks
+```
+<h2>not me fenced</h2>
+## nor me fenced
+not even me fenced
+------------------
+```
+
+## code tag
+<code><h2>not me code</h2></code>
+<code>## nor me code</code>
+
+## pre tag
+<pre>
+    <h2>not me pre</h2>
+    ## nor me pre
+    not even me pre
+    -------
+</pre>
+
+exec
+/bin/zsh -lc "node - <<'NODE'
+'use strict';
+var md = require('@textlint/markdown-to-ast');
+var samples = [
+  '<h1>(Broken</h1>',
+  '<h1>more text ("'`</p>`)</h1>'"',
+  '<h1>"'` element tells the rendering program that the content inside is a form.'"\\n\\nThe end tag is just like the start tag except that it has a forward slash added just after the less-than sign ("'`</h1>'"'
+];
+samples.forEach(function (content) {
+  var source = md.parse(content).children.filter(function (node) {
+    return node.type === md.Syntax.HtmlBlock || node.type === md.Syntax.Html;
+  }).map(function (node) { return node.raw; }).join('\\n');
+  console.log('---');
+  console.log(JSON.stringify(source));
+});
+NODE" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+---
+"<h1>(Broken</h1>"
+---
+"<h1>more text (`</p>`)</h1>"
+---
+"<h1>` element tells the rendering program that the content inside is a form."
+
+exec
+/bin/zsh -lc "node - <<'NODE'
+'use strict';
+var transform = require('./lib/transform');
+var samples = [
+  '<h1>(Broken</h1>',
+  '<h1>more text ("'`</p>`)</h1>'"'
+];
+samples.forEach(function (content) {
+  try {
+    console.log(transform(content).toc);
+  } catch (err) {
+    console.error('THREW', err.message);
+  }
+});
+NODE" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+THREW Invalid regular expression: /(Broken/: Unterminated group
+THREW Invalid regular expression: /more text (`/: Unterminated group
+
+codex
+I found a short failing case through the same public transform path: `<h1>more text (\`</p>\`)</h1>` currently throws `Invalid regular expression`. I’m going to add that as the regression because it exercises the exact unsafe character sequence without depending on a markdown parser quirk.
+exec
+/bin/zsh -lc 'rg -n "throws|doesNotThrow|error" test/*.js' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+test/transform-stdout.js:10:    exec('node doctoc.js test/fixtures/readme-with-custom-title.md --stdout --loglevel=trace', function (error, stdout, stderr) {
+test/transform-stdout.js:11:      if (error) {
+test/transform-stdout.js:12:        console.error('exec error: ', error);
+test/transform-stdout.js:25:    exec('node doctoc.js test/fixtures/readme-with-custom-title.md -s --loglevel=trace', function (error, stdout, stderr) {
+test/transform-stdout.js:26:      if (error) {
+test/transform-stdout.js:27:        console.error('exec error: ', error);
+test/transform-stdout.js:40:    exec('node doctoc.js test/fixtures/readme-with-custom-title.md --stdout', function (error, stdout, stderr) {
+test/transform-stdout.js:41:      if (error) {
+test/transform-stdout.js:42:        console.error('exec error: ', error);
+test/transform-stdout.js:53:test('\nshould exit with error code as --stdout option is not supported on a directory', function (t) {
+test/transform-stdout.js:55:    exec('node doctoc.js test/fixtures/invalid_stdout --stdout', function (error, stdout, stderr) {
+test/transform-stdout.js:56:      if (error) {
+test/transform-stdout.js:57:        t.same(error.code, 2, 'process exited with error code 2 as expected');
+test/transform-stdout.js:60:        t.fail('process did not produce an error: ' + error);
+test/transform-stdout.js:66:test('\nshould exit with error code as --stdout option is not supported on multiple files', function (t) {
+test/transform-stdout.js:68:    exec('node doctoc.js test/fixtures/first.md text/fixtures/second.md --stdout', function (error, stdout, stderr) {
+test/transform-stdout.js:69:      if (error) {
+test/transform-stdout.js:70:        t.same(error.code, 2, 'process exited with error code 2 as expected');
+test/transform-stdout.js:73:        t.fail('process did not produce an error: ' + error);
+test/transform-weird-headers.js:105:        '- [There\'s an error here](#theres-an-error-here)',
+test/transform-dryrun.js:8:test('\nshould exit with a error code due to --dryrun option', function (t) {
+test/transform-dryrun.js:10:    exec('node doctoc.js test/fixtures/readme-with-out_of_date_toc.md --dryrun', function (error, stdout, stderr) {
+test/transform-dryrun.js:11:      if (error) {
+test/transform-dryrun.js:12:        t.same(error.code, 1, 'process exited with error code 1 as expected');
+test/transform-dryrun.js:13:        t.end('process did have an error');
+test/transform-dryrun.js:15:        t.fail('process did not produce an error: ' + error);
+test/transform-dryrun.js:21:test('\nshould exit with an error code due to invalid option', function (t) {
+test/transform-dryrun.js:23:    exec('node doctoc.js test/fixtures/readme-syntax.md --dryrun --random', function (error, stdout, stderr) {
+test/transform-dryrun.js:24:      if (error) {
+test/transform-dryrun.js:25:        t.same(error.code, 2, 'process exited with error code 2 as expected');
+test/transform-dryrun.js:28:        t.fail('process did not produce an error: ' + error);
+test/transform-dryrun.js:34:test('\nshould exit with an error code due to invalid syntax', function (t) {
+test/transform-dryrun.js:36:    exec('node doctoc.js test/fixtures/readme-syntax.md --dryrun --syntax github', function (error, stdout, stderr) {
+test/transform-dryrun.js:37:      if (error) {
+test/transform-dryrun.js:38:        t.same(error.code, 2, 'process exited with error code 2 as expected');
+test/transform-dryrun.js:41:        t.fail('process did not produce an error: ' + error);
+test/transform-dryrun.js:47:test('\nhelp should not produce an error code', function (t) {
+test/transform-dryrun.js:49:    exec('node doctoc.js test/fixtures/readme-syntax.md --dryrun --help', function (error, stdout, stderr) {
+test/transform-dryrun.js:50:      if (error) {
+test/transform-dryrun.js:51:        t.fail('help process produced an error: ' + error);
+test/transform-dryrun.js:59:test('\nshould exit with no error code with --dryrun, --github and --update-only options', function (t) {
+test/transform-dryrun.js:61:    exec('node doctoc.js test/fixtures/readme-with-custom-title.md --dryrun --github --update-only', function (error, stdout, stderr) {
+test/transform-dryrun.js:62:      if (error) {
+test/transform-dryrun.js:63:        t.fail('process produced an unexpected error: ' + error);
+test/transform-dryrun.js:66:        t.end('process did not have an error');
+test/transform-dryrun.js:71:test('\nshould exit no error code when not using --dryrun and using --all for out of date toc', function (t) {
+test/transform-dryrun.js:73:    exec('node doctoc.js test/fixtures/readme-with-out_of_date_toc.md --stdout --all', function (error, stdout, stderr) {
+test/transform-dryrun.js:74:      if (error) {
+test/transform-dryrun.js:75:        t.fail('process produced an unexpected error: ' + error);
+test/transform-dryrun.js:78:        t.end('process did not have an error');
+test/transform-dryrun.js:83:test('\nshould exit with no error code', function (t) {
+test/transform-dryrun.js:85:    exec('node doctoc.js test/fixtures/readme-with-custom-title.md', function (error, stdout, stderr) {
+test/transform-dryrun.js:86:      if (error) {
+test/transform-dryrun.js:87:        t.fail('process produced an unexpected error: ' + error);
+test/transform-dryrun.js:90:        t.end('process did not have an error');
+
+codex
+Before editing, I’m checking the expected anchor string from the existing `anchor-markdown-header` dependency so the test asserts the user-visible behavior, not just “no throw.”
+exec
+/bin/zsh -lc "node - <<'NODE'
+'use strict';
+var anchor = require('anchor-markdown-header');
+console.log(anchor('more text ("'`</p>`)'"', 'github.com', 0));
+NODE" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+[more text (`</p>`)](#more-text-p)
+
+codex
+I’m editing only the literal match in `lib/get-html-headers.js` and adding one Tap case in the existing HTML transform test file. No README change is needed because this is a bug fix, not a CLI behavior or flag change.
+apply patch
+patch: completed
+/private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc/lib/get-html-headers.js
+/private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc/test/transform-html.js
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..a1e501e7ededa2e3eb73efa08bd1b3db15bffdc1
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>more text (`</p>`)</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [more text (`</p>`)](#more-text-p)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..a1e501e7ededa2e3eb73efa08bd1b3db15bffdc1
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>more text (`</p>`)</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [more text (`</p>`)](#more-text-p)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+codex
+The patch replaces the unsafe regex with a literal line lookup. I’m running the focused HTML transform tests first, then I’ll run the full npm suite if that passes.
+exec
+/bin/zsh -lc 'node test/transform-html.js' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ exited 1 in 196ms:
+TAP version 14
+given a file that includes html with header tags and maxHeaderLevel 8
+# Subtest: 
+    ok 1 - generates correct toc for non html and html headers
+    1..1
+ok 1 - given a file that includes html with header tags and maxHeaderLevel 8 # time=16.764ms
+
+given a file that includes html with header tags using default maxHeaderLevel
+# Subtest: 
+    ok 1 - generates correct toc for non html and html headers omitting headers larger than maxHeaderLevel
+    1..1
+ok 2 - given a file that includes html with header tags using default maxHeaderLevel # time=9.089ms
+
+given an html header that includes regexp characters
+# Subtest: 
+    not ok 1 - generates a correct toc when html headers include regexp characters
+      ---
+      diff: >
+        --- expected
+      
+        +++ actual
+      
+        @@ -1,6 +1,6 @@
+         Array [
+           "**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*",
+           "",
+        -  "- [more text (`</p>`)](#more-text-p)",
+      
+        +  "- [more text (``)](#more-text-)",
+           "",
+         ]
+      at:
+        fileName: test/transform-html.js
+        lineNumber: 56
+        columnNumber: 5
+        typeName: Test
+      stack: |
+        Test.<anonymous> (test/transform-html.js:56:5)
+        Object.<anonymous> (test/transform-html.js:52:1)
+      source: >2
+          var headers = transform(content);
+      
+          t.same(
+        ----^
+              headers.toc.split('\n')
+            , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+      ...
+    
+    1..1
+not ok 3 - given an html header that includes regexp characters # time=11.55ms
+  ---
+  at:
+    fileName: test/transform-html.js
+    lineNumber: 52
+    columnNumber: 1
+    typeName: Object
+  source: |
+    })
+  
+    test('\ngiven an html header that includes regexp characters', function (t) {
+    ^
+      var content = '<h1>more text (`</p>`)</h1>';
+      var headers = transform(content);
+  ...
+
+given a file with headers embedded in code
+# Subtest: 
+    ok 1 - generates a correct toc when headers are embedded in code blocks
+    1..1
+ok 4 - given a file with headers embedded in code # time=2.397ms
+
+given a file with benign backticks
+# Subtest: 
+    ok 1 - generates a correct toc when readme has benign backticks
+    1..1
+ok 5 - given a file with benign backticks # time=1.58ms
+
+1..5
+# { total: 10, pass: 8, fail: 2 }
+# time=82.563ms
+
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..a1e501e7ededa2e3eb73efa08bd1b3db15bffdc1
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>more text (`</p>`)</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [more text (`</p>`)](#more-text-p)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+codex
+The first regression used `</p>` inside the HTML heading, and `htmlparser2` treats that as a real tag boundary, so the visible header text is different from the literal source. I’m adjusting the test to use an unmatched parenthesis in normal heading text, which reproduces the regex crash without adding parser-boundary noise.
+exec
+/bin/zsh -lc "node - <<'NODE'
+'use strict';
+var transform = require('./lib/transform');
+var content = '<h1>Heading (unclosed</h1>';
+console.log(transform(content).toc.split('\\n'));
+NODE" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+[
+  '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+  '',
+  '- [Heading (unclosed](#heading-unclosed)',
+  ''
+]
+
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..a1e501e7ededa2e3eb73efa08bd1b3db15bffdc1
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>more text (`</p>`)</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [more text (`</p>`)](#more-text-p)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+codex
+I’m updating the regression expectation now, then I’ll rerun the focused test.
+apply patch
+patch: completed
+/private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc/test/transform-html.js
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..f50d9ebd25fd602948d8efa8a9d388a56f332a99
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>Heading (unclosed</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Heading (unclosed](#heading-unclosed)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..f50d9ebd25fd602948d8efa8a9d388a56f332a99
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>Heading (unclosed</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Heading (unclosed](#heading-unclosed)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+codex
+The focused regression is in place with a header that previously threw on the unbalanced `(`. Running it again now.
+exec
+/bin/zsh -lc 'node test/transform-html.js' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 209ms:
+TAP version 14
+given a file that includes html with header tags and maxHeaderLevel 8
+# Subtest: 
+    ok 1 - generates correct toc for non html and html headers
+    1..1
+ok 1 - given a file that includes html with header tags and maxHeaderLevel 8 # time=16.513ms
+
+given a file that includes html with header tags using default maxHeaderLevel
+# Subtest: 
+    ok 1 - generates correct toc for non html and html headers omitting headers larger than maxHeaderLevel
+    1..1
+ok 2 - given a file that includes html with header tags using default maxHeaderLevel # time=8.853ms
+
+given an html header that includes regexp characters
+# Subtest: 
+    ok 1 - generates a correct toc when html headers include regexp characters
+    1..1
+ok 3 - given an html header that includes regexp characters # time=0.636ms
+
+given a file with headers embedded in code
+# Subtest: 
+    ok 1 - generates a correct toc when headers are embedded in code blocks
+    1..1
+ok 4 - given a file with headers embedded in code # time=2.317ms
+
+given a file with benign backticks
+# Subtest: 
+    ok 1 - generates a correct toc when readme has benign backticks
+    1..1
+ok 5 - given a file with benign backticks # time=1.477ms
+
+1..5
+# { total: 10, pass: 10 }
+# time=89.817ms
+
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..f50d9ebd25fd602948d8efa8a9d388a56f332a99
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>Heading (unclosed</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Heading (unclosed](#heading-unclosed)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+codex
+The targeted HTML tests pass. I’m running `npm test` now to catch any broader TOC expectation changes from the literal matching change.
+exec
+/bin/zsh -lc 'npm test' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 3550ms:
+TAP version 14
+1..9
+# Subtest: test/file.js
+    match mdx files only with syntax=mdx
+    # Subtest: 
+        ok 1 - match mdx files only with syntax=mdx
+        1..1
+    ok 1 - match mdx files only with syntax=mdx # time=4.003ms
+    
+    match md files only with syntax=md
+    # Subtest: 
+        ok 1 - match md files only with syntax=md
+        1..1
+    ok 2 - match md files only with syntax=md # time=0.656ms
+    
+    match md files only with undefined syntax
+    # Subtest: 
+        ok 1 - match md files only with undefined syntax
+        1..1
+    ok 3 - match md files only with undefined syntax # time=0.48ms
+    
+    1..3
+ok 1 - test/file.js # time=1381.076ms
+
+# Subtest: test/transform-dryrun.js
+    should exit with a error code due to --dryrun option
+    # Subtest: 
+        ok 1 - process exited with error code 1 as expected
+        1..1
+    ok 1 - should exit with a error code due to --dryrun option # time=321.436ms
+    
+    should exit with an error code due to invalid option
+    # Subtest: 
+        ok 1 - process exited with error code 2 as expected
+        1..1
+    ok 2 - should exit with an error code due to invalid option # time=187.581ms
+    
+    should exit with an error code due to invalid syntax
+    # Subtest: 
+        ok 1 - process exited with error code 2 as expected
+        1..1
+    ok 3 - should exit with an error code due to invalid syntax # time=131.988ms
+    
+    help should not produce an error code
+    # Subtest: 
+        1..0
+    ok 4 - help should not produce an error code # time=133.682ms
+    
+    should exit with no error code with --dryrun, --github and --update-only options
+    # Subtest: 
+        1..0
+    ok 5 - should exit with no error code with --dryrun, --github and --update-only options # time=143.51ms
+    
+    should exit no error code when not using --dryrun and using --all for out of date toc
+    # Subtest: 
+        1..0
+    ok 6 - should exit no error code when not using --dryrun and using --all for out of date toc # time=145.104ms
+    
+    should exit with no error code
+    # Subtest: 
+        1..0
+    ok 7 - should exit with no error code # time=132.972ms
+    
+    1..7
+ok 2 - test/transform-dryrun.js # time=2427.246ms
+
+# Subtest: test/transform-html.js
+    given a file that includes html with header tags and maxHeaderLevel 8
+    # Subtest: 
+        ok 1 - generates correct toc for non html and html headers
+        1..1
+    ok 1 - given a file that includes html with header tags and maxHeaderLevel 8 # time=55.148ms
+    
+    given a file that includes html with header tags using default maxHeaderLevel
+    # Subtest: 
+        ok 1 - generates correct toc for non html and html headers omitting headers larger than maxHeaderLevel
+        1..1
+    ok 2 - given a file that includes html with header tags using default maxHeaderLevel # time=23.049ms
+    
+    given an html header that includes regexp characters
+    # Subtest: 
+        ok 1 - generates a correct toc when html headers include regexp characters
+        1..1
+    ok 3 - given an html header that includes regexp characters # time=0.999ms
+    
+    given a file with headers embedded in code
+    # Subtest: 
+        ok 1 - generates a correct toc when headers are embedded in code blocks
+        1..1
+    ok 4 - given a file with headers embedded in code # time=5.855ms
+    
+    given a file with benign backticks
+    # Subtest: 
+        ok 1 - generates a correct toc when readme has benign backticks
+        1..1
+    ok 5 - given a file with benign backticks # time=2.886ms
+    
+    1..5
+ok 3 - test/transform-html.js # time=1608.341ms
+
+# Subtest: test/transform-nested-markdown.js
+    handle inline links and images
+    # Subtest: 
+        ok 1 - generates correct toc for nested markdown (links and images)
+        1..1
+    ok 1 - handle inline links and images # time=34.14ms
+    
+    1..1
+ok 4 - test/transform-nested-markdown.js # time=1587.529ms
+
+# Subtest: test/transform-skipTag.js
+    skip tag non first line transform
+    # Subtest: 
+        ok 1 - skip correct file
+        1..1
+    ok 1 - skip tag non first line transform # time=4.591ms
+    
+    skip tag first line transform
+    # Subtest: 
+        ok 1 - skip correct file
+        1..1
+    ok 2 - skip tag first line transform # time=2.129ms
+    
+    skip tag invalid nested transform
+    # Subtest: 
+        ok 1 - don't skip file as skipTag is invalid
+        1..1
+    ok 3 - skip tag invalid nested transform # time=13.643ms
+    
+    1..3
+ok 5 - test/transform-skipTag.js # time=1574.157ms
+
+# Subtest: test/transform-stdout.js
+    should print to stdout with --stdout option
+    # Subtest: 
+        ok 1 - spits out the correct table of contents
+        1..1
+    ok 1 - should print to stdout with --stdout option # time=299.658ms
+    
+    should print to stdout with -s option
+    # Subtest: 
+        ok 1 - spits out the correct table of contents
+        1..1
+    ok 2 - should print to stdout with -s option # time=205.891ms
+    
+    should print to stdout with --stdout option and default logging aka info
+    # Subtest: 
+        ok 1 - spits out the correct table of contents
+        1..1
+    ok 3 - should print to stdout with --stdout option and default logging aka info # time=140.903ms
+    
+    should exit with error code as --stdout option is not supported on a directory
+    # Subtest: 
+        ok 1 - process exited with error code 2 as expected
+        1..1
+    ok 4 - should exit with error code as --stdout option is not supported on a directory # time=131.555ms
+    
+    should exit with error code as --stdout option is not supported on multiple files
+    # Subtest: 
+        ok 1 - process exited with error code 2 as expected
+        1..1
+    ok 5 - should exit with error code as --stdout option is not supported on multiple files # time=134.691ms
+    
+    1..5
+ok 6 - test/transform-stdout.js # time=2144.712ms
+
+# Subtest: test/transform-title.js
+    overwrite existing title
+    # Subtest: 
+        ok 1 - generates correct toc for when custom --title was passed
+        1..1
+    ok 1 - overwrite existing title # time=15.663ms
+    
+    do not overwrite existing title
+    # Subtest: 
+        ok 1 - generates correct toc for when custom title exists in README already
+        1..1
+    ok 2 - do not overwrite existing title # time=2.235ms
+    
+    clobber existing title
+    # Subtest: 
+        ok 1 - generates correct toc for when --notitle was passed
+        1..1
+    ok 3 - clobber existing title # time=1.457ms
+    
+    1..3
+ok 7 - test/transform-title.js # time=1554.77ms
+
+# Subtest: test/transform-weird-headers.js
+    given a file with edge-case header names
+    # Subtest: 
+        ok 1 - generates a correct toc when headers are weird
+        1..1
+    ok 1 - given a file with edge-case header names # time=13.1ms
+    
+    nameless table headers
+    # Subtest: 
+        ok 1 - generates a correct toc when readme has nameless table headers
+        1..1
+    ok 2 - nameless table headers # time=6.165ms
+    
+    emoji-first header names
+    # Subtest: 
+        ok 1 - generates a correct toc when readme has emojis as the first character for headings
+        1..1
+    ok 3 - emoji-first header names # time=12.558ms
+    
+    formatted headers
+    # Subtest: 
+        ok 1 - generates a correct toc when readme includes formatting in the heading title
+        1..1
+    ok 4 - formatted headers # time=5.851ms
+    
+    random md characters
+    # Subtest: 
+        ok 1 - generates a correct toc when readme has special characters in table headers
+        1..1
+    ok 5 - random md characters # time=13.451ms
+    
+    1..5
+ok 8 - test/transform-weird-headers.js # time=1587.211ms
+
+# Subtest: test/transform.js
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 1 - transforming # time=14.455ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 2 - transforming # time=2.932ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 3 - transforming # time=5.695ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 4 - transforming # time=1.191ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 5 - transforming # time=2.791ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 6 - transforming # time=0.991ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 7 - transforming # time=1.53ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 8 - transforming # time=0.937ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 9 - transforming # time=4.973ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 10 - transforming # time=11.107ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 11 - transforming # time=1.058ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 12 - transforming # time=0.891ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 13 - transforming # time=0.801ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 14 - transforming # time=0.797ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 15 - transforming # time=6.891ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 16 - transforming # time=1.664ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 17 - transforming # time=1.97ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 18 - transforming # time=1.159ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 19 - transforming # time=1.201ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 20 - transforming # time=4.191ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 21 - transforming # time=1.628ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 22 - transforming # time=4.41ms
+    
+    # Subtest: transforming when old toc exists
+        ok 1 - transforms it
+        ok 2 - replaces old toc
+        ok 3 - wraps old toc
+        ok 4 - updates the content with the new toc and ignores header before existing toc
+        1..4
+    ok 23 - transforming when old toc exists # time=1.174ms
+    
+    # Subtest: transforming when old toc exists and --all flag is set
+        ok 1 - transforms it
+        ok 2 - replaces old toc
+        ok 3 - wraps old toc
+        ok 4 - updates the content with the new toc and ignores header before existing toc
+        1..4
+    ok 24 - transforming when old toc exists and --all flag is set # time=7.974ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 25 - transforming # time=3.527ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 26 - transforming # time=2.282ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 27 - transforming # time=1.894ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 28 - transforming # time=2.002ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 29 - transforming # time=1.588ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 30 - transforming # time=2.265ms
+    
+    # Subtest: transforming
+        ok 1 - transforms it
+        ok 2 - generates correct anchors
+        1..2
+    ok 31 - transforming # time=1.889ms
+    
+    # Subtest: should use <!-- --> comments if syntax=md
+        ok 1 - should be equivalent
+        1..1
+    ok 32 - should use <!-- --> comments if syntax=md # time=7.856ms
+    
+    # Subtest: should use {/* */} comments if syntax=mdx
+        ok 1 - should be equivalent
+        1..1
+    ok 33 - should use {/* */} comments if syntax=mdx # time=1.79ms
+    
+    duplicate titles but with different symbols
+    # Subtest: 
+        ok 1 - generates a correct toc when readme includes duplicate headings with different symbols
+        1..1
+    ok 34 - duplicate titles but with different symbols # time=3.275ms
+    
+    1..34
+ok 9 - test/transform.js # time=1633.77ms
+
+----------------------|---------|----------|---------|---------|-----------------------
+File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s     
+----------------------|---------|----------|---------|---------|-----------------------
+All files             |   96.98 |       91 |   96.29 |   96.98 |                       
+ doctoc               |   93.75 |    81.17 |     100 |   93.75 |                       
+  doctoc.js           |   93.75 |    81.17 |     100 |   93.75 | 63-66,108-113,175-176 
+ doctoc/lib           |   98.65 |    98.26 |   95.65 |   98.65 |                       
+  file.js             |     100 |    93.75 |     100 |     100 | 17                    
+  transform.js        |   97.72 |    98.61 |   91.66 |   97.72 | 44-46,167-168         
+----------------------|---------|----------|---------|---------|-----------------------
+# { total: 130, pass: 130 }
+# time=2464.097ms
+
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..f50d9ebd25fd602948d8efa8a9d388a56f332a99
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>Heading (unclosed</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Heading (unclosed](#heading-unclosed)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+codex
+The full suite passes. I’m doing a final diff/status check to make sure only the intended files changed and the worktree is left uncommitted.
+exec
+/bin/zsh -lc 'git diff -- lib/get-html-headers.js test/transform-html.js' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+exec
+/bin/zsh -lc 'git status --short' in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc
+ succeeded in 0ms:
+ M lib/get-html-headers.js
+ M test/transform-html.js
+
+ succeeded in 0ms:
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077b..7e9d94a 100644
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@ function addLinenos(lines, headers) {
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763..f50d9eb 100644
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@ test('\ngiven a file that includes html with header tags using default maxHeader
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>Heading (unclosed</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Heading (unclosed](#heading-unclosed)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..f50d9ebd25fd602948d8efa8a9d388a56f332a99
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>Heading (unclosed</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Heading (unclosed](#heading-unclosed)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+codex
+Implemented the fix and left changes uncommitted.
+
+Changed [lib/get-html-headers.js](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc/lib/get-html-headers.js:12) so HTML header text is matched literally with `indexOf` instead of being compiled as a regex.
+
+Added a regression case in [test/transform-html.js](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc/test/transform-html.js:52) covering an HTML heading with regex metacharacters.
+
+Verification:
+- `node test/transform-html.js`
+- `npm test`
+
+Both pass.
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077bea371d2bde55ce7931c5b4048a1641099..7e9d94a935dc035713356ebfbb3857f298bf6a59
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763f939a3e73634e8cfbdfdde63e4ccd66ac..f50d9ebd25fd602948d8efa8a9d388a56f332a99
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>Heading (unclosed</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Heading (unclosed](#heading-unclosed)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
+
+tokens used
+81,752
+Implemented the fix and left changes uncommitted.
+
+Changed [lib/get-html-headers.js](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc/lib/get-html-headers.js:12) so HTML header text is matched literally with `indexOf` instead of being compiled as a regex.
+
+Added a regression case in [test/transform-html.js](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-meta-layer-starter/f6afe05b-b1c6-425a-9e6f-fab56db18239/scratchpad/p0/doctoc/test/transform-html.js:52) covering an HTML heading with regex metacharacters.
+
+Verification:
+- `node test/transform-html.js`
+- `npm test`
+
+Both pass.

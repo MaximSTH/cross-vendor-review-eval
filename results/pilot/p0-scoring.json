@@ -1,0 +1,50 @@
+{
+ "case": "thlorenz__doctoc-328",
+ "ground_truth_regions": [
+  [
+   "lib/get-html-headers.js",
+   28,
+   35
+  ]
+ ],
+ "hidden_tests": "2/2 FAIL_TO_PASS failing; PASS_TO_PASS green (174 assertions)",
+ "is_defective": true,
+ "authoring": "openai codex-cli 0.139.0; rerun 1 (read-only sandbox harness defect, fixed with -s workspace-write)",
+ "results": [
+  {
+   "arm": "A1",
+   "vendor": "openai",
+   "version": "codex-cli 0.139.0",
+   "n_claims": 0,
+   "verdict": "no_catch",
+   "band": 1,
+   "d018_violations": [],
+   "secret_findings": [],
+   "card": false
+  },
+  {
+   "arm": "A2",
+   "vendor": "openai",
+   "version": "codex-cli 0.139.0",
+   "n_claims": 0,
+   "verdict": "no_catch",
+   "band": 1,
+   "d018_violations": [
+    "\\bnpm\\s+(?:run\\s+)?test\\b"
+   ],
+   "secret_findings": [],
+   "card": false
+  },
+  {
+   "arm": "B",
+   "vendor": "anthropic",
+   "version": "2.1.210 (Claude Code)",
+   "n_claims": 0,
+   "verdict": "no_catch",
+   "band": 1,
+   "d018_violations": [],
+   "secret_findings": [],
+   "card": false
+  }
+ ]
+}

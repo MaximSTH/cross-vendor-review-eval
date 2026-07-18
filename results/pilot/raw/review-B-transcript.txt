@@ -1,0 +1,20 @@
+I've reviewed the change. Let me verify my understanding of the behavioral difference between the old regex approach and the new `indexOf` approach across edge cases.
+
+The change replaces `new RegExp(x.text[0]).test(line)` with `line.indexOf(x.text[0]) !== -1` in `addLinenos`. This maps each parsed header back to its source line number.
+
+Analysis:
+- **Purpose is sound**: header text like `Heading (unclosed` produced an invalid RegExp (`Unterminated group`) and threw. `indexOf` does a literal substring match, fixing the crash — exactly what the new test exercises.
+- **No regression for plain headers**: for text without regex metacharacters, `RegExp(text).test(line)` and `line.indexOf(text) !== -1` both perform an "appears anywhere" substring check with identical results and identical case sensitivity.
+- **Metacharacter headers are now stricter/more correct**: e.g. text `a.b` previously could match `axb` (wrong line); now it requires a literal `a.b`.
+- **`decodeEntities: true` interaction is unchanged**: when the parsed text differs from the raw line (e.g. `&amp;` → `&`), both old and new approaches fail to match equally and fall through to the "assume next line" fallback — no new failure introduced.
+- Empty/undefined `text[0]` cases behave equivalently between the two implementations.
+
+The test itself is correct: `<h1>Heading (unclosed</h1>` would have thrown under the old code, and now produces the expected TOC entry.
+
+The change is a minimal, correct bug fix with no introduced defects.
+
+```json
+{
+  "claims": []
+}
+```

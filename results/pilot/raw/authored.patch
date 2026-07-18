@@ -1,0 +1,40 @@
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index 0c1077b..7e9d94a 100644
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -9,7 +9,7 @@ function addLinenos(lines, headers) {
+   return headers.map(function (x) {
+     for (var lineno = current; lineno < lines.length; lineno++) {
+       line = lines[lineno];
+-      if (new RegExp(x.text[0]).test(line)) {
++      if (line.indexOf(x.text[0]) !== -1) {
+         current = lineno;
+         x.line = lineno;
+         x.name = x.text.join("");
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763..f50d9eb 100644
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -49,6 +49,22 @@ test('\ngiven a file that includes html with header tags using default maxHeader
+   t.end()
+ })
+ 
++test('\ngiven an html header that includes regexp characters', function (t) {
++  var content = '<h1>Heading (unclosed</h1>';
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Heading (unclosed](#heading-unclosed)',
++        '' ]
++    , 'generates a correct toc when html headers include regexp characters'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with headers embedded in code', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-code.md', 'utf8');
+   var headers = transform(content);
