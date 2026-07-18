@@ -255,16 +255,37 @@ class TestGeminiAPIJudge(unittest.TestCase):
         self.assertTrue(v.is_match)
         self.assertEqual(v.judge_family, "google")
 
-    def test_missing_key_raises(self):
+    def test_missing_key_raises_and_names_the_exact_env_var(self):
         import os
-        from harness.judges import GeminiAPIJudgeBackend, JudgeCallError
-        old = os.environ.pop("GEMINI_API_KEY", None)
+        from harness.judges import JUDGE_KEY_ENV, GeminiAPIJudgeBackend, JudgeCallError
+        self.assertEqual(JUDGE_KEY_ENV, "CVRE_GEMINI_JUDGE_KEY")  # D-019 naming
+        old = os.environ.pop(JUDGE_KEY_ENV, None)
         try:
-            with self.assertRaises(JudgeCallError):
+            with self.assertRaises(JudgeCallError) as ctx:
                 GeminiAPIJudgeBackend()
+            self.assertIn(JUDGE_KEY_ENV, str(ctx.exception))
         finally:
             if old is not None:
-                os.environ["GEMINI_API_KEY"] = old
+                os.environ[JUDGE_KEY_ENV] = old
+
+    def test_standard_gemini_env_name_is_never_read(self):
+        # D-019: deliberately NOT GEMINI_API_KEY, so no Google CLI/SDK
+        # auto-reads it and the reviewer arm's auth path stays untouched.
+        import os
+        from harness.judges import JUDGE_KEY_ENV, GeminiAPIJudgeBackend, JudgeCallError
+        old_std = os.environ.get("GEMINI_API_KEY")
+        old_ours = os.environ.pop(JUDGE_KEY_ENV, None)
+        os.environ["GEMINI_API_KEY"] = "should-never-be-used"
+        try:
+            with self.assertRaises(JudgeCallError):
+                GeminiAPIJudgeBackend()  # must NOT fall back to the std name
+        finally:
+            if old_std is None:
+                del os.environ["GEMINI_API_KEY"]
+            else:
+                os.environ["GEMINI_API_KEY"] = old_std
+            if old_ours is not None:
+                os.environ[JUDGE_KEY_ENV] = old_ours
 
     def test_http_error_raises(self):
         from harness.judges import JudgeCallError
@@ -298,6 +319,75 @@ class TestReviewerCompliance(unittest.TestCase):
                  "The unit under test is the pagination helper. I did not "
                  "protest the design.")
         self.assertEqual(scan_reviewer_transcript(clean), [])
+
+
+class TestSecretHygiene(unittest.TestCase):
+    """D-019 release gate: provenance logs and shipped artifacts never contain
+    the judge key or request auth headers. Logs ship per D-012 — these tests
+    are release-blocking, not hygiene."""
+
+    KEY = "test-secret-key-value-12345"
+
+    def _judged_error_text(self, status, raw):
+        from harness.judges import GeminiAPIJudgeBackend, JudgeCallError
+        from harness.scoring.band2 import JudgePayload
+        b = GeminiAPIJudgeBackend(api_key=self.KEY,
+                                  http_post=lambda u, h, p: (status, raw))
+        try:
+            b.judge(JudgePayload(defect_annotation="a", claim_text="c"))
+        except JudgeCallError as e:
+            return str(e)
+        return ""
+
+    def test_key_never_in_error_messages(self):
+        msg = self._judged_error_text(429, '{"error": "quota exceeded"}')
+        self.assertNotIn(self.KEY, msg)
+        msg = self._judged_error_text(200, "not-json-at-all")
+        self.assertNotIn(self.KEY, msg)
+
+    def test_key_never_in_verdict(self):
+        import json as _json
+        from harness.judges import GeminiAPIJudgeBackend
+        from harness.scoring.band2 import JudgePayload
+        body = _json.dumps({"candidates": [{"content": {"parts": [
+            {"text": '```json\n{"is_match": true, "reasoning": "ok"}\n```'}]}}]})
+        v = GeminiAPIJudgeBackend(api_key=self.KEY,
+                                  http_post=lambda u, h, p: (200, body)).judge(
+            JudgePayload(defect_annotation="a", claim_text="c"))
+        self.assertNotIn(self.KEY, v.reasoning)
+        self.assertNotIn(self.KEY, repr(v))
+
+    def test_session_record_json_carries_no_env_material(self):
+        import json as _json
+        from harness.runner import SessionRecord
+        rec = SessionRecord(case_id="c", condition="B", family="openai",
+                            reported_version="v1", started_at="T0")
+        blob = rec.to_json()
+        parsed = _json.loads(blob)
+        # Structural: provenance schema has no env/key/header field at all.
+        for field_name in parsed:
+            self.assertNotRegex(field_name.lower(), r"env|key|header|auth|secret")
+
+    def test_artifact_scanner_catches_planted_key_and_headers(self):
+        import os
+        from harness.compliance import SECRET_ENV_NAMES, scan_artifact_for_secrets
+        self.assertIn("CVRE_GEMINI_JUDGE_KEY", SECRET_ENV_NAMES)
+        old = os.environ.get("CVRE_GEMINI_JUDGE_KEY")
+        os.environ["CVRE_GEMINI_JUDGE_KEY"] = self.KEY
+        try:
+            self.assertEqual(
+                scan_artifact_for_secrets(f"log line with {self.KEY} inside"),
+                ["env:CVRE_GEMINI_JUDGE_KEY"])
+            self.assertEqual(scan_artifact_for_secrets("x-goog-api-key: abc"),
+                             ["auth-header"])
+            self.assertEqual(scan_artifact_for_secrets("Authorization: Bearer t"),
+                             ["auth-header"])
+            self.assertEqual(scan_artifact_for_secrets("clean provenance line"), [])
+        finally:
+            if old is None:
+                del os.environ["CVRE_GEMINI_JUDGE_KEY"]
+            else:
+                os.environ["CVRE_GEMINI_JUDGE_KEY"] = old
 
 
 if __name__ == "__main__":

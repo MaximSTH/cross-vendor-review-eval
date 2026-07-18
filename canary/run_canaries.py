@@ -100,6 +100,17 @@ def main(real: bool = False) -> int:
         status = "PASS" if ok else "FAIL"
         print(f"  [{status}] {fix['id']:<28} -> {result.verdict.value} (band {result.band.value})"
               + ("" if ok else f"  EXPECTED {expected_desc}"))
+        if real and result.judge_verdicts:
+            # Full Band 2/3 trace (supervisor-requested for real runs; canary
+            # fixtures are known-outcome, not study data — card blindness is
+            # unaffected).
+            for v in result.judge_verdicts:
+                print(f"            judge[{v.judge_family}]: "
+                      f"{'MATCH' if v.is_match else 'NO MATCH'} — {v.reasoning[:100]}")
+            agreed = len({v.is_match for v in result.judge_verdicts}) == 1
+            routing = ("agreed -> resolved in Band 2" if agreed
+                       else "disagreement -> escalated to Band 3 (card written)")
+            print(f"            panel: {routing}")
         if not ok:
             failures.append(fix["id"])
 

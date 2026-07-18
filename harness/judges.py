@@ -151,18 +151,30 @@ def _default_http_post(url: str, headers: dict, body: dict) -> tuple[int, str]:
         return e.code, e.read().decode()
 
 
+# D-019 naming rationale (supervisor): deliberately NOT the standard
+# GEMINI_API_KEY name, so no Google CLI or SDK auto-reads it and the reviewer
+# arm's auth path stays untouched. Read from the environment under this exact
+# name only; never from a file, never from GEMINI_API_KEY.
+JUDGE_KEY_ENV = "CVRE_GEMINI_JUDGE_KEY"
+
+
 class GeminiAPIJudgeBackend:
     """D-019: a bare text-completion API call — tools-disabled by construction
-    (no filesystem, no command execution, no MCP exists in this path)."""
+    (no filesystem, no command execution, no MCP exists in this path).
+
+    The key is used solely in the request auth header. It must never appear in
+    verdicts, error messages, provenance logs, or shipped artifacts — enforced
+    by release-blocking tests (D-019 secret-hygiene ruling).
+    """
 
     family = "google"
 
     def __init__(self, api_key: str | None = None, http_post=_default_http_post):
         import os
-        self._api_key = api_key or os.environ.get("GEMINI_API_KEY", "")
+        self._api_key = api_key or os.environ.get(JUDGE_KEY_ENV, "")
         if not self._api_key:
             raise JudgeCallError(
-                "google judge needs GEMINI_API_KEY set (free tier, D-019)")
+                f"google judge needs {JUDGE_KEY_ENV} set (free tier, D-019)")
         self._post = http_post
 
     def judge(self, payload: JudgePayload) -> JudgeVerdict:

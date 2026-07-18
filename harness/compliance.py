@@ -81,3 +81,29 @@ def audit_judge_transcript(family: str, transcript: str) -> list[str]:
         if re.search(p, transcript, re.MULTILINE | re.IGNORECASE):
             hits.append(p)
     return hits
+
+
+# --- D-019: secret hygiene — release-blocking, not advisory ----------------
+
+SECRET_ENV_NAMES: tuple[str, ...] = ("CVRE_GEMINI_JUDGE_KEY",)
+_AUTH_HEADER_RE = re.compile(
+    r"x-goog-api-key|authorization\s*:\s*(?:bearer|basic)", re.IGNORECASE)
+
+
+def scan_artifact_for_secrets(text: str) -> list[str]:
+    """Scan a to-be-published artifact (provenance log, results file, card)
+    for secret values and auth-header material. Provenance logs SHIP with the
+    dataset (D-012), so any hit here is release-blocking.
+
+    Returns a list of findings ("env:<NAME>" for a leaked secret value,
+    "auth-header" for header material). Empty list = clean.
+    """
+    import os
+    findings = []
+    for name in SECRET_ENV_NAMES:
+        value = os.environ.get(name, "")
+        if value and value in text:
+            findings.append(f"env:{name}")
+    if _AUTH_HEADER_RE.search(text):
+        findings.append("auth-header")
+    return findings

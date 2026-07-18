@@ -362,6 +362,15 @@ Anthropic judge. **The two-family pool is rejected permanently** — it
 reintroduces same-family judging or collapses to a one-judge panel; struck
 from all future option lists.
 
+*Key handling (2026-07-18, supervisor):* the key is exported as
+**`CVRE_GEMINI_JUDGE_KEY`** — deliberately not the standard `GEMINI_API_KEY`
+name, so no Google CLI or SDK auto-reads it and the reviewer arm's auth path
+stays untouched. Read from the environment under that exact name only; the
+key value is never shared with the worker agent, never written to a file.
+Release-blocking tests assert provenance logs and shipped artifacts contain
+neither the key nor request auth headers (logs are published per D-012, so
+this is a release gate, not hygiene).
+
 ## D-020 · 2026-07-16 · Codex judge: behavioral enforcement; D-017 wording amended
 
 **Why (supervisor ruling):** No supported tools-disable flag exists for
