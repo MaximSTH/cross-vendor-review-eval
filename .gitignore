@@ -1,7 +1,17 @@
-# secrets / keys
+# secrets / keys — committed BEFORE any key-bearing file can exist (D-019).
+# The judge key lives in the shell environment only (CVRE_GEMINI_JUDGE_KEY);
+# no file below should ever be needed, these patterns are the backstop.
 .env
 .env.*
 !.env.example
+*.key
+*.pem
+*_key*
+*apikey*
+*api-key*
+credentials*
+secrets*
+service-account*.json
 
 # python
 __pycache__/
