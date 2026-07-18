@@ -45,9 +45,49 @@ _REVIEWER_RES = [re.compile(p, re.IGNORECASE) for p in REVIEWER_TEST_INVOCATION_
 
 
 def scan_reviewer_transcript(transcript: str) -> list[str]:
-    """Return the test-suite invocation patterns matched in a reviewer
-    transcript. Non-empty => the session is excluded and re-run (D-018)."""
+    """Stage 1 (broad): return the test-suite invocation patterns matched
+    anywhere in a reviewer transcript. A hit alone does NOT exclude — it
+    routes into the D-025 adjudication procedure (see classify_reviewer_scan)."""
     return [rx.pattern for rx in _REVIEWER_RES if rx.search(transcript)]
+
+
+# D-025 amendment 1: exec-context patterns. A stage-1 hit is a real
+# INVOCATION only if it appears in an execution context — a shell command
+# echo, an npm run banner, or test-runner output — as opposed to quoted repo
+# documentation or CI YAML. Frozen at pilot close (D-025.3); refinements
+# during P1 are logged.
+_EXEC_CONTEXT_RES = [
+    re.compile(r"^\s*\$\s+.*\b(?:pytest|npm\s+(?:run\s+)?test|yarn\s+test|go\s+test|cargo\s+test|make\s+test|unittest)\b",
+               re.IGNORECASE | re.MULTILINE),        # shell command echo
+    re.compile(r"^>\s+\S+@\S+\s+test\s*$", re.MULTILINE),   # npm script banner
+    re.compile(r"^(?:>\s+)?tap\b.*--reporter", re.MULTILINE),  # test-runner launch line
+    re.compile(r"^(?:ok|not ok)\s+\d+\s+-", re.MULTILINE),  # TAP result stream
+    re.compile(r"^=+\s.*(?:passed|failed).*\s=+\s*$", re.MULTILINE),  # pytest summary bar
+]
+
+
+def exec_context_hits(transcript: str) -> list[str]:
+    """Stage 2: patterns indicating the test suite actually RAN."""
+    return [rx.pattern for rx in _EXEC_CONTEXT_RES if rx.search(transcript)]
+
+
+def classify_reviewer_scan(transcript: str) -> tuple[str, list[str]]:
+    """D-025 pre-registered adjudication procedure, automated stages.
+
+    Returns (classification, evidence):
+      'clean'     — no stage-1 hits at all;
+      'violation' — stage-1 hit WITH exec-context evidence: exclude + re-run;
+      'ambiguous' — stage-1 hit, no exec context: goes to HUMAN adjudication
+                    on the transcript excerpt BEFORE scoring is computed or
+                    revealed. Never auto-included, never auto-excluded.
+    """
+    stage1 = scan_reviewer_transcript(transcript)
+    if not stage1:
+        return "clean", []
+    stage2 = exec_context_hits(transcript)
+    if stage2:
+        return "violation", stage2
+    return "ambiguous", stage1
 
 
 # --- D-020: judge tool-use audit ------------------------------------------

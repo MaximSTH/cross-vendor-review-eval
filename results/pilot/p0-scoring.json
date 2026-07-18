@@ -46,5 +46,19 @@
    "secret_findings": [],
    "card": false
   }
+ ],
+ "status": "P0 ACCEPTED (supervisor, 2026-07-18)",
+ "d023c_repolaunch_validation": "PASSED \u2014 image pulled, patches applied in-container, tests executed and parsed (amd64 under arm64 emulation); SWE-rebench fallback NOT triggered",
+ "d018_adjudication": {
+  "arm": "A2",
+  "stage1": "pattern hits",
+  "stage2": "no exec context",
+  "human_ruling": "quotation-only (repo AGENTS.md + CI YAML), zero execution \u2014 run retained per D-025(a)",
+  "exception_note": "ruled after scoring existed; outcome-irrelevant (all arms identical); impermissible in main study per D-025.2"
+ },
+ "p0_findings": [
+  "codex exec defaults to read-only sandbox; -s workspace-write required for authoring (consumed the authorized fix-and-rerun cycle)",
+  "target repos may ship their own AGENTS.md/CI YAML quoting test commands \u2014 D-018 scanning must be exec-context-aware (D-025)",
+  "defective patch endorsed by all three arms (0 claims each): pipeline correctly captured a unanimous miss"
  ]
 }

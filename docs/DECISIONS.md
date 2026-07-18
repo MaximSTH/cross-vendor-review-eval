@@ -409,6 +409,33 @@ docs was updated via the map; the repo's local git config now uses the
 noreply address so all future commits are clean at birth. Secrets scan re-run
 on the rewritten history before push.
 
+## D-025 · 2026-07-18 · D-018 boundary: quotation is not invocation; adjudication procedure pre-registered
+
+*(Numbering note: the supervisor designated this ruling "D-024"; that number
+was already assigned to the history-rewrite entry the same day, so this entry
+logs as D-025 with content unchanged — second collision, same handling as
+D-023's.)*
+
+**Why (supervisor ruling, option (a) on the P0 A2 scan hit):** A2 run 1
+stands: every pattern hit is quotation (repo documentation — the target repo
+ships its own `AGENTS.md` recommending `npm test` — and CI workflow YAML),
+zero execution lines; the rule's object is oracle access and none occurred.
+
+**Amendments, all binding before P1:**
+
+1. The scanner gains **exec-context-aware patterns**; the P0 A2 transcript is
+   committed as the false-positive regression fixture
+   (`tests/fixtures/d018-false-positive-transcript.txt`).
+2. **Pre-registered adjudication procedure for all future runs:** pattern hit
+   → automated exec-context check → if still ambiguous, human adjudication on
+   the transcript excerpt **before scoring is computed or revealed** —
+   inclusion decisions are never made downstream of scores. Tonight's ruling
+   is noted in-entry as the exception that motivated the rule:
+   outcome-irrelevant here (all arms scored identically; pilot data
+   regardless), impermissible in the main study.
+3. Scanner patterns **freeze at pilot close** alongside everything else;
+   refinements during P1 are logged, none after.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)

@@ -321,6 +321,38 @@ class TestReviewerCompliance(unittest.TestCase):
         self.assertEqual(scan_reviewer_transcript(clean), [])
 
 
+class TestD025Adjudication(unittest.TestCase):
+    """D-025: pattern hit -> exec-context check -> ambiguous goes to human.
+    Inclusion decisions are never made downstream of scores."""
+
+    FIXTURE = Path(__file__).resolve().parent / "fixtures" / "d018-false-positive-transcript.txt"
+
+    def test_p0_false_positive_fixture_classifies_ambiguous_not_violation(self):
+        # The P0 A2 transcript: quotes AGENTS.md + CI YAML, executes nothing.
+        # Regression: must never auto-classify as violation.
+        from harness.compliance import classify_reviewer_scan
+        cls, evidence = classify_reviewer_scan(self.FIXTURE.read_text(errors="replace"))
+        self.assertEqual(cls, "ambiguous", evidence)
+
+    def test_actual_execution_classifies_violation(self):
+        from harness.compliance import classify_reviewer_scan
+        transcript = ("exec\n$ npm test\n\n> doctoc@0.0.0-development test\n"
+                      "> tap --reporter=json\n\nok 1 - transforms readme\n")
+        cls, evidence = classify_reviewer_scan(transcript)
+        self.assertEqual(cls, "violation")
+        self.assertTrue(evidence)
+
+    def test_clean_transcript_classifies_clean(self):
+        from harness.compliance import classify_reviewer_scan
+        cls, _ = classify_reviewer_scan("I inspected the diff and lint output only.")
+        self.assertEqual(cls, "clean")
+
+    def test_quoted_ci_yaml_alone_is_ambiguous(self):
+        from harness.compliance import classify_reviewer_scan
+        cls, _ = classify_reviewer_scan("The workflow runs:\n      - run: npm test\n")
+        self.assertEqual(cls, "ambiguous")
+
+
 class TestSecretHygiene(unittest.TestCase):
     """D-019 release gate: provenance logs and shipped artifacts never contain
     the judge key or request auth headers. Logs ship per D-012 — these tests
