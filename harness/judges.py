@@ -133,7 +133,11 @@ def _parse_verdict(family: str, text: str) -> JudgeVerdict:
 
 # --- D-019: Google judge = free-tier Gemini API call -----------------------
 
-GEMINI_API_MODEL = "gemini-2.5-flash"  # free-tier model; recorded in provenance
+# Probe 2026-07-18: pinned "gemini-2.5-flash" 404s ("no longer available to
+# new users"); the -latest alias works and the API reports the RESOLVED model
+# per response (modelVersion), which we record — consistent with the D-012
+# field-study rule: runtime-reported versions, never assumed constants.
+GEMINI_API_MODEL = "gemini-flash-latest"
 _GEMINI_API_URL = ("https://generativelanguage.googleapis.com/v1beta/models/"
                    f"{GEMINI_API_MODEL}:generateContent")
 
@@ -192,7 +196,12 @@ class GeminiAPIJudgeBackend:
                 for part in data["candidates"][0]["content"]["parts"])
         except (json.JSONDecodeError, KeyError, IndexError, TypeError) as e:
             raise JudgeCallError(f"google judge API response unparseable: {e}") from e
-        return _parse_verdict(self.family, answer)
+        verdict = _parse_verdict(self.family, answer)
+        # Runtime-reported resolved model (D-012 discipline applied to judges).
+        return JudgeVerdict(
+            judge_family=verdict.judge_family, is_match=verdict.is_match,
+            reasoning=verdict.reasoning,
+            model_version=str(data.get("modelVersion", "")))
 
 
 def make_real_router(executor: Executor = _default_executor):

@@ -65,3 +65,8 @@ premise this benchmark exists to measure.
 - **Build acceptance still not claimable:** real-backend canary re-run blocked
   on OQ-5 (Google judge authorization) and OQ-4 (canary-4 real-mode
   criterion); OQ-3 (prompt) awaits ratification.
+
+*Update 2026-07-18:* all blockers ruled (OQ-3 ratified; OQ-4 criterion set;
+OQ-6/OQ-7 resolved by D-019/D-020). Real-backend run: **4/4 PASS**, canary 4
+agreed `no_catch` within the OQ-4 pass set. 79 tests green. Step 2a acceptance
+pends supervisor review of that run.

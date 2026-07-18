@@ -410,10 +410,15 @@ Rules:
       harness + scoring code itself passes cross-vendor review per
       meta-layer-starter's protocol, report attached.
       - [x] canaries 1–4 pass via fixture judges (validates routing + blinding
-            only — D-015 binding note)
-      - [ ] **canaries re-run against the real rotating judge backend (D-015)
-            — build acceptance is claimable only after this passes**
-      - [ ] cross-vendor review of harness + scoring code, report attached
+            only — D-015 binding note; retained permanently per OQ-4 ruling)
+      - [x] **canaries re-run against the real rotating judge backend — 4/4
+            PASS 2026-07-18** (canary 4: agreed no_catch, within the OQ-4 pass
+            set; judges' reasoning consistent with P-001)
+      - [x] cross-vendor review of harness + scoring code — report at
+            `docs/reviews/2026-07-15-harness-build-review.md`, 13 findings
+            fixed, 1 deferred-with-rationale
+      - [ ] **Step 2a acceptance: pending supervisor review of the 2026-07-18
+            real run**
 - [ ] **Step 2b — pilot (separately gated: requires explicit supervisor
       authorization, expected ~2 weeks out).** One recency-gated task flows
       through real sessions: agent authors → hidden test sorts → three agentic

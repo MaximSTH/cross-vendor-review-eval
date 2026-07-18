@@ -84,6 +84,7 @@ class JudgeVerdict:
     judge_family: str
     is_match: bool
     reasoning: str
+    model_version: str = ""  # runtime-reported where the backend provides it
 
 
 @dataclass
