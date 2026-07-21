@@ -462,6 +462,55 @@ here only so the pilot report states it plainly rather than presenting 15 as a
 measured quantity. The measured `observed × 7 × 0.7` is reported alongside it
 regardless.
 
+## D-027 · 2026-07-21 · P1 selection rules ratified (OQ-10/11/12); 5 tasks fixed before any session
+
+**Why (supervisor ruling, all three worker recommendations adopted as
+proposed):** Task 1 could not start without these; each closes a
+pre-registration gap rather than making a new methodological choice.
+
+**(a) OQ-10 — P1 slice: continue JS/TS.** P1 takes the next rows after P0's in
+the same combined JS+TS ordering. Rationale as logged: RepoLaunch is validated
+(D-023c) on JS only; an unvalidated build toolchain would consume the pilot
+window and contaminate the wall-clock measure P1 exists to produce.
+**Binding disclosure inherited:** the pilot report must state that throughput
+was measured on the cheapest-to-build slice and may under-estimate main-study
+cost once Java/Go/Rust enter, and §7's final-n computation carries that
+caveat.
+
+**(b) OQ-11 — authoring vendor: balanced 3/2 by alternation.** One recorded
+coin flip sets position 1; assignment alternates down the fixed task order.
+Preserves D-006 symmetry as far as odd n permits; exactly one auditable random
+element.
+
+**(c) OQ-12 — k=2 repeats: seeded random draw of 2 of 5**, seed recorded
+before use, faithful to §7's "random subsample."
+
+**Selection executed 2026-07-21, before any P1 session** (script and output
+preserved: `results/pilot/p1-brief.md`, provenance in
+`results/pilot/raw/p1-selection.json`):
+
+- Combined post-gate JS+TS pool: **39** (js 17 + ts 22) — unchanged from the
+  2026-07-18 evidence table.
+- **Rule self-check passed:** re-running the §8 rule from scratch returned
+  `thlorenz__doctoc-328` as row 1 — P0's task — confirming both feed stability
+  and correct rule application. P1 = rows 2–6.
+- Coin flip → **position 1 = anthropic**; alternation gives anthropic 3 /
+  openai 2.
+- Repeat seed **1607515562** → **positions 3 and 4**, which fall on opposite
+  authoring directions, so run-to-run variance is measured in both.
+
+*Recorded covariate, not acted on:* position 3 is `thlorenz__doctoc-329` —
+the **same repository** as P0's task (`doctoc-328`). The selection rule is
+fixed and documented, so excluding it would be exactly the hand-picking §8
+forbids. It is logged here and reported as a covariate; sessions are
+independent, but two of the pilot's six cases sharing a repo is a fact the
+write-up states rather than hides.
+
+**Flagged, not blocking (→ OQ-13):** what a "k=2 repeat" repeats — the whole
+task flow (author + A1 + A2 + B) or the review arms only — is unspecified in
+D-021a and protocol §2. Must be ruled before the position-3 repeat runs, not
+after.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
@@ -576,7 +625,7 @@ removes a researcher degree of freedom. Own-harvest (Python-restricted per
 option c) is the fallback. "Verified live, not assumed from memory" stands as
 written. The selection itself logs as a D-entry before P0.
 
-## OQ-10 · 2026-07-21 · P1 task-selection scope — which language slice?
+## OQ-10 · 2026-07-21 · ~~P1 task-selection scope~~ — **RESOLVED by D-027a**
 
 **Why this is open, not mechanical:** D-023c ratifies the corpus as
 SWE-bench-Live/MultiLang; D-023**d** scopes the JS/TS restriction to **P0's**
@@ -620,7 +669,7 @@ precise researcher degree of freedom §8's "fixed documented rule before any
 review runs" exists to remove. Counts are decision-relevant; identities are
 not. Identities are pulled only after this ruling.
 
-## OQ-11 · 2026-07-21 · Authoring-vendor assignment across P1's 5 tasks
+## OQ-11 · 2026-07-21 · ~~Authoring-vendor assignment across P1's 5 tasks~~ — **RESOLVED by D-027b**
 
 **Why this is open:** P0 used a single recorded coin flip for one task. With
 5 tasks there is no logged rule, and the choice is design-level: D-006 commits
@@ -645,7 +694,7 @@ repeat rule anchored at the head of the order measures run-to-run variance in
 both directions for free. Note (b) is a *pilot* rule; the main study's
 assignment at full n is a separate question not raised here.
 
-## OQ-12 · 2026-07-21 · Which two P1 tasks receive the k=2 repeats (D-021a)
+## OQ-12 · 2026-07-21 · ~~Which two P1 tasks receive the k=2 repeats~~ — **RESOLVED by D-027c**
 
 **Why this is open, and why it is time-critical:** D-021a pre-registers *that*
 two tasks get k=2 (the second conditional on zero limit-hits by day 3) but not
@@ -673,3 +722,26 @@ includes rehearsing the main study's procedures, and §7's randomness is the
 procedure. (a) is genuinely fine on the merits and better on scheduling; if
 the supervisor prefers it, the pilot report should note the deviation from
 §7's wording in one sentence.
+
+## OQ-13 · 2026-07-21 · What does a k=2 repeat re-run?
+
+**Why this is open:** D-021a and protocol §2 say "k=2 repeats on two tasks"
+without stating the unit. Two readings, materially different in both cost and
+in what variance they measure:
+
+(a) **Whole flow** — re-author the task and re-run A1/A2/B. Measures total
+    end-to-end variance including authoring-patch variance (a different patch
+    means a different defect, so the second run is arguably a different case).
+    Cost: ~4 extra sessions per repeat, ~8 total.
+(b) **Review arms only** — hold the authored patch fixed, re-run A1/A2/B
+    against it. Isolates *reviewer* run-to-run variance, which is what the
+    headline catch-rate metric is made of. Cost: ~3 extra sessions per repeat.
+
+**Worker recommendation: (b).** §7 introduces repeats to measure "run-to-run
+variance" of the thing being estimated, and the estimand is reviewer
+detection, not authoring. Under (a) the two runs can carry *different defects*
+in different locations, so the comparison is not a repeat of the same
+measurement — it is a second sample. (b) also costs less against a 15/wk
+ceiling. Cost of (b), stated: authoring variance goes unmeasured in the pilot;
+if that is wanted it is a separate line item, not a relabelled repeat.
+**Not blocking task 1** — needed before the position-3 repeat.

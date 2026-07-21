@@ -1,0 +1,64 @@
+{
+  "gate": "2026-03-01",
+  "rule": "SWE-bench-Live/MultiLang combined js+ts, created_at > gate, ORDER BY created_at ASC ties by instance_id, rows 2-6 (row 1 = P0)",
+  "combined_post_gate_count": 39,
+  "p0_row1_verified": "thlorenz__doctoc-328",
+  "coin_flip_position1": "anthropic",
+  "repeat_seed": 1607515562,
+  "repeat_positions": [
+    3,
+    4
+  ],
+  "tasks": [
+    {
+      "instance_id": "code-charity__youtube-3708",
+      "repo": "code-charity/youtube",
+      "created_at": "2026-03-16T12:49:20Z",
+      "lang": "js",
+      "base_commit": "fdd34af1f2bf3a2e2835b5d8dfcd13ebb34a5cc8",
+      "position": 1,
+      "author_vendor": "anthropic",
+      "k2_repeat": false
+    },
+    {
+      "instance_id": "NVIDIA__NemoClaw-330",
+      "repo": "NVIDIA/NemoClaw",
+      "created_at": "2026-03-18T17:52:30Z",
+      "lang": "ts",
+      "base_commit": "4a1b7499759f2aa473209a0dd159944ae03f2640",
+      "position": 2,
+      "author_vendor": "openai",
+      "k2_repeat": false
+    },
+    {
+      "instance_id": "thlorenz__doctoc-329",
+      "repo": "thlorenz/doctoc",
+      "created_at": "2026-03-19T14:31:57Z",
+      "lang": "js",
+      "base_commit": "428cf4189b602309eef4b88871f207d44bfa22d7",
+      "position": 3,
+      "author_vendor": "anthropic",
+      "k2_repeat": true
+    },
+    {
+      "instance_id": "can1357__oh-my-pi-489",
+      "repo": "can1357/oh-my-pi",
+      "created_at": "2026-03-20T09:08:07Z",
+      "lang": "ts",
+      "base_commit": "c412de1782ebd1081f64dcdf7847a9405017087d",
+      "position": 4,
+      "author_vendor": "openai",
+      "k2_repeat": true
+    },
+    {
+      "instance_id": "aralroca__next-translate-1259",
+      "repo": "aralroca/next-translate",
+      "created_at": "2026-03-22T06:21:20Z",
+      "lang": "js",
+      "base_commit": "f1fbf473b42cf795ae8eb996003222625bfc58ac",
+      "position": 5,
+      "author_vendor": "anthropic",
+      "k2_repeat": false
+    }
+  ]
+}
