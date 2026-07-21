@@ -43,7 +43,11 @@ first P1 Band 2 case establishes it.
 
 | # | Open (owner tz) | Close | Sessions run | Notes |
 |---|---|---|---|---|
-| W1 | 2026-07-21 ~11:45 | — | 0 (blocked) | P1 GO received; D-026 logged. Task 1 **blocked** on OQ-10/OQ-11/OQ-12 (task-selection scope, vendor assignment, repeat-task rule) — all design-level, all required *before* task 1 to keep D-021a/§8 pre-registration honest. Ruling requested from supervisor in-window. |
+| W1 | 2026-07-21 ~11:45 | — | **0** | P1 GO received; D-026 logged. Task 1 blocked on OQ-10/11/12 → ruled in-window → D-027, batch fixed. Task 1 step-2 baseline then found **ground-truth breakage** (41 of 44 F2P already pass at base; P2P empty) → **protocol §5 escalation, P1 paused at OQ-14**. Zero authoring/review sessions run. |
+
+**Session count for throughput purposes: 0.** Window W1 was spent on
+pre-registration and corpus validation, neither of which is a session. The
+throughput denominator must not be inflated by it.
 
 ## Limit-hit events (D-021a day-3 conditional depends on this table)
 

@@ -745,3 +745,73 @@ measurement — it is a second sample. (b) also costs less against a 15/wk
 ceiling. Cost of (b), stated: authoring variance goes unmeasured in the pilot;
 if that is wanted it is a separate line item, not a relabelled repeat.
 **Not blocking task 1** — needed before the position-3 repeat.
+
+## OQ-14 · 2026-07-21 · Ground-truth breakage in the corpus feed — P1 task 1 unusable; validity screen needed (protocol §5 escalation)
+
+**Status: P1 EXECUTION PAUSED.** No authoring or review session has been run
+for any P1 task. Raised under protocol §5 ("evidence of ground-truth breakage
+→ stop, log, escalate — touches §6").
+
+**What was found.** Running the per-task step-2 baseline on P1 task 1
+(`code-charity__youtube-3708`) — test patch applied at `base_commit`, no
+authored patch — produced:
+
+- **41 of its 44 declared `FAIL_TO_PASS` tests already PASS at base commit.**
+  Only 3 actually fail. `PASS_TO_PASS` is **empty (0 tests)**.
+- The suite parses to exactly 44 tests total, i.e. the feed has labelled the
+  repository's **entire test suite** as FAIL_TO_PASS and left PASS_TO_PASS
+  empty.
+
+Evidence: `results/pilot/raw/p1-gt-screen/` (per-task baseline runs, parsed
+against each task's own shipped `log_parser`).
+
+**Why this is fatal for that task, not cosmetic.** The defective /
+not-confirmed-defective determination is the study's ground truth (§6.4). With
+41 already-green tests in the oracle, the standard fail→pass resolution
+criterion is meaningless for this task, and a patch's verdict would turn on
+tests unrelated to the reported bug.
+
+**Scope — this is a feed-level property, not one bad row.** Metadata across
+the 39 post-gate JS/TS rows shows the signature is recurrent:
+
+| Signature | Count | Examples |
+|---|---|---|
+| `P2P == 0` with whole-suite-sized F2P | **3 of 39** | `code-charity__youtube-3708` (F2P 44), `Mintplex-Labs__anything-llm-5252` (F2P 105), `gsd-build__gsd-2-3258` (F2P 975) |
+| Implausibly large F2P with non-zero P2P | ≥4 | `can1357__oh-my-pi-489` (**F2P 1527** — this is P1 task 4, a k=2 repeat position), `nodejs__undici-5000` (1115), `nodejs__undici-5011` (1471), `gsd-build__get-shit-done-2107` (615) |
+| Healthy shape (small F2P, large P2P) | majority | `NVIDIA__NemoClaw-330` (3/300), `thlorenz__doctoc-329` (8/169), `aralroca__next-translate-1259` (1/146) |
+
+The OQ-9 evidence table credited this feed with "invalid instances filtered by
+running regression tests ×3." That filter demonstrably did not catch these
+rows. The finding is a correction to the OQ-9 evidence, and belongs in the
+write-up as one — the corpus was chosen partly on that filtering claim.
+
+**P0 is unaffected — checked, not assumed.** `thlorenz__doctoc-328` has
+F2P 2 / P2P 64, the healthy shape. P0's accepted result stands.
+
+**What is running now (blind, no ruling needed):** the empirical screen is
+executing against **all 5** P1 tasks. It is outcome-blind by construction — it
+runs before any patch is authored, so it cannot be influenced by, or
+influence, any review result.
+
+**Decisions needed (design-level — not resolved here):**
+
+1. **Adopt an empirical ground-truth validity screen into intake?** Proposed
+   rule: a task is admissible iff, at `base_commit` with only the test patch
+   applied, **every** F2P test is reported and fails, **and** P2P is non-empty
+   and every reported P2P test passes. This is a §6.4 hardening addition and
+   changes the corpus pipeline, so it is a D-entry, not a worker call.
+2. **Replacement rule for screened-out tasks.** §5 forbids silent task swaps.
+   Proposed: the next row in the same fixed §8 ordering that passes the
+   screen, with every skipped row and its failure reason recorded in the brief
+   — preserving "fixed documented rule before any review runs" because the
+   screen is blind to review outcomes.
+3. **Does the screen re-open the corpus choice (D-023)?** If a material
+   fraction of the feed fails the screen, the post-gate *usable* supply drops
+   below the 322 that justified selecting MultiLang over SWE-rebench.
+   Recommendation: **no reversal now** — measure the screen's pass rate on the
+   pilot's tasks, report it, and treat corpus re-ratification as a Step-3
+   input rather than a pilot-blocking question.
+
+**Worker recommendation:** adopt (1) and (2) as stated, hold (3) for the pilot
+report. The screen costs one container run per task, which the per-task flow
+already performs — near-zero added cost against the 15/wk ceiling.
