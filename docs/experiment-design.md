@@ -123,6 +123,18 @@ measurement, an equal-sized sample proved correct):
 | **Who reviews** | The same agent session that authored the change | Same vendor + model, brand-new session, no authoring context, **no attribution labels** | Different vendor's agent, brand-new session, **no attribution labels** |
 | **Prompt** | identical, verbatim | identical, verbatim | identical, verbatim |
 
+**A1's information asymmetry (D-031e).** **A1 holds strictly more information
+than A2/B by construction, making cross-condition comparisons conservative
+against the cross-review hypothesis.** A1 is the authoring session continued,
+so it carries the full authoring context — including the output of any test
+runs the author performed while writing the change (permitted: D-018 governs
+reviewer sessions, and the hidden tests do not exist in the tree at authoring
+time, so no oracle leaks). A2 and B start cold and are forbidden from running
+the suite. The asymmetry therefore **favours A1**, the self-review arm: any
+observed A2/B advantage is measured against a self-review condition that was
+handed more, not less. Stated here as a property of the condition, not as a
+caveat about a particular run.
+
 ### What each comparison isolates
 
 - **A1 vs A2 — the fresh-eyes effect.** How much blindness is session context?

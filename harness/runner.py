@@ -51,12 +51,27 @@ class VendorCLI:
 
 
 # Defaults are best-effort; verified and adjusted at pilot (mechanics, not design).
+#
+# SANDBOX LAUNCH RULE (D-031f) — standing, not per-run judgement:
+#   AUTHORING arms run with write access (`codex exec -s workspace-write`).
+#     The default read-only sandbox silently produces no patch (P0 finding).
+#   REVIEW arms run READ-ONLY (`codex exec -s read-only`).
+#     A reviewer needs read access only; write capability would let it mutate
+#     the tree under evaluation, corrupting the patch being reviewed and
+#     everything scored downstream. A P1 position-1 launch used
+#     workspace-write for arm B by mistake; it was caught ~40s in, the tree was
+#     verified byte-identical to the authored patch, and the session was
+#     discarded and re-run. Hence a rule rather than a habit.
+#   JUDGE invocations get neither (D-020): tools disabled/isolated entirely.
+AUTHORING_SANDBOX_FLAGS = {"openai": ("-s", "workspace-write")}
+REVIEW_SANDBOX_FLAGS = {"openai": ("-s", "read-only")}
+
 VENDOR_CLIS = {
     "anthropic": VendorCLI("anthropic",
                            ("claude", "-p", "--output-format", "text"),
                            ("claude", "--version")),
     "openai": VendorCLI("openai",
-                        ("codex", "exec", "-"),
+                        ("codex", "exec", "-s", "read-only", "-"),
                         ("codex", "--version")),
     "google": VendorCLI("google",
                         ("antigravity", "exec", "-"),

@@ -75,7 +75,7 @@ flatter the throughput figure P1 exists to measure.
 
 | # | Reported | Vendor | Deferred | Voided | Evidence |
 |---|---|---|---|---|---|
-| L1 | 2026-07-21, supervisor-reported ("limit window has reset") | anthropic (assumed; not observable from session artifacts) | **Nothing** | **Nothing** | A1 completed at **06:11:09Z** with `exit=0`, `subtype: success`, `is_error: false`, 19 turns, and a well-formed 2-claim block. The supervisor's report arrived after that timestamp. No limit signature appears in `a1-stderr.txt`, the result JSON, or the 202-entry session transcript. |
+| **L1 (counts as event 1 — D-031c)** | 2026-07-21, supervisor-reported ("limit window has reset") | anthropic (assumed; not observable from session artifacts) | **Nothing** | **Nothing** | A1 completed at **06:11:09Z** with `exit=0`, `subtype: success`, `is_error: false`, 19 turns, and a well-formed 2-claim block. The supervisor's report arrived after that timestamp. No limit signature appears in `a1-stderr.txt`, the result JSON, or the 202-entry session transcript. |
 
 **Handling (branch (a) of the supervisor's instruction).** A1 completed and
 emitted its structured claims before any limit effect, so it is scored
@@ -88,10 +88,16 @@ from its own artifacts — nothing in the session record shows a throttle. What
 is confirmed is the **absence of any effect on a session**. This row is
 therefore counted as a supervisor-reported limit window with **zero
 session-level consequence**, and it is deliberately not treated as a
-zero-consequence event being silently dropped from the count. Whether it
-counts toward D-021a's "no limit-hit events by day 3" test is the
-supervisor's call, not the worker's, since the underlying event is visible
-only on the supervisor's side.
+zero-consequence event being silently dropped from the count. **Ruled (D-031c): it counts as event 1** toward D-021a's day-3 conditional,
+supervisor-reported basis noted. Rationale: the conditional protects against
+**capacity contention**, and zero-consequence-this-time is **luck, not
+absence**.
+
+**Consequence, stated now so it is not a surprise later:** D-021a makes the
+**second k=2 repeat conditional on zero limit-hit events by day 3.** With
+event 1 on the board on day 1, that condition is **already failed** unless the
+supervisor rules otherwise — so the pilot should expect **one** k=2 repeat
+(position 3), not two. Flagged rather than discovered at the deadline.
 
 ## Per-task provenance
 

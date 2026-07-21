@@ -44,6 +44,18 @@ REVIEWER_TEST_INVOCATION_PATTERNS: tuple[str, ...] = (
 _REVIEWER_RES = [re.compile(p, re.IGNORECASE) for p in REVIEWER_TEST_INVOCATION_PATTERNS]
 
 
+# TRANSCRIPT SOURCING (D-031d) — standing procedure, not a preference.
+#
+# These scans MUST run against the FULL session transcript, including tool
+# calls: the session JSONL for Claude Code
+# (~/.claude/projects/<slug>/<session_id>.jsonl) and the `--json` event stream
+# for Codex. A CLI's summary output (`claude --output-format json`) contains
+# only the final assistant text and NO tool calls, so a D-018 verdict computed
+# from it has nothing behind it — it would report "clean" for a session that
+# ran the entire test suite. Passing summary output here is a silent
+# false-negative, which is why the requirement lives next to the scanner.
+
+
 def scan_reviewer_transcript(transcript: str) -> list[str]:
     """Stage 1 (broad): return the test-suite invocation patterns matched
     anywhere in a reviewer transcript. A hit alone does NOT exclude — it

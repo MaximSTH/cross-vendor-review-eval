@@ -680,6 +680,71 @@ also breaks heredocs). **The ERROR/FAIL separation is what made all three
 recoverable; under the original single-verdict design each would have entered
 the record as a corpus finding.**
 
+## D-031 · 2026-07-21 · OQ-16 ruled: bundled-pass tasks enter neither sample; false-alarm construction gap is a Step-3 input; four standing procedures ratified
+
+**(a) OQ-16 ruled: option (a).** A task whose authored patch passes the
+bundled tests is an **authoring success**: it contributes **throughput data
+only** and enters **neither** the defective sample nor the false-alarm sample.
+Artifacts (sessions, transcripts, claims, evaluation result) are **retained**,
+so the case can be admitted later without re-running anything if an augmented
+suite is ever constructed for it.
+
+*Rationale, recorded verbatim per supervisor directive:* scoring A1's and A2's
+claims as false alarms **would contradict §6.4 — those claims may describe real
+defects the bundled suite does not cover. A1's own output says as much: it
+noted that none of its added tests would have caught its first finding.
+Treating that as a false alarm would record a reviewer as wrong on the strength
+of a test suite the design has already committed to not trusting for that
+purpose.** Scoring reviewers wrong on a suite D-010 distrusts inverts the
+design.
+
+**(b) The false-alarm construction gap is a first-class Step-3 input**,
+alongside the D-028/D-030 corpus findings. The pilot report states plainly:
+**under the ratified corpus, the correct-patch sample has no construction
+path** — §7 budgets an equal-sized correct sample, §6.4 requires augmented
+tests for it, and no candidate feed in the OQ-9 table ships them. The report
+names the options without choosing among them:
+
+1. **Test augmentation** for a small correct sample;
+2. **Descope false-alarm cost to secondary**, with catch-rate as the sole
+   headline metric;
+3. **Corpus re-ratification.**
+
+**No decision mid-pilot.**
+
+**Backlog rulings from the same checkpoint:**
+
+**(c) The supervisor-side limit event counts toward D-021a's day-3
+conditional.** Logged as **event 1**, with its supervisor-reported basis noted.
+Rationale: the conditional protects against **capacity contention**, and
+zero-consequence-this-time is **luck, not absence**. (Resolves the question the
+worker declined to self-answer in `p1-log.md`.)
+
+**(d) Transcript sourcing for D-018 scans is standing procedure.** A reviewer
+CLI's summary output (`claude --output-format json`) carries only final text
+and **no tool calls**, so it **cannot support a D-018 scan** — a verdict
+computed from it would have nothing behind it. Scans run against the **full
+session transcript**: the session JSONL for Claude Code, the `--json` event
+stream for Codex. Encoded in `harness/compliance.py`.
+
+**(e) A1's information asymmetry is promoted from limitations into the design
+section's description of the A1 condition** (§4), in these words: **"A1 holds
+strictly more information than A2/B by construction, making cross-condition
+comparisons conservative against the cross-review hypothesis."** It is a
+property of the condition, not a caveat about a run.
+
+**(f) Sandbox flags are a standing launch rule.** **Authoring** arms run with
+write access (`codex exec -s workspace-write`; the default read-only sandbox
+silently produces no patch — P0 finding). **Review** arms run **read-only**
+(`codex exec -s read-only`): a reviewer needs read access only, and write
+capability would let it mutate the tree under evaluation. Encoded in
+`harness/runner.py` alongside the CLI templates, with the rationale in-code.
+
+**(g) Discarded-session accounting ratified.** **All consumed sessions count
+against the D-021b ceiling**, including sessions discarded for worker error.
+Counting only successful sessions would flatter the throughput figure P1 exists
+to measure.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
@@ -1046,7 +1111,7 @@ D-028 label-integrity finding rather than in a footnote.
 proceed. Position 4 also carries a k=2 repeat flag (D-027c), so its resolution
 affects the repeat plan; the other repeat (position 3) is unaffected.
 
-## OQ-16 · 2026-07-21 · Position 1's authored patch RESOLVED the task — which sample does the case enter, and how are its claims scored?
+## OQ-16 · 2026-07-21 · ~~Position 1's authored patch RESOLVED the task~~ — **RESOLVED by D-031a**
 
 **The situation.** P1 position 1 (`haraka__Haraka-3535`, anthropic-authored)
 ran end to end. Hidden-test evaluation **after** all three reviews were
