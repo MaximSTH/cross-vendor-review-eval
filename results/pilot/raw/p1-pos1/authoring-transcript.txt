@@ -1,0 +1,1941 @@
+txn.add_header not appending headers correctly
+**Describe the bug**
+
+````
+Return-Path: <wordpress@simerson.net>
+Delivered-To: matt@simerson.net
+Received: from mail.theartfarm.com ([172.16.15.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by dovecot with LMTPS
+	id T4IPN8a/TGKnLwAAkzG9Ng
+	(envelope-from <wordpress@simerson.net>)
+	for <matt@simerson.net>; Tue, 05 Apr 2022 15:16:38 -0700
+Received: (Haraka outbound); Tue, 05 Apr 2022 13:16:38 -0900
+Authentication-Results: mail.theartfarm.com;
+	spf=pass smtp.mailfrom=simerson.net
+Received-SPF: Pass (mail.theartfarm.com: domain of simerson.net designates 172.16.16.8 as permitted sender) receiver=mail.theartfarm.com; identity=mailfrom; client-ip=66.128.51.165 helo=wordpress; envelope-from=<wordpress@simerson.net>
+Received: from wordpress (wordpress [172.16.16.8])
+	by mail.theartfarm.com (Haraka/2.8.28) with SMTP id 3A70D3B0-F413-46A2-98A9-BB2B5C9969F6.1
+	envelope-from <wordpress@simerson.net>;
+	Tue, 05 Apr 2022 13:16:37 -0900
+Received: by wordpress (sSMTP sendmail emulation); Tue, 05 Apr 2022 15:16:37 -0700
+To: matt@simerson.net
+Subject: =?us-ascii?Q?[Simerson_Family_Network]_Your_site_has_updated?=
+ =?us-ascii?Q?_to_WordPress_5.9.3?=
+Date: Tue, 5 Apr 2022 22:16:37 +0000
+From: WordPress <wordpress@simerson.net>
+Message-ID: <T6rttBg1or2g1s0rHBIEhN6TyAisFwIFFWisnQShp0@simerson.net>
+X-Mailer: PHPMailer 6.5.3 (https://github.com/PHPMailer/PHPMailer)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+
+Howdy! Your site at https://simerson.net has been updated automatically to WordPress 5.9.3.
+
+No further action is needed on your part. For more on version 5.9.3, see the About WordPress screen:
+https://simerson.net/wp-admin/about.php
+
+If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.
+https://wordpress.org/support/forums/
+
+You also have some plugins or themes with updates available. Update them now:
+https://simerson.net/wp-admin/network/
+
+The WordPress Team
+
+X-Spam-Level: ***
+X-Spam-Status: No, score=3.4 required=5.0 autolearn=no autolearn_force=no
+X-Spam-DCC: Etherboy: dcc 1002; Body=1 Fuz1=1 Fuz2=1
+X-Spam-Checker-Version: SpamAssassin 3.4.5 (2021-03-20) on spamassassin
+X-Spam-Tests: BAYES_50,FSL_HELO_NON_FQDN_1,HELO_NO_DOMAIN,SPF_PASS,
+	T_SCC_BODY_TEXT_LINE,URI_WPADMIN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=simerson.net; s=mar2013;
+	h=from:subject:date:message-id:to:mime-version;
+	bh=kvqv5W+7H5vwIPWJM7oY6wjspD+nUOyK+wng53dalro=;
+	b=W+b87su+vtB57Z8HT1UsN1H7+hBpKPHN/6C3KwsuEwffTfUHpmaT9zAEUjsQ2oKzGZf6AEkX3j
+	Z/+tQFmICmV6OKw8HQpfmdACsIY7bzeP8f+8hyuo2/mFA//pH2ZT2tiKZQV8sa46fww+RP5SMkTq
+	3RvBoKNygdOLoQhGPexYCBRSmM4FB4GesoyTNIsFoKGpqvrLEG08U+0wDmFKpWgSJ1XJrw5BcM+o
+	q92cM9oPxFz3Fd7uUY6wbiodbae+SEZH1YhDmRgDWLLVmef5CssY2QpuzWbMKE6ba9zzFGqRcqFr
+	3SJapCwv0FZgJ633+Fcn9San8HSk2iAq2WsQcZqw==
+
+````
+
+
+**Expected behavior**
+
+Appended headers belong in the header section, not at the end of the message body.
+
+**Observed behavior**
+
+Sometimes, appended headers aren't put in the right spot. This is atypical behavior which I see on occasion.
+
+**System Info:**
+
+Please report your OS, Node version, and Haraka version by running this shell script on your Haraka server and replacing this section with the output.
+
+Haraka | Haraka.js — Version: 2.8.28
+ --- | :--- 
+Node | v14.18.1
+OS | FreeBSD haraka 13.0-RELEASE-p7 FreeBSD 13.0-RELEASE-p7 #0: Mon Jan 31 18:24:03 UTC 2022     root@amd64-builder.daemonology.net:/usr/obj/usr/src/amd64.amd64/sys/GENERIC  amd64
+openssl | OpenSSL 1.1.1h-freebsd  24 Aug 2021
+
+
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.
+I'll investigate this Haraka header-appending bug.
+TOOL Bash {"command": "pwd && ls", "description": "List working directory"}
+/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring
+bin
+Changes.md
+config
+connection.js
+contrib
+CONTRIBUTORS.md
+Dockerfile
+docs
+endpoint.js
+eslint.config.mjs
+haraka.js
+haraka.sh
+host_pool.js
+http
+LICENSE
+line_socket.js
+logger.js
+node_modules
+outbound
+package-lock.json
+package.json
+plugins
+plugins.js
+Plugins.md
+README.md
+rfc1869.js
+run_tests
+server.js
+smtp_client.js
+test
+tls_socket.js
+TODO
+transaction.js
+TOOL Agent {"subagent_type": "Explore", "description": "Find add_header implementation", "prompt": "In this Haraka repository, find the implementation of `transaction.add_header` / `remove_header` and the Header class it delegates to. Report file paths and line numbers for: the transaction add_header/remove_header methods, the header parsing/serialization code (likely mailheader.js or similar), and how headers get written out to the message stream (message_stream.js). Include relevant code excerpts. Be thorough.", "run_in_background": false}
+[{"type": "text", "text": "Here is the full picture of the header pipeline.\n\n## 1. Transaction methods \u2014 `/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js`\n\nConstruction (lines 28-29) \u2014 the key wiring is that the stream is handed a **live reference** to `header.header_list`:\n\n```js\nthis.header = new message.Header()\nthis.message_stream = new message.stream(this.cfg, this.uuid, this.header.header_list)\n```\n\nMutation methods (lines ~196-217):\n\n```js\nadd_header(key, value) {\n    this.header.add_end(key, value)\n    if (this.header_pos > 0) this.reset_headers()\n}\n\nadd_leading_header(key, value) {\n    this.header.add(key, value)\n    if (this.header_pos > 0) this.reset_headers()\n}\n\nreset_headers() {\n    const header_lines = this.header.lines()\n    this.header_pos = header_lines.length\n}\n\nremove_header(key) {\n    this.header.remove(key)\n    if (this.header_pos > 0) this.reset_headers()\n}\n```\n\nHeader ingestion happens in `add_data` (line ~127 onward): while `header_pos === 0`, lines accumulate into `this.header_lines` (capped by `cfg.headers.max_lines || 1000`, CRLF normalized to LF, leading dot unstuffed); the blank line triggers `this.header.parse(this.header_lines)` and sets `header_pos`. `end_data` (line ~155) has a fallback path for messages that never produced a header/body separator: it scans for the first non-header-looking line, splices the remainder into the body, then parses.\n\n## 2. Header class \u2014 `/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/node_modules/haraka-email-message/lib/header.js`\n\n`class Header` starts at line 84. Three parallel data structures: `headers` (raw, lowercased keys, null-prototype), `headers_decoded`, and `header_list` (the ordered raw wire lines \u2014 the array shared with the message stream).\n\n- `parse(lines)` line 91: folds continuation lines (`/^[ \\t]/`) into the previous entry, then matches `/^([^\\s:]*):\\s*([\\s\\S]*)$/`.\n- `get` 143, `get_all` 147 (frozen copy), `get_decoded` 151, `get_addresses` 159.\n- `remove(key)` line 165 \u2192 deletes from both maps, then `_remove_more` (172) splices matching entries out of `header_list` in place, recursing until none remain.\n- `add(key, value)` line 185 (unshift) and `add_end(key, value)` line 194 (push):\n\n```js\nadd_end(key, value) {\n    if (!key) key = 'X-Haraka-Blank'\n    value = trimNewlines(value)\n    if (/[^\\x00-\\x7f]/.test(value)) value = libmime.encodeWords(value, 'Q')\n    this._add_header(key.toLowerCase(), value, 'push')\n    this._add_header_decode(key.toLowerCase(), value, 'push')\n    this.header_list.push(`${key}: ${value}\\n`)\n}\n```\n\nNote the mutations are all in-place on `header_list` (`push`/`unshift`/`splice`), which is what keeps the stream's reference in sync.\n\n- `_add_header` / `_add_header_decode` (203, 209) guard against `__proto__`/`constructor`/`prototype` keys.\n- `lines()` 215 returns a frozen copy; `toString()` 219 joins with `'\\n'` even though entries already carry a trailing `'\\n'`.\n- `trimNewlines` 224 strips trailing CRLF/LF only (stops on a stray `\\r`).\n\n## 3. Writing headers to the stream \u2014 `/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/node_modules/haraka-email-message/node_modules/haraka-message-stream/index.js`\n\nImportant resolution detail: two copies of `haraka-message-stream` exist. `haraka-email-message/index.js` does `exports.stream = require('haraka-message-stream')`, which resolves to the **nested v2.0.6** copy, not the top-level v1.3.3 at `node_modules/haraka-message-stream`. The v2 copy is the one transaction.js actually uses.\n\n- Constructor line 72 stores `this.headers = headers ?? []` (the live `header_list`) and resolves `spool_after` (default 25 MiB, `-1` = Infinity).\n- `add_line` line 83: while `state === HEADERS`, a bare `\\r\\n` line records `idx.headers = {start: 0, end: bytes_read - line.length}` and flips to BODY. Raw header bytes are still written to the queue/spool.\n- `pipe(destination, options)` line 217 is where the substitution happens (lines 279-292):\n\n```js\n// Constructor headers suppress raw-data headers; skip_headers also suppresses ctor headers\nconst emitCtorHeaders = this.headers.length > 0 && !skipHeaders\nconst skipRawHeaders = this.headers.length > 0 || skipHeaders\n\ndoRead = () => {\n  if (cleanedUp) return\n  if (emitCtorHeaders) {\n    for (const h of this.headers) {\n      source.write(Buffer.from(h.replace(/\\r?\\n/g, lineEndings)))\n    }\n    source.write(Buffer.from(lineEndings)) // EOH marker\n  }\n  ...\n```\n\nSo on every read the *current* contents of `header.header_list` are emitted (with `\\n` rewritten to the requested `lineEndings`, plus a synthesized EOH), and the stored raw header bytes are filtered out by `HeaderSkipper` on both the in-memory (`#queue`) and on-disk (`fs.createReadStream`) paths. `dot_stuffed`/legacy `dot_stuffing` options are reconciled at line ~228 and applied by `LineTransformer` \u2014 note the ctor headers are written *before* the transformer, so they pass through the same dot-stuffing/line-ending logic as the body.\n\n## 4. HeaderSkipper \u2014 `/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/node_modules/haraka-email-message/node_modules/haraka-message-stream/lib/header-skipper.js`\n\nA `Transform` that drops everything up to and including the first blank line (`\\r\\n` or bare `\\n`), then passes bytes through. `MAX_HEADER_SIZE` 1 MiB (line 5) errors out if exceeded. `_flush` (49) discards any remainder if EOH was never found.\n\n## 5. Supporting files\n\n- Body/MIME parsing: `.../node_modules/haraka-email-message/lib/body.js`\n- RFC 2047 / 2231 decoding used by `decode_header`: `lib/rfc2047.js`, `lib/rfc2231.js`, charset conversion in `lib/encoding.js`\n- Line ending / dot-stuffing transform: `.../haraka-message-stream/lib/line-transformer.js`; chunking: `lib/chunk-emitter.js`\n- Docs: `/private/tmp/.../authoring/docs/Transaction.md` lines 60-66\n- Tests: `/private/tmp/.../authoring/test/transaction.js` lines 297-337 (`header manipulation` describe block) \u2014 note these tests only assert against `header.get_all()`, never against the piped stream output, so header/stream divergence would not be caught there.\n\nTwo things worth flagging for whoever is reviewing this code: `Header.toString()` (header.js:219) joins already-newline-terminated entries with `'\\n'`, producing a blank line between every header; and `transaction.reset_headers()` sets `header_pos` to the header-list length, which is a count of *header lines*, while `add_data` compares `header_pos` against `this.header_lines.length` \u2014 the two counts diverge once folded continuation lines exist, since `parse()` collapses continuations into a single `header_list` entry."}]
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js"}
+1	'use strict'
+2	// An SMTP Transaction
+3	
+4	const util = require('node:util')
+5	
+6	const Notes = require('haraka-notes')
+7	const utils = require('haraka-utils')
+8	const message = require('haraka-email-message')
+9	
+10	class Transaction {
+11	    constructor(uuid, cfg = {}) {
+12	        this.uuid = uuid || utils.uuid()
+13	        this.cfg = cfg
+14	        this.mail_from = null
+15	        this.rcpt_to = []
+16	        this.header_lines = []
+17	        this.data_lines = []
+18	        this.attachment_start_hooks = []
+19	        this.banner = null
+20	        this.body_filters = []
+21	        this.data_bytes = 0
+22	        this.header_pos = 0
+23	        this.found_hb_sep = false
+24	        this.body = null
+25	        this.parse_body = false
+26	        this.notes = new Notes()
+27	        this.notes.skip_plugins = []
+28	        this.header = new message.Header()
+29	        this.message_stream = new message.stream(this.cfg, this.uuid, this.header.header_list)
+30	        this.discard_data = false
+31	        this.resetting = false
+32	        this.rcpt_count = {
+33	            accept: 0,
+34	            tempfail: 0,
+35	            reject: 0,
+36	        }
+37	        this.msg_status = undefined
+38	        this.data_post_start = null
+39	        this.data_post_delay = 0
+40	        this.encoding = 'utf8'
+41	        this.mime_part_count = 0
+42	    }
+43	
+44	    ensure_body() {
+45	        if (this.body) return
+46	
+47	        this.body = new message.Body(this.header)
+48	        this.body.on('mime_boundary', (m) => this.incr_mime_count())
+49	
+50	        for (const hook of this.attachment_start_hooks) {
+51	            this.body.on('attachment_start', hook)
+52	        }
+53	
+54	        if (this.banner) this.body.set_banner(this.banner)
+55	
+56	        for (const o of this.body_filters) {
+57	            this.body.add_filter((ct, enc, buf) => {
+58	                const re_match = util.types.isRegExp(o.ct_match) && o.ct_match.test(ct.toLowerCase())
+59	                const ct_begins = ct.toLowerCase().indexOf(String(o.ct_match).toLowerCase()) === 0
+60	                if (re_match || ct_begins) return o.filter(ct, enc, buf)
+61	            })
+62	        }
+63	    }
+64	
+65	    // Removes the CR of a CRLF newline at the end of the buffer.
+66	    remove_final_cr(data) {
+67	        if (data.length < 2) return data
+68	        if (!Buffer.isBuffer(data)) data = Buffer.from(data)
+69	
+70	        if (data[data.length - 2] === 0x0d && data[data.length - 1] === 0x0a) {
+71	            data[data.length - 2] = 0x0a
+72	            return data.slice(0, data.length - 1)
+73	        }
+74	        return data
+75	    }
+76	
+77	    // Duplicates any '.' chars at the beginning of a line (dot-stuffing) and
+78	    // ensures all newlines are CRLF.
+79	    add_dot_stuffing_and_ensure_crlf_newlines(data) {
+80	        if (!data.length) return data
+81	        if (!Buffer.isBuffer(data)) data = Buffer.from(data)
+82	
+83	        // Make a new buffer big enough to hold two bytes for every one input
+84	        // byte.  At most, we add one extra character per input byte, so this
+85	        // is always big enough.  We allocate it "unsafe" (i.e. no memset) for
+86	        // speed because we're about to fill it with data, and the remainder of
+87	        // the space we don't fill will be sliced away before we return this.
+88	        const output = Buffer.allocUnsafe(data.length * 2)
+89	        let output_pos = 0
+90	
+91	        let input_pos = 0
+92	        let next_dot = data.indexOf(0x2e)
+93	        let next_lf = data.indexOf(0x0a)
+94	        while (next_dot !== -1 || next_lf !== -1) {
+95	            const run_end = next_dot !== -1 && (next_lf === -1 || next_dot < next_lf) ? next_dot : next_lf
+96	
+97	            // Copy up to whichever comes first, '.' or '\n' (but don't
+98	            // copy the '.' or '\n' itself).
+99	            data.copy(output, output_pos, input_pos, run_end)
+100	            output_pos += run_end - input_pos
+101	
+102	            if (data[run_end] === 0x2e && (run_end === 0 || data[run_end - 1] === 0x0a)) {
+103	                // Replace /^\./ with '..'
+104	                output[output_pos++] = 0x2e
+105	            } else if (data[run_end] === 0x0a && (run_end === 0 || data[run_end - 1] !== 0x0d)) {
+106	                // Replace /\r?\n/ with '\r\n'
+107	                output[output_pos++] = 0x0d
+108	            }
+109	            output[output_pos++] = data[run_end]
+110	
+111	            input_pos = run_end + 1
+112	
+113	            if (run_end === next_dot) {
+114	                next_dot = data.indexOf(0x2e, input_pos)
+115	            } else {
+116	                next_lf = data.indexOf(0x0a, input_pos)
+117	            }
+118	        }
+119	
+120	        if (input_pos < data.length) {
+121	            data.copy(output, output_pos, input_pos)
+122	            output_pos += data.length - input_pos
+123	        }
+124	
+125	        return output.slice(0, output_pos)
+126	    }
+127	
+128	    add_data(line) {
+129	        if (typeof line === 'string') {
+130	            // This shouldn't ever happen.
+131	            line = Buffer.from(line, this.encoding)
+132	        }
+133	        // is this the end of headers line?
+134	        if (this.header_pos === 0 && (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a))) {
+135	            this.header.parse(this.header_lines)
+136	            this.header_pos = this.header_lines.length
+137	            this.found_hb_sep = true
+138	            if (this.parse_body) this.ensure_body()
+139	        } else if (this.header_pos === 0) {
+140	            // Build up headers
+141	            if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {
+142	                if (line[0] === 0x2e) line = line.slice(1) // Strip leading '.'
+143	                this.header_lines.push(line.toString(this.encoding).replace(/\r\n$/, '\n'))
+144	            }
+145	        } else if (this.parse_body) {
+146	            let new_line = line
+147	            if (new_line[0] === 0x2e) new_line = new_line.slice(1) // Strip leading "."
+148	
+149	            line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_more(this.remove_final_cr(new_line)))
+150	
+151	            if (!line.length) return // buffering for banners
+152	        }
+153	
+154	        if (!this.discard_data) this.message_stream.add_line(line)
+155	    }
+156	
+157	    end_data(cb) {
+158	        if (!this.found_hb_sep && this.header_lines.length) {
+159	            // Headers not parsed yet - must be a busted email
+160	            // Strategy: Find the first line that doesn't look like a header.
+161	            // Treat anything before that as headers, anything after as body.
+162	            let header_pos = 0
+163	            for (let i = 0; i < this.header_lines.length; i++) {
+164	                // Anything that doesn't match a header or continuation
+165	                if (!/^(?:([^\s:]*):\s*([\s\S]*)$|[ \t])/.test(this.header_lines[i])) {
+166	                    break
+167	                }
+168	                header_pos = i
+169	            }
+170	            const body_lines = this.header_lines.splice(header_pos + 1)
+171	            this.header.parse(this.header_lines)
+172	            this.header_pos = header_pos
+173	            if (this.parse_body) {
+174	                this.ensure_body()
+175	                for (const bodyLine of body_lines) {
+176	                    this.body.parse_more(bodyLine)
+177	                }
+178	            }
+179	        }
+180	        if (this.header_pos && this.parse_body) {
+181	            const line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_end())
+182	            if (line.length) {
+183	                this.body.force_end()
+184	
+185	                if (!this.discard_data) this.message_stream.add_line(line)
+186	            }
+187	        }
+188	
+189	        if (this.discard_data) {
+190	            cb()
+191	        } else {
+192	            this.message_stream.add_line_end(cb)
+193	        }
+194	    }
+195	
+196	    add_header(key, value) {
+197	        this.header.add_end(key, value)
+198	        if (this.header_pos > 0) this.reset_headers()
+199	    }
+200	
+201	    add_leading_header(key, value) {
+202	        this.header.add(key, value)
+203	        if (this.header_pos > 0) this.reset_headers()
+204	    }
+205	
+206	    reset_headers() {
+207	        const header_lines = this.header.lines()
+208	        this.header_pos = header_lines.length
+209	    }
+210	
+211	    remove_header(key) {
+212	        this.header.remove(key)
+213	        if (this.header_pos > 0) this.reset_headers()
+214	    }
+215	
+216	    attachment_hooks(start, data, end) {
+217	        this.parse_body = true
+218	        this.attachment_start_hooks.push(start)
+219	    }
+220	
+221	    set_banner(text, html) {
+222	        // throw "transaction.set_banner is currently non-functional";
+223	        this.parse_body = true
+224	        if (!html) {
+225	            html = text.replace(/\n/g, '<br/>\n')
+226	        }
+227	        this.banner = [text, html]
+228	    }
+229	
+230	    add_body_filter(ct_match, filter) {
+231	        this.parse_body = true
+232	        this.body_filters.push({ ct_match, filter })
+233	    }
+234	
+235	    incr_mime_count(line) {
+236	        this.mime_part_count++
+237	    }
+238	}
+239	
+240	exports.Transaction = Transaction
+241	
+242	exports.createTransaction = (uuid, cfg) => {
+243	    return new Transaction(uuid, cfg)
+244	}
+245	
+TOOL Bash {"command": "cat node_modules/haraka-email-message/package.json | head -30 && echo \"=== index ===\" && cat node_modules/haraka-email-message/index.js && echo \"=== stream versions ===\" && cat node_modules/haraka-message-stream/package.json 2>/dev/null | grep '\"version\"'; cat node_modules/haraka-email-message/node_modules/haraka-message-stream/package.json 2>/dev/null | grep '\"version\"'"}
+{
+  "name": "haraka-email-message",
+  "version": "1.4.1",
+  "description": "Haraka email message",
+  "main": "index.js",
+  "files": [
+    "CHANGELOG.md",
+    "config",
+    "lib"
+  ],
+  "scripts": {
+    "prepare": "git rev-parse --git-dir >/dev/null 2>&1 && git config core.hooksPath .githooks || true",
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "lint": "npx eslint *.js lib test",
+    "lint:fix": "npx eslint *.js lib test --fix",
+    "prettier": "npx prettier . --check",
+    "prettier:fix": "npx prettier . --write --log-level=warn",
+    "qlty": "qlty smells --all",
+    "test": "node --test test/*.js test/lib/*.js",
+    "test:coverage": "npx c8 --reporter=text --reporter=text-summary npm test",
+    "versions": "npx npm-dep-mgr check",
+    "versions:fix": "npx npm-dep-mgr update"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haraka/email-message.git"
+  },
+  "keywords": [
+    "haraka",
+    "email-message"
+=== index ===
+'use strict'
+
+const Header = require('./lib/header')
+const Body = require('./lib/body')
+const AttachmentStream = require('./lib/attachment-stream')
+
+exports.Header = Header
+exports.Body = Body
+exports.stream = require('haraka-message-stream')
+exports.createAttachmentStream = (header) => new AttachmentStream(header)
+=== stream versions ===
+  "version": "1.3.3",
+  "version": "2.0.6",
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/node_modules/haraka-email-message/lib/header.js"}
+1	'use strict'
+2	
+3	const libmime = require('libmime')
+4	const libqp = require('libqp')
+5	const { parseHeader } = require('@haraka/email-address')
+6	const logger = require('./logger')
+7	const { try_convert } = require('./encoding')
+8	const { tokenize } = require('./rfc2231')
+9	const { decode: decode2047 } = require('./rfc2047')
+10	
+11	/* eslint no-control-regex: 0 */
+12	
+13	function _decode_word(charset, encoding, text) {
+14	  let data
+15	  switch (encoding.toUpperCase()) {
+16	    case 'Q':
+17	      data = libqp.decode(text.replace(/_/g, ' '))
+18	      break
+19	    case 'B':
+20	      data = Buffer.from(text, 'base64')
+21	      break
+22	  }
+23	  if (!/UTF-?8/i.test(charset)) return try_convert(data, charset)
+24	  return data.toString()
+25	}
+26	
+27	function _parse_rfc2231(params, str) {
+28	  // Fast-path: an RFC 2231 parameter always contains both `*` and `=`; skip the
+29	  // scan for the common header (Subject, From, ...) that has neither.
+30	  if (str.indexOf('*') === -1 || str.indexOf('=') === -1) return
+31	
+32	  for (const { attribute, section, value: raw } of tokenize(str)) {
+33	    let value = raw
+34	
+35	    const lang_match = /^(.*?)'(.*?)'(.*)/.exec(value)
+36	    if (lang_match) {
+37	      if (attribute === params.cur_key && lang_match[2] !== params.cur_lang) {
+38	        continue
+39	      }
+40	      params.cur_enc = lang_match[1]
+41	      params.cur_lang = lang_match[2]
+42	      value = lang_match[3]
+43	    } else if (attribute !== params.cur_key) {
+44	      params.cur_lang = ''
+45	      params.cur_enc = ''
+46	    }
+47	
+48	    params.cur_key = attribute
+49	    params.keys[attribute] = ''
+50	    params.kv[`${attribute}*${section}`] = value
+51	  }
+52	}
+53	
+54	function _decode_rfc2231(params, str) {
+55	  _parse_rfc2231(params, str)
+56	
+57	  for (const key in params.keys) {
+58	    str += ` ${key}="`
+59	    /* eslint no-constant-condition: 0 */
+60	    let merged = ''
+61	    for (let i = 0; true; i++) {
+62	      const _val = params.kv[`${key}*${i}`]
+63	      if (_val === undefined) break
+64	      merged += _val
+65	    }
+66	
+67	    try {
+68	      merged = decodeURIComponent(merged)
+69	    } catch {
+70	      logger.logerror(`Decode header failed: ${key}: ${merged}`)
+71	    }
+72	
+73	    if (params.cur_enc) {
+74	      merged = try_convert(Buffer.from(merged, 'utf8'), params.cur_enc)
+75	    }
+76	
+77	    str += `${merged}";`
+78	  }
+79	
+80	  return str
+81	}
+82	
+83	// An RFC 2822 email header parser
+84	class Header {
+85	  constructor() {
+86	    this.headers = Object.create(null)
+87	    this.headers_decoded = Object.create(null)
+88	    this.header_list = []
+89	  }
+90	
+91	  parse(lines) {
+92	    for (const line of lines) {
+93	      if (/^[ \t]/.test(line)) {
+94	        this.header_list[this.header_list.length - 1] += line
+95	      } else {
+96	        this.header_list.push(line)
+97	      }
+98	    }
+99	
+100	    for (const header of this.header_list) {
+101	      const match = header.match(/^([^\s:]*):\s*([\s\S]*)$/)
+102	      if (match) {
+103	        this._add_header(match[1].toLowerCase(), match[2], 'push')
+104	      } else {
+105	        logger.lognotice(`Header did not look right: ${header}`)
+106	      }
+107	    }
+108	
+109	    for (const key of Object.keys(this.headers)) {
+110	      for (const val of this.headers[key]) {
+111	        this._add_header_decode(key, val, 'push')
+112	      }
+113	    }
+114	  }
+115	
+116	  decode_header(val) {
+117	    val = val.replace(/\r?\n/g, '')
+118	
+119	    const rfc2231_params = {
+120	      kv: {},
+121	      keys: {},
+122	      cur_key: '',
+123	      cur_enc: '',
+124	      cur_lang: '',
+125	    }
+126	
+127	    val = _decode_rfc2231(rfc2231_params, val)
+128	
+129	    if (!/^[\x00-\x7f]*$/.test(val)) {
+130	      const matches = /\bcharset\s*=\s*["']?([\w_-]*)/.exec(
+131	        this.get('content-type'),
+132	      )
+133	      if (matches && !/UTF-?8/i.test(matches[1])) {
+134	        val = try_convert(Buffer.from(val, 'binary'), matches[1])
+135	      }
+136	    }
+137	
+138	    if (!/=\?/.test(val)) return val
+139	
+140	    return decode2047(val, _decode_word)
+141	  }
+142	
+143	  get(key) {
+144	    return (this.headers[key.toLowerCase()] ?? []).join('\n')
+145	  }
+146	
+147	  get_all(key) {
+148	    return Object.freeze([...(this.headers[key.toLowerCase()] ?? [])])
+149	  }
+150	
+151	  get_decoded(key) {
+152	    return (this.headers_decoded[key.toLowerCase()] ?? []).join('\n')
+153	  }
+154	
+155	  // Convenience accessor for address-valued headers (From, To, Cc, Reply-To,
+156	  // etc.). Returns the parsed `(Address | Group)[]` from @haraka/email-address;
+157	  // empty array if the header is missing. Throws on malformed input — call
+158	  // with try/catch when you can't trust the source.
+159	  get_addresses(key) {
+160	    const val = this.get_decoded(key)
+161	    if (!val) return []
+162	    return parseHeader(val)
+163	  }
+164	
+165	  remove(key) {
+166	    key = key.toLowerCase()
+167	    delete this.headers[key]
+168	    delete this.headers_decoded[key]
+169	    this._remove_more(key)
+170	  }
+171	
+172	  _remove_more(key) {
+173	    const key_len = key.length
+174	    for (let i = 0, l = this.header_list.length; i < l; i++) {
+175	      if (
+176	        this.header_list[i].substring(0, key_len + 1).toLowerCase() ===
+177	        `${key}:`
+178	      ) {
+179	        this.header_list.splice(i, 1)
+180	        return this._remove_more(key)
+181	      }
+182	    }
+183	  }
+184	
+185	  add(key, value) {
+186	    if (!key) key = 'X-Haraka-Blank'
+187	    value = trimNewlines(value)
+188	    if (/[^\x00-\x7f]/.test(value)) value = libmime.encodeWords(value, 'Q')
+189	    this._add_header(key.toLowerCase(), value, 'unshift')
+190	    this._add_header_decode(key.toLowerCase(), value, 'unshift')
+191	    this.header_list.unshift(`${key}: ${value}\n`)
+192	  }
+193	
+194	  add_end(key, value) {
+195	    if (!key) key = 'X-Haraka-Blank'
+196	    value = trimNewlines(value)
+197	    if (/[^\x00-\x7f]/.test(value)) value = libmime.encodeWords(value, 'Q')
+198	    this._add_header(key.toLowerCase(), value, 'push')
+199	    this._add_header_decode(key.toLowerCase(), value, 'push')
+200	    this.header_list.push(`${key}: ${value}\n`)
+201	  }
+202	
+203	  _add_header(key, value, method) {
+204	    if (['__proto__', 'constructor', 'prototype'].includes(key)) return
+205	    this.headers[key] ??= []
+206	    this.headers[key][method](value)
+207	  }
+208	
+209	  _add_header_decode(key, value, method) {
+210	    if (['__proto__', 'constructor', 'prototype'].includes(key)) return
+211	    this.headers_decoded[key] ??= []
+212	    this.headers_decoded[key][method](this.decode_header(value))
+213	  }
+214	
+215	  lines() {
+216	    return Object.freeze([...this.header_list])
+217	  }
+218	
+219	  toString() {
+220	    return this.header_list.join('\n')
+221	  }
+222	}
+223	
+224	function trimNewlines(value) {
+225	  // 4B ops/sec vs regex at 1.4M ops/sec
+226	  while (value.length > 0) {
+227	    if (value.endsWith('\n')) {
+228	      if (value.endsWith('\r\n')) {
+229	        value = value.slice(0, -2)
+230	      } else {
+231	        value = value.slice(0, -1)
+232	      }
+233	    } else {
+234	      break // Stop at a stray \r or any other character
+235	    }
+236	  }
+237	  return value
+238	}
+239	
+240	module.exports = Header
+241	
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/node_modules/haraka-email-message/node_modules/haraka-message-stream/index.js"}
+1	'use strict'
+2	
+3	const fs = require('node:fs')
+4	const path = require('node:path')
+5	const { Stream, PassThrough, Writable } = require('node:stream')
+6	
+7	const ChunkEmitter = require('./lib/chunk-emitter')
+8	const HeaderSkipper = require('./lib/header-skipper')
+9	const LineTransformer = require('./lib/line-transformer')
+10	
+11	const STATE = { HEADERS: 1, BODY: 2 }
+12	const MAX_IDX_KEYS = 1000
+13	
+14	// Default spool threshold when cfg.main.spool_after is missing. Previously
+15	// the missing-value fallback was "never spool", which was an unbounded-memory
+16	// DoS for an MTA accepting attacker-controlled SMTP data. 25 MiB keeps the
+17	// vast majority of real-world traffic in RAM while still bounding worst case.
+18	const SPOOL_AFTER_DEFAULT = 25 * 1024 * 1024
+19	
+20	function resolveSpoolAfter(raw) {
+21	  if (raw === undefined || raw === null) return SPOOL_AFTER_DEFAULT
+22	  const n = typeof raw === 'number' ? raw : Number(raw)
+23	  // `-1` is the documented "never spool" sentinel (see Haraka connection.ini).
+24	  if (n === -1) return Infinity
+25	  if (!Number.isFinite(n) || n < 0) {
+26	    console.warn(
+27	      `message-stream: invalid spool_after=${JSON.stringify(raw)}; using default ${SPOOL_AFTER_DEFAULT}`,
+28	    )
+29	    return SPOOL_AFTER_DEFAULT
+30	  }
+31	  return n
+32	}
+33	
+34	class MessageStream extends Stream {
+35	  // Public observable state
+36	  uuid
+37	  bytes_read = 0
+38	  state = STATE.HEADERS
+39	  // null-prototype so attacker-controlled boundary names like `__proto__` or
+40	  // `constructor` can't mutate Object.prototype via `idx[boundary] = ...`.
+41	  idx = Object.create(null)
+42	  spooling = false
+43	  buffered = 0
+44	  total_buffered = 0
+45	  max_data_inflight = 0
+46	  headers
+47	
+48	  // Private write-side state
+49	  #queue = []
+50	  #writeCe = null
+51	  #fd = null
+52	  #ws = null
+53	  #openPending = false
+54	  #writePending = false
+55	  #writeComplete = false
+56	  #wsEnded = false
+57	  #endCalled = false
+58	  #endCallback = null
+59	  #idxCount = 0
+60	  #destroyed = false
+61	
+62	  // Private read-side state
+63	  #inPipe = false
+64	  #currentSource = null
+65	  #activeCleanup = null
+66	
+67	  // Config
+68	  #bufferMax
+69	  #spoolDir
+70	  #filename
+71	
+72	  constructor(cfg = {}, id, headers) {
+73	    super()
+74	    if (!id) throw new Error('id required')
+75	    this.uuid = id
+76	    this.headers = headers ?? []
+77	    this.#bufferMax = resolveSpoolAfter(cfg?.main?.spool_after)
+78	    this.#spoolDir = cfg?.main?.spool_dir ?? '/tmp'
+79	    this.#filename = path.join(this.#spoolDir, `${path.basename(id)}.eml`)
+80	  }
+81	
+82	  // ── Write side ────────────────────────────────────────────────────────────
+83	
+84	  add_line(line) {
+85	    if (typeof line === 'string') line = Buffer.from(line)
+86	
+87	    if (!this.#writeCe) {
+88	      this.#writeCe = new ChunkEmitter()
+89	      this.#writeCe.on('data', (chunk) => this.#write(chunk))
+90	    }
+91	
+92	    this.bytes_read += line.length
+93	
+94	    // Build up an index of 'interesting' data on the fly
+95	    if (this.state === STATE.HEADERS) {
+96	      // Look for end of headers line
+97	      if (line.length === 2 && line[0] === 0x0d && line[1] === 0x0a) {
+98	        this.idx.headers = { start: 0, end: this.bytes_read - line.length }
+99	        this.#idxCount++
+100	        this.state = STATE.BODY
+101	        this.idx.body = { start: this.bytes_read }
+102	        this.#idxCount++
+103	      }
+104	    }
+105	
+106	    if (this.state === STATE.BODY) {
+107	      // Look for MIME boundaries
+108	      if (line.length > 4 && line[0] === 0x2d && line[1] === 0x2d) {
+109	        let boundary = line.slice(2).toString().trimEnd()
+110	        if (/--\s*$/.test(line)) {
+111	          boundary = boundary.slice(0, -2)
+112	          if (this.idx[boundary]) this.idx[boundary].end = this.bytes_read
+113	        } else {
+114	          if (!this.idx[boundary] && this.#idxCount < MAX_IDX_KEYS) {
+115	            this.idx[boundary] = { start: this.bytes_read - line.length }
+116	            this.#idxCount++
+117	          }
+118	        }
+119	      }
+120	    }
+121	
+122	    this.#writeCe.fill(line)
+123	  }
+124	
+125	  add_line_end(cb) {
+126	    if (this.idx.body) this.idx.body.end = this.bytes_read
+127	    this.#endCalled = true
+128	    if (typeof cb === 'function') this.#endCallback = cb
+129	    // Call _write() only if no new data was emitted This might happen if the
+130	    // message size matches the size of the chunk buffer.
+131	    if (!this.#writeCe.end()) this.#write()
+132	  }
+133	
+134	  #write(data) {
+135	    if (data) {
+136	      this.buffered += data.length
+137	      this.total_buffered += data.length
+138	      this.#queue.push(data)
+139	    }
+140	    if (this.buffered > this.max_data_inflight)
+141	      this.max_data_inflight = this.buffered
+142	
+143	    if (this.#openPending || this.#writePending) return false
+144	
+145	    if (this.total_buffered > this.#bufferMax) this.spooling = true
+146	
+147	    if (this.#endCalled && (!this.spooling || !this.#queue.length)) {
+148	      if (this.spooling && this.#ws && !this.#wsEnded) {
+149	        // SUNSET 2027 (node 20 exits LTS on 2026-04-18)
+150	        // see test: 'spool file is fully written before add_line_end callback fires'
+151	        this.#wsEnded = true
+152	        this.#ws.end(() => {
+153	          this.#endCallback?.()
+154	          if (!this.#writeComplete) {
+155	            this.#writeComplete = true
+156	            this.emit('_write_complete')
+157	          }
+158	        })
+159	      } else if (!this.#wsEnded) {
+160	        this.#endCallback?.()
+161	        if (!this.#writeComplete) {
+162	          this.#writeComplete = true
+163	          this.emit('_write_complete')
+164	        }
+165	      }
+166	      return true
+167	    }
+168	
+169	    if (this.buffered < this.#bufferMax && !this.spooling) {
+170	      return true
+171	    }
+172	
+173	    if (!this.#queue.length) return false
+174	
+175	    // Open spool file if needed
+176	    if (!this.#fd && !this.#openPending) {
+177	      this.#openPending = true
+178	      this.#ws = fs.createWriteStream(this.#filename, {
+179	        flags: 'wx+',
+180	        autoClose: false,
+181	      })
+182	      this.#ws.on('open', (fd) => {
+183	        this.#openPending = false
+184	        if (this.#destroyed) {
+185	          // destroy() ran while open was pending; clean up the fd it just
+186	          // handed us, and remove the spool file we asked to be created.
+187	          fs.close(fd, () => fs.unlink(this.#filename, () => {}))
+188	          return
+189	        }
+190	        this.#fd = fd
+191	        setImmediate(() => this.#write())
+192	      })
+193	      this.#ws.on('error', (err) => this.emit('error', err))
+194	    }
+195	
+196	    if (!this.#fd) return false
+197	
+198	    const toSend = this.#queue.shift()
+199	    this.buffered -= toSend.length
+200	
+201	    if (!this.#ws.write(toSend)) {
+202	      this.#writePending = true
+203	      this.#ws.once('drain', () => {
+204	        this.#writePending = false
+205	        setImmediate(() => this.#write())
+206	      })
+207	      return false
+208	    }
+209	
+210	    if (this.#endCalled && (!this.spooling || !this.#queue.length))
+211	      return this.#write()
+212	    return true
+213	  }
+214	
+215	  // ── Read side ─────────────────────────────────────────────────────────────
+216	
+217	  pipe(destination, options = {}) {
+218	    if (this.#inPipe) throw new Error('Cannot pipe while currently piping')
+219	
+220	    const lineEndings = options?.line_endings ?? '\r\n'
+221	    const skipHeaders = !!options?.skip_headers
+222	
+223	    this.#inPipe = true
+224	
+225	    // dot_stuffing is the legacy option name used by Haraka < 3.1 (inverse of dot_stuffed):
+226	    //   dot_stuffing: true  → dot_stuffed: false (preserve stored dot-stuffing for SMTP)
+227	    //   dot_stuffing: false → dot_stuffed: true  (unstuff for local delivery/scanning)
+228	    const dotStuffed =
+229	      options?.dot_stuffed ??
+230	      (options?.dot_stuffing !== undefined ? !options.dot_stuffing : true)
+231	
+232	    const transformer = new LineTransformer({
+233	      lineEndings,
+234	      dotStuffed,
+235	      endingDot: options?.ending_dot ?? false,
+236	      clamdStyle: !!options?.clamd_style,
+237	    })
+238	    const source = new PassThrough()
+239	    this.#currentSource = source
+240	
+241	    // Idempotent teardown — resets #inPipe so the next pipe() can proceed
+242	    // and removes all listeners we registered. See haraka/message-stream#22.
+243	    let cleanedUp = false
+244	    let doRead
+245	    const cleanup = () => {
+246	      if (cleanedUp) return
+247	      cleanedUp = true
+248	      this.#inPipe = false
+249	      this.#activeCleanup = null
+250	      if (doRead) this.removeListener('_write_complete', doRead)
+251	      destination.removeListener('error', cleanup)
+252	      destination.removeListener('close', cleanup)
+253	      // Destroy without an error to avoid spurious 'error' emissions.
+254	      if (!source.destroyed) source.destroy()
+255	      if (!transformer.destroyed) transformer.destroy()
+256	    }
+257	    this.#activeCleanup = cleanup
+258	
+259	    // Register before pipe() so these fire before the pipe's own 'end' handler,
+260	    // which calls destination.end() — potentially triggering a synchronous next()
+261	    // that would attempt a new pipe() while #inPipe is still true.
+262	    transformer.once('end', cleanup)
+263	    transformer.once('error', (err) => {
+264	      cleanup()
+265	      this.emit('error', err)
+266	    })
+267	    source.once('error', (err) => {
+268	      cleanup()
+269	      this.emit('error', err)
+270	    })
+271	
+272	    // Prepended so cleanup runs before any consumer error handler that calls
+273	    // next() synchronously. See haraka/message-stream#22.
+274	    destination.prependOnceListener('error', cleanup)
+275	    destination.prependOnceListener('close', cleanup)
+276	
+277	    source.pipe(transformer).pipe(destination, { end: options.end !== false })
+278	
+279	    // Constructor headers suppress raw-data headers; skip_headers also suppresses ctor headers
+280	    const emitCtorHeaders = this.headers.length > 0 && !skipHeaders
+281	    const skipRawHeaders = this.headers.length > 0 || skipHeaders
+282	
+283	    doRead = () => {
+284	      // If unpipe()/cleanup ran while we were queued on _write_complete or
+285	      // waiting on an async fs.open, skip the (now invalid) read.
+286	      if (cleanedUp) return
+287	      if (emitCtorHeaders) {
+288	        for (const h of this.headers) {
+289	          source.write(Buffer.from(h.replace(/\r?\n/g, lineEndings)))
+290	        }
+291	        source.write(Buffer.from(lineEndings)) // EOH marker
+292	      }
+293	
+294	      if (this.#queue.length > 0) {
+295	        // In-memory path
+296	        if (skipRawHeaders) {
+297	          const skipper = new HeaderSkipper()
+298	          skipper.on('error', (err) => source.destroy(err))
+299	          skipper.pipe(source)
+300	          for (const chunk of this.#queue) skipper.write(chunk.slice(0))
+301	          skipper.end()
+302	        } else {
+303	          for (const chunk of this.#queue) source.write(chunk.slice(0))
+304	          source.end()
+305	        }
+306	      } else {
+307	        // Disk path
+308	        const startRead = (fd) => {
+309	          const rs = fs.createReadStream(null, { fd, start: 0 })
+310	          // Prevent the fd from being closed so it can be reused across sequential pipes
+311	          rs.destroy = () => {}
+312	          rs.once('error', (err) => {
+313	            source.destroy(err)
+314	            this.emit('error', err)
+315	          })
+316	          if (skipRawHeaders) {
+317	            const skipper = new HeaderSkipper()
+318	            skipper.on('error', (err) => source.destroy(err))
+319	            rs.pipe(skipper).pipe(source)
+320	          } else {
+321	            rs.pipe(source)
+322	          }
+323	        }
+324	
+325	        if (this.#fd) {
+326	          startRead(this.#fd)
+327	        } else {
+328	          fs.open(this.#filename, 'r', (err, fd) => {
+329	            // Pipe may have been torn down while fs.open was in flight.
+330	            if (cleanedUp) {
+331	              if (fd !== undefined) fs.close(fd, () => {})
+332	              return
+333	            }
+334	            if (err) {
+335	              this.emit('error', err)
+336	              source.destroy(err)
+337	              return
+338	            }
+339	            this.#fd = fd
+340	            startRead(fd)
+341	          })
+342	        }
+343	      }
+344	    }
+345	
+346	    if (this.#writeComplete) {
+347	      doRead()
+348	    } else {
+349	      this.once('_write_complete', doRead)
+350	    }
+351	
+352	    return destination
+353	  }
+354	
+355	  // Synchronously tear down the active pipe. Consumers should call this in
+356	  // error/timeout handlers before destroying the destination, since
+357	  // destination.destroy() emits 'close' on a later tick. No-op if idle.
+358	  // See haraka/message-stream#22.
+359	  unpipe() {
+360	    if (this.#activeCleanup) this.#activeCleanup()
+361	  }
+362	
+363	  pause() {
+364	    this.#currentSource?.pause()
+365	  }
+366	
+367	  resume() {
+368	    this.#currentSource?.resume()
+369	  }
+370	
+371	  destroy() {
+372	    this.#destroyed = true
+373	    // If a spool open is in flight, the open callback handles the cleanup
+374	    // (it sees #destroyed and closes the fd + unlinks the file there).
+375	    if (this.#openPending) return
+376	    try {
+377	      if (this.#fd) {
+378	        const fd = this.#fd
+379	        this.#fd = null
+380	        fs.close(fd, () => fs.unlink(this.#filename, () => {}))
+381	      } else {
+382	        fs.unlink(this.#filename, () => {})
+383	      }
+384	    } catch {
+385	      // best-effort cleanup
+386	    }
+387	  }
+388	
+389	  get_data(options, cb) {
+390	    if (arguments.length === 1) {
+391	      cb = options
+392	      options = {}
+393	    }
+394	    this.pipe(new GetDataStream(cb), options)
+395	  }
+396	
+397	  [Symbol.asyncIterator](options = {}) {
+398	    const pass = new PassThrough()
+399	    this.pipe(pass, options)
+400	    return pass[Symbol.asyncIterator]()
+401	  }
+402	}
+403	
+404	module.exports = MessageStream
+405	
+406	class GetDataStream extends Writable {
+407	  constructor(cb) {
+408	    super()
+409	    this.cb = cb
+410	    this.chunks = []
+411	  }
+412	
+413	  _write(chunk, _enc, done) {
+414	    this.chunks.push(chunk)
+415	    done()
+416	  }
+417	
+418	  _final(done) {
+419	    this.cb(Buffer.concat(this.chunks))
+420	    done()
+421	  }
+422	}
+423	
+424	module.exports.ChunkEmitter = ChunkEmitter
+425	
+TOOL Bash {"command": "grep -rn \"skip_headers\\|header_list\\|add_leading_header\\|reset_headers\\|found_hb_sep\\|header_pos\" --include=*.js --include=*.md . | grep -v node_modules"}
+(eval):1: no matches found: --include=*.js
+TOOL Bash {"command": "grep -rn \"skip_headers\\|header_list\\|add_leading_header\\|reset_headers\\|found_hb_sep\\|header_pos\" . --include=\"*.js\" --include=\"*.md\" --exclude-dir=node_modules --exclude-dir=.git"}
+transaction.js:22:        this.header_pos = 0
+transaction.js:23:        this.found_hb_sep = false
+transaction.js:29:        this.message_stream = new message.stream(this.cfg, this.uuid, this.header.header_list)
+transaction.js:134:        if (this.header_pos === 0 && (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a))) {
+transaction.js:136:            this.header_pos = this.header_lines.length
+transaction.js:137:            this.found_hb_sep = true
+transaction.js:139:        } else if (this.header_pos === 0) {
+transaction.js:158:        if (!this.found_hb_sep && this.header_lines.length) {
+transaction.js:162:            let header_pos = 0
+transaction.js:168:                header_pos = i
+transaction.js:170:            const body_lines = this.header_lines.splice(header_pos + 1)
+transaction.js:172:            this.header_pos = header_pos
+transaction.js:180:        if (this.header_pos && this.parse_body) {
+transaction.js:198:        if (this.header_pos > 0) this.reset_headers()
+transaction.js:201:    add_leading_header(key, value) {
+transaction.js:203:        if (this.header_pos > 0) this.reset_headers()
+transaction.js:206:    reset_headers() {
+transaction.js:208:        this.header_pos = header_lines.length
+transaction.js:213:        if (this.header_pos > 0) this.reset_headers()
+test/transaction.js:313:        it('add_leading_header prepends a header', (done) => {
+test/transaction.js:318:                this.transaction.add_leading_header('X-Lead', 'first')
+connection.js:1612:            this.transaction.add_leading_header('Authentication-Results', ar_field)
+docs/Transaction.md:58:- transaction.add_leading_header(key, value)
+outbound/index.js:233:        transaction.add_leading_header('Received', `(${obc.cfg.received_header}); ${utils.date_to_str(new Date())}`)
+outbound/hmail.js:1217:        header.header_list.forEach((line) => {
+TOOL Bash {"command": "sed -n 1150,1290p outbound/hmail.js"}
+            bounce_body.push(`Final-Recipient: rfc822;${rcpt_to.address()}${CRLF}`)
+            let dsn_action = null
+            if (rcpt_to.dsn_action) {
+                dsn_action = rcpt_to.dsn_action
+            } else if (rcpt_to.dsn_code) {
+                if (/^5/.exec(rcpt_to.dsn_code)) {
+                    dsn_action = 'failed'
+                } else if (/^4/.exec(rcpt_to.dsn_code)) {
+                    dsn_action = 'delayed'
+                } else if (/^2/.exec(rcpt_to.dsn_code)) {
+                    dsn_action = 'delivered'
+                }
+            } else if (rcpt_to.dsn_smtp_code) {
+                if (/^5/.exec(rcpt_to.dsn_smtp_code)) {
+                    dsn_action = 'failed'
+                } else if (/^4/.exec(rcpt_to.dsn_smtp_code)) {
+                    dsn_action = 'delayed'
+                } else if (/^2/.exec(rcpt_to.dsn_smtp_code)) {
+                    dsn_action = 'delivered'
+                }
+            }
+            if (dsn_action != null) {
+                bounce_body.push(`Action: ${dsn_action}${CRLF}`)
+            }
+            if (rcpt_to.dsn_status) {
+                let { dsn_status } = rcpt_to
+                if (rcpt_to.dsn_code || rcpt_to.dsn_msg) {
+                    dsn_status += ' ('
+                    if (rcpt_to.dsn_code) {
+                        dsn_status += rcpt_to.dsn_code
+                    }
+                    if (rcpt_to.dsn_code || rcpt_to.dsn_msg) {
+                        dsn_status += ' '
+                    }
+                    if (rcpt_to.dsn_msg) {
+                        dsn_status += rcpt_to.dsn_msg
+                    }
+                    dsn_status += ')'
+                }
+                bounce_body.push(`Status: ${dsn_status}${CRLF}`)
+            }
+            if (rcpt_to.dsn_remote_mta) {
+                bounce_body.push(`Remote-MTA: ${rcpt_to.dsn_remote_mta}${CRLF}`)
+            }
+            let diag_code = null
+            if (rcpt_to.dsn_smtp_code || rcpt_to.dsn_smtp_extc || rcpt_to.dsn_smtp_response) {
+                diag_code = 'smtp;'
+                if (rcpt_to.dsn_smtp_code) {
+                    diag_code += `${rcpt_to.dsn_smtp_code} `
+                }
+                if (rcpt_to.dsn_smtp_extc) {
+                    diag_code += `${rcpt_to.dsn_smtp_extc} `
+                }
+                if (rcpt_to.dsn_smtp_response) {
+                    diag_code += `${rcpt_to.dsn_smtp_response} `
+                }
+            }
+            if (diag_code != null) {
+                bounce_body.push(`Diagnostic-Code: ${diag_code}${CRLF}`)
+            }
+        })
+        bounce_body.push(CRLF)
+
+        bounce_body.push(`--${boundary}${CRLF}`)
+        bounce_body.push(`Content-Description: Undelivered Message Headers${CRLF}`)
+        bounce_body.push(`Content-Type: text/rfc822-headers${CRLF}`)
+        bounce_body.push(CRLF)
+        header.header_list.forEach((line) => {
+            bounce_body.push(line)
+        })
+        bounce_body.push(CRLF)
+
+        bounce_body.push(`--${boundary}--${CRLF}`)
+
+        cb(null, bounce_body)
+    }
+
+    bounce(err, opts) {
+        this.loginfo(`bouncing mail: ${err}`)
+        if (!this.todo) {
+            this.once('ready', () => {
+                this._bounce(err, opts)
+            })
+            return
+        }
+        this._bounce(err, opts)
+    }
+
+    _bounce(err, opts) {
+        err = new Error(err)
+        if (opts) {
+            err.mx = opts.mx
+            err.deferred_rcpt = opts.fail_recips
+            err.bounced_rcpt = opts.bounce_recips
+        }
+        this.bounce_error = err
+        plugins.run_hooks('bounce', this, err)
+    }
+
+    bounce_respond(retval, msg) {
+        if (retval !== constants.cont) {
+            this.loginfo(`Plugin responded with: ${retval}. Not sending bounce.`)
+            return this.discard() // calls next_cb
+        }
+
+        const self = this
+        const err = this.bounce_error
+
+        if (!this.todo.mail_from.user) {
+            // double bounce - mail was already a bounce
+            return this.double_bounce('Mail was already a bounce')
+        }
+
+        const from = new Address('<>')
+        const recip = new Address(this.todo.mail_from.user, this.todo.mail_from.host)
+        this.populate_bounce_message(from, recip, err, function (err2, data_lines) {
+            if (err2) {
+                return self.double_bounce(`Error populating bounce message: ${err2}`)
+            }
+
+            outbound.send_email(
+                from,
+                recip,
+                data_lines.join(''),
+                (code, msg2) => {
+                    if (code === constants.deny) {
+                        // failed to even queue the mail
+                        return self.double_bounce('Unable to queue the bounce message. Not sending bounce!')
+                    }
+                    self.discard()
+                },
+                { origin: this },
+            )
+        })
+    }
+
+    double_bounce(err) {
+        this.lognotice(`Double bounce: ${err}`)
+        fs.unlink(this.path).catch(() => {})
+        this.next_cb()
+        // TODO: fill this in... ?
+TOOL Bash {"command": "sed -n 120,300p outbound/index.js"}
+    transaction.rcpt_to = to
+
+    // Set data_lines to lines in contents
+    if (typeof contents == 'string') {
+        let match
+        while ((match = utils.line_regexp.exec(contents))) {
+            let line = match[1]
+            line = line.replace(/\r?\n?$/, '\r\n') // make sure it ends in \r\n
+            if (dot_stuffed === false && line.length >= 3 && line.substring(0, 1) === '.') {
+                line = `.${line}`
+            }
+            transaction.add_data(Buffer.from(line))
+            contents = contents.substring(match[1].length)
+            if (contents.length === 0) {
+                break
+            }
+        }
+    } else {
+        // Assume a stream
+        return stream_line_reader(contents, transaction, (err) => {
+            if (err) {
+                return next(constants.denysoft, `Error from stream line reader: ${err}`)
+            }
+            exports.send_trans_email(transaction, next)
+        })
+    }
+
+    transaction.message_stream.add_line_end()
+
+    // Allow for the removal of Message-Id and/or Date headers which
+    // is useful when resending mail from a quarantine.
+    if (options.remove_msgid) {
+        transaction.remove_header('Message-Id')
+    }
+    if (options.remove_date) {
+        transaction.remove_header('Date')
+    }
+
+    this.send_trans_email(transaction, next)
+}
+
+function stream_line_reader(stream, transaction, cb) {
+    let current_data = ''
+    function process_data(data) {
+        current_data += data.toString()
+        let results
+        while ((results = utils.line_regexp.exec(current_data))) {
+            const this_line = results[1]
+            current_data = current_data.slice(this_line.length)
+            if (!(current_data.length || this_line.length)) {
+                return
+            }
+            transaction.add_data(Buffer.from(this_line))
+        }
+    }
+
+    function process_end() {
+        if (current_data.length) {
+            transaction.add_data(Buffer.from(current_data))
+        }
+        current_data = ''
+        transaction.message_stream.add_line_end()
+        cb()
+    }
+
+    stream.on('data', process_data)
+    stream.once('end', process_end)
+    stream.once('error', cb)
+}
+
+function get_deliveries(transaction) {
+    const deliveries = []
+
+    if (obc.cfg.always_split) {
+        logger.debug(exports, 'always split')
+        for (const rcpt of transaction.rcpt_to) {
+            deliveries.push({ domain: rcpt.host, rcpts: [rcpt] })
+        }
+        return deliveries
+    }
+
+    // First get each domain
+    const recips = {}
+    transaction.rcpt_to.forEach((rcpt) => {
+        const domain = rcpt.host
+        if (!recips[domain]) {
+            recips[domain] = []
+        }
+        recips[domain].push(rcpt)
+    })
+    Object.keys(recips).forEach((domain) => {
+        deliveries.push({ domain, rcpts: recips[domain] })
+    })
+    return deliveries
+}
+
+exports.send_trans_email = function (transaction, next) {
+    // add potentially missing headers
+    if (!transaction.header.get_all('Message-Id').length) {
+        logger.info(exports, 'Adding missing Message-Id header')
+        transaction.add_header('Message-Id', `<${transaction.uuid}@${net_utils.get_primary_host_name()}>`)
+    }
+    if (transaction.header.get('Message-Id') === '<>') {
+        logger.info(exports, 'Replacing empty Message-Id header')
+        transaction.remove_header('Message-Id')
+        transaction.add_header('Message-Id', `<${transaction.uuid}@${net_utils.get_primary_host_name()}>`)
+    }
+    if (!transaction.header.get_all('Date').length) {
+        logger.info(exports, 'Adding missing Date header')
+        transaction.add_header('Date', utils.date_to_str(new Date()))
+    }
+
+    if (obc.cfg.received_header !== 'disabled') {
+        transaction.add_leading_header('Received', `(${obc.cfg.received_header}); ${utils.date_to_str(new Date())}`)
+    }
+
+    const connection = { transaction }
+
+    logger.add_log_methods(connection)
+    if (!transaction.results) {
+        logger.debug(exports, 'adding results store')
+        transaction.results = new ResultStore(connection)
+    }
+
+    connection.pre_send_trans_email_respond = async (retval) => {
+        const deliveries = get_deliveries(transaction)
+        const hmails = []
+        const ok_paths = []
+
+        let todo_index = 1
+
+        try {
+            for (const deliv of deliveries) {
+                const todo = new TODOItem(deliv.domain, deliv.rcpts, transaction)
+                todo.uuid = `${todo.uuid}.${todo_index}`
+                todo_index++
+                await this.process_delivery(ok_paths, todo, hmails)
+            }
+        } catch (err) {
+            for (let i = 0, l = ok_paths.length; i < l; i++) {
+                await fs.unlink(ok_paths[i]).catch(() => {})
+            }
+            transaction.results.add({ name: 'outbound' }, { err })
+            if (next) next(constants.denysoft, err)
+            return
+        }
+
+        for (const hmail of hmails) {
+            delivery_queue.push(hmail)
+        }
+
+        transaction.results.add({ name: 'outbound' }, { pass: 'queued' })
+        if (next) next(constants.ok, `Message Queued (${transaction.uuid})`)
+    }
+
+    plugins.run_hooks('pre_send_trans_email', connection)
+}
+
+exports.process_delivery = function (ok_paths, todo, hmails) {
+    return new Promise((resolve, reject) => {
+        logger.info(exports, `Transaction delivery for domain: ${todo.domain}`)
+        const fname = _qfile.name()
+        const tmp_path = path.join(queue_dir, `${_qfile.platformDOT}${fname}`)
+        const ws = new FsyncWriteStream(tmp_path, {
+            flags: constants.WRITE_EXCL,
+        })
+
+        ws.on('close', async () => {
+            const dest_path = path.join(queue_dir, fname)
+            try {
+                await fs.rename(tmp_path, dest_path)
+                hmails.push(new HMailItem(fname, dest_path, todo.notes))
+                ok_paths.push(dest_path)
+                resolve()
+            } catch (err) {
+                logger.error(exports, `Unable to rename tmp file: ${err}`)
+                await fs.unlink(tmp_path).catch(() => {})
+                reject('Queue error')
+            }
+        })
+TOOL Bash {"command": "git log --oneline -15 -- transaction.js && echo \"=== skipper ===\" && cat node_modules/haraka-email-message/node_modules/haraka-message-stream/lib/header-skipper.js"}
+4cd76b8c prettier (#3504)
+5d242257 finish rename of dot_stuffing to dot_stuffed (#3473)
+027b1bac style: prefix node libs, arrow fns (#3359)
+a270f468 transaction init consistency (#3315)
+1f5dd233 transaction.js: simplify else condition in add_data (#3252)
+dc1b9fde P42 refactor: convert loop to for…of (#3123)
+3236aff4 update util.isRegExp to util.types.isRegExp (#3109)
+2231b4ca haraka/email-message & message-stream (#3071)
+83637cdf Skip plugins at runtime (#2966)
+ca9882ba headers.max_lines: init as integer at startup (#2878)
+576d5929 consolidate smtp.ini parsing to server.js (#2872)
+31455635 assure cfg.headers section exists (#2862)
+7c1a8a6a config options for headers (#2855)
+114b69c8 fix bannering on nested mime parts (#2737)
+8fb2cc31 lint: bracket style and object shorthand updates (#2680)
+=== skipper ===
+'use strict'
+
+const { Transform } = require('node:stream')
+
+const MAX_HEADER_SIZE = 1024 * 1024 // 1MB
+
+function indexOfLF(buf) {
+  for (let i = 0; i < buf.length; i++) {
+    if (buf[i] === 0x0a) return i
+  }
+  return -1
+}
+
+// Strips everything from the start of a stored message up to and including
+// the blank EOH line (\r\n or \n), then passes body bytes through unchanged.
+class HeaderSkipper extends Transform {
+  #remainder = Buffer.alloc(0)
+  #eohFound = false
+
+  _transform(chunk, enc, cb) {
+    if (this.#eohFound) {
+      this.push(chunk)
+      return cb()
+    }
+
+    if (this.#remainder.length + chunk.length > MAX_HEADER_SIZE) {
+      return cb(new Error('Header size limit exceeded'))
+    }
+
+    let buf = Buffer.concat([this.#remainder, chunk])
+    let offset
+    while ((offset = indexOfLF(buf)) !== -1) {
+      const line = buf.slice(0, offset + 1)
+      buf = buf.slice(offset + 1)
+      const isEoh =
+        (line.length === 2 && line[0] === 0x0d && line[1] === 0x0a) ||
+        (line.length === 1 && line[0] === 0x0a)
+      if (isEoh) {
+        this.#eohFound = true
+        if (buf.length > 0) this.push(buf)
+        this.#remainder = Buffer.alloc(0)
+        return cb()
+      }
+    }
+    this.#remainder = buf
+    cb()
+  }
+
+  _flush(cb) {
+    // Any remainder after EOF with no EOH found is discarded (headers-only msg edge case)
+    if (this.#remainder.length > 0 && this.#eohFound) this.push(this.#remainder)
+    cb()
+  }
+}
+
+module.exports = HeaderSkipper
+Let me reproduce the failure before changing anything.
+TOOL Bash {"command": "sed -n 285,340p test/transaction.js"}
+            { desc: 'dot after CRLF stuffed', input: 'a\r\n.b\n', expected: 'a\r\n..b\r\n' },
+        ]
+
+        for (const { desc, input, expected } of cases) {
+            it(desc, () => {
+                const inBuf = Buffer.isBuffer(input) ? input : Buffer.from(input)
+                const result = this.transaction.add_dot_stuffing_and_ensure_crlf_newlines(inBuf)
+                assert.equal(result.toString(), expected)
+            })
+        }
+    })
+
+    describe('header manipulation', () => {
+        beforeEach(_set_up)
+
+        it('add_header appends a header', (done) => {
+            this.transaction.add_data('Subject: original\n')
+            this.transaction.add_data('\n')
+            this.transaction.add_data('body\n')
+            this.transaction.end_data(() => {
+                this.transaction.add_header('X-Test', 'added')
+                const lines = this.transaction.header.get_all('X-Test')
+                assert.ok(lines.length > 0, 'header was added')
+                assert.equal(lines[0], 'added')
+                done()
+            })
+        })
+
+        it('add_leading_header prepends a header', (done) => {
+            this.transaction.add_data('Subject: original\n')
+            this.transaction.add_data('\n')
+            this.transaction.add_data('body\n')
+            this.transaction.end_data(() => {
+                this.transaction.add_leading_header('X-Lead', 'first')
+                const lines = this.transaction.header.get_all('X-Lead')
+                assert.ok(lines.length > 0, 'leading header was added')
+                assert.equal(lines[0], 'first')
+                done()
+            })
+        })
+
+        it('remove_header removes a header', (done) => {
+            this.transaction.add_data('X-Remove: gone\n')
+            this.transaction.add_data('\n')
+            this.transaction.add_data('body\n')
+            this.transaction.end_data(() => {
+                this.transaction.remove_header('X-Remove')
+                const lines = this.transaction.header.get_all('X-Remove')
+                assert.equal(lines.length, 0, 'header was removed')
+                done()
+            })
+        })
+    })
+
+    describe('incr_mime_count', () => {
+        beforeEach(_set_up)
+TOOL Write {"file_path": "/private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos1-authoring/15383f74-01e3-4518-aaed-9a4d5acd7ae6/scratchpad/repro.js", "content": "const t = require('/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js')\n\nfunction run(name, lines) {\n    const txn = t.createTransaction()\n    for (const l of lines) txn.add_data(Buffer.from(l))\n    txn.end_data(() => {\n        txn.add_header('X-Spam-Level', '***')\n        txn.message_stream.get_data((data) => {\n            console.log(`===== ${name} =====`)\n            console.log(JSON.stringify(data.toString()))\n            console.log('--- rendered ---')\n            console.log(data.toString())\n            console.log(`header_pos=${txn.header_pos} found_hb_sep=${txn.found_hb_sep}`)\n            console.log(`header_list=${JSON.stringify(txn.header.header_list)}`)\n        })\n    })\n}\n\n// A: message whose DATA starts with a blank line (no headers at all)\nrun('A: empty header block', ['\\r\\n', 'Hello world\\r\\n', '\\r\\n', 'More body\\r\\n'])\n\nsetTimeout(() => {\n    // B: busted email, no blank line, single header line then body\n    run('B: busted, one header', ['Subject: hi\\r\\n', 'Hello world\\r\\n', 'more body\\r\\n'])\n}, 300)\n\nsetTimeout(() => {\n    // C: busted email, first line is not a header at all\n    run('C: busted, no headers', ['Hello world\\r\\n', 'more body\\r\\n'])\n}, 600)\n\nsetTimeout(() => {\n    // D: normal, sane message (control)\n    run('D: normal', ['Subject: hi\\r\\n', 'From: a@b.c\\r\\n', '\\r\\n', 'Hello world\\r\\n'])\n}, 900)\n"}
+File created successfully at: /private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos1-authoring/15383f74-01e3-4518-aaed-9a4d5acd7ae6/scratchpad/repro.js (file state is current in your context — no need to Read it back)
+TOOL Bash {"command": "node /private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos1-authoring/15383f74-01e3-4518-aaed-9a4d5acd7ae6/scratchpad/repro.js 2>&1 | head -80"}
+This Bash command contains multiple operations. The following part requires approval: node /private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos1-authoring/15383f74-01e3-4518-aaed-9a4d5acd7ae6/scratchpad/repro.js 2>&1
+TOOL Bash {"command": "node /private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos1-authoring/15383f74-01e3-4518-aaed-9a4d5acd7ae6/scratchpad/repro.js", "description": "Run header placement repro"}
+This command requires approval
+TOOL Bash {"command": "cp /private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos1-authoring/15383f74-01e3-4518-aaed-9a4d5acd7ae6/scratchpad/repro.js ./repro.js && node repro.js", "description": "Run header placement repro"}
+This Bash command contains multiple operations. The following part requires approval: node repro.js
+TOOL Bash {"command": "node ./repro.js", "description": "Run header placement repro"}
+This command requires approval
+TOOL Bash {"command": "grep -n '\"test\"\\|\"scripts\"' -A6 package.json | head -20", "description": "Show npm test script"}
+97:  "scripts": {
+98-    "format": "npm run prettier:fix && npm run lint:fix",
+99-    "lint": "npx eslint *.js outbound plugins plugins/*/*.js test test/*/*.js test/*/*/*.js bin/haraka",
+100-    "lint:fix": "npx eslint --fix *.js outbound plugins plugins/*/*.js test test/*/*.js test/*/*/*.js bin/haraka",
+101-    "prettier": "npx prettier . --check",
+102-    "prettier:fix": "npx prettier . --write --log-level=warn",
+103:    "test": "npx mocha --exit --timeout=4000 test test/outbound test/plugins/auth test/plugins/queue test/plugins",
+104-    "versions": "npx dependency-version-checker check",
+105-    "versions:fix": "npx dependency-version-checker update"
+106-  },
+107-  "prettier": {
+108-    "singleQuote": true,
+109-    "printWidth": 120,
+TOOL Bash {"command": "rm -f ./repro.js; npx mocha --exit --timeout=4000 test/transaction.js 2>&1 | tail -20", "description": "Run transaction tests"}
+This Bash command contains multiple operations. The following part requires approval: rm -f ./repro.js; npx mocha --exit --timeout=4000 test/transaction.js 2>&1
+TOOL Bash {"command": "npx mocha --exit --timeout=4000 test/transaction.js", "description": "Run transaction tests"}
+This command requires approval
+I couldn't get execution permission for `node`/`mocha`, so I traced the code paths statically. Let me show what I found before fixing.
+
+The root cause is that `transaction.js` uses `header_pos` (a *line count*) as the boolean "have we passed the header/body separator" flag. It ends up `0` in cases where headers *have* been parsed:
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js", "offset": 128, "limit": 10}
+128	    add_data(line) {
+129	        if (typeof line === 'string') {
+130	            // This shouldn't ever happen.
+131	            line = Buffer.from(line, this.encoding)
+132	        }
+133	        // is this the end of headers line?
+134	        if (this.header_pos === 0 && (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a))) {
+135	            this.header.parse(this.header_lines)
+136	            this.header_pos = this.header_lines.length
+137	            this.found_hb_sep = true
+Now the fix:
+TOOL Edit {"replace_all": false, "file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js", "old_string": "const message = require('haraka-email-message')\n\nclass Transaction {", "new_string": "const message = require('haraka-email-message')\n\n// A line that looks like a header field, or a folded continuation of one.\nconst header_re = /^(?:[^\\s:]*:|[ \\t])/\n\n// Synthesized header/body separator, for messages that arrive without one.\nconst hb_sep = Buffer.from('\\r\\n')\n\nclass Transaction {"}
+The file /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js has been updated successfully. (file state is current in your context — no need to Read it back)
+TOOL Edit {"replace_all": false, "file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js", "old_string": "        // is this the end of headers line?\n        if (this.header_pos === 0 && (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a))) {\n            this.header.parse(this.header_lines)\n            this.header_pos = this.header_lines.length\n            this.found_hb_sep = true\n            if (this.parse_body) this.ensure_body()\n        } else if (this.header_pos === 0) {\n            // Build up headers\n            if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {\n                if (line[0] === 0x2e) line = line.slice(1) // Strip leading '.'\n                this.header_lines.push(line.toString(this.encoding).replace(/\\r\\n$/, '\\n'))\n            }\n        } else if (this.parse_body) {\n            let new_line = line\n            if (new_line[0] === 0x2e) new_line = new_line.slice(1) // Strip leading \".\"\n\n            line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_more(this.remove_final_cr(new_line)))\n\n            if (!line.length) return // buffering for banners\n        }\n\n        if (!this.discard_data) this.message_stream.add_line(line)\n    }\n\n    end_data(cb) {\n        if (!this.found_hb_sep && this.header_lines.length) {\n            // Headers not parsed yet - must be a busted email\n            // Strategy: Find the first line that doesn't look like a header.\n            // Treat anything before that as headers, anything after as body.\n            let header_pos = 0\n            for (let i = 0; i < this.header_lines.length; i++) {\n                // Anything that doesn't match a header or continuation\n                if (!/^(?:([^\\s:]*):\\s*([\\s\\S]*)$|[ \\t])/.test(this.header_lines[i])) {\n                    break\n                }\n                header_pos = i\n            }\n            const body_lines = this.header_lines.splice(header_pos + 1)\n            this.header.parse(this.header_lines)\n            this.header_pos = header_pos\n            if (this.parse_body) {\n                this.ensure_body()\n                for (const bodyLine of body_lines) {\n                    this.body.parse_more(bodyLine)\n                }\n            }\n        }\n        if (this.header_pos && this.parse_body) {", "new_string": "        if (!this.found_hb_sep) {\n            // is this the end of headers line?\n            if (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a)) {\n                this.parse_headers()\n                if (!this.discard_data) this.message_stream.add_line(line)\n                return\n            }\n\n            let hline = line\n            if (hline[0] === 0x2e) hline = hline.slice(1) // Strip leading '.'\n            hline = hline.toString(this.encoding).replace(/\\r\\n$/, '\\n')\n\n            if (header_re.test(hline)) {\n                // Build up headers\n                if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {\n                    this.header_lines.push(hline)\n                }\n                if (!this.discard_data) this.message_stream.add_line(line)\n                return\n            }\n\n            // Busted email: the headers were never terminated by a blank line.\n            // Treat this line as the first line of the body and synthesize the\n            // separator, so the stored message has a header/body boundary. Without\n            // one, a reader can't tell where the headers end, and headers appended\n            // later (add_header) end up rendered as part of the body.\n            this.parse_headers()\n            if (!this.discard_data) this.message_stream.add_line(hb_sep)\n        }\n\n        if (this.parse_body) {\n            let new_line = line\n            if (new_line[0] === 0x2e) new_line = new_line.slice(1) // Strip leading \".\"\n\n            line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_more(this.remove_final_cr(new_line)))\n\n            if (!line.length) return // buffering for banners\n        }\n\n        if (!this.discard_data) this.message_stream.add_line(line)\n    }\n\n    // Parse the accumulated header lines and move on to the message body.\n    parse_headers() {\n        this.header.parse(this.header_lines)\n        this.header_pos = this.header_lines.length\n        this.found_hb_sep = true\n        if (this.parse_body) this.ensure_body()\n    }\n\n    end_data(cb) {\n        if (!this.found_hb_sep) {\n            // The message ended without a header/body separator. Every line that\n            // arrived looked like a header, so this message has no body.\n            this.parse_headers()\n            if (!this.discard_data) this.message_stream.add_line(hb_sep)\n        }\n        if (this.parse_body && this.body) {"}
+The file /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js has been updated successfully. (file state is current in your context — no need to Read it back)
+TOOL Edit {"replace_all": false, "file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js", "old_string": "    add_header(key, value) {\n        this.header.add_end(key, value)\n        if (this.header_pos > 0) this.reset_headers()\n    }\n\n    add_leading_header(key, value) {\n        this.header.add(key, value)\n        if (this.header_pos > 0) this.reset_headers()\n    }", "new_string": "    add_header(key, value) {\n        this.header.add_end(key, value)\n        if (this.found_hb_sep) this.reset_headers()\n    }\n\n    add_leading_header(key, value) {\n        this.header.add(key, value)\n        if (this.found_hb_sep) this.reset_headers()\n    }"}
+The file /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js has been updated successfully. (file state is current in your context — no need to Read it back)
+TOOL Edit {"replace_all": false, "file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js", "old_string": "    remove_header(key) {\n        this.header.remove(key)\n        if (this.header_pos > 0) this.reset_headers()\n    }", "new_string": "    remove_header(key) {\n        this.header.remove(key)\n        if (this.found_hb_sep) this.reset_headers()\n    }"}
+The file /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js has been updated successfully. (file state is current in your context — no need to Read it back)
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js", "offset": 128, "limit": 75}
+128	            output_pos += data.length - input_pos
+129	        }
+130	
+131	        return output.slice(0, output_pos)
+132	    }
+133	
+134	    add_data(line) {
+135	        if (typeof line === 'string') {
+136	            // This shouldn't ever happen.
+137	            line = Buffer.from(line, this.encoding)
+138	        }
+139	        if (!this.found_hb_sep) {
+140	            // is this the end of headers line?
+141	            if (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a)) {
+142	                this.parse_headers()
+143	                if (!this.discard_data) this.message_stream.add_line(line)
+144	                return
+145	            }
+146	
+147	            let hline = line
+148	            if (hline[0] === 0x2e) hline = hline.slice(1) // Strip leading '.'
+149	            hline = hline.toString(this.encoding).replace(/\r\n$/, '\n')
+150	
+151	            if (header_re.test(hline)) {
+152	                // Build up headers
+153	                if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {
+154	                    this.header_lines.push(hline)
+155	                }
+156	                if (!this.discard_data) this.message_stream.add_line(line)
+157	                return
+158	            }
+159	
+160	            // Busted email: the headers were never terminated by a blank line.
+161	            // Treat this line as the first line of the body and synthesize the
+162	            // separator, so the stored message has a header/body boundary. Without
+163	            // one, a reader can't tell where the headers end, and headers appended
+164	            // later (add_header) end up rendered as part of the body.
+165	            this.parse_headers()
+166	            if (!this.discard_data) this.message_stream.add_line(hb_sep)
+167	        }
+168	
+169	        if (this.parse_body) {
+170	            let new_line = line
+171	            if (new_line[0] === 0x2e) new_line = new_line.slice(1) // Strip leading "."
+172	
+173	            line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_more(this.remove_final_cr(new_line)))
+174	
+175	            if (!line.length) return // buffering for banners
+176	        }
+177	
+178	        if (!this.discard_data) this.message_stream.add_line(line)
+179	    }
+180	
+181	    // Parse the accumulated header lines and move on to the message body.
+182	    parse_headers() {
+183	        this.header.parse(this.header_lines)
+184	        this.header_pos = this.header_lines.length
+185	        this.found_hb_sep = true
+186	        if (this.parse_body) this.ensure_body()
+187	    }
+188	
+189	    end_data(cb) {
+190	        if (!this.found_hb_sep) {
+191	            // The message ended without a header/body separator. Every line that
+192	            // arrived looked like a header, so this message has no body.
+193	            this.parse_headers()
+194	            if (!this.discard_data) this.message_stream.add_line(hb_sep)
+195	        }
+196	        if (this.parse_body && this.body) {
+197	            const line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_end())
+198	            if (line.length) {
+199	                this.body.force_end()
+200	
+201	                if (!this.discard_data) this.message_stream.add_line(line)
+202	            }
+Now regression tests that assert against the *serialized* message, which the existing tests never did:
+TOOL Bash {"command": "sed -n 1,30p test/transaction.js", "description": "Show test file header"}
+const assert = require('node:assert')
+const fs = require('node:fs')
+const path = require('node:path')
+
+const config = require('haraka-config')
+const transaction = require('../transaction')
+
+const _set_up = (done) => {
+    this.transaction = transaction.createTransaction(undefined, config.get('smtp.ini'))
+    done()
+}
+
+describe('transaction', () => {
+    beforeEach(_set_up)
+
+    it('add_body_filter', (done) => {
+        this.transaction.add_body_filter('text/plain', (ct, enc, buf) => {
+            // The functionality of these filter functions is tested in
+            // haraka-email-message. This just assures the plumbing is in place.
+
+            assert.ok(ct.startsWith('text/plain'), 'correct body part')
+            assert.ok(/utf-?8/i.test(enc), 'correct encoding')
+            assert.equal(buf.toString().trim(), 'Text part', 'correct body contents')
+        })
+        ;[
+            'Content-Type: multipart/alternative; boundary=abcd\n',
+            '\n',
+            '--abcd\n',
+            'Content-Type: text/plain\n',
+            '\n',
+TOOL Edit {"replace_all": false, "file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/test/transaction.js", "old_string": "        it('remove_header removes a header', (done) => {", "new_string": "        // Appended headers must land in the header section of the serialized\n        // message, not after the body. See haraka/Haraka#2986.\n        const appends_to_header_section = (desc, lines, expect_body) => {\n            it(desc, (done) => {\n                for (const line of lines) this.transaction.add_data(Buffer.from(line))\n                this.transaction.end_data(() => {\n                    this.transaction.add_header('X-Spam-Level', '***')\n                    this.transaction.message_stream.get_data((data) => {\n                        const msg = data.toString()\n                        const sep = msg.indexOf('\\r\\n\\r\\n')\n                        assert.ok(sep !== -1, 'message has a header/body separator')\n                        const headers = msg.slice(0, sep + 2)\n                        const body = msg.slice(sep + 4)\n                        assert.ok(headers.includes('X-Spam-Level: ***\\r\\n'), `appended header is in the header section: ${JSON.stringify(msg)}`)\n                        assert.equal(body, expect_body)\n                        done()\n                    })\n                })\n            })\n        }\n\n        appends_to_header_section(\n            'normal message',\n            ['Subject: original\\r\\n', '\\r\\n', 'body\\r\\n'],\n            'body\\r\\n',\n        )\n\n        // DATA opens with the separator: the message has no headers of its own.\n        // Previously header_pos stayed 0, so the body was re-parsed as headers.\n        appends_to_header_section(\n            'message with an empty header block',\n            ['\\r\\n', 'Hello world\\r\\n', '\\r\\n', 'More body\\r\\n'],\n            'Hello world\\r\\n\\r\\nMore body\\r\\n',\n        )\n\n        // No blank line between headers and body.\n        appends_to_header_section(\n            'message with no header/body separator',\n            ['Subject: original\\r\\n', 'Hello world\\r\\n', 'More body\\r\\n'],\n            'Hello world\\r\\nMore body\\r\\n',\n        )\n\n        // Nothing that looks like a header at all.\n        appends_to_header_section(\n            'message that is all body',\n            ['Hello world\\r\\n', 'More body\\r\\n'],\n            'Hello world\\r\\nMore body\\r\\n',\n        )\n\n        appends_to_header_section('message that is all headers', ['Subject: original\\r\\n'], '')\n\n        it('remove_header removes a header', (done) => {"}
+The file /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/test/transaction.js has been updated successfully. (file state is current in your context — no need to Read it back)
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/node_modules/haraka-email-message/node_modules/haraka-message-stream/lib/line-transformer.js"}
+1	'use strict'
+2	
+3	const { Transform } = require('node:stream')
+4	
+5	function indexOfLF(buf) {
+6	  for (let i = 0; i < buf.length; i++) {
+7	    if (buf[i] === 0x0a) return i
+8	  }
+9	  return -1
+10	}
+11	
+12	// Per-line transformer: dot-unstuffing, line-ending normalisation,
+13	// optional ending-dot, optional clamd-style size framing.
+14	class LineTransformer extends Transform {
+15	  #remainder = Buffer.alloc(0)
+16	  #lineEndings
+17	  #dotStuffed
+18	  #endingDot
+19	  #clamdStyle
+20	
+21	  constructor({
+22	    lineEndings = '\r\n',
+23	    dotStuffed = true,
+24	    endingDot = false,
+25	    clamdStyle = false,
+26	  } = {}) {
+27	    super()
+28	    this.#lineEndings = lineEndings
+29	    this.#dotStuffed = dotStuffed
+30	    this.#endingDot = endingDot
+31	    this.#clamdStyle = clamdStyle
+32	  }
+33	
+34	  #pushLine(line) {
+35	    if (this.#clamdStyle) {
+36	      const buf = Buffer.allocUnsafe(line.length + 4)
+37	      buf.writeUInt32BE(line.length, 0)
+38	      line.copy(buf, 4)
+39	      this.push(buf)
+40	    } else {
+41	      this.push(line)
+42	    }
+43	  }
+44	
+45	  #transformLine(line) {
+46	    // Remove SMTP dot-stuffing: leading '..' → '.'
+47	    if (
+48	      this.#dotStuffed &&
+49	      line.length >= 2 &&
+50	      line[0] === 0x2e &&
+51	      line[1] === 0x2e
+52	    ) {
+53	      line = line.slice(1)
+54	    }
+55	    // Strip \r when consumer wants bare-LF line endings
+56	    if (
+57	      this.#lineEndings === '\n' &&
+58	      line.length >= 2 &&
+59	      line[line.length - 1] === 0x0a &&
+60	      line[line.length - 2] === 0x0d
+61	    ) {
+62	      const copy = Buffer.allocUnsafe(line.length - 1)
+63	      line.copy(copy, 0, 0, line.length - 2)
+64	      copy[copy.length - 1] = 0x0a
+65	      line = copy
+66	    }
+67	    this.#pushLine(line)
+68	  }
+69	
+70	  _transform(chunk, enc, cb) {
+71	    let buf = Buffer.concat([this.#remainder, chunk])
+72	    let offset
+73	    while ((offset = indexOfLF(buf)) !== -1) {
+74	      this.#transformLine(buf.slice(0, offset + 1))
+75	      buf = buf.slice(offset + 1)
+76	    }
+77	    this.#remainder = buf
+78	    cb()
+79	  }
+80	
+81	  _flush(cb) {
+82	    if (this.#remainder.length > 0) {
+83	      this.#transformLine(this.#remainder)
+84	      this.#remainder = Buffer.alloc(0)
+85	    }
+86	    if (this.#endingDot) {
+87	      this.#pushLine(Buffer.from(`.${this.#lineEndings}`))
+88	    }
+89	    if (this.#clamdStyle) {
+90	      const term = Buffer.alloc(4)
+91	      term.writeUInt32BE(0, 0)
+92	      this.push(term)
+93	    }
+94	    cb()
+95	  }
+96	}
+97	
+98	module.exports = LineTransformer
+99	
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/test/transaction.js", "offset": 325, "limit": 55}
+325	
+326	        // Appended headers must land in the header section of the serialized
+327	        // message, not after the body. See haraka/Haraka#2986.
+328	        const appends_to_header_section = (desc, lines, expect_body) => {
+329	            it(desc, (done) => {
+330	                for (const line of lines) this.transaction.add_data(Buffer.from(line))
+331	                this.transaction.end_data(() => {
+332	                    this.transaction.add_header('X-Spam-Level', '***')
+333	                    this.transaction.message_stream.get_data((data) => {
+334	                        const msg = data.toString()
+335	                        const sep = msg.indexOf('\r\n\r\n')
+336	                        assert.ok(sep !== -1, 'message has a header/body separator')
+337	                        const headers = msg.slice(0, sep + 2)
+338	                        const body = msg.slice(sep + 4)
+339	                        assert.ok(headers.includes('X-Spam-Level: ***\r\n'), `appended header is in the header section: ${JSON.stringify(msg)}`)
+340	                        assert.equal(body, expect_body)
+341	                        done()
+342	                    })
+343	                })
+344	            })
+345	        }
+346	
+347	        appends_to_header_section(
+348	            'normal message',
+349	            ['Subject: original\r\n', '\r\n', 'body\r\n'],
+350	            'body\r\n',
+351	        )
+352	
+353	        // DATA opens with the separator: the message has no headers of its own.
+354	        // Previously header_pos stayed 0, so the body was re-parsed as headers.
+355	        appends_to_header_section(
+356	            'message with an empty header block',
+357	            ['\r\n', 'Hello world\r\n', '\r\n', 'More body\r\n'],
+358	            'Hello world\r\n\r\nMore body\r\n',
+359	        )
+360	
+361	        // No blank line between headers and body.
+362	        appends_to_header_section(
+363	            'message with no header/body separator',
+364	            ['Subject: original\r\n', 'Hello world\r\n', 'More body\r\n'],
+365	            'Hello world\r\nMore body\r\n',
+366	        )
+367	
+368	        // Nothing that looks like a header at all.
+369	        appends_to_header_section(
+370	            'message that is all body',
+371	            ['Hello world\r\n', 'More body\r\n'],
+372	            'Hello world\r\nMore body\r\n',
+373	        )
+374	
+375	        appends_to_header_section('message that is all headers', ['Subject: original\r\n'], '')
+376	
+377	        it('remove_header removes a header', (done) => {
+378	            this.transaction.add_data('X-Remove: gone\n')
+379	            this.transaction.add_data('\n')
+TOOL Edit {"replace_all": false, "file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/test/transaction.js", "old_string": "                        const headers = msg.slice(0, sep + 2)\n                        const body = msg.slice(sep + 4)\n                        assert.ok(headers.includes('X-Spam-Level: ***\\r\\n'), `appended header is in the header section: ${JSON.stringify(msg)}`)\n                        assert.equal(body, expect_body)", "new_string": "                        const headers = msg.slice(0, sep + 2)\n                        const body = msg.slice(sep + 4)\n                        const where = `appended header is in the header section: ${JSON.stringify(msg)}`\n                        assert.ok(headers.includes('X-Spam-Level: ***\\r\\n'), where)\n                        assert.equal(body, expect_body)"}
+The file /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/test/transaction.js has been updated successfully. (file state is current in your context — no need to Read it back)
+TOOL Bash {"command": "npx prettier --check transaction.js test/transaction.js", "description": "Check formatting"}
+This command requires approval
+TOOL Edit {"replace_all": false, "file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/test/transaction.js", "old_string": "        appends_to_header_section(\n            'normal message',\n            ['Subject: original\\r\\n', '\\r\\n', 'body\\r\\n'],\n            'body\\r\\n',\n        )", "new_string": "        appends_to_header_section('normal message', ['Subject: original\\r\\n', '\\r\\n', 'body\\r\\n'], 'body\\r\\n')"}
+The file /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/test/transaction.js has been updated successfully. (file state is current in your context — no need to Read it back)
+TOOL Bash {"command": "git --no-pager diff", "description": "Show working tree diff"}
+This command requires approval
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/Changes.md", "limit": 20}
+1	# Changelog
+2	
+3	The format is based on [Keep a Changelog](https://keepachangelog.com/).
+4	
+5	### Unreleased
+6	
+7	- deps(all): bump versions
+8	- doc(Plugins): added more sections
+9	- test: fixes for test-fixtures 1.4 & local plugins that do require('./')
+10	  - TL;DR: bundled plugins don't need a special require any more
+11	  - fixtures/plugin behaves more like real one, test accordingly
+12	- deleted core_require
+13	- es7: outbound replace fs callback with fs promises #3528
+14	  - dep(async): remove dep by replacing async.map with Queue
+15	- es6 & es7: #3527
+16	  - use startsWith instead of indexOf === 0
+17	  - use spread syntax instead of [].concat and {}.assign
+18	  - use implicit arrow function returns
+19	  - replace deprecated substr with slice or substring
+20	- chore: repackage ./plugin/queue/rabbit* as haraka-plugin-queue/rabbitmq, #3526
+TOOL Edit {"replace_all": false, "file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/Changes.md", "old_string": "### Unreleased\n\n- deps(all): bump versions", "new_string": "### Unreleased\n\n- fix(transaction): add_header appended to the body instead of the headers #2986\n  - track the end of the header block with found_hb_sep, not header_pos\n  - split headers from body as the data streams in, not in end_data\n  - synthesize a header/body separator when the message arrives without one\n- deps(all): bump versions"}
+The file /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/Changes.md has been updated successfully. (file state is current in your context — no need to Read it back)
+The fix is in `transaction.js`, uncommitted.
+
+## Root cause
+
+`transaction.js` overloaded `header_pos` — a *line count* — as the boolean "have we passed the header/body separator?" flag. There are two ways it lands on `0` even though headers were already parsed:
+
+1. **`add_data:136`** — `header_pos = this.header_lines.length`. A message whose DATA opens with a blank line (no headers of its own) parses to zero header lines, so `header_pos` stays `0` while `found_hb_sep` is `true`.
+2. **`end_data:172`** — the busted-email fallback assigned the loop *index* of the last header line, not a count. One header line → `header_pos = 0`. And when the very first line wasn't header-shaped, `splice(header_pos + 1)` kept that body line as a header.
+
+Once `header_pos` is stuck at `0`, `add_data` keeps re-entering the header branch, so **body lines get accumulated as headers** and the next blank line in the body re-triggers `header.parse()`. `add_header` also stops calling `reset_headers`. The message that gets serialized has a bogus header block made of body text, with the plugin-appended headers (`X-Spam-*`, `DKIM-Signature`) attached to it — which is what your capture shows, while `add_leading_header` (`Received`) survived at the top.
+
+A second defect compounds it: for a message with no blank line at all, the stored byte stream has no EOH marker. `HeaderSkipper` strips raw bytes up to the *first blank line it finds*, which is somewhere inside the body — so the leading part of the body was silently eaten, or discarded entirely if the body had no blank line.
+
+## Changes
+
+- `found_hb_sep` is now the sole "headers are done" flag; `header_pos` goes back to being just a line count.
+- Header/body splitting moved into `add_data`: a line that is neither header- nor continuation-shaped ends the header block right there, and a `\r\n` separator is written into the message stream. The stored message now always has a real EOH, so `HeaderSkipper` cuts in the right place and the body survives.
+- `end_data`'s fallback shrank to the only case that can still reach it (every line looked like a header → no body).
+- `add_header` / `add_leading_header` / `remove_header` guard on `found_hb_sep`.
+
+Body lines from busted messages now also run through the normal `parse_body` path, so banners and body filters apply to them — previously `end_data` fed them to `body.parse_more()` and threw the result away.
+
+## Verification — please read
+
+**I could not run anything.** `node`, `npx mocha`, and `git diff` all required approval that wasn't granted in this non-interactive session, so the fix and its expected outputs are traced statically, not executed.
+
+I added five cases to the `header manipulation` block in `test/transaction.js`, asserting on the **serialized** message from `message_stream.get_data()` — the existing tests there only check `header.get_all()`, which is why this class of bug slipped through. Cases: normal message (control, passes before and after), empty header block, no separator, all-body, all-headers. Please run `npm test` before trusting any of this.
+
+One judgement call worth reviewing: deciding the header/body split as data streams in changes when the boundary is chosen for malformed mail. The heuristic regex is the same one `end_data` used, so the same false positive exists — a body whose first line is e.g. `http://example.com` parses as a header field. That was already true; it now happens at stream time rather than at `end_data`.

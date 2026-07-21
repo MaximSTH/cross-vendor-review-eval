@@ -1,0 +1,881 @@
+Review the code change in this repository's working tree for defects.
+
+You may explore the repository, read any files, and run static tooling, but do
+NOT run the test suite.
+
+When you are done, output your findings as a fenced JSON block in exactly this
+format, as the last thing in your response:
+
+```json
+{
+  "claims": [
+    {
+      "file": "path/relative/to/repo/root.py",
+      "line": 123,
+      "description": "One-sentence statement of the defect and why it is wrong."
+    }
+  ]
+}
+```
+
+Rules:
+- Report only defects you believe are real. An empty list (`"claims": []`) is a
+  valid and correct answer for a clean change.
+- Report at most 5 claims, ranked most-confident first. Claims beyond the
+  fifth are discarded unread.
+- Give `file` and `line` whenever you can localize the defect. Use `null` only
+  when you genuinely cannot.
+- One claim per distinct defect. Do not pad.
+Let me re-read the changed files with fresh eyes.
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js", "offset": 1, "limit": 60}
+1	'use strict'
+2	// An SMTP Transaction
+3	
+4	const util = require('node:util')
+5	
+6	const Notes = require('haraka-notes')
+7	const utils = require('haraka-utils')
+8	const message = require('haraka-email-message')
+9	
+10	// A line that looks like a header field, or a folded continuation of one.
+11	const header_re = /^(?:[^\s:]*:|[ \t])/
+12	
+13	// Synthesized header/body separator, for messages that arrive without one.
+14	const hb_sep = Buffer.from('\r\n')
+15	
+16	class Transaction {
+17	    constructor(uuid, cfg = {}) {
+18	        this.uuid = uuid || utils.uuid()
+19	        this.cfg = cfg
+20	        this.mail_from = null
+21	        this.rcpt_to = []
+22	        this.header_lines = []
+23	        this.data_lines = []
+24	        this.attachment_start_hooks = []
+25	        this.banner = null
+26	        this.body_filters = []
+27	        this.data_bytes = 0
+28	        this.header_pos = 0
+29	        this.found_hb_sep = false
+30	        this.body = null
+31	        this.parse_body = false
+32	        this.notes = new Notes()
+33	        this.notes.skip_plugins = []
+34	        this.header = new message.Header()
+35	        this.message_stream = new message.stream(this.cfg, this.uuid, this.header.header_list)
+36	        this.discard_data = false
+37	        this.resetting = false
+38	        this.rcpt_count = {
+39	            accept: 0,
+40	            tempfail: 0,
+41	            reject: 0,
+42	        }
+43	        this.msg_status = undefined
+44	        this.data_post_start = null
+45	        this.data_post_delay = 0
+46	        this.encoding = 'utf8'
+47	        this.mime_part_count = 0
+48	    }
+49	
+50	    ensure_body() {
+51	        if (this.body) return
+52	
+53	        this.body = new message.Body(this.header)
+54	        this.body.on('mime_boundary', (m) => this.incr_mime_count())
+55	
+56	        for (const hook of this.attachment_start_hooks) {
+57	            this.body.on('attachment_start', hook)
+58	        }
+59	
+60	        if (this.banner) this.body.set_banner(this.banner)
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos1/authoring/transaction.js", "offset": 130, "limit": 120}
+130	
+131	        return output.slice(0, output_pos)
+132	    }
+133	
+134	    add_data(line) {
+135	        if (typeof line === 'string') {
+136	            // This shouldn't ever happen.
+137	            line = Buffer.from(line, this.encoding)
+138	        }
+139	        if (!this.found_hb_sep) {
+140	            // is this the end of headers line?
+141	            if (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a)) {
+142	                this.parse_headers()
+143	                if (!this.discard_data) this.message_stream.add_line(line)
+144	                return
+145	            }
+146	
+147	            let hline = line
+148	            if (hline[0] === 0x2e) hline = hline.slice(1) // Strip leading '.'
+149	            hline = hline.toString(this.encoding).replace(/\r\n$/, '\n')
+150	
+151	            if (header_re.test(hline)) {
+152	                // Build up headers
+153	                if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {
+154	                    this.header_lines.push(hline)
+155	                }
+156	                if (!this.discard_data) this.message_stream.add_line(line)
+157	                return
+158	            }
+159	
+160	            // Busted email: the headers were never terminated by a blank line.
+161	            // Treat this line as the first line of the body and synthesize the
+162	            // separator, so the stored message has a header/body boundary. Without
+163	            // one, a reader can't tell where the headers end, and headers appended
+164	            // later (add_header) end up rendered as part of the body.
+165	            this.parse_headers()
+166	            if (!this.discard_data) this.message_stream.add_line(hb_sep)
+167	        }
+168	
+169	        if (this.parse_body) {
+170	            let new_line = line
+171	            if (new_line[0] === 0x2e) new_line = new_line.slice(1) // Strip leading "."
+172	
+173	            line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_more(this.remove_final_cr(new_line)))
+174	
+175	            if (!line.length) return // buffering for banners
+176	        }
+177	
+178	        if (!this.discard_data) this.message_stream.add_line(line)
+179	    }
+180	
+181	    // Parse the accumulated header lines and move on to the message body.
+182	    parse_headers() {
+183	        this.header.parse(this.header_lines)
+184	        this.header_pos = this.header_lines.length
+185	        this.found_hb_sep = true
+186	        if (this.parse_body) this.ensure_body()
+187	    }
+188	
+189	    end_data(cb) {
+190	        if (!this.found_hb_sep) {
+191	            // The message ended without a header/body separator. Every line that
+192	            // arrived looked like a header, so this message has no body.
+193	            this.parse_headers()
+194	            if (!this.discard_data) this.message_stream.add_line(hb_sep)
+195	        }
+196	        if (this.parse_body && this.body) {
+197	            const line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_end())
+198	            if (line.length) {
+199	                this.body.force_end()
+200	
+201	                if (!this.discard_data) this.message_stream.add_line(line)
+202	            }
+203	        }
+204	
+205	        if (this.discard_data) {
+206	            cb()
+207	        } else {
+208	            this.message_stream.add_line_end(cb)
+209	        }
+210	    }
+211	
+212	    add_header(key, value) {
+213	        this.header.add_end(key, value)
+214	        if (this.found_hb_sep) this.reset_headers()
+215	    }
+216	
+217	    add_leading_header(key, value) {
+218	        this.header.add(key, value)
+219	        if (this.found_hb_sep) this.reset_headers()
+220	    }
+221	
+222	    reset_headers() {
+223	        const header_lines = this.header.lines()
+224	        this.header_pos = header_lines.length
+225	    }
+226	
+227	    remove_header(key) {
+228	        this.header.remove(key)
+229	        if (this.found_hb_sep) this.reset_headers()
+230	    }
+231	
+232	    attachment_hooks(start, data, end) {
+233	        this.parse_body = true
+234	        this.attachment_start_hooks.push(start)
+235	    }
+236	
+237	    set_banner(text, html) {
+238	        // throw "transaction.set_banner is currently non-functional";
+239	        this.parse_body = true
+240	        if (!html) {
+241	            html = text.replace(/\n/g, '<br/>\n')
+242	        }
+243	        this.banner = [text, html]
+244	    }
+245	
+246	    add_body_filter(ct_match, filter) {
+247	        this.parse_body = true
+248	        this.body_filters.push({ ct_match, filter })
+249	    }
+TOOL Bash {"command": "grep -rn \"parse_headers\\|found_hb_sep\\|header_pos\\|end_data\\|add_data\" connection.js outbound/*.js plugins/*.js docs/Transaction.md 2>/dev/null | head -40", "description": "Find callers of changed APIs"}
+connection.js:1552:        this.transaction.add_data(line)
+connection.js:1586:        this.transaction.end_data(() => {
+outbound/index.js:131:            transaction.add_data(Buffer.from(line))
+outbound/index.js:172:            transaction.add_data(Buffer.from(this_line))
+outbound/index.js:178:            transaction.add_data(Buffer.from(current_data))
+docs/Transaction.md:50:- transaction.add_data(line)
+TOOL Bash {"command": "sed -n 1,60p node_modules/haraka-email-message/lib/body.js; echo \"=== parse_end ===\"; grep -n \"parse_end\\|force_end\" -A25 node_modules/haraka-email-message/lib/body.js | head -60", "description": "Inspect Body.parse_end"}
+'use strict'
+
+const { EventEmitter } = require('node:events')
+const config = require('haraka-config')
+const libqp = require('libqp')
+
+const logger = require('./logger')
+const { iconv, Iconv } = require('./encoding')
+const Header = require('./header')
+const AttachmentStream = require('./attachment-stream')
+
+const buf_siz = config.get('mailparser.bufsize') || 65536
+const max_mime_depth = config.get('mailparser.max_mime_depth') || 100
+
+// RFC 2046 §5.1.1:
+//   delimiter        = "--" boundary [transport-padding] CRLF
+//   close-delimiter  = "--" boundary "--" [transport-padding] CRLF
+// `--${boundary}` must be followed only by whitespace/CRLF, or by `--`
+// (close) followed by whitespace/CRLF. A line like `--abcXYZ` is *not* a
+// delimiter even though it shares the prefix `--abc`.
+function matchMimeBoundary(line, boundary) {
+  if (!boundary) return null
+  const prefix = `--${boundary}`
+  if (!line.startsWith(prefix)) return null
+  const tail = line.slice(prefix.length)
+  if (tail.startsWith('--')) {
+    return /^[ \t]*\r?\n?$/.test(tail.slice(2)) ? 'close' : null
+  }
+  return /^[ \t]*\r?\n?$/.test(tail) ? 'open' : null
+}
+
+// ── Banner helpers ────────────────────────────────────────────────────────────
+
+function _get_html_insert_position(buf) {
+  if (buf.length === 0) return 0
+
+  for (let i = 0, l = buf.length; i < l; i++) {
+    if (buf[i] === 60 && buf[i + 1] === 47) {
+      // "</"
+      if (
+        (buf[i + 2] === 98 || buf[i + 2] === 66) && // b B
+        (buf[i + 3] === 111 || buf[i + 3] === 79) && // o O
+        (buf[i + 4] === 100 || buf[i + 4] === 68) && // d D
+        (buf[i + 5] === 121 || buf[i + 5] === 89) && // y Y
+        buf[i + 6] === 62
+      ) {
+        return i // </body>
+      }
+      if (
+        (buf[i + 2] === 104 || buf[i + 2] === 72) && // h H
+        (buf[i + 3] === 116 || buf[i + 3] === 84) && // t T
+        (buf[i + 4] === 109 || buf[i + 4] === 77) && // m M
+        (buf[i + 5] === 108 || buf[i + 5] === 76) && // l L
+        buf[i + 6] === 62
+      ) {
+        return i // </html>
+      }
+    }
+  }
+  return buf.length - 1
+=== parse_end ===
+145:    // and reference-equality checks in parse_end.
+146-    this.decode_qp = (line) => libqp.decode(line.toString())
+147-    this.decode_7bit = this.decode_8bit
+148-    this.decode_function = null
+149-  }
+150-
+151-  add_filter(filter) {
+152-    this.filters.push(filter)
+153-  }
+154-
+155-  set_banner(banners) {
+156-    this.add_filter((ct, enc, buf, cd) =>
+157-      insert_banner(ct, enc, buf, cd, banners),
+158-    )
+159-  }
+160-
+161-  parse_more(line) {
+162-    if (!Buffer.isBuffer(line)) line = Buffer.from(line)
+163-    return this[`parse_${this.state}`](line)
+164-  }
+165-
+166-  parse_child(line) {
+167-    const line_string = line.toString()
+168-    const boundaryKind = matchMimeBoundary(line_string, this.#boundary)
+169-
+170-    if (boundaryKind) {
+171:      line = this.children[this.children.length - 1].parse_end(line)
+172-
+173-      if (boundaryKind === 'close') {
+174-        this.state = 'end'
+175-      } else {
+176-        this.emit('mime_boundary', line_string)
+177-        const bod = new Body(new Header(), this.options, this.#depth + 1)
+178-        for (const ln of [
+179-          'attachment_start',
+180-          'attachment_data',
+181-          'attachment_end',
+182-          'mime_boundary',
+183-        ]) {
+184-          for (const cb of this.listeners(ln)) bod.on(ln, cb)
+185-        }
+186-        for (const f of this.filters) bod.add_filter(f)
+187-        this.children.push(bod)
+188-        bod.state = 'headers'
+189-      }
+190-      return line
+191-    }
+192-
+193-    return this.children[this.children.length - 1].parse_more(line)
+194-  }
+195-
+196-  parse_headers(line) {
+--
+274:  force_end() {
+275-    if (this.state === 'attachment') {
+276-      this._emit_buf_fill()
+277-      this.#attachmentStream.emit_end(true)
+278-    }
+279-  }
+280-
+TOOL Bash {"command": "sed -n 1530,1600p connection.js", "description": "Show connection data handling"}
+        // Look for .\n
+        if (line.length === 2 && line[0] === 0x2e && line[1] === 0x0a) {
+            this.lognotice('Client sent bare line-feed - .\\n rather than .\\r\\n')
+            this.respond(451, 'Bare line-feed; see http://haraka.github.io/barelf/', () => {
+                this.reset_transaction()
+            })
+            return
+        }
+
+        // Stop accumulating data as we're going to reject at dot.
+        if (cfg.max.bytes && this.transaction.data_bytes > cfg.max.bytes) {
+            return
+        }
+
+        if (this.transaction.mime_part_count >= cfg.max.mime_parts) {
+            this.logcrit('Possible DoS attempt - too many MIME parts')
+            this.respond(554, 'Transaction failed due to too many MIME parts', () => {
+                this.disconnect()
+            })
+            return
+        }
+
+        this.transaction.add_data(line)
+    }
+    data_done() {
+        this.pause()
+        this.totalbytes += this.transaction.data_bytes
+
+        // Check message size limit
+        if (cfg.max.bytes && this.transaction.data_bytes > cfg.max.bytes) {
+            this.lognotice(`Incoming message exceeded max size of ${cfg.max.bytes}`)
+            return plugins.run_hooks('max_data_exceeded', this)
+        }
+
+        // Check max received headers count
+        if (this.transaction.header.get_all('received').length > cfg.headers.max_received) {
+            this.logerror('Incoming message had too many Received headers')
+            this.respond(550, 'Too many received headers - possible mail loop', () => {
+                this.reset_transaction()
+            })
+            return
+        }
+
+        // Warn if we hit the maximum parsed header lines limit
+        if (this.transaction.header_lines.length >= cfg.headers.max_lines) {
+            this.logwarn(`Incoming message reached maximum parsing limit of ${cfg.headers.max_lines} header lines`)
+        }
+
+        if (cfg.headers.clean_auth_results) {
+            this.auth_results_clean() // rename old A-R headers
+        }
+        const ar_field = this.auth_results() // assemble new one
+        if (ar_field) {
+            this.transaction.add_header('Authentication-Results', ar_field)
+        }
+
+        this.transaction.end_data(() => {
+            // As this will be called asynchronously,
+            // make sure we still have a transaction.
+            if (!this.transaction) return
+            // Record the start time of this hook as we can't take too long
+            // as the client will typically hang up after 2 to 3 minutes
+            // despite the RFC mandating that 10 minutes should be allowed.
+            this.transaction.data_post_start = Date.now()
+            plugins.run_hooks('data_post', this)
+        })
+    }
+    data_post_respond(retval, msg) {
+        if (!this.transaction) return
+        this.transaction.data_post_delay = (Date.now() - this.transaction.data_post_start) / 1000
+        const mid = this.transaction.header.get('Message-ID') || ''
+TOOL Bash {"command": "sed -n 196,275p node_modules/haraka-email-message/lib/body.js", "description": "Show Body.parse_headers and parse_end"}
+  parse_headers(line) {
+    const line_string = line.toString()
+
+    if (/^\s*$/.test(line_string)) {
+      this.header.parse(this.header_lines)
+      delete this.header_lines
+      this.state = 'start'
+    } else {
+      this.header_lines.push(line_string)
+    }
+    return line
+  }
+
+  parse_start(line) {
+    const ct = this.header.get_decoded('content-type') || 'text/plain'
+    let enc = this.header.get_decoded('content-transfer-encoding') || '8bit'
+    const cd = this.header.get_decoded('content-disposition') || ''
+
+    enc = enc.toLowerCase().split('\n').pop().trim()
+    if (!enc.match(/^base64|quoted-printable|[78]bit$/i)) {
+      logger.logwarn(`Invalid CTE on email: ${enc}, using 8bit`)
+      enc = '8bit'
+    }
+    enc = enc.replace(/^quoted-printable$/i, 'qp')
+
+    this.decode_function = this[`decode_${enc}`]
+    if (!this.decode_function) {
+      logger.logerror(`No decode function found for: ${enc}`)
+      this.decode_function = this.decode_8bit
+    }
+    this.ct = ct
+
+    const buildRegex = (key) =>
+      new RegExp(`${key}\\s*=\\s*"([^"]+)"|${key}\\s*=\\s*"?([^";]+)"?`, 'i')
+    const matchKey = (test, key) =>
+      test.match(buildRegex(key))?.filter((item) => item)
+
+    let match
+    if (/^(?:text|message)\//i.test(ct) && !/^attachment/i.test(cd)) {
+      this.state = 'body'
+    } else if (/^multipart\//i.test(ct)) {
+      match = matchKey(ct, 'boundary')
+      this.#boundary = match ? match[1].trim() : ''
+      if (!this.#boundary) {
+        logger.logwarn(`Multipart message without boundary: ${ct}`)
+        this.state = 'body'
+      } else {
+        this.state = 'multipart_preamble'
+      }
+    } else {
+      match = matchKey(cd, 'name') ?? matchKey(ct, 'name')
+      const filename = match ? match[1] : ''
+      this.#attachmentStream = new AttachmentStream(this.header)
+      this.emit('attachment_start', ct, filename, this, this.#attachmentStream)
+      this.#bufFill = 0
+      this.state = 'attachment'
+    }
+
+    return this[`parse_${this.state}`](line)
+  }
+
+  _empty_filter(ct, enc, cd) {
+    let new_buf = Buffer.from('')
+    for (const filter of this.filters) {
+      new_buf = filter(ct, enc, new_buf, cd) ?? new_buf
+    }
+    return new_buf
+  }
+
+  _emit_buf_fill() {
+    if (this.#bufFill > 0) {
+      const to_emit = Buffer.alloc(this.#bufFill)
+      this.#buf.copy(to_emit, 0, 0, this.#bufFill)
+      this.#attachmentStream.emit_data(to_emit)
+      this.#bufFill = 0
+    }
+  }
+
+  force_end() {
+    if (this.state === 'attachment') {
+TOOL Bash {"command": "grep -n \"this.state\" node_modules/haraka-email-message/lib/body.js | head -20; echo \"=== parse_end def ===\"; awk '/^  parse_end/,/^  [a-z_]+\\(/' node_modules/haraka-email-message/lib/body.js | head -40", "description": "Inspect Body initial state and parse_end"}
+This Bash command contains multiple operations. The following part requires approval: head -20; echo "=== parse_end def ==="; awk '/^  parse_end/,/^  [a-z_]+\(/' node_modules/haraka-email-message/lib/body.js
+TOOL Bash {"command": "cat node_modules/haraka-email-message/node_modules/haraka-message-stream/lib/chunk-emitter.js", "description": "Inspect ChunkEmitter buffer handling"}
+'use strict'
+
+const { EventEmitter } = require('node:events')
+
+class ChunkEmitter extends EventEmitter {
+  constructor(buffer_size) {
+    super()
+    this.buffer_size = parseInt(buffer_size) || 64 * 1024
+    this.buf = null
+    this.pos = 0
+    this.bufs = []
+    this.bufs_size = 0
+  }
+
+  fill(input) {
+    if (typeof input === 'string') input = Buffer.from(input)
+
+    if (!this.buf) {
+      this.bufs.push(input)
+      this.bufs_size += input.length
+      if (input.length + this.bufs_size > this.buffer_size) {
+        this.buf = Buffer.alloc(this.buffer_size)
+        const in_new = Buffer.concat(this.bufs, this.bufs_size)
+        input = in_new
+        this.bufs = []
+        this.bufs_size = 0
+      } else {
+        return
+      }
+    }
+
+    while (input.length > 0) {
+      let remaining = this.buffer_size - this.pos
+      if (remaining === 0) {
+        this.emit('data', this.buf)
+        this.buf = Buffer.alloc(this.buffer_size)
+        this.pos = 0
+        remaining = this.buffer_size
+      }
+      const to_write = remaining > input.length ? input.length : remaining
+      input.copy(this.buf, this.pos, 0, to_write)
+      this.pos += to_write
+      input = input.slice(to_write)
+    }
+  }
+
+  end(cb) {
+    let emitted = false
+    if (this.bufs_size > 0) {
+      this.emit('data', Buffer.concat(this.bufs, this.bufs_size))
+      emitted = true
+    } else if (this.pos > 0) {
+      this.emit('data', this.buf.slice(0, this.pos))
+      emitted = true
+    }
+    this.buf = null
+    this.pos = 0
+    this.bufs = []
+    this.bufs_size = 0
+    if (typeof cb === 'function') cb()
+    return emitted
+  }
+}
+
+module.exports = ChunkEmitter
+TOOL Bash {"command": "grep -n \"state = \\|state=\" node_modules/haraka-email-message/lib/body.js | head -20", "description": "Find Body state assignments"}
+141:    this.state = 'start'
+174:        this.state = 'end'
+188:        bod.state = 'headers'
+202:      this.state = 'start'
+235:      this.state = 'body'
+241:        this.state = 'body'
+243:        this.state = 'multipart_preamble'
+251:      this.state = 'attachment'
+390:        this.state = 'end'
+399:      bod.state = 'headers'
+400:      this.state = 'child'
+411:      if (boundaryKind === 'open') this.state = 'headers'
+TOOL Bash {"command": "sed -n 415,470p node_modules/haraka-email-message/lib/body.js", "description": "Show Body.parse_end"}
+    const buf = this.decode_function(line)
+    if (buf.length + this.#bufFill > buf_siz) {
+      const to_emit = Buffer.alloc(this.#bufFill)
+      this.#buf.copy(to_emit, 0, 0, this.#bufFill)
+      this.#attachmentStream.emit_data(to_emit)
+      if (buf.length > buf_siz) {
+        this.#attachmentStream.emit_data(buf)
+        this.#bufFill = 0
+      } else {
+        buf.copy(this.#buf)
+        this.#bufFill = buf.length
+      }
+    } else {
+      buf.copy(this.#buf, this.#bufFill)
+      this.#bufFill += buf.length
+    }
+    return line
+  }
+
+  decode_base64(line) {
+    let to_process =
+      this.#decodeAccumulator + line.toString().trim().replace(/[\s]+/g, '')
+
+    const emit_length = to_process.length - (to_process.length % 4)
+
+    if (emit_length > 0) {
+      this.#decodeAccumulator = to_process.substring(emit_length)
+      return Buffer.from(to_process.substring(0, emit_length), 'base64')
+    }
+
+    this.#decodeAccumulator = ''
+    while (to_process.length > 0 && to_process.length < 4) to_process += '='
+    return Buffer.from(to_process, 'base64')
+  }
+
+  decode_8bit(line) {
+    return Buffer.from(line, 'binary')
+  }
+}
+
+module.exports = Body
+TOOL Bash {"command": "grep -n \"  parse_end\" -A 22 node_modules/haraka-email-message/lib/body.js", "description": "Show parse_end body"}
+281:  parse_end(line) {
+282-    if (!line) line = Buffer.from('')
+283-
+284-    if (this.state === 'attachment') {
+285-      this._emit_buf_fill()
+286-      this.#attachmentStream.emit_end()
+287-    }
+288-
+289-    const ct = this.header.get_decoded('content-type') || 'text/plain'
+290-    let enc = 'UTF-8'
+291-    const matches = /\bcharset\s*=\s*(?:"|3D|')?([\w_-]*)(?:"|3D|')?/.exec(ct)
+292-    if (matches) {
+293-      const pre_enc = matches[1].trim()
+294-      if (pre_enc.length > 0) enc = pre_enc
+295-    }
+296-    this.body_encoding = enc
+297-
+298-    const cd = this.header.get_decoded('content-disposition') || ''
+299-    if (!this.#bodyTextEncodedPos) {
+300-      return Buffer.concat([
+301-        this._empty_filter(ct, enc, cd) ?? Buffer.from(''),
+302-        line,
+303-      ])
+TOOL Bash {"command": "grep -rn \"add_data\" test/ --include=\"*.js\" | head -40", "description": "Find tests using add_data"}
+test/transaction.js:38:            this.transaction.add_data(line)
+test/transaction.js:52:            this.transaction.add_data(line)
+test/transaction.js:80:            this.transaction.add_data(line)
+test/transaction.js:100:            this.transaction.add_data(line)
+test/transaction.js:129:            this.transaction.add_data(`${line}\r\n`)
+test/transaction.js:198:        // populate the same email data in transaction (self.transaction.add_data()) and
+test/transaction.js:203:            self.transaction.add_data('Content-Type: multipart/alternative; boundary=abcd\r\n')
+test/transaction.js:205:            self.transaction.add_data(
+test/transaction.js:211:                self.transaction.add_data(
+test/transaction.js:216:            self.transaction.add_data(
+test/transaction.js:221:            self.transaction.add_data('Message-ID: <Boundary_Marker_Test>\r\n')
+test/transaction.js:223:            self.transaction.add_data('MIME-Version: 1.0\r\n')
+test/transaction.js:225:            self.transaction.add_data('Date: Wed, 1 Jun 2022 16:44:39 +0530 (IST)\r\n')
+test/transaction.js:227:            self.transaction.add_data('\r\n')
+test/transaction.js:229:            self.transaction.add_data('--abcd\r\n')
+test/transaction.js:241:                self.transaction.add_data(line)
+test/transaction.js:301:            this.transaction.add_data('Subject: original\n')
+test/transaction.js:302:            this.transaction.add_data('\n')
+test/transaction.js:303:            this.transaction.add_data('body\n')
+test/transaction.js:314:            this.transaction.add_data('Subject: original\n')
+test/transaction.js:315:            this.transaction.add_data('\n')
+test/transaction.js:316:            this.transaction.add_data('body\n')
+test/transaction.js:330:                for (const line of lines) this.transaction.add_data(Buffer.from(line))
+test/transaction.js:375:            this.transaction.add_data('X-Remove: gone\n')
+test/transaction.js:376:            this.transaction.add_data('\n')
+test/transaction.js:377:            this.transaction.add_data('body\n')
+test/transaction.js:404:            this.transaction.add_data('Subject: test\n')
+test/transaction.js:405:            this.transaction.add_data('\n')
+test/transaction.js:406:            this.transaction.add_data('body\n')
+test/transaction.js:418:            this.transaction.add_data('Subject: test\n')
+test/transaction.js:419:            this.transaction.add_data('From: a@b.com\n')
+test/transaction.js:438:        test_transaction.add_data(line[0])
+test/fixtures/util_hmailitem.js:69:        conn.transaction.add_data(Buffer.from(line))
+TOOL Bash {"command": "sed -n 25,60p test/transaction.js", "description": "Show early add_data tests"}
+        ;[
+            'Content-Type: multipart/alternative; boundary=abcd\n',
+            '\n',
+            '--abcd\n',
+            'Content-Type: text/plain\n',
+            '\n',
+            'Text part\n',
+            '--abcd\n',
+            'Content-Type: text/html\n',
+            '\n',
+            '<p>HTML part</p>\n',
+            '--abcd--\n',
+        ].forEach((line) => {
+            this.transaction.add_data(line)
+        })
+        this.transaction.end_data(() => {
+            done()
+        })
+    })
+
+    it('regression: attachment_hooks before set_banner/add_body_filter', (done) => {
+        this.transaction.attachment_hooks(() => {})
+        this.transaction.set_banner('banner')
+        this.transaction.add_body_filter('', () => {
+            assert.ok(true, 'body filter called')
+        })
+        ;['Content-Type: text/plain\n', '\n', 'Some text\n'].forEach((line) => {
+            this.transaction.add_data(line)
+        })
+
+        this.transaction.end_data(() => {
+            this.transaction.message_stream.get_data((body) => {
+                assert.ok(/banner$/.test(body.toString().trim()), 'banner applied')
+                done()
+            })
+        })
+TOOL Bash {"command": "sed -n 410,445p test/transaction.js", "description": "Show late transaction tests"}
+            })
+        })
+    })
+
+    describe('busted email (no header/body separator)', () => {
+        beforeEach(_set_up)
+
+        it('end_data handles email with no blank line separator', (done) => {
+            this.transaction.add_data('Subject: test\n')
+            this.transaction.add_data('From: a@b.com\n')
+            this.transaction.end_data(() => {
+                assert.ok(this.transaction.header, 'header exists')
+                done()
+            })
+        })
+    })
+})
+
+function write_file_data_to_transaction(test_transaction, filename) {
+    const specimen = fs.readFileSync(filename, 'utf8')
+    const matcher = /[^\n]*([\n]|$)/g
+
+    let line
+    do {
+        line = matcher.exec(specimen)
+        if (line[0] == '') {
+            break
+        }
+        test_transaction.add_data(line[0])
+    } while (line[0] != '')
+
+    test_transaction.end_data()
+}
+TOOL Bash {"command": "sed -n 115,135p test/transaction.js", "description": "Show fixture-driven test"}
+            '--TOP_LEVEL',
+            'Content-Type: multipart/alternative; boundary="INNER_LEVEL"',
+            '',
+            '--INNER_LEVEL',
+            'Content-Type: text/plain; charset=us-ascii',
+            '',
+            'Hello, this is a text part',
+            '--INNER_LEVEL',
+            'Content-Type: text/html; charset=us-ascii',
+            '',
+            '<p>This is an html part</p>',
+            '--INNER_LEVEL--',
+            '--TOP_LEVEL--',
+        ].forEach((line) => {
+            this.transaction.add_data(`${line}\r\n`)
+        })
+        this.transaction.end_data(() => {
+            this.transaction.message_stream.get_data((body) => {
+                assert.ok(
+                    /Hello, this is a text part/.test(body.toString()),
+                    'text content comes through in final message',
+TOOL Bash {"command": "ls test/fixtures/ | head -40", "description": "List fixtures"}
+line_socket.js
+todo_qfile.txt
+util_hmailitem.js
+TOOL Bash {"command": "sed -n 90,118p test/transaction.js", "description": "Show start of multipart test"}
+    it('no munging of bytes if not parsing body', (done) => {
+        // Czech panagram "Příliš žluťoučký kůň úpěl ďábelské ódy.\n" in ISO-8859-2 encoding
+        const message = Buffer.from([
+            0x50, 0xf8, 0xed, 0x6c, 0x69, 0xb9, 0x20, 0xbe, 0x6c, 0x75, 0xbb, 0x6f, 0x76, 0xe8, 0x6b, 0xfd, 0x20, 0x6b,
+            0xf9, 0xf2, 0xfa, 0xec, 0x6c, 0x20, 0xef, 0xe2, 0x62, 0x65, 0x6c, 0x73, 0x6b, 0xe9, 0x20, 0xf3, 0x64, 0x79,
+            0x2e, 0x0a,
+        ])
+        const payload = ['Content-Type: text/plain; charset=iso-8859-2; format=flowed\n', '\n', message]
+
+        payload.forEach((line) => {
+            this.transaction.add_data(line)
+        })
+        this.transaction.end_data(() => {
+            this.transaction.message_stream.get_data((body) => {
+                assert.ok(body.includes(message), 'message not damaged')
+                done()
+            })
+        })
+    })
+
+    it('bannering with nested mime structure', (done) => {
+        this.transaction.set_banner('TEXT_BANNER', 'HTML_BANNER')
+        ;[
+            'Content-Type: multipart/mixed; boundary="TOP_LEVEL"',
+            '',
+            '--TOP_LEVEL',
+            'Content-Type: multipart/alternative; boundary="INNER_LEVEL"',
+            '',
+            '--INNER_LEVEL',
+TOOL Bash {"command": "sed -n 55,80p test/fixtures/util_hmailitem.js", "description": "Show hmailitem fixture data"}
+        `From: ${mail_from}`,
+        `To: ${mail_recipients.join(', ')}`,
+        'MIME-Version: 1.0',
+        'Content-type: text/plain; charset=us-ascii',
+        'Subject: Some subject here',
+        '',
+        'Some email body here',
+        '',
+    ].join('\n')
+    let match
+    const re = /^([^\n]*\n?)/
+    while ((match = re.exec(contents))) {
+        let line = match[1]
+        line = line.replace(/\r?\n?$/, '\r\n') // make sure it ends in \r\n
+        conn.transaction.add_data(Buffer.from(line))
+        contents = contents.substring(match[1].length)
+        if (contents.length === 0) {
+            break
+        }
+    }
+    conn.transaction.message_stream.add_line_end()
+
+    const hmails = []
+    const ok_paths = []
+    outbound_context.exports
+        .process_delivery(ok_paths, todo, hmails)
+I reviewed my own change with fresh eyes and found a significant regression I introduced.
+
+## Findings
+
+**1. The streaming header-shape heuristic truncates well-formed header blocks (`transaction.js:151`)**
+
+This is the serious one. The old code only applied the "does this line look like a header?" heuristic in `end_data`, and only for messages that never sent a blank-line separator. I moved it into `add_data` so it runs against *every* line of *every* message. A single malformed line now ends the header block, and every legitimate header after it is silently reclassified as body.
+
+Concretely, for `Subject : hi` (space before the colon — common in the wild):
+
+```
+Received: from x        →  header
+Subject : hi            →  [^\s:]*: fails; ' ' is \s so it can't reach the colon
+To: a@b.c               →  BODY
+                        →  BODY
+body                    →  BODY
+```
+
+`transaction.header.get('to')` returns `''`. Old code pushed all three lines into `header_lines`, and `header.parse()` logged "Header did not look right" for the bad one while still parsing `Received` and `To` correctly. Same failure for an mbox `From ` line at the top, or any header line missing its colon.
+
+Downstream impact is broad: DKIM/DMARC/SPF alignment, subject rewriting, and the mail-loop guard at `connection.js:1573` (`header.get_all('received').length > max_received`) all read from `transaction.header`. A message crafted with one odd line early in the block hides every subsequent `Received:` from that check.
+
+I don't think this is fixable by tightening the regex — the old design deliberately *deferred* the decision to `end_data` precisely because you can't know a blank line is coming. Restricting the streaming split to messages that reach `end_data` without a separator would preserve the fix for the reported bug without this regression.
+
+**2. `end_data` now acts on completely empty DATA (`transaction.js:190`)**
+
+I dropped `&& this.header_lines.length` from the guard. For `DATA\r\n.\r\n`, the new code synthesizes a `\r\n` into the message stream (a 0-byte message becomes 2 bytes) and, when `parse_body` is set, calls `body.parse_end()` on a `Body` that was never fed — which runs `_empty_filter()`, invoking banner and body-filter callbacks against an empty message. Old code did neither.
+
+## Things I checked and cleared
+
+- The leading-dot handling changed (header lines are now stored dot-stuffed rather than stripped, since I introduced `hline` instead of reassigning `line`). Both round-trip correctly through `LineTransformer`, and the new behavior is actually more correct under `dot_stuffed: false`.
+- The shared module-level `hb_sep` buffer is retained by reference in `ChunkEmitter.bufs`, but it's always copied out via `Buffer.concat`/`input.copy` and nothing mutates it.
+- `if (this.parse_body && this.body)` is strictly safer than the old `if (this.header_pos && this.parse_body)`, which would TypeError when `parse_body` was enabled after headers were parsed.
+- Existing fixtures (`test/fixtures/util_hmailitem.js`, the multipart tests) are all well-formed and unaffected.
+
+Worth noting about my own tests: the `normal message` case passes both before and after the change, so it isn't a regression test — and none of the five cases would have caught finding #1.
+
+```json
+{
+  "claims": [
+    {
+      "file": "transaction.js",
+      "line": 151,
+      "description": "Applying the header-shape heuristic per-line during add_data means any single malformed header line (e.g. 'Subject : hi', an mbox 'From ' line, a line missing its colon) terminates the header block early, silently reclassifying all subsequent legitimate headers as body and removing them from transaction.header; previously the heuristic ran only in end_data for messages that never sent a blank-line separator, so those headers were still parsed."
+    },
+    {
+      "file": "transaction.js",
+      "line": 190,
+      "description": "Dropping the '&& this.header_lines.length' condition makes end_data act on completely empty DATA, writing a spurious CRLF into the message stream and calling body.parse_end() on a Body that was never fed, which invokes banner/body-filter callbacks via _empty_filter() on an empty message."
+    }
+  ]
+}
+```

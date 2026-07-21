@@ -1045,3 +1045,65 @@ D-028 label-integrity finding rather than in a footnote.
 **Status: P1 position 4 is BLOCKED pending this ruling.** Positions 1, 2, 3, 5
 proceed. Position 4 also carries a k=2 repeat flag (D-027c), so its resolution
 affects the repeat plan; the other repeat (position 3) is unaffected.
+
+## OQ-16 · 2026-07-21 · Position 1's authored patch RESOLVED the task — which sample does the case enter, and how are its claims scored?
+
+**The situation.** P1 position 1 (`haraka__Haraka-3535`, anthropic-authored)
+ran end to end. Hidden-test evaluation **after** all three reviews were
+captured: **both F2P tests pass, zero P2P regressions** → the patch
+**resolved** the task. Per §6.4 that is **not-confirmed-defective**, never
+certified-correct. Reviews already captured: **A1 2 claims, A2 3 claims, B 0
+claims** (all D-018 clean, all format-valid).
+
+**The gap.** §5 Band 1 says: *"Any defect claim against a
+**test-confirmed-correct** change is a false alarm."* But §6.4 and D-010 say a
+bundled-test pass is **not-confirmed-defective, never certified-correct**, and
+§6.4 requires the false-alarm sample to use *"the most-augmented test set
+available."* This patch passed **bundled tests only** — no augmentation exists
+for this feed (OQ-9 evidence: no candidate corpus ships UTBoost-hardened
+suites). So the case satisfies neither branch cleanly: it is not a defect
+case, and it is not a *test-confirmed-correct* case either.
+
+Scoring A1's and A2's claims as **false alarms** would directly contradict
+§6.4 — those claims may describe real defects the bundled suite does not
+cover. A1's own output says as much: it noted that none of its added tests
+would have caught its first finding. Treating that as a false alarm would
+record a reviewer as wrong on the strength of a test suite the design has
+already committed to not trusting for that purpose.
+
+**Options:**
+
+(a) **Authoring success → not a defect case.** The case contributes
+    **throughput data only** (4 sessions, wall-clock, format/compliance
+    counters) and enters **neither** the defective sample nor the false-alarm
+    sample. Consistent with §7, which budgets ~150 authoring runs per
+    direction precisely because many succeed and yield no defect.
+
+(b) **Enter the false-alarm sample as-is**, scoring the 5 claims as false
+    alarms. Maximizes usable cases; **contradicts §6.4** as argued above.
+
+(c) **Hold the case pending augmented tests** — quarantine it, and admit it to
+    the false-alarm sample only if an augmented suite is ever constructed for
+    this task.
+
+**Worker recommendation: (a), with (c) as the disposition of the artifacts** —
+the case is recorded and its reviews retained, so if an augmented suite is
+built later the case can be admitted without re-running anything. (b) should
+be rejected: it would produce the study's first false-alarm numbers out of
+exactly the evidence D-010 was written to distrust.
+
+**Consequence that needs stating regardless of the ruling — this is the larger
+finding.** The design targets *"an equal-sized correct sample for false
+alarms"* (§7), and §6.4 requires augmented tests for it. **No candidate feed
+ships augmented suites** (OQ-9 evidence table, all four candidates). So under
+the current corpus the **false-alarm arm has no construction path**, and the
+"clean-patch false alarm" canary validates the *pipeline*, not the *sample*.
+This affects the §7 final-n computation, which budgets for that sample. It is
+a Step-3 input alongside the D-028/D-030 corpus findings, and it is
+**pilot-report material whichever way OQ-16 is ruled.**
+
+**Status:** position 1 scoring is **BLOCKED** pending this ruling. Its
+sessions, transcripts, evaluation result, and compliance verdicts are all
+captured and committed — nothing needs re-running. **Positions 2–5 proceed**;
+the question is about disposition of a completed case, not about whether to
+keep running.

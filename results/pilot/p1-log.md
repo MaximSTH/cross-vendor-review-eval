@@ -55,9 +55,43 @@ throughput denominator must not be inflated by it.
 |---|---|---|
 | 2026-07-21 W1 | **Orphaned container.** `TaskStop` on a screen run killed the driving Python but *not* the `docker run` it had spawned; `thlorenz__doctoc-329`'s container ran unattended for ~22 min. | Burned CPU and contended with concurrent screen runs under amd64 emulation. Killed manually. **Standing lesson:** stopping a runner does not stop its containers — check `docker ps` after any interrupted run, especially before timing anything. No session wall-clock was measured during the window, so no throughput figure is contaminated. |
 
+## Discarded sessions (worker error — counted against usage, never scored)
+
+| # | When | Arm | Why discarded | Usage consumed |
+|---|---|---|---|---|
+| D1 | 2026-07-21 07:53:11Z | position 1, arm B (openai) | **Worker launched the reviewer with `-s workspace-write`.** That flag exists for the *authoring* condition (P0 finding); a review arm needs read access only, and write capability would let a reviewer mutate the tree under evaluation. Stopped ~40s in, before any tool call that wrote. Re-run with `-s read-only`. | ~40s of one codex session |
+
+**Verified before re-running, not assumed:** the B tree's `git diff` was
+byte-identical to `authored.patch` and no `codex exec` process survived the
+stop — so the re-run started from an uncontaminated tree. (The orphaned-
+container incident above is why that check now happens every time a run is
+killed.)
+
+*Why this is logged at all:* the discarded attempt consumed real subscription
+usage against the D-021b ceiling. Counting only successful sessions would
+flatter the throughput figure P1 exists to measure.
+
 ## Limit-hit events (D-021a day-3 conditional depends on this table)
 
-*(time, vendor, what was deferred — none yet)*
+| # | Reported | Vendor | Deferred | Voided | Evidence |
+|---|---|---|---|---|---|
+| L1 | 2026-07-21, supervisor-reported ("limit window has reset") | anthropic (assumed; not observable from session artifacts) | **Nothing** | **Nothing** | A1 completed at **06:11:09Z** with `exit=0`, `subtype: success`, `is_error: false`, 19 turns, and a well-formed 2-claim block. The supervisor's report arrived after that timestamp. No limit signature appears in `a1-stderr.txt`, the result JSON, or the 202-entry session transcript. |
+
+**Handling (branch (a) of the supervisor's instruction).** A1 completed and
+emitted its structured claims before any limit effect, so it is scored
+normally and the flow proceeded to A2/B. **No session was voided and task 1
+has no missing A1 cell.**
+
+*Recorded honestly, because the distinction matters for D-021a's day-3
+conditional:* the worker cannot independently confirm a limit-hit **event**
+from its own artifacts — nothing in the session record shows a throttle. What
+is confirmed is the **absence of any effect on a session**. This row is
+therefore counted as a supervisor-reported limit window with **zero
+session-level consequence**, and it is deliberately not treated as a
+zero-consequence event being silently dropped from the count. Whether it
+counts toward D-021a's "no limit-hit events by day 3" test is the
+supervisor's call, not the worker's, since the underlying event is visible
+only on the supervisor's side.
 
 ## Per-task provenance
 

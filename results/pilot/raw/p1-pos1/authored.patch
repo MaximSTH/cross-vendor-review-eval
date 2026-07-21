@@ -1,0 +1,210 @@
+diff --git a/Changes.md b/Changes.md
+index d8f48fc2..5bbfdc8f 100644
+--- a/Changes.md
++++ b/Changes.md
+@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
+ 
+ ### Unreleased
+ 
++- fix(transaction): add_header appended to the body instead of the headers #2986
++  - track the end of the header block with found_hb_sep, not header_pos
++  - split headers from body as the data streams in, not in end_data
++  - synthesize a header/body separator when the message arrives without one
+ - deps(all): bump versions
+ - doc(Plugins): added more sections
+ - test: fixes for test-fixtures 1.4 & local plugins that do require('./')
+diff --git a/test/transaction.js b/test/transaction.js
+index de61670c..239d13a8 100644
+--- a/test/transaction.js
++++ b/test/transaction.js
+@@ -323,6 +323,54 @@ describe('transaction', () => {
+             })
+         })
+ 
++        // Appended headers must land in the header section of the serialized
++        // message, not after the body. See haraka/Haraka#2986.
++        const appends_to_header_section = (desc, lines, expect_body) => {
++            it(desc, (done) => {
++                for (const line of lines) this.transaction.add_data(Buffer.from(line))
++                this.transaction.end_data(() => {
++                    this.transaction.add_header('X-Spam-Level', '***')
++                    this.transaction.message_stream.get_data((data) => {
++                        const msg = data.toString()
++                        const sep = msg.indexOf('\r\n\r\n')
++                        assert.ok(sep !== -1, 'message has a header/body separator')
++                        const headers = msg.slice(0, sep + 2)
++                        const body = msg.slice(sep + 4)
++                        const where = `appended header is in the header section: ${JSON.stringify(msg)}`
++                        assert.ok(headers.includes('X-Spam-Level: ***\r\n'), where)
++                        assert.equal(body, expect_body)
++                        done()
++                    })
++                })
++            })
++        }
++
++        appends_to_header_section('normal message', ['Subject: original\r\n', '\r\n', 'body\r\n'], 'body\r\n')
++
++        // DATA opens with the separator: the message has no headers of its own.
++        // Previously header_pos stayed 0, so the body was re-parsed as headers.
++        appends_to_header_section(
++            'message with an empty header block',
++            ['\r\n', 'Hello world\r\n', '\r\n', 'More body\r\n'],
++            'Hello world\r\n\r\nMore body\r\n',
++        )
++
++        // No blank line between headers and body.
++        appends_to_header_section(
++            'message with no header/body separator',
++            ['Subject: original\r\n', 'Hello world\r\n', 'More body\r\n'],
++            'Hello world\r\nMore body\r\n',
++        )
++
++        // Nothing that looks like a header at all.
++        appends_to_header_section(
++            'message that is all body',
++            ['Hello world\r\n', 'More body\r\n'],
++            'Hello world\r\nMore body\r\n',
++        )
++
++        appends_to_header_section('message that is all headers', ['Subject: original\r\n'], '')
++
+         it('remove_header removes a header', (done) => {
+             this.transaction.add_data('X-Remove: gone\n')
+             this.transaction.add_data('\n')
+diff --git a/transaction.js b/transaction.js
+index 8ada5c03..83b860de 100644
+--- a/transaction.js
++++ b/transaction.js
+@@ -7,6 +7,12 @@ const Notes = require('haraka-notes')
+ const utils = require('haraka-utils')
+ const message = require('haraka-email-message')
+ 
++// A line that looks like a header field, or a folded continuation of one.
++const header_re = /^(?:[^\s:]*:|[ \t])/
++
++// Synthesized header/body separator, for messages that arrive without one.
++const hb_sep = Buffer.from('\r\n')
++
+ class Transaction {
+     constructor(uuid, cfg = {}) {
+         this.uuid = uuid || utils.uuid()
+@@ -130,19 +136,37 @@ class Transaction {
+             // This shouldn't ever happen.
+             line = Buffer.from(line, this.encoding)
+         }
+-        // is this the end of headers line?
+-        if (this.header_pos === 0 && (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a))) {
+-            this.header.parse(this.header_lines)
+-            this.header_pos = this.header_lines.length
+-            this.found_hb_sep = true
+-            if (this.parse_body) this.ensure_body()
+-        } else if (this.header_pos === 0) {
+-            // Build up headers
+-            if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {
+-                if (line[0] === 0x2e) line = line.slice(1) // Strip leading '.'
+-                this.header_lines.push(line.toString(this.encoding).replace(/\r\n$/, '\n'))
++        if (!this.found_hb_sep) {
++            // is this the end of headers line?
++            if (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a)) {
++                this.parse_headers()
++                if (!this.discard_data) this.message_stream.add_line(line)
++                return
+             }
+-        } else if (this.parse_body) {
++
++            let hline = line
++            if (hline[0] === 0x2e) hline = hline.slice(1) // Strip leading '.'
++            hline = hline.toString(this.encoding).replace(/\r\n$/, '\n')
++
++            if (header_re.test(hline)) {
++                // Build up headers
++                if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {
++                    this.header_lines.push(hline)
++                }
++                if (!this.discard_data) this.message_stream.add_line(line)
++                return
++            }
++
++            // Busted email: the headers were never terminated by a blank line.
++            // Treat this line as the first line of the body and synthesize the
++            // separator, so the stored message has a header/body boundary. Without
++            // one, a reader can't tell where the headers end, and headers appended
++            // later (add_header) end up rendered as part of the body.
++            this.parse_headers()
++            if (!this.discard_data) this.message_stream.add_line(hb_sep)
++        }
++
++        if (this.parse_body) {
+             let new_line = line
+             if (new_line[0] === 0x2e) new_line = new_line.slice(1) // Strip leading "."
+ 
+@@ -154,30 +178,22 @@ class Transaction {
+         if (!this.discard_data) this.message_stream.add_line(line)
+     }
+ 
++    // Parse the accumulated header lines and move on to the message body.
++    parse_headers() {
++        this.header.parse(this.header_lines)
++        this.header_pos = this.header_lines.length
++        this.found_hb_sep = true
++        if (this.parse_body) this.ensure_body()
++    }
++
+     end_data(cb) {
+-        if (!this.found_hb_sep && this.header_lines.length) {
+-            // Headers not parsed yet - must be a busted email
+-            // Strategy: Find the first line that doesn't look like a header.
+-            // Treat anything before that as headers, anything after as body.
+-            let header_pos = 0
+-            for (let i = 0; i < this.header_lines.length; i++) {
+-                // Anything that doesn't match a header or continuation
+-                if (!/^(?:([^\s:]*):\s*([\s\S]*)$|[ \t])/.test(this.header_lines[i])) {
+-                    break
+-                }
+-                header_pos = i
+-            }
+-            const body_lines = this.header_lines.splice(header_pos + 1)
+-            this.header.parse(this.header_lines)
+-            this.header_pos = header_pos
+-            if (this.parse_body) {
+-                this.ensure_body()
+-                for (const bodyLine of body_lines) {
+-                    this.body.parse_more(bodyLine)
+-                }
+-            }
++        if (!this.found_hb_sep) {
++            // The message ended without a header/body separator. Every line that
++            // arrived looked like a header, so this message has no body.
++            this.parse_headers()
++            if (!this.discard_data) this.message_stream.add_line(hb_sep)
+         }
+-        if (this.header_pos && this.parse_body) {
++        if (this.parse_body && this.body) {
+             const line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_end())
+             if (line.length) {
+                 this.body.force_end()
+@@ -195,12 +211,12 @@ class Transaction {
+ 
+     add_header(key, value) {
+         this.header.add_end(key, value)
+-        if (this.header_pos > 0) this.reset_headers()
++        if (this.found_hb_sep) this.reset_headers()
+     }
+ 
+     add_leading_header(key, value) {
+         this.header.add(key, value)
+-        if (this.header_pos > 0) this.reset_headers()
++        if (this.found_hb_sep) this.reset_headers()
+     }
+ 
+     reset_headers() {
+@@ -210,7 +226,7 @@ class Transaction {
+ 
+     remove_header(key) {
+         this.header.remove(key)
+-        if (this.header_pos > 0) this.reset_headers()
++        if (this.found_hb_sep) this.reset_headers()
+     }
+ 
+     attachment_hooks(start, data, end) {

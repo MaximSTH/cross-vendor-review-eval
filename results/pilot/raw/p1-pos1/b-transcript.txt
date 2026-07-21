@@ -1,0 +1,1616 @@
+I’ll inspect the working-tree diff and relevant surrounding code, then run only non-test static checks if they help validate a suspected defect.
+COMMAND /bin/zsh -lc 'git status --short && git diff --stat && git diff --no-ext-diff --unified=80'
+
+COMMAND /bin/zsh -lc 'git status --short && git diff --stat && git diff --no-ext-diff --unified=80'
+2026-07-21 14:53:54.448 xcodebuild[87550:3197662]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-21 14:53:54.676 xcodebuild[87550:3197661] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-xrg3IPWg' (errno=Operation not permitted)
+2026-07-21 14:53:55.075 xcodebuild[87552:3197716]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-21 14:53:55.176 xcodebuild[87552:3197715] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+ M Changes.md
+ M test/transaction.js
+ M transaction.js
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-T9OCcNZd' (errno=Operation not permitted)
+2026-07-21 14:53:55.925 xcodebuild[87557:3197745]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-21 14:53:56.024 xcodebuild[87557:3197744] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-CAqQGOKn' (errno=Operation not permitted)
+2026-07-21 14:53:56.333 xcodebuild[87559:3197756]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-21 14:53:56.440 xcodebuild[87559:3197755] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+ Changes.md          |  4 +++
+ test/transaction.js | 48 ++++++++++++++++++++++++++++
+ transaction.js      | 90 +++++++++++++++++++++++++++++++----------------------
+ 3 files changed, 105 insertions(+), 37 deletions(-)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-vAR8XyQ9' (errno=Operation not permitted)
+2026-07-21 14:53:57.148 xcodebuild[87563:3197779]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-21 14:53:57.250 xcodebuild[87563:3197778] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-I6SvmWN0' (errno=Operation not permitted)
+2026-07-21 14:53:57.556 xcodebuild[87565:3197791]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-21 14:53:57.658 xcodebuild[87565:3197790] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+diff --git a/Changes.md b/Changes.md
+index d8f48fc2..5bbfdc8f 100644
+--- a/Changes.md
++++ b/Changes.md
+@@ -1,86 +1,90 @@
+ # Changelog
+ 
+ The format is based on [Keep a Changelog](https://keepachangelog.com/).
+ 
+ ### Unreleased
+ 
++- fix(transaction): add_header appended to the body instead of the headers #2986
++  - track the end of the header block with found_hb_sep, not header_pos
++  - split headers from body as the data streams in, not in end_data
++  - synthesize a header/body separator when the message arrives without one
+ - deps(all): bump versions
+ - doc(Plugins): added more sections
+ - test: fixes for test-fixtures 1.4 & local plugins that do require('./')
+   - TL;DR: bundled plugins don't need a special require any more
+   - fixtures/plugin behaves more like real one, test accordingly
+ - deleted core_require
+ - es7: outbound replace fs callback with fs promises #3528
+   - dep(async): remove dep by replacing async.map with Queue
+ - es6 & es7: #3527
+   - use startsWith instead of indexOf === 0
+   - use spread syntax instead of [].concat and {}.assign
+   - use implicit arrow function returns
+   - replace deprecated substr with slice or substring
+ - chore: repackage ./plugin/queue/rabbit* as haraka-plugin-queue/rabbitmq, #3526
+ - fix: connection pause after odd SMTP command sequence, #3525
+ - test: add to transaction, rfc1869, xclient, and record_envelope_addresses #3524
+ 
+ ### [3.1.3] - 2026-02-06
+ 
+ - deps(graph): removed, sqlite3 library is unmaintained
+ - deps: bump all to latest
+ - outbound: fix aggregate error path #3519
+ - doc: fix no plugin names displayed with haraka --order #3517
+ - haraka: fixed getHooks regex to grab only hook names
+ - config: spool_dir and spool_after belong in connection.ini
+ 
+ ### [3.1.2] - 2026-01-02
+ 
+ - smtp_forward: [domain selector] : user + domain #3501
+ - rspamd: revert to older plugin version #3493
+ - feat: push to a 'release' branch with package-lock.json #3474
+ - change: finish renaming dot_stuffing to dot_stuffed #3473
+ - deps: require node 20+
+ - deps: bump all deps to latest
+ - deps: bump message-stream to 1.3.0, add some missing ^ chars
+ - dep(tmp): deleted, only used in attachment plugin
+ - feat(outbound): configurable outbound IPv4/IPv6 preference using `inet_prefer`
+ - feat(outbound): deferred hook is now passed the failed recips and mx #3505
+ - feat(rabbitmq_amqplib): configurable optional exchange arguments #3472
+ - feat(rabbitmq_amqplib): configurable message priority #3472
+ - fix: auth_proxy TLS upgrade works again #3514
+ - doc(Plugins): add save-sent #3497
+ - doc(README): update DKIM plugin link, #3490
+ - style: run prettier in repo #3504
+ 
+ ### [3.1.1] - 2025-05-19
+ 
+ - Fix: install connection.ini with base configuration on install #3458
+ - fix(outbound): in outbound, fix a crash when socket connection errors #3456
+ 
+ ### [3.1.0] - 2025-01-30
+ 
+ #### Changes
+ 
+ ##### BREAKING CHANGE
+ 
+ `connection.ini` replaces the following config files:
+ 
+ | old file                 | connection.ini setting |
+ | ------------------------ | ---------------------- |
+ | haproxy_hosts            | [haproxy] hosts        |
+ | smtpgreeting             | [message] greeting     |
+ | ehlo_hello_message       | [message] helo         |
+ | connection_close_message | [message] close        |
+ | banner_includes_uuid     | [uuid] banner_chars    |
+ | deny_includes_uuid       | [uuid] deny_chars      |
+ | databytes                | [max] bytes            |
+ | max_mime_parts           | [max] mime_parts       |
+ | max_line_length          | [max] line_length      |
+ | max_data_line_length     | [max] data_line_length |
+ 
+ AND
+ 
+ - moves the following settings from smtp.ini to connection.ini:
+   - headers.\*
+   - main.smtp_utf8
+   - main.strict_rfc1869
+ - early_talker.pause, removed support, use earlytalker.ini
+ 
+ To upgrade, apply any localized settings from the old config files to
+diff --git a/test/transaction.js b/test/transaction.js
+index de61670c..239d13a8 100644
+--- a/test/transaction.js
++++ b/test/transaction.js
+@@ -246,149 +246,197 @@ describe('transaction', () => {
+                 self.transaction.message_stream.get_data(function (body) {
+                     assert.ok(body.includes(buffer), 'message is damaged')
+                     done()
+                 })
+             })
+         })
+     })
+ 
+     describe('remove_final_cr', () => {
+         beforeEach(_set_up)
+ 
+         const cases = [
+             { desc: 'empty buffer', input: Buffer.from(''), expected: '' },
+             { desc: 'single byte', input: Buffer.from('a'), expected: 'a' },
+             { desc: 'CRLF ending', input: Buffer.from('hello\r\n'), expected: 'hello\n' },
+             { desc: 'LF-only ending unchanged', input: Buffer.from('hello\n'), expected: 'hello\n' },
+             { desc: 'no newline unchanged', input: Buffer.from('hello'), expected: 'hello' },
+             { desc: 'string input', input: 'hello\r\n', expected: 'hello\n' },
+         ]
+ 
+         for (const { desc, input, expected } of cases) {
+             it(desc, () => {
+                 const result = this.transaction.remove_final_cr(input)
+                 assert.equal(result.toString(), expected)
+             })
+         }
+     })
+ 
+     describe('add_dot_stuffing_and_ensure_crlf_newlines', () => {
+         beforeEach(_set_up)
+ 
+         const cases = [
+             { desc: 'empty string', input: '', expected: '' },
+             { desc: 'no dots or newlines', input: 'hello world', expected: 'hello world' },
+             { desc: 'bare LF becomes CRLF', input: 'hello\n', expected: 'hello\r\n' },
+             { desc: 'CRLF preserved', input: 'hello\r\n', expected: 'hello\r\n' },
+             { desc: 'dot at line start stuffed', input: '.hello\n', expected: '..hello\r\n' },
+             { desc: 'dot mid-line not stuffed', input: 'hel.lo\n', expected: 'hel.lo\r\n' },
+             { desc: 'multi-line with dots', input: 'a\n.b\n', expected: 'a\r\n..b\r\n' },
+             { desc: 'dot after CRLF stuffed', input: 'a\r\n.b\n', expected: 'a\r\n..b\r\n' },
+         ]
+ 
+         for (const { desc, input, expected } of cases) {
+             it(desc, () => {
+                 const inBuf = Buffer.isBuffer(input) ? input : Buffer.from(input)
+                 const result = this.transaction.add_dot_stuffing_and_ensure_crlf_newlines(inBuf)
+                 assert.equal(result.toString(), expected)
+             })
+         }
+     })
+ 
+     describe('header manipulation', () => {
+         beforeEach(_set_up)
+ 
+         it('add_header appends a header', (done) => {
+             this.transaction.add_data('Subject: original\n')
+             this.transaction.add_data('\n')
+             this.transaction.add_data('body\n')
+             this.transaction.end_data(() => {
+                 this.transaction.add_header('X-Test', 'added')
+                 const lines = this.transaction.header.get_all('X-Test')
+                 assert.ok(lines.length > 0, 'header was added')
+                 assert.equal(lines[0], 'added')
+                 done()
+             })
+         })
+ 
+         it('add_leading_header prepends a header', (done) => {
+             this.transaction.add_data('Subject: original\n')
+             this.transaction.add_data('\n')
+             this.transaction.add_data('body\n')
+             this.transaction.end_data(() => {
+                 this.transaction.add_leading_header('X-Lead', 'first')
+                 const lines = this.transaction.header.get_all('X-Lead')
+                 assert.ok(lines.length > 0, 'leading header was added')
+                 assert.equal(lines[0], 'first')
+                 done()
+             })
+         })
+ 
++        // Appended headers must land in the header section of the serialized
++        // message, not after the body. See haraka/Haraka#2986.
++        const appends_to_header_section = (desc, lines, expect_body) => {
++            it(desc, (done) => {
++                for (const line of lines) this.transaction.add_data(Buffer.from(line))
++                this.transaction.end_data(() => {
++                    this.transaction.add_header('X-Spam-Level', '***')
++                    this.transaction.message_stream.get_data((data) => {
++                        const msg = data.toString()
++                        const sep = msg.indexOf('\r\n\r\n')
++                        assert.ok(sep !== -1, 'message has a header/body separator')
++                        const headers = msg.slice(0, sep + 2)
++                        const body = msg.slice(sep + 4)
++                        const where = `appended header is in the header section: ${JSON.stringify(msg)}`
++                        assert.ok(headers.includes('X-Spam-Level: ***\r\n'), where)
++                        assert.equal(body, expect_body)
++                        done()
++                    })
++                })
++            })
++        }
++
++        appends_to_header_section('normal message', ['Subject: original\r\n', '\r\n', 'body\r\n'], 'body\r\n')
++
++        // DATA opens with the separator: the message has no headers of its own.
++        // Previously header_pos stayed 0, so the body was re-parsed as headers.
++        appends_to_header_section(
++            'message with an empty header block',
++            ['\r\n', 'Hello world\r\n', '\r\n', 'More body\r\n'],
++            'Hello world\r\n\r\nMore body\r\n',
++        )
++
++        // No blank line between headers and body.
++        appends_to_header_section(
++            'message with no header/body separator',
++            ['Subject: original\r\n', 'Hello world\r\n', 'More body\r\n'],
++            'Hello world\r\nMore body\r\n',
++        )
++
++        // Nothing that looks like a header at all.
++        appends_to_header_section(
++            'message that is all body',
++            ['Hello world\r\n', 'More body\r\n'],
++            'Hello world\r\nMore body\r\n',
++        )
++
++        appends_to_header_section('message that is all headers', ['Subject: original\r\n'], '')
++
+         it('remove_header removes a header', (done) => {
+             this.transaction.add_data('X-Remove: gone\n')
+             this.transaction.add_data('\n')
+             this.transaction.add_data('body\n')
+             this.transaction.end_data(() => {
+                 this.transaction.remove_header('X-Remove')
+                 const lines = this.transaction.header.get_all('X-Remove')
+                 assert.equal(lines.length, 0, 'header was removed')
+                 done()
+             })
+         })
+     })
+ 
+     describe('incr_mime_count', () => {
+         beforeEach(_set_up)
+ 
+         it('increments mime_part_count', () => {
+             assert.equal(this.transaction.mime_part_count, 0)
+             this.transaction.incr_mime_count()
+             assert.equal(this.transaction.mime_part_count, 1)
+             this.transaction.incr_mime_count()
+             assert.equal(this.transaction.mime_part_count, 2)
+         })
+     })
+ 
+     describe('discard_data', () => {
+         beforeEach(_set_up)
+ 
+         it('end_data calls cb even when discard_data is true', (done) => {
+             this.transaction.discard_data = true
+             this.transaction.add_data('Subject: test\n')
+             this.transaction.add_data('\n')
+             this.transaction.add_data('body\n')
+             this.transaction.end_data(() => {
+                 assert.ok(true, 'callback was called')
+                 done()
+             })
+         })
+     })
+ 
+     describe('busted email (no header/body separator)', () => {
+         beforeEach(_set_up)
+ 
+         it('end_data handles email with no blank line separator', (done) => {
+             this.transaction.add_data('Subject: test\n')
+             this.transaction.add_data('From: a@b.com\n')
+             this.transaction.end_data(() => {
+                 assert.ok(this.transaction.header, 'header exists')
+                 done()
+             })
+         })
+     })
+ })
+ 
+ function write_file_data_to_transaction(test_transaction, filename) {
+     const specimen = fs.readFileSync(filename, 'utf8')
+     const matcher = /[^\n]*([\n]|$)/g
+ 
+     let line
+     do {
+         line = matcher.exec(specimen)
+         if (line[0] == '') {
+             break
+         }
+         test_transaction.add_data(line[0])
+     } while (line[0] != '')
+ 
+     test_transaction.end_data()
+ }
+diff --git a/transaction.js b/transaction.js
+index 8ada5c03..83b860de 100644
+--- a/transaction.js
++++ b/transaction.js
+@@ -1,244 +1,260 @@
+ 'use strict'
+ // An SMTP Transaction
+ 
+ const util = require('node:util')
+ 
+ const Notes = require('haraka-notes')
+ const utils = require('haraka-utils')
+ const message = require('haraka-email-message')
+ 
++// A line that looks like a header field, or a folded continuation of one.
++const header_re = /^(?:[^\s:]*:|[ \t])/
++
++// Synthesized header/body separator, for messages that arrive without one.
++const hb_sep = Buffer.from('\r\n')
++
+ class Transaction {
+     constructor(uuid, cfg = {}) {
+         this.uuid = uuid || utils.uuid()
+         this.cfg = cfg
+         this.mail_from = null
+         this.rcpt_to = []
+         this.header_lines = []
+         this.data_lines = []
+         this.attachment_start_hooks = []
+         this.banner = null
+         this.body_filters = []
+         this.data_bytes = 0
+         this.header_pos = 0
+         this.found_hb_sep = false
+         this.body = null
+         this.parse_body = false
+         this.notes = new Notes()
+         this.notes.skip_plugins = []
+         this.header = new message.Header()
+         this.message_stream = new message.stream(this.cfg, this.uuid, this.header.header_list)
+         this.discard_data = false
+         this.resetting = false
+         this.rcpt_count = {
+             accept: 0,
+             tempfail: 0,
+             reject: 0,
+         }
+         this.msg_status = undefined
+         this.data_post_start = null
+         this.data_post_delay = 0
+         this.encoding = 'utf8'
+         this.mime_part_count = 0
+     }
+ 
+     ensure_body() {
+         if (this.body) return
+ 
+         this.body = new message.Body(this.header)
+         this.body.on('mime_boundary', (m) => this.incr_mime_count())
+ 
+         for (const hook of this.attachment_start_hooks) {
+             this.body.on('attachment_start', hook)
+         }
+ 
+         if (this.banner) this.body.set_banner(this.banner)
+ 
+         for (const o of this.body_filters) {
+             this.body.add_filter((ct, enc, buf) => {
+                 const re_match = util.types.isRegExp(o.ct_match) && o.ct_match.test(ct.toLowerCase())
+                 const ct_begins = ct.toLowerCase().indexOf(String(o.ct_match).toLowerCase()) === 0
+                 if (re_match || ct_begins) return o.filter(ct, enc, buf)
+             })
+         }
+     }
+ 
+     // Removes the CR of a CRLF newline at the end of the buffer.
+     remove_final_cr(data) {
+         if (data.length < 2) return data
+         if (!Buffer.isBuffer(data)) data = Buffer.from(data)
+ 
+         if (data[data.length - 2] === 0x0d && data[data.length - 1] === 0x0a) {
+             data[data.length - 2] = 0x0a
+             return data.slice(0, data.length - 1)
+         }
+         return data
+     }
+ 
+     // Duplicates any '.' chars at the beginning of a line (dot-stuffing) and
+     // ensures all newlines are CRLF.
+     add_dot_stuffing_and_ensure_crlf_newlines(data) {
+         if (!data.length) return data
+         if (!Buffer.isBuffer(data)) data = Buffer.from(data)
+ 
+         // Make a new buffer big enough to hold two bytes for every one input
+         // byte.  At most, we add one extra character per input byte, so this
+         // is always big enough.  We allocate it "unsafe" (i.e. no memset) for
+         // speed because we're about to fill it with data, and the remainder of
+         // the space we don't fill will be sliced away before we return this.
+         const output = Buffer.allocUnsafe(data.length * 2)
+         let output_pos = 0
+ 
+         let input_pos = 0
+         let next_dot = data.indexOf(0x2e)
+         let next_lf = data.indexOf(0x0a)
+         while (next_dot !== -1 || next_lf !== -1) {
+             const run_end = next_dot !== -1 && (next_lf === -1 || next_dot < next_lf) ? next_dot : next_lf
+ 
+             // Copy up to whichever comes first, '.' or '\n' (but don't
+             // copy the '.' or '\n' itself).
+             data.copy(output, output_pos, input_pos, run_end)
+             output_pos += run_end - input_pos
+ 
+             if (data[run_end] === 0x2e && (run_end === 0 || data[run_end - 1] === 0x0a)) {
+                 // Replace /^\./ with '..'
+                 output[output_pos++] = 0x2e
+             } else if (data[run_end] === 0x0a && (run_end === 0 || data[run_end - 1] !== 0x0d)) {
+                 // Replace /\r?\n/ with '\r\n'
+                 output[output_pos++] = 0x0d
+             }
+             output[output_pos++] = data[run_end]
+ 
+             input_pos = run_end + 1
+ 
+             if (run_end === next_dot) {
+                 next_dot = data.indexOf(0x2e, input_pos)
+             } else {
+                 next_lf = data.indexOf(0x0a, input_pos)
+             }
+         }
+ 
+         if (input_pos < data.length) {
+             data.copy(output, output_pos, input_pos)
+             output_pos += data.length - input_pos
+         }
+ 
+         return output.slice(0, output_pos)
+     }
+ 
+     add_data(line) {
+         if (typeof line === 'string') {
+             // This shouldn't ever happen.
+             line = Buffer.from(line, this.encoding)
+         }
+-        // is this the end of headers line?
+-        if (this.header_pos === 0 && (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a))) {
+-            this.header.parse(this.header_lines)
+-            this.header_pos = this.header_lines.length
+-            this.found_hb_sep = true
+-            if (this.parse_body) this.ensure_body()
+-        } else if (this.header_pos === 0) {
+-            // Build up headers
+-            if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {
+-                if (line[0] === 0x2e) line = line.slice(1) // Strip leading '.'
+-                this.header_lines.push(line.toString(this.encoding).replace(/\r\n$/, '\n'))
++        if (!this.found_hb_sep) {
++            // is this the end of headers line?
++            if (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a)) {
++                this.parse_headers()
++                if (!this.discard_data) this.message_stream.add_line(line)
++                return
+             }
+-        } else if (this.parse_body) {
++
++            let hline = line
++            if (hline[0] === 0x2e) hline = hline.slice(1) // Strip leading '.'
++            hline = hline.toString(this.encoding).replace(/\r\n$/, '\n')
++
++            if (header_re.test(hline)) {
++                // Build up headers
++                if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {
++                    this.header_lines.push(hline)
++                }
++                if (!this.discard_data) this.message_stream.add_line(line)
++                return
++            }
++
++            // Busted email: the headers were never terminated by a blank line.
++            // Treat this line as the first line of the body and synthesize the
++            // separator, so the stored message has a header/body boundary. Without
++            // one, a reader can't tell where the headers end, and headers appended
++            // later (add_header) end up rendered as part of the body.
++            this.parse_headers()
++            if (!this.discard_data) this.message_stream.add_line(hb_sep)
++        }
++
++        if (this.parse_body) {
+             let new_line = line
+             if (new_line[0] === 0x2e) new_line = new_line.slice(1) // Strip leading "."
+ 
+             line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_more(this.remove_final_cr(new_line)))
+ 
+             if (!line.length) return // buffering for banners
+         }
+ 
+         if (!this.discard_data) this.message_stream.add_line(line)
+     }
+ 
++    // Parse the accumulated header lines and move on to the message body.
++    parse_headers() {
++        this.header.parse(this.header_lines)
++        this.header_pos = this.header_lines.length
++        this.found_hb_sep = true
++        if (this.parse_body) this.ensure_body()
++    }
++
+     end_data(cb) {
+-        if (!this.found_hb_sep && this.header_lines.length) {
+-            // Headers not parsed yet - must be a busted email
+-            // Strategy: Find the first line that doesn't look like a header.
+-            // Treat anything before that as headers, anything after as body.
+-            let header_pos = 0
+-            for (let i = 0; i < this.header_lines.length; i++) {
+-                // Anything that doesn't match a header or continuation
+-                if (!/^(?:([^\s:]*):\s*([\s\S]*)$|[ \t])/.test(this.header_lines[i])) {
+-                    break
+-                }
+-                header_pos = i
+-            }
+-            const body_lines = this.header_lines.splice(header_pos + 1)
+-            this.header.parse(this.header_lines)
+-            this.header_pos = header_pos
+-            if (this.parse_body) {
+-                this.ensure_body()
+-                for (const bodyLine of body_lines) {
+-                    this.body.parse_more(bodyLine)
+-                }
+-            }
++        if (!this.found_hb_sep) {
++            // The message ended without a header/body separator. Every line that
++            // arrived looked like a header, so this message has no body.
++            this.parse_headers()
++            if (!this.discard_data) this.message_stream.add_line(hb_sep)
+         }
+-        if (this.header_pos && this.parse_body) {
++        if (this.parse_body && this.body) {
+             const line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_end())
+             if (line.length) {
+                 this.body.force_end()
+ 
+                 if (!this.discard_data) this.message_stream.add_line(line)
+             }
+         }
+ 
+         if (this.discard_data) {
+             cb()
+         } else {
+             this.message_stream.add_line_end(cb)
+         }
+     }
+ 
+     add_header(key, value) {
+         this.header.add_end(key, value)
+-        if (this.header_pos > 0) this.reset_headers()
++        if (this.found_hb_sep) this.reset_headers()
+     }
+ 
+     add_leading_header(key, value) {
+         this.header.add(key, value)
+-        if (this.header_pos > 0) this.reset_headers()
++        if (this.found_hb_sep) this.reset_headers()
+     }
+ 
+     reset_headers() {
+         const header_lines = this.header.lines()
+         this.header_pos = header_lines.length
+     }
+ 
+     remove_header(key) {
+         this.header.remove(key)
+-        if (this.header_pos > 0) this.reset_headers()
++        if (this.found_hb_sep) this.reset_headers()
+     }
+ 
+     attachment_hooks(start, data, end) {
+         this.parse_body = true
+         this.attachment_start_hooks.push(start)
+     }
+ 
+     set_banner(text, html) {
+         // throw "transaction.set_banner is currently non-functional";
+         this.parse_body = true
+         if (!html) {
+             html = text.replace(/\n/g, '<br/>\n')
+         }
+         this.banner = [text, html]
+     }
+ 
+     add_body_filter(ct_match, filter) {
+         this.parse_body = true
+         this.body_filters.push({ ct_match, filter })
+     }
+ 
+     incr_mime_count(line) {
+         this.mime_part_count++
+     }
+ }
+ 
+ exports.Transaction = Transaction
+ 
+ exports.createTransaction = (uuid, cfg) => {
+     return new Transaction(uuid, cfg)
+ }
+
+COMMAND /bin/zsh -lc "rg -n \"class.*stream|function.*stream|header_pos|reset_headers|add_line\\(\" node_modules/haraka-email-message transaction.js test -g '*.js' | head -200 && sed -n '1,240p' node_modules/haraka-email-message/index.js 2>/dev/null || true && rg -n \"class MessageStream|class Stream|exports\\.stream\" node_modules/haraka-email-message"
+
+COMMAND /bin/zsh -lc "rg -n \"class.*stream|function.*stream|header_pos|reset_headers|add_line\\(\" node_modules/haraka-email-message transaction.js test -g '*.js' | head -200 && sed -n '1,240p' node_modules/haraka-email-message/index.js 2>/dev/null || true && rg -n \"class MessageStream|class Stream|exports\\.stream\" node_modules/haraka-email-message"
+test/smtp_client.js:146:                message_stream.add_line('Header: test\r\n')
+test/smtp_client.js:147:                message_stream.add_line('\r\n')
+test/smtp_client.js:148:                message_stream.add_line('hi\r\n')
+test/smtp_client.js:255:                message_stream.add_line('Header: test\r\n')
+test/smtp_client.js:256:                message_stream.add_line('\r\n')
+test/smtp_client.js:257:                message_stream.add_line('hi\r\n')
+transaction.js:28:        this.header_pos = 0
+transaction.js:143:                if (!this.discard_data) this.message_stream.add_line(line)
+transaction.js:156:                if (!this.discard_data) this.message_stream.add_line(line)
+transaction.js:166:            if (!this.discard_data) this.message_stream.add_line(hb_sep)
+transaction.js:178:        if (!this.discard_data) this.message_stream.add_line(line)
+transaction.js:184:        this.header_pos = this.header_lines.length
+transaction.js:194:            if (!this.discard_data) this.message_stream.add_line(hb_sep)
+transaction.js:201:                if (!this.discard_data) this.message_stream.add_line(line)
+transaction.js:214:        if (this.found_hb_sep) this.reset_headers()
+transaction.js:219:        if (this.found_hb_sep) this.reset_headers()
+transaction.js:222:    reset_headers() {
+transaction.js:224:        this.header_pos = header_lines.length
+transaction.js:229:        if (this.found_hb_sep) this.reset_headers()
+test/server.js:222:                            message_stream.add_line('Header: test\r\n')
+test/server.js:223:                            message_stream.add_line('\r\n')
+test/server.js:224:                            message_stream.add_line('I am body text\r\n')
+test/transaction.js:351:        // Previously header_pos stayed 0, so the body was re-parsed as headers.
+node_modules/haraka-email-message/node_modules/haraka-message-stream/index.js:84:  add_line(line) {
+'use strict'
+
+const Header = require('./lib/header')
+const Body = require('./lib/body')
+const AttachmentStream = require('./lib/attachment-stream')
+
+exports.Header = Header
+exports.Body = Body
+exports.stream = require('haraka-message-stream')
+exports.createAttachmentStream = (header) => new AttachmentStream(header)
+node_modules/haraka-email-message/index.js:9:exports.stream = require('haraka-message-stream')
+node_modules/haraka-email-message/node_modules/haraka-message-stream/index.js:34:class MessageStream extends Stream {
+
+COMMAND /bin/zsh -lc "sed -n '1,220p' node_modules/haraka-email-message/node_modules/haraka-message-stream/index.js && sed -n '1,260p' node_modules/haraka-email-message/lib/header.js && cat package.json"
+
+COMMAND /bin/zsh -lc "sed -n '1,220p' node_modules/haraka-email-message/node_modules/haraka-message-stream/index.js && sed -n '1,260p' node_modules/haraka-email-message/lib/header.js && cat package.json"
+'use strict'
+
+const fs = require('node:fs')
+const path = require('node:path')
+const { Stream, PassThrough, Writable } = require('node:stream')
+
+const ChunkEmitter = require('./lib/chunk-emitter')
+const HeaderSkipper = require('./lib/header-skipper')
+const LineTransformer = require('./lib/line-transformer')
+
+const STATE = { HEADERS: 1, BODY: 2 }
+const MAX_IDX_KEYS = 1000
+
+// Default spool threshold when cfg.main.spool_after is missing. Previously
+// the missing-value fallback was "never spool", which was an unbounded-memory
+// DoS for an MTA accepting attacker-controlled SMTP data. 25 MiB keeps the
+// vast majority of real-world traffic in RAM while still bounding worst case.
+const SPOOL_AFTER_DEFAULT = 25 * 1024 * 1024
+
+function resolveSpoolAfter(raw) {
+  if (raw === undefined || raw === null) return SPOOL_AFTER_DEFAULT
+  const n = typeof raw === 'number' ? raw : Number(raw)
+  // `-1` is the documented "never spool" sentinel (see Haraka connection.ini).
+  if (n === -1) return Infinity
+  if (!Number.isFinite(n) || n < 0) {
+    console.warn(
+      `message-stream: invalid spool_after=${JSON.stringify(raw)}; using default ${SPOOL_AFTER_DEFAULT}`,
+    )
+    return SPOOL_AFTER_DEFAULT
+  }
+  return n
+}
+
+class MessageStream extends Stream {
+  // Public observable state
+  uuid
+  bytes_read = 0
+  state = STATE.HEADERS
+  // null-prototype so attacker-controlled boundary names like `__proto__` or
+  // `constructor` can't mutate Object.prototype via `idx[boundary] = ...`.
+  idx = Object.create(null)
+  spooling = false
+  buffered = 0
+  total_buffered = 0
+  max_data_inflight = 0
+  headers
+
+  // Private write-side state
+  #queue = []
+  #writeCe = null
+  #fd = null
+  #ws = null
+  #openPending = false
+  #writePending = false
+  #writeComplete = false
+  #wsEnded = false
+  #endCalled = false
+  #endCallback = null
+  #idxCount = 0
+  #destroyed = false
+
+  // Private read-side state
+  #inPipe = false
+  #currentSource = null
+  #activeCleanup = null
+
+  // Config
+  #bufferMax
+  #spoolDir
+  #filename
+
+  constructor(cfg = {}, id, headers) {
+    super()
+    if (!id) throw new Error('id required')
+    this.uuid = id
+    this.headers = headers ?? []
+    this.#bufferMax = resolveSpoolAfter(cfg?.main?.spool_after)
+    this.#spoolDir = cfg?.main?.spool_dir ?? '/tmp'
+    this.#filename = path.join(this.#spoolDir, `${path.basename(id)}.eml`)
+  }
+
+  // ── Write side ────────────────────────────────────────────────────────────
+
+  add_line(line) {
+    if (typeof line === 'string') line = Buffer.from(line)
+
+    if (!this.#writeCe) {
+      this.#writeCe = new ChunkEmitter()
+      this.#writeCe.on('data', (chunk) => this.#write(chunk))
+    }
+
+    this.bytes_read += line.length
+
+    // Build up an index of 'interesting' data on the fly
+    if (this.state === STATE.HEADERS) {
+      // Look for end of headers line
+      if (line.length === 2 && line[0] === 0x0d && line[1] === 0x0a) {
+        this.idx.headers = { start: 0, end: this.bytes_read - line.length }
+        this.#idxCount++
+        this.state = STATE.BODY
+        this.idx.body = { start: this.bytes_read }
+        this.#idxCount++
+      }
+    }
+
+    if (this.state === STATE.BODY) {
+      // Look for MIME boundaries
+      if (line.length > 4 && line[0] === 0x2d && line[1] === 0x2d) {
+        let boundary = line.slice(2).toString().trimEnd()
+        if (/--\s*$/.test(line)) {
+          boundary = boundary.slice(0, -2)
+          if (this.idx[boundary]) this.idx[boundary].end = this.bytes_read
+        } else {
+          if (!this.idx[boundary] && this.#idxCount < MAX_IDX_KEYS) {
+            this.idx[boundary] = { start: this.bytes_read - line.length }
+            this.#idxCount++
+          }
+        }
+      }
+    }
+
+    this.#writeCe.fill(line)
+  }
+
+  add_line_end(cb) {
+    if (this.idx.body) this.idx.body.end = this.bytes_read
+    this.#endCalled = true
+    if (typeof cb === 'function') this.#endCallback = cb
+    // Call _write() only if no new data was emitted This might happen if the
+    // message size matches the size of the chunk buffer.
+    if (!this.#writeCe.end()) this.#write()
+  }
+
+  #write(data) {
+    if (data) {
+      this.buffered += data.length
+      this.total_buffered += data.length
+      this.#queue.push(data)
+    }
+    if (this.buffered > this.max_data_inflight)
+      this.max_data_inflight = this.buffered
+
+    if (this.#openPending || this.#writePending) return false
+
+    if (this.total_buffered > this.#bufferMax) this.spooling = true
+
+    if (this.#endCalled && (!this.spooling || !this.#queue.length)) {
+      if (this.spooling && this.#ws && !this.#wsEnded) {
+        // SUNSET 2027 (node 20 exits LTS on 2026-04-18)
+        // see test: 'spool file is fully written before add_line_end callback fires'
+        this.#wsEnded = true
+        this.#ws.end(() => {
+          this.#endCallback?.()
+          if (!this.#writeComplete) {
+            this.#writeComplete = true
+            this.emit('_write_complete')
+          }
+        })
+      } else if (!this.#wsEnded) {
+        this.#endCallback?.()
+        if (!this.#writeComplete) {
+          this.#writeComplete = true
+          this.emit('_write_complete')
+        }
+      }
+      return true
+    }
+
+    if (this.buffered < this.#bufferMax && !this.spooling) {
+      return true
+    }
+
+    if (!this.#queue.length) return false
+
+    // Open spool file if needed
+    if (!this.#fd && !this.#openPending) {
+      this.#openPending = true
+      this.#ws = fs.createWriteStream(this.#filename, {
+        flags: 'wx+',
+        autoClose: false,
+      })
+      this.#ws.on('open', (fd) => {
+        this.#openPending = false
+        if (this.#destroyed) {
+          // destroy() ran while open was pending; clean up the fd it just
+          // handed us, and remove the spool file we asked to be created.
+          fs.close(fd, () => fs.unlink(this.#filename, () => {}))
+          return
+        }
+        this.#fd = fd
+        setImmediate(() => this.#write())
+      })
+      this.#ws.on('error', (err) => this.emit('error', err))
+    }
+
+    if (!this.#fd) return false
+
+    const toSend = this.#queue.shift()
+    this.buffered -= toSend.length
+
+    if (!this.#ws.write(toSend)) {
+      this.#writePending = true
+      this.#ws.once('drain', () => {
+        this.#writePending = false
+        setImmediate(() => this.#write())
+      })
+      return false
+    }
+
+    if (this.#endCalled && (!this.spooling || !this.#queue.length))
+      return this.#write()
+    return true
+  }
+
+  // ── Read side ─────────────────────────────────────────────────────────────
+
+  pipe(destination, options = {}) {
+    if (this.#inPipe) throw new Error('Cannot pipe while currently piping')
+
+    const lineEndings = options?.line_endings ?? '\r\n'
+'use strict'
+
+const libmime = require('libmime')
+const libqp = require('libqp')
+const { parseHeader } = require('@haraka/email-address')
+const logger = require('./logger')
+const { try_convert } = require('./encoding')
+const { tokenize } = require('./rfc2231')
+const { decode: decode2047 } = require('./rfc2047')
+
+/* eslint no-control-regex: 0 */
+
+function _decode_word(charset, encoding, text) {
+  let data
+  switch (encoding.toUpperCase()) {
+    case 'Q':
+      data = libqp.decode(text.replace(/_/g, ' '))
+      break
+    case 'B':
+      data = Buffer.from(text, 'base64')
+      break
+  }
+  if (!/UTF-?8/i.test(charset)) return try_convert(data, charset)
+  return data.toString()
+}
+
+function _parse_rfc2231(params, str) {
+  // Fast-path: an RFC 2231 parameter always contains both `*` and `=`; skip the
+  // scan for the common header (Subject, From, ...) that has neither.
+  if (str.indexOf('*') === -1 || str.indexOf('=') === -1) return
+
+  for (const { attribute, section, value: raw } of tokenize(str)) {
+    let value = raw
+
+    const lang_match = /^(.*?)'(.*?)'(.*)/.exec(value)
+    if (lang_match) {
+      if (attribute === params.cur_key && lang_match[2] !== params.cur_lang) {
+        continue
+      }
+      params.cur_enc = lang_match[1]
+      params.cur_lang = lang_match[2]
+      value = lang_match[3]
+    } else if (attribute !== params.cur_key) {
+      params.cur_lang = ''
+      params.cur_enc = ''
+    }
+
+    params.cur_key = attribute
+    params.keys[attribute] = ''
+    params.kv[`${attribute}*${section}`] = value
+  }
+}
+
+function _decode_rfc2231(params, str) {
+  _parse_rfc2231(params, str)
+
+  for (const key in params.keys) {
+    str += ` ${key}="`
+    /* eslint no-constant-condition: 0 */
+    let merged = ''
+    for (let i = 0; true; i++) {
+      const _val = params.kv[`${key}*${i}`]
+      if (_val === undefined) break
+      merged += _val
+    }
+
+    try {
+      merged = decodeURIComponent(merged)
+    } catch {
+      logger.logerror(`Decode header failed: ${key}: ${merged}`)
+    }
+
+    if (params.cur_enc) {
+      merged = try_convert(Buffer.from(merged, 'utf8'), params.cur_enc)
+    }
+
+    str += `${merged}";`
+  }
+
+  return str
+}
+
+// An RFC 2822 email header parser
+class Header {
+  constructor() {
+    this.headers = Object.create(null)
+    this.headers_decoded = Object.create(null)
+    this.header_list = []
+  }
+
+  parse(lines) {
+    for (const line of lines) {
+      if (/^[ \t]/.test(line)) {
+        this.header_list[this.header_list.length - 1] += line
+      } else {
+        this.header_list.push(line)
+      }
+    }
+
+    for (const header of this.header_list) {
+      const match = header.match(/^([^\s:]*):\s*([\s\S]*)$/)
+      if (match) {
+        this._add_header(match[1].toLowerCase(), match[2], 'push')
+      } else {
+        logger.lognotice(`Header did not look right: ${header}`)
+      }
+    }
+
+    for (const key of Object.keys(this.headers)) {
+      for (const val of this.headers[key]) {
+        this._add_header_decode(key, val, 'push')
+      }
+    }
+  }
+
+  decode_header(val) {
+    val = val.replace(/\r?\n/g, '')
+
+    const rfc2231_params = {
+      kv: {},
+      keys: {},
+      cur_key: '',
+      cur_enc: '',
+      cur_lang: '',
+    }
+
+    val = _decode_rfc2231(rfc2231_params, val)
+
+    if (!/^[\x00-\x7f]*$/.test(val)) {
+      const matches = /\bcharset\s*=\s*["']?([\w_-]*)/.exec(
+        this.get('content-type'),
+      )
+      if (matches && !/UTF-?8/i.test(matches[1])) {
+        val = try_convert(Buffer.from(val, 'binary'), matches[1])
+      }
+    }
+
+    if (!/=\?/.test(val)) return val
+
+    return decode2047(val, _decode_word)
+  }
+
+  get(key) {
+    return (this.headers[key.toLowerCase()] ?? []).join('\n')
+  }
+
+  get_all(key) {
+    return Object.freeze([...(this.headers[key.toLowerCase()] ?? [])])
+  }
+
+  get_decoded(key) {
+    return (this.headers_decoded[key.toLowerCase()] ?? []).join('\n')
+  }
+
+  // Convenience accessor for address-valued headers (From, To, Cc, Reply-To,
+  // etc.). Returns the parsed `(Address | Group)[]` from @haraka/email-address;
+  // empty array if the header is missing. Throws on malformed input — call
+  // with try/catch when you can't trust the source.
+  get_addresses(key) {
+    const val = this.get_decoded(key)
+    if (!val) return []
+    return parseHeader(val)
+  }
+
+  remove(key) {
+    key = key.toLowerCase()
+    delete this.headers[key]
+    delete this.headers_decoded[key]
+    this._remove_more(key)
+  }
+
+  _remove_more(key) {
+    const key_len = key.length
+    for (let i = 0, l = this.header_list.length; i < l; i++) {
+      if (
+        this.header_list[i].substring(0, key_len + 1).toLowerCase() ===
+        `${key}:`
+      ) {
+        this.header_list.splice(i, 1)
+        return this._remove_more(key)
+      }
+    }
+  }
+
+  add(key, value) {
+    if (!key) key = 'X-Haraka-Blank'
+    value = trimNewlines(value)
+    if (/[^\x00-\x7f]/.test(value)) value = libmime.encodeWords(value, 'Q')
+    this._add_header(key.toLowerCase(), value, 'unshift')
+    this._add_header_decode(key.toLowerCase(), value, 'unshift')
+    this.header_list.unshift(`${key}: ${value}\n`)
+  }
+
+  add_end(key, value) {
+    if (!key) key = 'X-Haraka-Blank'
+    value = trimNewlines(value)
+    if (/[^\x00-\x7f]/.test(value)) value = libmime.encodeWords(value, 'Q')
+    this._add_header(key.toLowerCase(), value, 'push')
+    this._add_header_decode(key.toLowerCase(), value, 'push')
+    this.header_list.push(`${key}: ${value}\n`)
+  }
+
+  _add_header(key, value, method) {
+    if (['__proto__', 'constructor', 'prototype'].includes(key)) return
+    this.headers[key] ??= []
+    this.headers[key][method](value)
+  }
+
+  _add_header_decode(key, value, method) {
+    if (['__proto__', 'constructor', 'prototype'].includes(key)) return
+    this.headers_decoded[key] ??= []
+    this.headers_decoded[key][method](this.decode_header(value))
+  }
+
+  lines() {
+    return Object.freeze([...this.header_list])
+  }
+
+  toString() {
+    return this.header_list.join('\n')
+  }
+}
+
+function trimNewlines(value) {
+  // 4B ops/sec vs regex at 1.4M ops/sec
+  while (value.length > 0) {
+    if (value.endsWith('\n')) {
+      if (value.endsWith('\r\n')) {
+        value = value.slice(0, -2)
+      } else {
+        value = value.slice(0, -1)
+      }
+    } else {
+      break // Stop at a stray \r or any other character
+    }
+  }
+  return value
+}
+
+module.exports = Header
+{
+  "author": "Matt Sergeant <helpme@gmail.com> (http://baudehlo.com/)",
+  "name": "Haraka",
+  "license": "MIT",
+  "description": "An SMTP Server project.",
+  "keywords": [
+    "haraka",
+    "smtp",
+    "server",
+    "email"
+  ],
+  "version": "3.1.3",
+  "homepage": "http://haraka.github.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/haraka/Haraka.git"
+  },
+  "main": "haraka.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "address-rfc2821": "^2.1.5",
+    "address-rfc2822": "^2.2.3",
+    "daemon": "~1.1.0",
+    "haraka-config": "^1.5.0",
+    "haraka-constants": "^1.0.7",
+    "haraka-dsn": "^1.1.0",
+    "haraka-email-message": "^1.2.6",
+    "haraka-message-stream": "^1.3.2",
+    "haraka-net-utils": "^1.7.2",
+    "haraka-notes": "^1.1.1",
+    "haraka-plugin-redis": "^2.0.11",
+    "haraka-results": "^2.2.7",
+    "haraka-tld": "^1.3.0",
+    "haraka-utils": "^1.1.4",
+    "ipaddr.js": "~2.3.0",
+    "node-gyp": "^12.2.0",
+    "nopt": "^9.0.0",
+    "npid": "~0.4.0",
+    "redis": "~5.11.0",
+    "semver": "^7.7.4",
+    "sockaddr": "^1.0.1",
+    "sprintf-js": "~1.1.3"
+  },
+  "optionalDependencies": {
+    "haraka-plugin-access": "^1.1.10",
+    "haraka-plugin-aliases": "^1.0.3",
+    "haraka-plugin-asn": "^2.0.6",
+    "haraka-plugin-attachment": "^1.2.0",
+    "haraka-plugin-avg": "^1.1.0",
+    "haraka-plugin-bounce": "^2.1.2",
+    "haraka-plugin-clamd": "^1.0.2",
+    "haraka-plugin-dcc": "^1.0.3",
+    "haraka-plugin-dkim": "^1.0.11",
+    "haraka-plugin-dns-list": "^1.2.4",
+    "haraka-plugin-early_talker": "^1.0.2",
+    "haraka-plugin-elasticsearch": "^8.1.6",
+    "haraka-plugin-esets": "^1.0.1",
+    "haraka-plugin-fcrdns": "^1.1.2",
+    "haraka-plugin-geoip": "^1.1.2",
+    "haraka-plugin-greylist": "^1.1.0",
+    "haraka-plugin-headers": "^1.1.0",
+    "haraka-plugin-helo.checks": "^1.1.0",
+    "haraka-plugin-karma": "^2.1.8",
+    "haraka-plugin-known-senders": "^1.1.3",
+    "haraka-plugin-limit": "^1.2.7",
+    "haraka-plugin-mail_from.is_resolvable": "^1.1.0",
+    "haraka-plugin-messagesniffer": "^1.0.1",
+    "haraka-plugin-p0f": "^1.0.11",
+    "haraka-plugin-qmail-deliverable": "^1.3.1",
+    "haraka-plugin-recipient-routes": "^1.3.1",
+    "haraka-plugin-relay": "^1.0.1",
+    "haraka-plugin-rspamd": "^1.4.2",
+    "haraka-plugin-spamassassin": "^1.0.3",
+    "haraka-plugin-spf": "^1.2.11",
+    "haraka-plugin-syslog": "^1.0.7",
+    "haraka-plugin-uribl": "^1.0.10",
+    "haraka-plugin-watch": "^2.0.9",
+    "@techteamer/ocsp": "^1.0.1"
+  },
+  "devDependencies": {
+    "@haraka/eslint-config": "^2.0.4",
+    "haraka-test-fixtures": "^1.4.1",
+    "mocha": "^11.7.5",
+    "mock-require": "^3.0.3",
+    "nodemailer": "^8.0.3"
+  },
+  "bugs": {
+    "mail": "haraka.mail@gmail.com",
+    "url": "https://github.com/haraka/Haraka/issues"
+  },
+  "bin": {
+    "haraka": "./bin/haraka",
+    "haraka_grep": "./bin/haraka_grep"
+  },
+  "scripts": {
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "lint": "npx eslint *.js outbound plugins plugins/*/*.js test test/*/*.js test/*/*/*.js bin/haraka",
+    "lint:fix": "npx eslint --fix *.js outbound plugins plugins/*/*.js test test/*/*.js test/*/*/*.js bin/haraka",
+    "prettier": "npx prettier . --check",
+    "prettier:fix": "npx prettier . --write --log-level=warn",
+    "test": "npx mocha --exit --timeout=4000 test test/outbound test/plugins/auth test/plugins/queue test/plugins",
+    "versions": "npx dependency-version-checker check",
+    "versions:fix": "npx dependency-version-checker update"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120,
+    "semi": false
+  }
+}
+COMMAND /bin/zsh -lc "sed -n '220,520p' node_modules/haraka-email-message/node_modules/haraka-message-stream/index.js && rg -n \"header_lines|found_hb_sep|header_pos|parse_headers\\(\" --glob '*.js' --glob '"'!node_modules/**'"'"
+
+COMMAND /bin/zsh -lc "sed -n '220,520p' node_modules/haraka-email-message/node_modules/haraka-message-stream/index.js && rg -n \"header_lines|found_hb_sep|header_pos|parse_headers\\(\" --glob '*.js' --glob '"'!node_modules/**'"'"
+    const lineEndings = options?.line_endings ?? '\r\n'
+    const skipHeaders = !!options?.skip_headers
+
+    this.#inPipe = true
+
+    // dot_stuffing is the legacy option name used by Haraka < 3.1 (inverse of dot_stuffed):
+    //   dot_stuffing: true  → dot_stuffed: false (preserve stored dot-stuffing for SMTP)
+    //   dot_stuffing: false → dot_stuffed: true  (unstuff for local delivery/scanning)
+    const dotStuffed =
+      options?.dot_stuffed ??
+      (options?.dot_stuffing !== undefined ? !options.dot_stuffing : true)
+
+    const transformer = new LineTransformer({
+      lineEndings,
+      dotStuffed,
+      endingDot: options?.ending_dot ?? false,
+      clamdStyle: !!options?.clamd_style,
+    })
+    const source = new PassThrough()
+    this.#currentSource = source
+
+    // Idempotent teardown — resets #inPipe so the next pipe() can proceed
+    // and removes all listeners we registered. See haraka/message-stream#22.
+    let cleanedUp = false
+    let doRead
+    const cleanup = () => {
+      if (cleanedUp) return
+      cleanedUp = true
+      this.#inPipe = false
+      this.#activeCleanup = null
+      if (doRead) this.removeListener('_write_complete', doRead)
+      destination.removeListener('error', cleanup)
+      destination.removeListener('close', cleanup)
+      // Destroy without an error to avoid spurious 'error' emissions.
+      if (!source.destroyed) source.destroy()
+      if (!transformer.destroyed) transformer.destroy()
+    }
+    this.#activeCleanup = cleanup
+
+    // Register before pipe() so these fire before the pipe's own 'end' handler,
+    // which calls destination.end() — potentially triggering a synchronous next()
+    // that would attempt a new pipe() while #inPipe is still true.
+    transformer.once('end', cleanup)
+    transformer.once('error', (err) => {
+      cleanup()
+      this.emit('error', err)
+    })
+    source.once('error', (err) => {
+      cleanup()
+      this.emit('error', err)
+    })
+
+    // Prepended so cleanup runs before any consumer error handler that calls
+    // next() synchronously. See haraka/message-stream#22.
+    destination.prependOnceListener('error', cleanup)
+    destination.prependOnceListener('close', cleanup)
+
+    source.pipe(transformer).pipe(destination, { end: options.end !== false })
+
+    // Constructor headers suppress raw-data headers; skip_headers also suppresses ctor headers
+    const emitCtorHeaders = this.headers.length > 0 && !skipHeaders
+    const skipRawHeaders = this.headers.length > 0 || skipHeaders
+
+    doRead = () => {
+      // If unpipe()/cleanup ran while we were queued on _write_complete or
+      // waiting on an async fs.open, skip the (now invalid) read.
+      if (cleanedUp) return
+      if (emitCtorHeaders) {
+        for (const h of this.headers) {
+          source.write(Buffer.from(h.replace(/\r?\n/g, lineEndings)))
+        }
+        source.write(Buffer.from(lineEndings)) // EOH marker
+      }
+
+      if (this.#queue.length > 0) {
+        // In-memory path
+        if (skipRawHeaders) {
+          const skipper = new HeaderSkipper()
+          skipper.on('error', (err) => source.destroy(err))
+          skipper.pipe(source)
+          for (const chunk of this.#queue) skipper.write(chunk.slice(0))
+          skipper.end()
+        } else {
+          for (const chunk of this.#queue) source.write(chunk.slice(0))
+          source.end()
+        }
+      } else {
+        // Disk path
+        const startRead = (fd) => {
+          const rs = fs.createReadStream(null, { fd, start: 0 })
+          // Prevent the fd from being closed so it can be reused across sequential pipes
+          rs.destroy = () => {}
+          rs.once('error', (err) => {
+            source.destroy(err)
+            this.emit('error', err)
+          })
+          if (skipRawHeaders) {
+            const skipper = new HeaderSkipper()
+            skipper.on('error', (err) => source.destroy(err))
+            rs.pipe(skipper).pipe(source)
+          } else {
+            rs.pipe(source)
+          }
+        }
+
+        if (this.#fd) {
+          startRead(this.#fd)
+        } else {
+          fs.open(this.#filename, 'r', (err, fd) => {
+            // Pipe may have been torn down while fs.open was in flight.
+            if (cleanedUp) {
+              if (fd !== undefined) fs.close(fd, () => {})
+              return
+            }
+            if (err) {
+              this.emit('error', err)
+              source.destroy(err)
+              return
+            }
+            this.#fd = fd
+            startRead(fd)
+          })
+        }
+      }
+    }
+
+    if (this.#writeComplete) {
+      doRead()
+    } else {
+      this.once('_write_complete', doRead)
+    }
+
+    return destination
+  }
+
+  // Synchronously tear down the active pipe. Consumers should call this in
+  // error/timeout handlers before destroying the destination, since
+  // destination.destroy() emits 'close' on a later tick. No-op if idle.
+  // See haraka/message-stream#22.
+  unpipe() {
+    if (this.#activeCleanup) this.#activeCleanup()
+  }
+
+  pause() {
+    this.#currentSource?.pause()
+  }
+
+  resume() {
+    this.#currentSource?.resume()
+  }
+
+  destroy() {
+    this.#destroyed = true
+    // If a spool open is in flight, the open callback handles the cleanup
+    // (it sees #destroyed and closes the fd + unlinks the file there).
+    if (this.#openPending) return
+    try {
+      if (this.#fd) {
+        const fd = this.#fd
+        this.#fd = null
+        fs.close(fd, () => fs.unlink(this.#filename, () => {}))
+      } else {
+        fs.unlink(this.#filename, () => {})
+      }
+    } catch {
+      // best-effort cleanup
+    }
+  }
+
+  get_data(options, cb) {
+    if (arguments.length === 1) {
+      cb = options
+      options = {}
+    }
+    this.pipe(new GetDataStream(cb), options)
+  }
+
+  [Symbol.asyncIterator](options = {}) {
+    const pass = new PassThrough()
+    this.pipe(pass, options)
+    return pass[Symbol.asyncIterator]()
+  }
+}
+
+module.exports = MessageStream
+
+class GetDataStream extends Writable {
+  constructor(cb) {
+    super()
+    this.cb = cb
+    this.chunks = []
+  }
+
+  _write(chunk, _enc, done) {
+    this.chunks.push(chunk)
+    done()
+  }
+
+  _final(done) {
+    this.cb(Buffer.concat(this.chunks))
+    done()
+  }
+}
+
+module.exports.ChunkEmitter = ChunkEmitter
+transaction.js:22:        this.header_lines = []
+transaction.js:28:        this.header_pos = 0
+transaction.js:29:        this.found_hb_sep = false
+transaction.js:139:        if (!this.found_hb_sep) {
+transaction.js:142:                this.parse_headers()
+transaction.js:153:                if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {
+transaction.js:154:                    this.header_lines.push(hline)
+transaction.js:165:            this.parse_headers()
+transaction.js:182:    parse_headers() {
+transaction.js:183:        this.header.parse(this.header_lines)
+transaction.js:184:        this.header_pos = this.header_lines.length
+transaction.js:185:        this.found_hb_sep = true
+transaction.js:190:        if (!this.found_hb_sep) {
+transaction.js:193:            this.parse_headers()
+transaction.js:214:        if (this.found_hb_sep) this.reset_headers()
+transaction.js:219:        if (this.found_hb_sep) this.reset_headers()
+transaction.js:223:        const header_lines = this.header.lines()
+transaction.js:224:        this.header_pos = header_lines.length
+transaction.js:229:        if (this.found_hb_sep) this.reset_headers()
+test/transaction.js:351:        // Previously header_pos stayed 0, so the body was re-parsed as headers.
+connection.js:1574:        if (this.transaction.header_lines.length >= cfg.headers.max_lines) {
+outbound/hmail.js:947:        const original_header_lines = []
+outbound/hmail.js:964:                        original_header_lines.push(this_line)
+outbound/hmail.js:969:                if (original_header_lines.length > 0) {
+outbound/hmail.js:970:                    header.parse(original_header_lines)
+outbound/hmail.js:1013:        const bounce_header_lines = []
+outbound/hmail.js:1044:                bounce_header_lines.push(line)
+outbound/hmail.js:1080:        bounce_header_lines.forEach((line) => {
+
+The main behavior hinges on how the message stream substitutes parsed headers for raw headers, so I’ve traced that dependency as well. I’m checking edge cases around malformed messages, newline forms, and body parsing before finalizing findings.
+COMMAND /bin/zsh -lc 'npx eslint transaction.js test/transaction.js'
+
+COMMAND /bin/zsh -lc 'npx eslint transaction.js test/transaction.js'
+
+COMMAND /bin/zsh -lc "cat node_modules/haraka-email-message/node_modules/haraka-message-stream/lib/header-skipper.js && cat node_modules/haraka-email-message/node_modules/haraka-message-stream/lib/line-transformer.js && git show HEAD:transaction.js | sed -n '120,230p'"
+
+COMMAND /bin/zsh -lc "cat node_modules/haraka-email-message/node_modules/haraka-message-stream/lib/header-skipper.js && cat node_modules/haraka-email-message/node_modules/haraka-message-stream/lib/line-transformer.js && git show HEAD:transaction.js | sed -n '120,230p'"
+2026-07-21 14:54:38.845 xcodebuild[87620:3198490]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-21 14:54:38.945 xcodebuild[87620:3198489] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-A3bKJhc4' (errno=Operation not permitted)
+2026-07-21 14:54:39.263 xcodebuild[87622:3198501]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-21 14:54:39.363 xcodebuild[87622:3198500] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+        if (input_pos < data.length) {
+            data.copy(output, output_pos, input_pos)
+            output_pos += data.length - input_pos
+        }
+
+        return output.slice(0, output_pos)
+    }
+
+    add_data(line) {
+        if (typeof line === 'string') {
+            // This shouldn't ever happen.
+            line = Buffer.from(line, this.encoding)
+        }
+        // is this the end of headers line?
+        if (this.header_pos === 0 && (line[0] === 0x0a || (line[0] === 0x0d && line[1] === 0x0a))) {
+            this.header.parse(this.header_lines)
+            this.header_pos = this.header_lines.length
+            this.found_hb_sep = true
+            if (this.parse_body) this.ensure_body()
+        } else if (this.header_pos === 0) {
+            // Build up headers
+            if (this.header_lines.length < (this.cfg?.headers?.max_lines || 1000)) {
+                if (line[0] === 0x2e) line = line.slice(1) // Strip leading '.'
+                this.header_lines.push(line.toString(this.encoding).replace(/\r\n$/, '\n'))
+            }
+        } else if (this.parse_body) {
+            let new_line = line
+            if (new_line[0] === 0x2e) new_line = new_line.slice(1) // Strip leading "."
+
+            line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_more(this.remove_final_cr(new_line)))
+
+            if (!line.length) return // buffering for banners
+        }
+
+        if (!this.discard_data) this.message_stream.add_line(line)
+    }
+
+    end_data(cb) {
+        if (!this.found_hb_sep && this.header_lines.length) {
+            // Headers not parsed yet - must be a busted email
+            // Strategy: Find the first line that doesn't look like a header.
+            // Treat anything before that as headers, anything after as body.
+            let header_pos = 0
+            for (let i = 0; i < this.header_lines.length; i++) {
+                // Anything that doesn't match a header or continuation
+                if (!/^(?:([^\s:]*):\s*([\s\S]*)$|[ \t])/.test(this.header_lines[i])) {
+                    break
+                }
+                header_pos = i
+            }
+            const body_lines = this.header_lines.splice(header_pos + 1)
+            this.header.parse(this.header_lines)
+            this.header_pos = header_pos
+            if (this.parse_body) {
+                this.ensure_body()
+                for (const bodyLine of body_lines) {
+                    this.body.parse_more(bodyLine)
+                }
+            }
+        }
+        if (this.header_pos && this.parse_body) {
+            const line = this.add_dot_stuffing_and_ensure_crlf_newlines(this.body.parse_end())
+            if (line.length) {
+                this.body.force_end()
+
+                if (!this.discard_data) this.message_stream.add_line(line)
+            }
+        }
+
+        if (this.discard_data) {
+            cb()
+        } else {
+            this.message_stream.add_line_end(cb)
+        }
+    }
+
+    add_header(key, value) {
+        this.header.add_end(key, value)
+        if (this.header_pos > 0) this.reset_headers()
+    }
+
+    add_leading_header(key, value) {
+        this.header.add(key, value)
+        if (this.header_pos > 0) this.reset_headers()
+    }
+
+    reset_headers() {
+        const header_lines = this.header.lines()
+        this.header_pos = header_lines.length
+    }
+
+    remove_header(key) {
+        this.header.remove(key)
+        if (this.header_pos > 0) this.reset_headers()
+    }
+
+    attachment_hooks(start, data, end) {
+        this.parse_body = true
+        this.attachment_start_hooks.push(start)
+    }
+
+    set_banner(text, html) {
+        // throw "transaction.set_banner is currently non-functional";
+        this.parse_body = true
+        if (!html) {
+            html = text.replace(/\n/g, '<br/>\n')
+        }
+        this.banner = [text, html]
+    }
+
+    add_body_filter(ct_match, filter) {
+
+```json
+{
+  "claims": []
+}
+```
