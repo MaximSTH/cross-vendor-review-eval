@@ -436,6 +436,32 @@ zero execution lines; the rule's object is oracle access and none occurred.
 3. Scanner patterns **freeze at pilot close** alongside everything else;
    refinements during P1 are logged, none after.
 
+## D-026 · 2026-07-21 · P1 authorized; D-021b normal-week ceiling declared at 15 sessions/week
+
+**Why (supervisor ruling, at pilot go):** Two inputs delivered together.
+
+**(a) P1 GO.** Authorized per protocol §2 and D-021: 5 tasks through the full
+flow, at whatever pace the owner's availability tolerates, through
+**~2026-07-25**. Interleaved per D-012, k=2 repeat rules per D-021a, all
+logging per protocol §3. Execution proceeds across multiple working windows;
+each pause and resume is logged (`results/pilot/p1-log.md`) since wall-clock
+elapsed is not session time and the throughput measure depends on the
+distinction.
+
+**(b) D-021b ceiling declared: 15 sessions/week.** The owner's honest
+sustainable estimate for normal working weeks alongside their job. Applied per
+D-021b as `min(observed × 7 × 0.7, 15)`.
+
+*Recorded implication (worker note, not a design change):* P1 is ~20 sessions
+over ~4 days ≈ 5 sessions/day, so `observed × 7 × 0.7 ≈ 24.5`, and the
+**declared ceiling of 15 will bind** unless observed throughput falls below
+~3.06 sessions/day. Consequence: final n via §7's rule is driven by the
+declaration rather than by the pilot's measurement. This is exactly what
+D-021b was written to do (pilot days are atypically dedicated) and is flagged
+here only so the pilot report states it plainly rather than presenting 15 as a
+measured quantity. The measured `observed × 7 × 0.7` is reported alongside it
+regardless.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
@@ -549,3 +575,101 @@ pass the recency gate and UTBoost hardening — external task provenance
 removes a researcher degree of freedom. Own-harvest (Python-restricted per
 option c) is the fallback. "Verified live, not assumed from memory" stands as
 written. The selection itself logs as a D-entry before P0.
+
+## OQ-10 · 2026-07-21 · P1 task-selection scope — which language slice?
+
+**Why this is open, not mechanical:** D-023c ratifies the corpus as
+SWE-bench-Live/MultiLang; D-023**d** scopes the JS/TS restriction to **P0's**
+task explicitly ("P0's task comes from the JS/TS slice"). P1's slice is
+therefore undecided. The §8 selection rule itself (`select_first_n` —
+`created_at` ASC, ties by `instance_id`, applied after filters,
+`harness/corpus/intake.py`) is fixed and not in question; only the pool it is
+applied to is.
+
+**Live re-verification 2026-07-21 (metadata only, counts only — no task
+identities retrieved, deliberately; see the blindness note below):** post-gate
+(`created_at > 2026-03-01`) supply is unchanged from the 2026-07-18 evidence
+table — js 17 + ts 22 = **39**; multilang total ≈322 (c 6, cpp 53, go 66,
+js 17, rust 48, java 52, ts 22; the `csharp` split returned a
+datasets-server error and is uncounted). Feed stable; both readings have
+ample supply for 5 tasks.
+
+**Options:**
+(a) **Continue the JS/TS slice** — P1 takes the next rows after P0's in the
+    same combined JS+TS ordering.
+(b) **Full MultiLang pool** — apply the same rule across all splits, matching
+    the ratified corpus and the main study's intended composition.
+
+**Worker recommendation: (a), with a disclosure requirement.** RepoLaunch was
+validated (D-023c) on a JS task only; Java/Go/Rust/C++ bring different build
+toolchains, and P1's job is to measure throughput, not to debug toolchains —
+a build failure in an unvalidated language would consume the pilot window and
+contaminate the wall-clock measure it exists to produce. Homogeneity also
+keeps a 5-task variance estimate interpretable. **The cost, stated plainly:**
+a JS/TS-only pilot measures session cost on the cheapest-to-build slice, so
+the throughput figure may under-estimate main-study cost once Java/Go/Rust
+enter. If (a) is ruled, the pilot report must say so in those words, and §7's
+final-n computation inherits the caveat. If the supervisor weights
+main-study realism higher than pilot-window safety, (b) is the coherent
+alternative and the worker will not argue further.
+
+**Blindness note (why no task identities were fetched):** retrieving the
+candidate rows under both readings *before* the rule is fixed would let the
+selection rule be chosen with knowledge of which tasks each yields — the
+precise researcher degree of freedom §8's "fixed documented rule before any
+review runs" exists to remove. Counts are decision-relevant; identities are
+not. Identities are pulled only after this ruling.
+
+## OQ-11 · 2026-07-21 · Authoring-vendor assignment across P1's 5 tasks
+
+**Why this is open:** P0 used a single recorded coin flip for one task. With
+5 tasks there is no logged rule, and the choice is design-level: D-006 commits
+to a **symmetric both-directions** design, which 5 independent coin flips can
+defeat outright (a 5–0 or 4–1 draw has probability 12/32 ≈ 37.5%, leaving one
+direction with ≤1 case and the paired A2-vs-B comparison — §7's protected
+headline — effectively unmeasured in the pilot).
+
+**Options:**
+(a) **Independent coin flip per task** (P0 precedent extended).
+(b) **Balanced 3/2 by alternation:** one recorded coin flip decides whether
+    position 1 is anthropic- or openai-authored; assignment then alternates
+    down the fixed task order, yielding 3/2.
+(c) **Balanced 3/2 by seeded random draw** of which 3 positions go to the
+    direction the flip selects.
+
+**Worker recommendation: (b).** It preserves D-006 symmetry as far as an odd
+n permits, keeps exactly one recorded random element (auditable, same shape as
+P0's flip), and is deterministic thereafter. It also composes well with
+OQ-12(a): under alternation, positions 1 and 2 are opposite directions, so a
+repeat rule anchored at the head of the order measures run-to-run variance in
+both directions for free. Note (b) is a *pilot* rule; the main study's
+assignment at full n is a separate question not raised here.
+
+## OQ-12 · 2026-07-21 · Which two P1 tasks receive the k=2 repeats (D-021a)
+
+**Why this is open, and why it is time-critical:** D-021a pre-registers *that*
+two tasks get k=2 (the second conditional on zero limit-hits by day 3) but not
+*which*. "Pre-registered, not discretionary" is satisfiable only if the rule
+is fixed **before task 1 runs** — choosing after seeing outcomes is the
+degree of freedom the clause exists to close.
+
+**A tension worth surfacing:** design doc §7 specifies repeats on a *random*
+20% subsample; D-021a's pilot instance is 2 of 5 = 40% and says nothing about
+randomness. A deterministic pilot rule is defensible but drifts from §7's
+wording.
+
+**Options:**
+(a) **Positions 1 and 2** of the fixed task order. Simplest and fully
+    auditable; the first repeat runs earliest, so the day-3 conditional on the
+    second is comfortably evaluable; pairs with OQ-11(b) to cover both
+    directions.
+(b) **Seeded random draw of 2 of 5**, seed recorded in the P1 brief before any
+    session. Faithful to §7's "random subsample"; immune to a
+    "they repeated the convenient ones" objection. Cost: a draw of positions
+    4 and 5 pushes both repeats late in the window.
+
+**Worker recommendation: (b), seed recorded in the brief.** The pilot's job
+includes rehearsing the main study's procedures, and §7's randomness is the
+procedure. (a) is genuinely fine on the merits and better on scheduling; if
+the supervisor prefers it, the pilot report should note the deviation from
+§7's wording in one sentence.
