@@ -103,7 +103,29 @@ def select_first_n(
 
 SCREEN_PASS = "PASS"
 SCREEN_FAIL = "FAIL"      # ground truth is broken -> task is inadmissible
-SCREEN_ERROR = "ERROR"    # harness/emit problem -> verdict unknown, NOT a task defect
+SCREEN_ERROR = "ERROR"    # could not measure -> verdict unknown, NOT a task defect
+
+# D-030b: an ERROR may retire a task ONLY when its cause is diagnosed and
+# recorded. An undiagnosed ERROR always halts and escalates. Diagnoses are
+# rig-relative where the cause is our execution environment, never a claim
+# about the task itself (D-030a).
+DIAGNOSIS_IMAGE_MISSING = "image_missing"           # verified registry 404
+DIAGNOSIS_PLATFORM_INFEASIBLE = "platform_infeasible"  # verified illegal-instruction etc.
+
+DIAGNOSED_CAUSES = frozenset({DIAGNOSIS_IMAGE_MISSING, DIAGNOSIS_PLATFORM_INFEASIBLE})
+
+PLATFORM_INFEASIBLE_WORDING = (
+    "infeasible under this study's execution environment: "
+    "amd64 emulation on Apple Silicon"
+)
+
+
+class UndiagnosedScreenError(RuntimeError):
+    """An ERROR with no recorded cause reached selection (D-030b).
+
+    Raised rather than skipped: an unexplained failure to measure must never
+    silently shape the task set. It halts and escalates.
+    """
 
 
 @dataclass(frozen=True)
@@ -113,10 +135,16 @@ class ScreenResult:
     f2p_passing_at_base: tuple[str, ...] = ()
     f2p_not_reported: tuple[str, ...] = ()
     p2p_not_passing_at_base: tuple[str, ...] = ()
+    diagnosis: str = ""   # set only on ERROR; must be in DIAGNOSED_CAUSES
 
     @property
     def admissible(self) -> bool:
         return self.verdict == SCREEN_PASS
+
+    @property
+    def diagnosed(self) -> bool:
+        """A diagnosed ERROR may retire/skip a task; an undiagnosed one may not."""
+        return self.verdict == SCREEN_ERROR and self.diagnosis in DIAGNOSED_CAUSES
 
 
 def screen_ground_truth(
@@ -176,7 +204,11 @@ def select_screened(
     Returns (selected, skipped) where `skipped` is [(task_id, reason), ...] —
     every screened-out row is recorded, never silently dropped (§5 forbids
     silent task swaps). Positions are fixed by order of selection, so a
-    replacement inherits its position's vendor assignment and k=2 flag.
+    replacement inherits its position's vendor assignment and k=2 flag
+    (D-030d: the seeded repeat draw selected positions, not tasks).
+
+    Raises UndiagnosedScreenError if any candidate returns an ERROR without a
+    recorded diagnosis (D-030b) — such a row neither skips nor retires.
     """
     report = report if report is not None else FilterReport()
     ordered = sorted(candidates, key=lambda c: (c.merged_at.isoformat(), c.task_id))
@@ -189,8 +221,16 @@ def select_screened(
         result = screen(c)
         if result.admissible:
             selected.append(c)
-        else:
-            skipped.append((c.task_id, f"{result.verdict}: {result.reason}"))
-            report.drop(c, f"ground-truth screen {result.verdict}: {result.reason}")
+            continue
+        if result.verdict == SCREEN_ERROR and not result.diagnosed:
+            raise UndiagnosedScreenError(
+                f"{c.task_id}: undiagnosed screen ERROR ({result.reason!r}) — "
+                "halts and escalates per D-030b; it must not skip or retire a task"
+            )
+        detail = f"{result.verdict}: {result.reason}"
+        if result.diagnosed:
+            detail = f"{result.verdict} [{result.diagnosis}]: {result.reason}"
+        skipped.append((c.task_id, detail))
+        report.drop(c, f"ground-truth screen {detail}")
     report.kept = selected
     return selected, skipped

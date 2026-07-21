@@ -10,7 +10,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from harness.corpus.intake import (
-    SCREEN_ERROR, SCREEN_FAIL, SCREEN_PASS, CandidateTask, screen_ground_truth,
+    DIAGNOSIS_IMAGE_MISSING, DIAGNOSIS_PLATFORM_INFEASIBLE,
+    PLATFORM_INFEASIBLE_WORDING, SCREEN_ERROR, SCREEN_FAIL, SCREEN_PASS,
+    CandidateTask, ScreenResult, UndiagnosedScreenError, screen_ground_truth,
     select_screened,
 )
 
@@ -94,16 +96,44 @@ class ReplacementRule(unittest.TestCase):
         self.assertEqual([tid for tid, _ in skipped], ["t1", "t3"])
         self.assertTrue(all(r.startswith(SCREEN_FAIL) for _, r in skipped))
 
-    def test_error_row_is_skipped_but_recorded_as_ERROR(self):
+    def test_undiagnosed_error_halts_and_escalates(self):
+        """D-030b: an unexplained failure to measure must not shape the task set."""
         cands = [_task("bad", 1), _task("good", 2)]
-        verdicts = {"bad": screen_ground_truth(["x"], ["y"], {}),
+        verdicts = {"bad": screen_ground_truth(["x"], ["y"], {}),   # ERROR, no diagnosis
                     "good": screen_ground_truth(["x"], ["y"], _OK)}
+
+        with self.assertRaises(UndiagnosedScreenError) as ctx:
+            select_screened(cands, 1, lambda c: verdicts[c.task_id])
+        self.assertIn("undiagnosed", str(ctx.exception))
+
+    def test_diagnosed_error_skips_with_reason_recorded(self):
+        """D-030b: a diagnosed ERROR may skip a candidate, reason recorded."""
+        cands = [_task("gone", 1), _task("good", 2)]
+        verdicts = {
+            "gone": ScreenResult(SCREEN_ERROR, "registry 404",
+                                 diagnosis=DIAGNOSIS_IMAGE_MISSING),
+            "good": screen_ground_truth(["x"], ["y"], _OK),
+        }
 
         selected, skipped = select_screened(cands, 1, lambda c: verdicts[c.task_id])
 
         self.assertEqual([c.task_id for c in selected], ["good"])
         self.assertEqual(len(skipped), 1)
-        self.assertTrue(skipped[0][1].startswith(SCREEN_ERROR))
+        self.assertIn(DIAGNOSIS_IMAGE_MISSING, skipped[0][1])
+
+    def test_platform_infeasible_is_a_diagnosed_cause(self):
+        r = ScreenResult(SCREEN_ERROR, PLATFORM_INFEASIBLE_WORDING,
+                         diagnosis=DIAGNOSIS_PLATFORM_INFEASIBLE)
+        self.assertTrue(r.diagnosed)
+        self.assertFalse(r.admissible)
+
+    def test_platform_infeasible_wording_is_rig_relative(self):
+        """D-030a: never a claim about the task itself."""
+        self.assertIn("this study's execution environment", PLATFORM_INFEASIBLE_WORDING)
+
+    def test_unknown_diagnosis_string_does_not_count_as_diagnosed(self):
+        r = ScreenResult(SCREEN_ERROR, "vibes", diagnosis="made_up_cause")
+        self.assertFalse(r.diagnosed)
 
     def test_ordering_is_by_merged_at_then_task_id(self):
         cands = [_task("b", 2), _task("a", 2), _task("c", 1)]

@@ -553,8 +553,35 @@ on every SWE-bench-derived evaluation that trusts these labels without
 executing them, and it corrects the OQ-9 evidence table, which credited this
 feed with filtering invalid instances by running regression tests ×3.
 
-*Screen-implementation note (worker, recorded because it nearly caused a
-methodological error):* the first screen implementation assumed test results
+*Screen-implementation note — recorded near-miss (supervisor-directed, same
+convention as every other earned rule in this log: the incident that produced
+the rule is preserved with it).* **The first screen implementation would have
+retired a healthy task through a harness defect of the screen itself.**
+
+- **What happened:** the first implementation assumed test results always land
+  in `reports/*.json` and ignored each record's shipped `print_cmds` and
+  `rebuild_cmds`. On `NVIDIA__NemoClaw-330` — whose results go to
+  `vitest-results.json` in two directories — nothing reached the parser.
+- **What it produced:** `parsed=0`, scored **FAIL**, i.e. "this task's ground
+  truth is broken." Under D-028b that verdict retires the task and pulls in a
+  replacement. The task was in fact **healthy**: the corrected screen returns
+  **PASS with 303 tests parsed**, every F2P failing and every P2P passing.
+- **What caught it:** the incoherence between `parsed=0` and a *declared* 300
+  PASS_TO_PASS tests. A task may ship broken labels; it cannot ship zero
+  tests. The two numbers cannot both be true, and the disagreement points at
+  the measuring instrument rather than the thing measured.
+- **Why the rule now exists structurally:** `parsed == 0` is classified
+  **ERROR (harness/emit), never FAIL (ground truth)**, because only one of
+  those two verdicts is permitted to retire a task. Enforced by
+  `test_empty_parse_is_ERROR_not_FAIL` and
+  `test_error_row_is_skipped_but_recorded_as_ERROR` in
+  `tests/test_gt_screen.py`.
+- **Standing consequence:** an ERROR verdict never retires a task and never
+  triggers a replacement. It halts that task pending diagnosis, and the
+  diagnosis is recorded. A screen that cannot measure a task is a fact about
+  the screen.
+
+*Original note, retained:* the first screen implementation assumed test results
 always land in `reports/*.json` and ignored each record's shipped `print_cmds`
 and `rebuild_cmds`. It returned `parsed=0` on `NVIDIA__NemoClaw-330` and
 scored it FAIL — a **false positive that would have retired a healthy task and
@@ -592,6 +619,66 @@ in-session A1 is not reproducible for a given stack, that is recorded per
 session rather than substituted with a fresh-session review — A1 and A2 differ
 precisely in context, and silently swapping one for the other would collapse
 the D-004 distinction the design exists to measure.
+
+## D-030 · 2026-07-21 · OQ-15 ruled: `platform_infeasible` exclusion; ERROR handling unified; mixed-implementation screen results void
+
+**Why (supervisor ruling on OQ-15 and on the worker's flagged asymmetry):**
+
+**(a) `platform_infeasible` exclusion class adopted.** A task whose screen
+ERROR is **diagnosed** as host/emulation incapacity is excluded and replaced
+per D-028b, with the diagnosis recorded. The exclusion is recorded
+**rig-relative**, never as a property of the task: the wording is
+*"infeasible under this study's execution environment: amd64 emulation on
+Apple Silicon."* The write-up inherits a **one-sentence limitation** to that
+effect. Rationale: the task is not defective and would run elsewhere; claiming
+otherwise would misreport the corpus.
+
+**(b) ERROR handling unified into one rule** (ratifying the worker's
+diagnosed/undiagnosed distinction and removing the asymmetry between selected
+tasks and replacement candidates):
+
+> A **diagnosed** ERROR — verified registry 404, verified illegal-instruction
+> under emulation, or any other identified and recorded cause — may skip a
+> replacement candidate or retire a selected task, with the reason recorded.
+> An **undiagnosed** ERROR **always halts and escalates**, and never does
+> either.
+
+This preserves what D-028's ERROR class was built for: an unexplained failure
+to measure is never allowed to look like a finding about the thing measured.
+It only ever relaxes on evidence.
+
+**(c) Position 4 unblocks** under (a): `can1357__oh-my-pi-489` is excluded as
+`platform_infeasible` (bun binary → `Illegal instruction (core dumped)` under
+amd64 emulation; diagnosed, verified) and replaced per D-028b.
+
+**(d) The seeded repeat draw selected *positions*, not tasks** (D-027c), so
+**position 4's replacement task inherits the k=2 repeat flag.** Recorded
+explicitly because the alternative reading — repeat follows the excluded task
+— would silently drop a repeat the draw pre-registered.
+
+**(e) All final screen verdicts come from the single rewritten runner.**
+Earlier results produced by the three superseded screen implementations are
+**void for the record** and are retained only as the incident trail in D-028's
+near-miss note. No verdict from a superseded implementation may be cited as
+evidence.
+
+**(f) Net-supply number and category overlaps** (label corruption, missing
+images, platform-infeasible, and their intersections) are reported in the
+pilot report as the **D-023 Step-3 input**, per D-028c. Not a pilot-blocking
+question.
+
+*Screen defect trail, for the record — three defects, all in the screen, none
+in the corpus, none of which retired a task:* (1) results assumed at
+`reports/*.json`, ignoring shipped `print_cmds` → `NVIDIA__NemoClaw-330`;
+(2) non-login shell, so image PATH setup never applied and `bun` was not found
+→ `can1357__oh-my-pi-489` (which then failed again for the genuine platform
+reason once PATH was fixed); (3) commands joined with `" ; "`, destroying an
+embedded heredoc → `GladysAssistant__Gladys-2504`. Final runner: each command
+on its own line, login shell, test patch base64-encoded inline so stdin stays
+free, build/test noise redirected by `exec` rather than a `{ }` group (which
+also breaks heredocs). **The ERROR/FAIL separation is what made all three
+recoverable; under the original single-verdict design each would have entered
+the record as a corpus finding.**
 
 ---
 
@@ -897,3 +984,64 @@ influence, any review result.
 **Worker recommendation:** adopt (1) and (2) as stated, hold (3) for the pilot
 report. The screen costs one container run per task, which the per-task flow
 already performs — near-zero added cost against the 15/wk ceiling.
+
+## OQ-15 · 2026-07-21 · ~~Platform-infeasible tasks~~ — **RESOLVED by D-030**
+
+**Why this is open, and why it is NOT a D-028 screen FAIL:** P1 position 4
+(`can1357__oh-my-pi-489`) returned screen verdict **ERROR**, correctly — the
+task's ground truth is *unknown*, not broken. Diagnosis:
+
+- The task's `test_cmds`/`rebuild_cmds` drive **`bun`**. Under a non-login
+  shell `bun` is not on PATH (first diagnosis); under `bash -lc` it resolves to
+  `/root/.bun/bin/bun` and then dies with **`Illegal instruction (core
+  dumped)`**.
+- Cause: the pilot host is Apple Silicon (aarch64); task images are amd64 and
+  run under emulation (recorded in HANDOFF and in `p1-log.md`). The emulation
+  layer does not support the CPU instructions bun's binary requires.
+- This is **not fixable in the screen or the harness.** It is a property of the
+  host/emulation pair. D-028's ERROR class exists precisely so this does not
+  masquerade as a ground-truth defect — and it worked: the task was not
+  retired.
+
+**Scope, measured across the 39 post-gate JS/TS pool** (runner inferred from
+`test_cmds` + `rebuild_cmds`): vitest 12, other 13, tap 5, jest 5, **bun 4**.
+The bun rows are **row 5 (`can1357__oh-my-pi-489`, P1 position 4), row 20
+(`code-yeongyu__oh-my-openagent-3013`), row 31 (`reactjs__react-rails-1418`),
+row 34 (`wxt-dev__wxt-2267`)** — ~10% of the pool, permanently unrunnable on
+this host.
+
+**The gap needing a ruling:** D-028b's replacement rule is triggered by screen
+**FAIL**. D-028's standing consequence is that **ERROR never retires a task**.
+Both are right as written, and together they leave position 4 blocked with no
+defined exit. Options:
+
+(a) **Add a `platform_infeasible` exclusion class** — a task whose ERROR is
+    diagnosed as host/emulation incapacity (not a screen defect) is excluded
+    and replaced per D-028b, with the diagnosis recorded. Keeps ERROR's
+    never-retire-on-unknown property intact: the task is retired on a
+    *diagnosed known cause*, not on an unexplained empty parse.
+(b) **Run bun tasks on an amd64 host** (cloud VM or Rosetta-capable path) —
+    preserves full corpus coverage, but introduces a *second execution
+    environment* mid-pilot, which is a version/environment covariate the study
+    would then have to carry and report per D-012.
+(c) **Restrict the corpus to runner families verified on this host** — cleanest
+    for the pilot, but it is a corpus-scope change (D-023 territory) and
+    silently narrows generality.
+
+**Worker recommendation: (a) for the pilot, and report the ~10% infeasible
+rate as a finding.** It is the smallest change that unblocks P1, it keeps the
+ERROR/FAIL separation honest, and the exclusion is *outcome-blind* exactly as
+D-028's screen is — diagnosed before any patch exists. (b) is the right answer
+for the main study if bun-family coverage matters, but adopting it mid-pilot
+adds an environment covariate to a 5-task throughput sample that cannot absorb
+it. (c) should not be chosen without reopening D-023, which ruling (c) of
+D-028 deliberately deferred to Step 3.
+
+**Pilot-report relevance:** "~10% of a curated post-gate slice is unrunnable on
+a current-generation developer laptop" is a real finding about reproducibility
+of SWE-bench-derived feeds on consumer hardware, and belongs alongside the
+D-028 label-integrity finding rather than in a footnote.
+
+**Status: P1 position 4 is BLOCKED pending this ruling.** Positions 1, 2, 3, 5
+proceed. Position 4 also carries a k=2 repeat flag (D-027c), so its resolution
+affects the repeat plan; the other repeat (position 3) is unaffected.
