@@ -462,6 +462,11 @@ here only so the pilot report states it plainly rather than presenting 15 as a
 measured quantity. The measured `observed × 7 × 0.7` is reported alongside it
 regardless.
 
+*Accepted 2026-07-21 (supervisor):* the note is binding — **the pilot report
+states plainly that final-n is declaration-driven (15 < measured), per
+D-021b's design.** Not a caveat buried in an appendix; the sentence appears
+where final n is computed.
+
 ## D-027 · 2026-07-21 · P1 selection rules ratified (OQ-10/11/12); 5 tasks fixed before any session
 
 **Why (supervisor ruling, all three worker recommendations adopted as
@@ -510,6 +515,83 @@ write-up states rather than hides.
 task flow (author + A1 + A2 + B) or the review arms only — is unspecified in
 D-021a and protocol §2. Must be ruled before the position-3 repeat runs, not
 after.
+
+## D-028 · 2026-07-21 · Ground-truth validity screen adopted at the corpus gate; replacement rule; D-023 not reopened mid-pilot
+
+**Why (supervisor ruling on OQ-14, all three worker proposals adopted):** the
+P1 task-1 baseline found a curated feed shipping FAIL_TO_PASS/PASS_TO_PASS
+labels that do not survive execution (41 of 44 declared F2P tests already
+passing at `base_commit`; P2P empty). D-010 committed to treating bundled-test
+results as never-certifying-correct; this ruling operationalizes that stance
+**at the corpus gate** rather than leaving it to downstream interpretation.
+
+**(a) Screen adopted into intake, as proposed.** A task is admissible iff, at
+`base_commit` with **only the test patch applied**, every declared F2P test is
+**reported and fails**, and P2P is **non-empty** with every reported P2P test
+**passing**. Rows failing the screen never enter the task set.
+
+**(b) Replacement rule.** A screened-out task is replaced by the **next row in
+the same fixed §8 ordering that passes the screen**. Every skipped row and its
+screen-failure reason is recorded in the brief — §5's no-silent-task-swaps
+requirement is met by the record, and §8's "fixed documented rule before any
+review runs" survives intact because **the screen is blind to review
+outcomes**: it executes before any patch is authored and cannot be influenced
+by, or influence, any review result. A replacement **inherits its position's**
+authoring-vendor assignment (D-027b) and k=2 flag (D-027c); the position is
+fixed, only the task moves.
+
+**(c) D-023 is NOT reopened mid-pilot.** The screen's **pass rate across the
+post-gate pool is measured and reported**; corpus re-ratification is a **Step-3
+input for the pilot report**, alongside the D-023 pre-registered fallback
+(SWE-rebench) if usable supply warrants it. Deliberately not a pilot-blocking
+question.
+
+**(d) The finding is a first-class pilot-report result, not plumbing**
+(supervisor directive). A curated, externally-provenanced feed exhibiting
+F2P/P2P integrity failures at this rate is paper-relevant: it bears directly
+on every SWE-bench-derived evaluation that trusts these labels without
+executing them, and it corrects the OQ-9 evidence table, which credited this
+feed with filtering invalid instances by running regression tests ×3.
+
+*Screen-implementation note (worker, recorded because it nearly caused a
+methodological error):* the first screen implementation assumed test results
+always land in `reports/*.json` and ignored each record's shipped `print_cmds`
+and `rebuild_cmds`. It returned `parsed=0` on `NVIDIA__NemoClaw-330` and
+scored it FAIL — a **false positive that would have retired a healthy task and
+triggered a spurious replacement.** Corrected flow uses the record's own
+fields in order: `git apply <test_patch>` → `rebuild_cmds` → `test_cmds` →
+`print_cmds`. A screen result of `parsed == 0` is now classified **ERROR
+(harness/emit problem), never FAIL (ground truth)** — the two must not be
+conflated, because only one of them retires a task. Task 1's FAIL is
+unaffected: its `print_cmds` is exactly `cat reports/jest-results.json`, the
+command the first implementation happened to run.
+
+*Cost note:* the screen adds no subscription cost — it is container compute,
+not a session. To protect the throughput measurement, pool-wide screening runs
+**only while no session is running**; concurrent container load under amd64
+emulation would inflate the very wall-clock figure P1 exists to measure.
+
+## D-029 · 2026-07-21 · OQ-13 ruled: a k=2 repeat re-runs the review arms only
+
+**Why (supervisor ruling, adopting the worker's reasoning verbatim):** the
+estimand is **reviewer detection**; re-authoring yields a different defect and
+hence a **second sample, not a repeat.**
+
+**Mechanics:** a k=2 repeat holds the **original authored patch fixed** and
+re-runs **A1/A2/B** against it. Cost ~3 sessions per repeat rather than ~4.
+
+*Stated cost, for the limitations section:* **authoring run-to-run variance
+goes unmeasured in the pilot.** If it is wanted later it is a separate line
+item, never a relabelled repeat.
+
+*Note on A1 under this ruling:* A1 is defined as in-session self-review inside
+the authoring session, so re-running A1 against a fixed patch means resuming
+that authoring session (P0 mechanics: `codex exec resume --last`, or the
+Anthropic-side equivalent) rather than authoring anew. Where a resumed
+in-session A1 is not reproducible for a given stack, that is recorded per
+session rather than substituted with a fresh-session review — A1 and A2 differ
+precisely in context, and silently swapping one for the other would collapse
+the D-004 distinction the design exists to measure.
 
 ---
 
@@ -723,7 +805,7 @@ procedure. (a) is genuinely fine on the merits and better on scheduling; if
 the supervisor prefers it, the pilot report should note the deviation from
 §7's wording in one sentence.
 
-## OQ-13 · 2026-07-21 · What does a k=2 repeat re-run?
+## OQ-13 · 2026-07-21 · ~~What does a k=2 repeat re-run?~~ — **RESOLVED by D-029**
 
 **Why this is open:** D-021a and protocol §2 say "k=2 repeats on two tasks"
 without stating the unit. Two readings, materially different in both cost and
@@ -746,7 +828,7 @@ ceiling. Cost of (b), stated: authoring variance goes unmeasured in the pilot;
 if that is wanted it is a separate line item, not a relabelled repeat.
 **Not blocking task 1** — needed before the position-3 repeat.
 
-## OQ-14 · 2026-07-21 · Ground-truth breakage in the corpus feed — P1 task 1 unusable; validity screen needed (protocol §5 escalation)
+## OQ-14 · 2026-07-21 · ~~Ground-truth breakage in the corpus feed~~ — **RESOLVED by D-028**
 
 **Status: P1 EXECUTION PAUSED.** No authoring or review session has been run
 for any P1 task. Raised under protocol §5 ("evidence of ground-truth breakage

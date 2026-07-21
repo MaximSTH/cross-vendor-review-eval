@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Optional
+from typing import Callable, Optional
 
 
 @dataclass(frozen=True)
@@ -93,3 +93,104 @@ def select_first_n(
         report.drop(c, f"beyond selection cap n={n}")
     report.kept = kept
     return kept
+
+
+# --- Ground-truth validity screen (D-028) --------------------------------
+# Operationalizes D-010's "bundled-test results never certify correctness" at
+# the corpus gate. Pure predicate over already-parsed results; container
+# execution lives in the screen runner, so this stays source-agnostic and
+# unit-testable.
+
+SCREEN_PASS = "PASS"
+SCREEN_FAIL = "FAIL"      # ground truth is broken -> task is inadmissible
+SCREEN_ERROR = "ERROR"    # harness/emit problem -> verdict unknown, NOT a task defect
+
+
+@dataclass(frozen=True)
+class ScreenResult:
+    verdict: str
+    reason: str = ""
+    f2p_passing_at_base: tuple[str, ...] = ()
+    f2p_not_reported: tuple[str, ...] = ()
+    p2p_not_passing_at_base: tuple[str, ...] = ()
+
+    @property
+    def admissible(self) -> bool:
+        return self.verdict == SCREEN_PASS
+
+
+def screen_ground_truth(
+    fail_to_pass: list[str],
+    pass_to_pass: list[str],
+    parsed_at_base: dict[str, str],
+) -> ScreenResult:
+    """Admissible iff, at base_commit with ONLY the test patch applied, every
+    declared F2P test is reported and fails, and P2P is non-empty with every
+    reported P2P test passing (D-028a).
+
+    `parsed_at_base` maps test name -> "pass" | "fail" | "skip", as produced by
+    the task record's own `log_parser`.
+
+    An empty parse is SCREEN_ERROR, never SCREEN_FAIL: it means the results
+    never reached the parser (wrong emit path, build failure), which says
+    nothing about the task's ground truth. Conflating the two would retire
+    healthy tasks and trigger spurious replacements under D-028b — the exact
+    false positive recorded in D-028's implementation note.
+    """
+    if not parsed_at_base:
+        return ScreenResult(SCREEN_ERROR,
+                            "parser reported no tests (emit/build problem, not ground truth)")
+    if not fail_to_pass:
+        return ScreenResult(SCREEN_FAIL, "no FAIL_TO_PASS tests declared")
+
+    f2p_passing = tuple(t for t in fail_to_pass if parsed_at_base.get(t) == "pass")
+    f2p_missing = tuple(t for t in fail_to_pass if t not in parsed_at_base)
+    p2p_bad = tuple(t for t in pass_to_pass
+                    if t in parsed_at_base and parsed_at_base[t] != "pass")
+
+    reasons = []
+    if f2p_passing:
+        reasons.append(f"{len(f2p_passing)}/{len(fail_to_pass)} F2P tests already pass at base")
+    if f2p_missing:
+        reasons.append(f"{len(f2p_missing)}/{len(fail_to_pass)} F2P tests not reported")
+    if not pass_to_pass:
+        reasons.append("PASS_TO_PASS is empty")
+    if p2p_bad:
+        reasons.append(f"{len(p2p_bad)}/{len(pass_to_pass)} P2P tests do not pass at base")
+
+    if reasons:
+        return ScreenResult(SCREEN_FAIL, "; ".join(reasons),
+                            f2p_passing, f2p_missing, p2p_bad)
+    return ScreenResult(SCREEN_PASS)
+
+
+def select_screened(
+    candidates: list[CandidateTask],
+    n: int,
+    screen: Callable[[CandidateTask], ScreenResult],
+    report: Optional[FilterReport] = None,
+) -> tuple[list[CandidateTask], list[tuple[str, str]]]:
+    """D-028b replacement rule: walk the fixed §8 ordering, keep the first `n`
+    candidates that pass the screen.
+
+    Returns (selected, skipped) where `skipped` is [(task_id, reason), ...] —
+    every screened-out row is recorded, never silently dropped (§5 forbids
+    silent task swaps). Positions are fixed by order of selection, so a
+    replacement inherits its position's vendor assignment and k=2 flag.
+    """
+    report = report if report is not None else FilterReport()
+    ordered = sorted(candidates, key=lambda c: (c.merged_at.isoformat(), c.task_id))
+    selected: list[CandidateTask] = []
+    skipped: list[tuple[str, str]] = []
+    for c in ordered:
+        if len(selected) == n:
+            report.drop(c, f"beyond selection cap n={n}")
+            continue
+        result = screen(c)
+        if result.admissible:
+            selected.append(c)
+        else:
+            skipped.append((c.task_id, f"{result.verdict}: {result.reason}"))
+            report.drop(c, f"ground-truth screen {result.verdict}: {result.reason}")
+    report.kept = selected
+    return selected, skipped
