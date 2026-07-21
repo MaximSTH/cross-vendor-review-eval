@@ -745,6 +745,55 @@ against the D-021b ceiling**, including sessions discarded for worker error.
 Counting only successful sessions would flatter the throughput figure P1 exists
 to measure.
 
+## D-032 · 2026-07-21 · D-021a amended: the second k=2 repeat's condition is session-consequence, not event-count
+
+**Amendment (supervisor).** D-021a's condition for executing the **second**
+k=2 repeat changes from:
+
+> ~~"no limit-hit events have occurred by day 3"~~
+
+to:
+
+> **"no limit event that voided or deferred a session by day 3."**
+
+**Rationale, on the record:** the conditional exists to protect the pilot
+window from **genuine capacity contention**. Event 1 was a supervisor-side
+session-window reset with **zero session consequence**, occurring during
+deliberately atypical double-loading. Letting it eliminate a pre-registered
+measurement would let a **formality overrule the condition's purpose**.
+
+**Timing — explicitly noted, because it is what makes this an honest
+clarification rather than results-contingent tinkering:** the amendment is
+made **before day 3's evaluation** and **before either repeat has run**. No
+repeat data exists to be influenced by it, and no outcome of the pilot is yet
+known that could motivate it. (Position 1 is complete but is an authoring
+success scored into neither sample per D-031a; positions 2–5 have no review
+data at all.)
+
+**Event 1 stays logged and counted in the §3 record either way** — the
+amendment changes what the condition *tests*, not what the log *contains*.
+
+*Standing consequence:* both k=2 repeats (positions 3 and 4) are expected to
+execute unless a limit event actually voids or defers a session before day 3.
+
+## D-033 · 2026-07-21 · Credential-fixture handling for security-fix tasks
+
+**Why:** position 2's task is a credential-exposure fix (an API key visible in
+the process list), so its patch, transcripts, and any fixtures the agent writes
+are likely to contain credential-shaped strings — and every one of those
+artifacts is published to a public repo.
+
+**Ruled (supervisor, as proposed):** hits from
+`scan_artifact_for_secrets` on these artifacts are **adjudicated per hit**, not
+blanket-suppressed and not blanket-blocking. **Ambiguous hits go to the
+supervisor before commit.** The **D-019 release gate remains blocking** — this
+is a release gate, not hygiene, because the logs ship per D-012.
+
+*Also ratified as standing practice:* recording the **base commit's own
+context** when it bears on interpretation — e.g. position 2's base is
+`chore(test): migrate root test suite from node:test to vitest`, which is
+worth knowing before reading anything odd in that task's test behaviour.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)

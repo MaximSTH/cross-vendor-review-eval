@@ -43,11 +43,47 @@ first P1 Band 2 case establishes it.
 
 | # | Open (owner tz) | Close | Sessions run | Notes |
 |---|---|---|---|---|
-| W1 | 2026-07-21 ~11:45 | — | **0** | P1 GO received; D-026 logged. Task 1 blocked on OQ-10/11/12 → ruled in-window → D-027, batch fixed. Task 1 step-2 baseline then found **ground-truth breakage** (41 of 44 F2P already pass at base; P2P empty) → **protocol §5 escalation, P1 paused at OQ-14**. Zero authoring/review sessions run. |
+| W1 | 2026-07-21 ~11:45 | 2026-07-21 ~15:10 (pause) | **5 run, 1 discarded** | P1 GO received; D-026 logged. Task 1 blocked on OQ-10/11/12 → ruled in-window → D-027, batch fixed. Task 1 step-2 baseline then found **ground-truth breakage** (41 of 44 F2P already pass at base; P2P empty) → **protocol §5 escalation, P1 paused at OQ-14**. Zero authoring/review sessions run. |
 
-**Session count for throughput purposes: 0.** Window W1 was spent on
-pre-registration and corpus validation, neither of which is a session. The
-throughput denominator must not be inflated by it.
+**W1 sessions (all against the D-021b ceiling, D-031g):**
+
+| arm | family | wall-clock | outcome |
+|---|---|---|---|
+| pos1 author | anthropic | 9m11s | patch, 3 files |
+| pos1 A1 | anthropic | 6m41s | 2 claims, D-018 clean |
+| pos1 A2 | anthropic | 5m22s | 3 claims, D-018 clean |
+| pos1 B | openai | 1m09s | 0 claims, D-018 clean |
+| pos1 B (discarded) | openai | ~40s | worker error: workspace-write on a review arm |
+| pos2 author | openai | 3m04s | patch capture defective → OQ-17 |
+
+**Wall-clock caveat for the throughput computation:** W1 spanned ~3.5 hours of
+elapsed time for ~26 minutes of session time. The remainder was
+pre-registration, corpus screening, and three escalations — **first-batch
+costs that will not recur per-task**. The sessions/week figure must be built
+from session time and realistic per-task overhead, not from W1's elapsed
+hours, or it will understate throughput badly.
+
+## Pause — W1 close, 2026-07-21
+
+**Boundary:** position 2's authoring session completed; the next arm (pos2 A1)
+had **not** started. Clean boundary, no session interrupted, no tree in a
+half-applied state.
+
+**State at pause:**
+- Position 1: complete through evaluation. Authoring success (D-031a) —
+  throughput data only, artifacts retained.
+- Position 2: authoring complete, **blocked on OQ-17 and OQ-18** before its
+  review arms. The authoring work is intact in the tree; only patch *capture*
+  is defective, and re-capture needs no session.
+- Positions 3, 5: screened PASS, not started. Position 4: replacement not yet
+  selected (walk resumes at row 11).
+
+**Deliberately NOT done during the pause,** per the supervisor's "nothing new
+starts while I'm away": the position-4 replacement screen. It was previously
+slated for an offline window; the later instruction supersedes, and container
+screening is new work rather than continuation.
+
+**Resume:** on the supervisor's morning word, with OQ-17 and OQ-18 rulings.
 
 ## Execution-environment incidents (not limit-hits; recorded per §3 discipline)
 
@@ -93,11 +129,12 @@ supervisor-reported basis noted. Rationale: the conditional protects against
 **capacity contention**, and zero-consequence-this-time is **luck, not
 absence**.
 
-**Consequence, stated now so it is not a surprise later:** D-021a makes the
-**second k=2 repeat conditional on zero limit-hit events by day 3.** With
-event 1 on the board on day 1, that condition is **already failed** unless the
-supervisor rules otherwise — so the pilot should expect **one** k=2 repeat
-(position 3), not two. Flagged rather than discovered at the deadline.
+**Consequence flagged on day 1, and subsequently ruled:** under D-021a as
+originally written, event 1 would have eliminated the **second** k=2 repeat.
+**Amended by D-032** (before day 3's evaluation and before either repeat ran):
+the condition now tests for a limit event that **voided or deferred a
+session**, which event 1 did not. Both repeats are expected to execute. Event 1
+remains logged and counted here regardless.
 
 ## Per-task provenance
 
