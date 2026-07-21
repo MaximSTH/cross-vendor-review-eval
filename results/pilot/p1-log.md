@@ -49,6 +49,12 @@ first P1 Band 2 case establishes it.
 pre-registration and corpus validation, neither of which is a session. The
 throughput denominator must not be inflated by it.
 
+## Execution-environment incidents (not limit-hits; recorded per §3 discipline)
+
+| When | What | Consequence |
+|---|---|---|
+| 2026-07-21 W1 | **Orphaned container.** `TaskStop` on a screen run killed the driving Python but *not* the `docker run` it had spawned; `thlorenz__doctoc-329`'s container ran unattended for ~22 min. | Burned CPU and contended with concurrent screen runs under amd64 emulation. Killed manually. **Standing lesson:** stopping a runner does not stop its containers — check `docker ps` after any interrupted run, especially before timing anything. No session wall-clock was measured during the window, so no throughput figure is contaminated. |
+
 ## Limit-hit events (D-021a day-3 conditional depends on this table)
 
 *(time, vendor, what was deferred — none yet)*

@@ -1,0 +1,107 @@
+{
+  "code-charity__youtube-3708": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 44,
+    "F2P": {
+      "n": 44,
+      "PASS_at_base": 41,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 0,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  },
+  "NVIDIA__NemoClaw-330": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 303,
+    "F2P": {
+      "n": 3,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 300,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  },
+  "thlorenz__doctoc-329": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 177,
+    "F2P": {
+      "n": 8,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 169,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  },
+  "can1357__oh-my-pi-489": {
+    "verdict": "ERROR",
+    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 1527,
+      "PASS_at_base": 0,
+      "not_reported": 1527
+    },
+    "P2P": {
+      "n": 980,
+      "not_pass_at_base": 0,
+      "not_reported": 980
+    }
+  },
+  "aralroca__next-translate-1259": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 147,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 146,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  },
+  "GladysAssistant__Gladys-2504": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 3387,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 2
+    },
+    "P2P": {
+      "n": 3386,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  },
+  "haraka__Haraka-3535": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 361,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 358,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  }
+}

@@ -1,0 +1,392 @@
+[
+ {
+  "instance_id": "thlorenz__doctoc-328",
+  "repo": "thlorenz/doctoc",
+  "lang": "js",
+  "created_at": "2026-03-13T04:30:10Z",
+  "base_commit": "6393281f839d1585d752f802b25fc28ded2e1ba1",
+  "f2p": 2,
+  "p2p": 64,
+  "row": 1
+ },
+ {
+  "instance_id": "code-charity__youtube-3708",
+  "repo": "code-charity/youtube",
+  "lang": "js",
+  "created_at": "2026-03-16T12:49:20Z",
+  "base_commit": "fdd34af1f2bf3a2e2835b5d8dfcd13ebb34a5cc8",
+  "f2p": 44,
+  "p2p": 0,
+  "row": 2
+ },
+ {
+  "instance_id": "NVIDIA__NemoClaw-330",
+  "repo": "NVIDIA/NemoClaw",
+  "lang": "ts",
+  "created_at": "2026-03-18T17:52:30Z",
+  "base_commit": "4a1b7499759f2aa473209a0dd159944ae03f2640",
+  "f2p": 3,
+  "p2p": 300,
+  "row": 3
+ },
+ {
+  "instance_id": "thlorenz__doctoc-329",
+  "repo": "thlorenz/doctoc",
+  "lang": "js",
+  "created_at": "2026-03-19T14:31:57Z",
+  "base_commit": "428cf4189b602309eef4b88871f207d44bfa22d7",
+  "f2p": 8,
+  "p2p": 169,
+  "row": 4
+ },
+ {
+  "instance_id": "can1357__oh-my-pi-489",
+  "repo": "can1357/oh-my-pi",
+  "lang": "ts",
+  "created_at": "2026-03-20T09:08:07Z",
+  "base_commit": "c412de1782ebd1081f64dcdf7847a9405017087d",
+  "f2p": 1527,
+  "p2p": 980,
+  "row": 5
+ },
+ {
+  "instance_id": "aralroca__next-translate-1259",
+  "repo": "aralroca/next-translate",
+  "lang": "js",
+  "created_at": "2026-03-22T06:21:20Z",
+  "base_commit": "f1fbf473b42cf795ae8eb996003222625bfc58ac",
+  "f2p": 1,
+  "p2p": 146,
+  "row": 6
+ },
+ {
+  "instance_id": "Mintplex-Labs__anything-llm-5252",
+  "repo": "Mintplex-Labs/anything-llm",
+  "lang": "js",
+  "created_at": "2026-03-23T00:07:37Z",
+  "base_commit": "02ee24baac8d33a90a04ae200a7c6a13ec84df3c",
+  "f2p": 105,
+  "p2p": 0,
+  "row": 7
+ },
+ {
+  "instance_id": "Automattic__mongoose-16153",
+  "repo": "Automattic/mongoose",
+  "lang": "js",
+  "created_at": "2026-03-23T03:45:51Z",
+  "base_commit": "a3563a39a4e3d341b234f28b07eb44bd0d3bdea6",
+  "f2p": 1,
+  "p2p": 4252,
+  "row": 8
+ },
+ {
+  "instance_id": "GladysAssistant__Gladys-2504",
+  "repo": "GladysAssistant/Gladys",
+  "lang": "js",
+  "created_at": "2026-03-23T14:32:01Z",
+  "base_commit": "b32900c920e000491c817d33e748f6b57ffa2569",
+  "f2p": 2,
+  "p2p": 3386,
+  "row": 9
+ },
+ {
+  "instance_id": "haraka__Haraka-3535",
+  "repo": "haraka/Haraka",
+  "lang": "js",
+  "created_at": "2026-03-24T00:23:20Z",
+  "base_commit": "37f2d18c2f757f0ad8aff90a984908d5eb109fb0",
+  "f2p": 2,
+  "p2p": 358,
+  "row": 10
+ },
+ {
+  "instance_id": "vueuse__vueuse-5336",
+  "repo": "vueuse/vueuse",
+  "lang": "ts",
+  "created_at": "2026-03-24T01:44:17Z",
+  "base_commit": "b46d7ae4813b383dae66b40325df61c25839c5a4",
+  "f2p": 1,
+  "p2p": 1375,
+  "row": 11
+ },
+ {
+  "instance_id": "gsd-build__gsd-2-2643",
+  "repo": "gsd-build/gsd-2",
+  "lang": "ts",
+  "created_at": "2026-03-26T09:40:44Z",
+  "base_commit": "ed335a3431d796fdea65bdbddbbc9911779fe361",
+  "f2p": 4,
+  "p2p": 4557,
+  "row": 12
+ },
+ {
+  "instance_id": "gsd-build__gsd-2-2738",
+  "repo": "gsd-build/gsd-2",
+  "lang": "ts",
+  "created_at": "2026-03-26T20:59:35Z",
+  "base_commit": "ae8f7cbebfecc067f456bcfca8f6d2fe79075f50",
+  "f2p": 1,
+  "p2p": 4296,
+  "row": 13
+ },
+ {
+  "instance_id": "iOfficeAI__AionUi-1818",
+  "repo": "iOfficeAI/AionUi",
+  "lang": "ts",
+  "created_at": "2026-03-27T23:54:31Z",
+  "base_commit": "c4ea66cf4648f6f352592ba8ec7a1528a129698d",
+  "f2p": 18,
+  "p2p": 1742,
+  "row": 14
+ },
+ {
+  "instance_id": "usebruno__bruno-7620",
+  "repo": "usebruno/bruno",
+  "lang": "js",
+  "created_at": "2026-03-30T14:29:47Z",
+  "base_commit": "c7ebe25cd69ad17d4efbeb5af384415534a68b3e",
+  "f2p": 6,
+  "p2p": 3205,
+  "row": 15
+ },
+ {
+  "instance_id": "gsd-build__gsd-2-3258",
+  "repo": "gsd-build/gsd-2",
+  "lang": "ts",
+  "created_at": "2026-03-30T16:13:48Z",
+  "base_commit": "fe0e218954d5e42d2045192f8b8234c0cd56b8c6",
+  "f2p": 975,
+  "p2p": 0,
+  "row": 16
+ },
+ {
+  "instance_id": "sveltejs__svelte-18039",
+  "repo": "sveltejs/svelte",
+  "lang": "js",
+  "created_at": "2026-03-31T21:06:12Z",
+  "base_commit": "8966601dcd14582cd46d4fbb7c5cf1b444292255",
+  "f2p": 4,
+  "p2p": 7451,
+  "row": 17
+ },
+ {
+  "instance_id": "openai__codex-plugin-cc-83",
+  "repo": "openai/codex-plugin-cc",
+  "lang": "js",
+  "created_at": "2026-04-01T08:09:41Z",
+  "base_commit": "8e403f9d4b496b0b0aff50fa3673f889f6a22cb1",
+  "f2p": 2,
+  "p2p": 64,
+  "row": 18
+ },
+ {
+  "instance_id": "mikro-orm__mikro-orm-7464",
+  "repo": "mikro-orm/mikro-orm",
+  "lang": "ts",
+  "created_at": "2026-04-01T11:40:33Z",
+  "base_commit": "cd0d47d012947e1872877ec97544c104110f3ca6",
+  "f2p": 1,
+  "p2p": 608,
+  "row": 19
+ },
+ {
+  "instance_id": "code-yeongyu__oh-my-openagent-3013",
+  "repo": "code-yeongyu/oh-my-openagent",
+  "lang": "ts",
+  "created_at": "2026-04-02T01:40:24Z",
+  "base_commit": "941e265aa15281445ee2953aa435a1c4010214a6",
+  "f2p": 2,
+  "p2p": 3410,
+  "row": 20
+ },
+ {
+  "instance_id": "proj4js__proj4js-560",
+  "repo": "proj4js/proj4js",
+  "lang": "js",
+  "created_at": "2026-04-02T18:43:11Z",
+  "base_commit": "a1ff79c635899ee06a9ed9436c1228ad1302d944",
+  "f2p": 17,
+  "p2p": 3648,
+  "row": 21
+ },
+ {
+  "instance_id": "puppeteer__puppeteer-14826",
+  "repo": "puppeteer/puppeteer",
+  "lang": "ts",
+  "created_at": "2026-04-03T10:32:58Z",
+  "base_commit": "67f39219a8f1552682ef4a8636460b59150e2e05",
+  "f2p": 2,
+  "p2p": 1223,
+  "row": 22
+ },
+ {
+  "instance_id": "ether__etherpad-7445",
+  "repo": "ether/etherpad",
+  "lang": "ts",
+  "created_at": "2026-04-04T00:13:07Z",
+  "base_commit": "5199319ceaa3466113f8793cf891d1c0756a9929",
+  "f2p": 2,
+  "p2p": 1092,
+  "row": 23
+ },
+ {
+  "instance_id": "TypeCellOS__BlockNote-2629",
+  "repo": "TypeCellOS/BlockNote",
+  "lang": "ts",
+  "created_at": "2026-04-07T08:35:41Z",
+  "base_commit": "38be5fd2ddab06977a663ac8b5077042a0a5eac7",
+  "f2p": 3,
+  "p2p": 1148,
+  "row": 24
+ },
+ {
+  "instance_id": "surveyjs__survey-library-11137",
+  "repo": "surveyjs/survey-library",
+  "lang": "ts",
+  "created_at": "2026-04-07T09:26:29Z",
+  "base_commit": "6208b09d1d5c03d0d716a856c6b870bf3bf81f4b",
+  "f2p": 2,
+  "p2p": 4170,
+  "row": 25
+ },
+ {
+  "instance_id": "nodejs__undici-5000",
+  "repo": "nodejs/undici",
+  "lang": "js",
+  "created_at": "2026-04-08T15:06:55Z",
+  "base_commit": "743aa8986579dae7f2585c9e17089583787360b3",
+  "f2p": 1115,
+  "p2p": 1201,
+  "row": 26
+ },
+ {
+  "instance_id": "nodejs__undici-5011",
+  "repo": "nodejs/undici",
+  "lang": "js",
+  "created_at": "2026-04-09T15:02:43Z",
+  "base_commit": "0143e1bae27ef6f6eb0225dc0934d69719d55c09",
+  "f2p": 1471,
+  "p2p": 5754,
+  "row": 27
+ },
+ {
+  "instance_id": "gsd-build__gsd-2-3946",
+  "repo": "gsd-build/gsd-2",
+  "lang": "ts",
+  "created_at": "2026-04-10T20:44:37Z",
+  "base_commit": "f973ddc91a874e734fbff331255dcb191e41a585",
+  "f2p": 6,
+  "p2p": 6908,
+  "row": 28
+ },
+ {
+  "instance_id": "gsd-build__get-shit-done-2107",
+  "repo": "gsd-build/get-shit-done",
+  "lang": "js",
+  "created_at": "2026-04-11T13:20:47Z",
+  "base_commit": "3c2cc7189a39e6089cafd556fca7177a29900b04",
+  "f2p": 615,
+  "p2p": 6705,
+  "row": 29
+ },
+ {
+  "instance_id": "kepano__defuddle-243",
+  "repo": "kepano/defuddle",
+  "lang": "ts",
+  "created_at": "2026-04-12T01:55:09Z",
+  "base_commit": "c1c43d6c78c69ae7c1efd77e0bade99c0aca5b26",
+  "f2p": 1,
+  "p2p": 239,
+  "row": 30
+ },
+ {
+  "instance_id": "reactjs__react-rails-1418",
+  "repo": "reactjs/react-rails",
+  "lang": "js",
+  "created_at": "2026-04-13T01:11:26Z",
+  "base_commit": "5e951a563cf85370b77da65e56aa446f0dc55855",
+  "f2p": 3,
+  "p2p": 55,
+  "row": 31
+ },
+ {
+  "instance_id": "mui__mui-x-22062",
+  "repo": "mui/mui-x",
+  "lang": "ts",
+  "created_at": "2026-04-13T09:59:32Z",
+  "base_commit": "697b3e14c79658b5d6abf11e57d9f6e18a180577",
+  "f2p": 4,
+  "p2p": 9562,
+  "row": 32
+ },
+ {
+  "instance_id": "gsd-build__get-shit-done-2186",
+  "repo": "gsd-build/get-shit-done",
+  "lang": "js",
+  "created_at": "2026-04-13T11:48:41Z",
+  "base_commit": "c11ec0555451338c3ef666753ec2b24731d7a2c7",
+  "f2p": 3,
+  "p2p": 5024,
+  "row": 33
+ },
+ {
+  "instance_id": "wxt-dev__wxt-2267",
+  "repo": "wxt-dev/wxt",
+  "lang": "ts",
+  "created_at": "2026-04-14T13:51:30Z",
+  "base_commit": "e67bac08687f7b4ccfdef7a9207a3bedd29364f8",
+  "f2p": 2,
+  "p2p": 799,
+  "row": 34
+ },
+ {
+  "instance_id": "QwenLM__qwen-code-3310",
+  "repo": "QwenLM/qwen-code",
+  "lang": "ts",
+  "created_at": "2026-04-16T01:00:42Z",
+  "base_commit": "70396d1276b2cd6bffed25e1a30d76238d26e9cd",
+  "f2p": 4,
+  "p2p": 19976,
+  "row": 35
+ },
+ {
+  "instance_id": "RooCodeInc__Roo-Code-12135",
+  "repo": "RooCodeInc/Roo-Code",
+  "lang": "ts",
+  "created_at": "2026-04-16T18:19:25Z",
+  "base_commit": "cb836567180a3ff1da6d082f3178b90c3bd22a70",
+  "f2p": 27,
+  "p2p": 2575,
+  "row": 36
+ },
+ {
+  "instance_id": "gsd-build__gsd-2-4400",
+  "repo": "gsd-build/gsd-2",
+  "lang": "ts",
+  "created_at": "2026-04-17T16:02:17Z",
+  "base_commit": "766f6c35d95a165c06a655af50c878d1a7364e1c",
+  "f2p": 3,
+  "p2p": 7483,
+  "row": 37
+ },
+ {
+  "instance_id": "assistant-ui__assistant-ui-3866",
+  "repo": "assistant-ui/assistant-ui",
+  "lang": "ts",
+  "created_at": "2026-04-20T15:03:37Z",
+  "base_commit": "1680de3832db82df62cdd11b22e76e23295683be",
+  "f2p": 7,
+  "p2p": 168,
+  "row": 38
+ },
+ {
+  "instance_id": "mnfst__manifest-1635",
+  "repo": "mnfst/manifest",
+  "lang": "ts",
+  "created_at": "2026-04-20T15:23:45Z",
+  "base_commit": "978517df32a3309e0a328be41557bd77bd81afd1",
+  "f2p": 2,
+  "p2p": 6236,
+  "row": 39
+ }
+]
