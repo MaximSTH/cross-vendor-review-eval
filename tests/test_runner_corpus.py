@@ -412,14 +412,54 @@ class TestSecretHygiene(unittest.TestCase):
                 ["env:CVRE_GEMINI_JUDGE_KEY"])
             self.assertEqual(scan_artifact_for_secrets("x-goog-api-key: abc"),
                              ["auth-header"])
-            self.assertEqual(scan_artifact_for_secrets("Authorization: Bearer t"),
-                             ["auth-header"])
+            # D-037: token-shaped bearer value still flags (retained detection).
+            self.assertEqual(
+                scan_artifact_for_secrets("Authorization: Bearer sk-proj-abc123XYZ456def789"),
+                ["auth-header"])
             self.assertEqual(scan_artifact_for_secrets("clean provenance line"), [])
         finally:
             if old is None:
                 del os.environ["CVRE_GEMINI_JUDGE_KEY"]
             else:
                 os.environ["CVRE_GEMINI_JUDGE_KEY"] = old
+
+    def test_auth_header_ignores_variable_references_but_still_flags_tokens(self):
+        """D-037 paired regression: a narrowed security control must prove
+        RETAINED detection, not just reduced noise. One benign `Bearer $VAR`
+        excerpt (the exact P1 position-2 false-positive class) must PASS; one
+        token-shaped `Bearer <value>` must still FLAG. Both permanent."""
+        from harness.compliance import scan_artifact_for_secrets
+
+        # Benign — a credential-handling task's transcript quoting code. MUST PASS.
+        benign = (
+            'The onboarding code builds the request header as\n'
+            '    "Authorization: Bearer $NVIDIA_API_KEY"\n'
+            'so the key is resolved from the environment, never inlined.'
+        )
+        self.assertEqual(scan_artifact_for_secrets(benign), [])
+        # And the other variable/placeholder shapes that recur in the corpus.
+        for benign_ref in (
+            "Authorization: Bearer ${NVIDIA_API_KEY}",
+            "Authorization: Bearer $NEMOCLAW_PROBE_API_KEY",
+            "Authorization: Bearer <YOUR_TOKEN>",
+        ):
+            self.assertEqual(scan_artifact_for_secrets(benign_ref), [],
+                             f"variable/placeholder must pass: {benign_ref!r}")
+
+        # A realistic leaked token. MUST still FLAG (retained detection).
+        leaked = (
+            "curl -H 'Authorization: Bearer sk-proj-9fA2b7Qz1mK4nP8xR3tL6vW0'\n"
+            "     https://api.example.com/v1/models"
+        )
+        self.assertEqual(scan_artifact_for_secrets(leaked), ["auth-header"])
+        # JWT and Basic shapes too.
+        self.assertEqual(
+            scan_artifact_for_secrets(
+                "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.payload"),
+            ["auth-header"])
+        self.assertEqual(
+            scan_artifact_for_secrets("Authorization: Basic dXNlcjpzdXBlcnNlY3JldA=="),
+            ["auth-header"])
 
 
 if __name__ == "__main__":

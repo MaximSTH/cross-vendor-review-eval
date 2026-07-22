@@ -138,8 +138,25 @@ def audit_judge_transcript(family: str, transcript: str) -> list[str]:
 # --- D-019: secret hygiene — release-blocking, not advisory ----------------
 
 SECRET_ENV_NAMES: tuple[str, ...] = ("CVRE_GEMINI_JUDGE_KEY",)
+
+# D-037: the bearer/basic branch requires a TOKEN-SHAPED value, not the header
+# shape alone. A `$VARIABLE` reference (or `${VAR}`, `%VAR%`, `<token>`,
+# quoted placeholder) is NOT a secret and passes; any realistic token still
+# fires. This closes a false-positive class that recurs across the corpus's
+# credential-handling tasks (P1 position 2: authors/reviewers quote
+# `Authorization: Bearer $NVIDIA_API_KEY` from the code under review). Scope is
+# deliberately the bearer/basic branch only, per the D-037 ruling; the
+# Gemini-specific `x-goog-api-key` header keeps its strict header-name match,
+# and a leaked judge-key VALUE is caught independently by the SECRET_ENV_NAMES
+# exact-value check regardless of header context.
+#   token-shaped := a run of >=16 chars from the base64/token alphabet whose
+#   first char is alphanumeric and is NOT preceded by a variable/placeholder
+#   sigil ($ { < % ' ").
 _AUTH_HEADER_RE = re.compile(
-    r"x-goog-api-key|authorization\s*:\s*(?:bearer|basic)", re.IGNORECASE)
+    r"x-goog-api-key"
+    r"|authorization\s*:\s*(?:bearer|basic)\s+"
+    r"(?![$<{%\"'])[A-Za-z0-9][A-Za-z0-9._~+/=-]{15,}",
+    re.IGNORECASE)
 
 
 def scan_artifact_for_secrets(text: str) -> list[str]:

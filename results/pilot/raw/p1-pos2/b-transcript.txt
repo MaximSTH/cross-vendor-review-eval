@@ -1,0 +1,365 @@
+Review the code change in this repository's working tree for defects.
+
+You may explore the repository, read any files, and run static tooling, but do
+NOT run the test suite.
+
+When you are done, output your findings as a fenced JSON block in exactly this
+format, as the last thing in your response:
+
+```json
+{
+  "claims": [
+    {
+      "file": "path/relative/to/repo/root.py",
+      "line": 123,
+      "description": "One-sentence statement of the defect and why it is wrong."
+    }
+  ]
+}
+```
+
+Rules:
+- Report only defects you believe are real. An empty list (`"claims": []`) is a
+  valid and correct answer for a clean change.
+- Report at most 5 claims, ranked most-confident first. Claims beyond the
+  fifth are discarded unread.
+- Give `file` and `line` whenever you can localize the defect. Use `null` only
+  when you genuinely cannot.
+- One claim per distinct defect. Do not pad.
+TOOL Bash {"command": "git diff --stat && echo \"---UNTRACKED---\" && git status --short", "description": "Show diff stat and status"}
+ bin/lib/onboard.js | 2 +-
+ scripts/setup.sh   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+---UNTRACKED---
+ M bin/lib/onboard.js
+ M scripts/setup.sh
+?? test/credential-exposure.test.js
+TOOL Bash {"command": "git diff", "description": "Show full diff"}
+diff --git a/bin/lib/onboard.js b/bin/lib/onboard.js
+index 252a303c8..ebc3c4283 100644
+--- a/bin/lib/onboard.js
++++ b/bin/lib/onboard.js
+@@ -808,7 +808,7 @@ async function setupInference(sandboxName, model, provider) {
+     // Create nvidia-nim provider
+     run(
+       `openshell provider create --name nvidia-nim --type openai ` +
+-      `--credential ${shellQuote("NVIDIA_API_KEY=" + process.env.NVIDIA_API_KEY)} ` +
++      `--credential NVIDIA_API_KEY ` +
+       `--config "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1" 2>&1 || true`,
+       { ignoreError: true }
+     );
+diff --git a/scripts/setup.sh b/scripts/setup.sh
+index 22b3ccfec..804b9033d 100755
+--- a/scripts/setup.sh
++++ b/scripts/setup.sh
+@@ -133,7 +133,7 @@ info "Setting up inference providers..."
+ upsert_provider \
+   "nvidia-nim" \
+   "openai" \
+-  "NVIDIA_API_KEY=$NVIDIA_API_KEY" \
++  "NVIDIA_API_KEY" \
+   "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1"
+ 
+ # vllm-local (if vLLM is installed or running)
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos2/b/test/credential-exposure.test.js"}
+1	// SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+2	// SPDX-License-Identifier: Apache-2.0
+3	
+4	const fs = require("fs");
+5	const path = require("path");
+6	
+7	describe("provider credential exposure", () => {
+8	  const repoRoot = path.join(__dirname, "..");
+9	
+10	  it.each([
+11	    ["bin/lib/onboard.js", /--credential NVIDIA_API_KEY/],
+12	    ["scripts/setup.sh", /"NVIDIA_API_KEY" \\/],
+13	  ])(
+14	    "%s passes the NVIDIA credential by environment variable name",
+15	    (relativePath, envLookupPattern) => {
+16	      const source = fs.readFileSync(path.join(repoRoot, relativePath), "utf8");
+17	
+18	      expect(source).toMatch(envLookupPattern);
+19	      expect(source).not.toContain('"NVIDIA_API_KEY=" + process.env.NVIDIA_API_KEY');
+20	      expect(source).not.toContain('"NVIDIA_API_KEY=$NVIDIA_API_KEY"');
+21	    }
+22	  );
+23	});
+24	
+TOOL Bash {"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos2/b\" && grep -n \"upsert_provider\" scripts/setup.sh | head; echo \"===\"; sed -n '80,140p' scripts/setup.sh", "description": "Show upsert_provider definition"}
+41:upsert_provider() {
+133:upsert_provider \
+142:  upsert_provider \
+163:    upsert_provider \
+===
+# Check prerequisites
+command -v openshell > /dev/null || fail "openshell CLI not found. Install the binary from https://github.com/NVIDIA/OpenShell/releases"
+command -v docker > /dev/null || fail "docker not found"
+[ -n "${NVIDIA_API_KEY:-}" ] || fail "NVIDIA_API_KEY not set. Get one from build.nvidia.com"
+
+CONTAINER_RUNTIME="$(infer_container_runtime_from_info "$(docker info 2>/dev/null || true)")"
+if is_unsupported_macos_runtime "$(uname -s)" "$CONTAINER_RUNTIME"; then
+  fail "Podman on macOS is not supported yet. NemoClaw currently depends on OpenShell support for Podman on macOS. Use Colima or Docker Desktop instead."
+fi
+if [ "$CONTAINER_RUNTIME" != "unknown" ]; then
+  info "Container runtime: $CONTAINER_RUNTIME"
+fi
+SANDBOX_NAME="${1:-nemoclaw}"
+info "Using sandbox name: ${SANDBOX_NAME}"
+
+OPEN_SHELL_VERSION_RAW="$(openshell -V 2>/dev/null || true)"
+OPEN_SHELL_VERSION_LOWER="${OPEN_SHELL_VERSION_RAW,,}"
+if [[ "$OPEN_SHELL_VERSION_LOWER" =~ openshell[[:space:]]+([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+  export IMAGE_TAG="${BASH_REMATCH[1]}"
+  export OPENSHELL_CLUSTER_IMAGE="ghcr.io/nvidia/openshell/cluster:${BASH_REMATCH[1]}"
+  info "Using pinned OpenShell gateway image: ${OPENSHELL_CLUSTER_IMAGE}"
+elif [[ -n "$OPEN_SHELL_VERSION_RAW" ]]; then
+  warn "Could not parse openshell version from 'openshell -V': ${OPEN_SHELL_VERSION_RAW}"
+  warn "Skipping OpenShell gateway image pinning."
+fi
+
+# 1. Gateway — always start fresh to avoid stale state
+info "Starting OpenShell gateway..."
+openshell gateway destroy -g nemoclaw > /dev/null 2>&1 || true
+GATEWAY_ARGS=(--name nemoclaw)
+command -v nvidia-smi > /dev/null 2>&1 && GATEWAY_ARGS+=(--gpu)
+openshell gateway start "${GATEWAY_ARGS[@]}" 2>&1 | grep -E "Gateway|✓|Error|error" || true
+
+# Verify gateway is actually healthy (may need a moment after start)
+for i in 1 2 3 4 5; do
+  if openshell status 2>&1 | grep -q "Connected"; then
+    break
+  fi
+  [ "$i" -eq 5 ] && fail "Gateway failed to start. Check 'openshell gateway info' and Docker logs."
+  sleep 2
+done
+info "Gateway is healthy"
+
+# 2. CoreDNS fix (Colima only)
+if [ "$CONTAINER_RUNTIME" = "colima" ]; then
+  info "Patching CoreDNS for Colima..."
+  bash "$SCRIPT_DIR/fix-coredns.sh" nemoclaw 2>&1 || warn "CoreDNS patch failed (may not be needed)"
+fi
+
+# 3. Providers
+info "Setting up inference providers..."
+
+# nvidia-nim (build.nvidia.com)
+upsert_provider \
+  "nvidia-nim" \
+  "openai" \
+  "NVIDIA_API_KEY" \
+  "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1"
+
+# vllm-local (if vLLM is installed or running)
+if check_local_provider_health "vllm-local" || python3 -c "import vllm" 2>/dev/null; then
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos2/b/scripts/setup.sh", "offset": 41, "limit": 40}
+41	upsert_provider() {
+42	  local name="$1"
+43	  local type="$2"
+44	  local credential="$3"
+45	  local config="$4"
+46	
+47	  if openshell provider create --name "$name" --type "$type" \
+48	    --credential "$credential" \
+49	    --config "$config" 2>&1 | grep -q "AlreadyExists"; then
+50	    openshell provider update "$name" \
+51	      --credential "$credential" \
+52	      --config "$config" > /dev/null
+53	    info "Updated $name provider"
+54	  else
+55	    info "Created $name provider"
+56	  fi
+57	}
+58	
+59	# Resolve DOCKER_HOST for macOS user-scoped runtimes when needed.
+60	ORIGINAL_DOCKER_HOST="${DOCKER_HOST:-}"
+61	if docker_host="$(detect_docker_host)"; then
+62	  export DOCKER_HOST="$docker_host"
+63	  if [ -n "$ORIGINAL_DOCKER_HOST" ]; then
+64	    warn "Using DOCKER_HOST from environment: $docker_host"
+65	  else
+66	    case "$(docker_host_runtime "$docker_host" || true)" in
+67	      colima)
+68	        warn "Using Colima Docker socket: ${docker_host#unix://}"
+69	        ;;
+70	      docker-desktop)
+71	        warn "Using Docker Desktop socket: ${docker_host#unix://}"
+72	        ;;
+73	      custom)
+74	        warn "Using Docker host: $docker_host"
+75	        ;;
+76	    esac
+77	  fi
+78	fi
+79	
+80	# Check prerequisites
+TOOL Bash {"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos2/b\" && grep -rn -- \"--credential\" --include=*.js --include=*.sh --include=*.md --include=*.ts . | grep -v node_modules", "description": "Find all --credential usages"}
+(eval):1: no matches found: --include=*.js
+TOOL Bash {"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos2/b\" && grep -rn -- \"--credential\" . 2>/dev/null | grep -v node_modules | grep -v \".git/\"", "description": "Find all credential usages"}
+test/credential-exposure.test.js:11:    ["bin/lib/onboard.js", /--credential NVIDIA_API_KEY/],
+bin/lib/onboard.js:811:      `--credential NVIDIA_API_KEY ` +
+bin/lib/onboard.js:828:      `--credential "OPENAI_API_KEY=dummy" ` +
+bin/lib/onboard.js:830:      `openshell provider update vllm-local --credential "OPENAI_API_KEY=dummy" ` +
+bin/lib/onboard.js:848:      `--credential "OPENAI_API_KEY=ollama" ` +
+bin/lib/onboard.js:850:      `openshell provider update ollama-local --credential "OPENAI_API_KEY=ollama" ` +
+nemoclaw-blueprint/orchestrator/runner.py:213:        provider_args.extend(["--credential", f"OPENAI_API_KEY={credential}"])
+scripts/setup.sh:48:    --credential "$credential" \
+scripts/setup.sh:51:      --credential "$credential" \
+TOOL Bash {"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos2/b\" && grep -rniE \"credential\" --include=*.md . 2>/dev/null | grep -v node_modules | grep -v \".git/\" | head -40", "description": "Search docs for credential format"}
+(eval):1: no matches found: --include=*.md
+TOOL Bash {"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos2/b\" && grep -rni \"credential\" . 2>/dev/null | grep -iE \"\\.md:|README|doc\" | grep -v node_modules | grep -v \".git/\" | head -40", "description": "Search markdown/docs for credential"}
+.agents/skills/docs/nemoclaw-reference/references/commands.md:27:The first run prompts for your NVIDIA API key and saves it to `~/.nemoclaw/credentials.json`.
+.agents/skills/docs/nemoclaw-reference/references/inference-profiles.md:35:- **Credential:** `NVIDIA_API_KEY` environment variable
+.agents/skills/docs/nemoclaw-reference/references/inference-profiles.md:38:The `nemoclaw onboard` command prompts for this key and stores it in `~/.nemoclaw/credentials.json`.
+.agents/skills/docs/nemoclaw-configure-inference/SKILL.md:27:The `nemoclaw onboard` command stores this key in `~/.nemoclaw/credentials.json` on first run.
+docs/reference/commands.md:47:The first run prompts for your NVIDIA API key and saves it to `~/.nemoclaw/credentials.json`.
+docs/reference/inference-profiles.md:55:- **Credential:** `NVIDIA_API_KEY` environment variable
+docs/reference/inference-profiles.md:58:The `nemoclaw onboard` command prompts for this key and stores it in `~/.nemoclaw/credentials.json`.
+docs/inference/switch-inference-providers.md:40:The `nemoclaw onboard` command stores this key in `~/.nemoclaw/credentials.json` on first run.
+.github/PULL_REQUEST_TEMPLATE.md:33:- [ ] No secrets, API keys, or credentials committed.
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos2/b/nemoclaw-blueprint/orchestrator/runner.py", "offset": 185, "limit": 50}
+185	        else:
+186	            log(f"ERROR: Failed to create sandbox: {result.stderr}")
+187	            sys.exit(1)
+188	
+189	    # Step 2: Configure inference provider
+190	    progress(50, "Configuring inference provider")
+191	    provider_name: str = inference_cfg.get("provider_name", "default")
+192	    provider_type: str = inference_cfg.get("provider_type", "openai")
+193	    endpoint: str = inference_cfg.get("endpoint", "")
+194	    model: str = inference_cfg.get("model", "")
+195	
+196	    # Resolve credential from environment
+197	    credential_env = inference_cfg.get("credential_env")
+198	    credential_default: str = inference_cfg.get("credential_default", "")
+199	    credential = ""
+200	    if credential_env:
+201	        credential = os.environ.get(credential_env, credential_default)
+202	
+203	    provider_args = [
+204	        "openshell",
+205	        "provider",
+206	        "create",
+207	        "--name",
+208	        provider_name,
+209	        "--type",
+210	        provider_type,
+211	    ]
+212	    if credential:
+213	        provider_args.extend(["--credential", f"OPENAI_API_KEY={credential}"])
+214	    if endpoint:
+215	        provider_args.extend(["--config", f"OPENAI_BASE_URL={endpoint}"])
+216	
+217	    run_cmd(provider_args, check=False, capture=True)
+218	
+219	    # Step 3: Set inference route
+220	    progress(70, "Setting inference route")
+221	    run_cmd(
+222	        ["openshell", "inference", "set", "--provider", provider_name, "--model", model],
+223	        check=False,
+224	        capture=True,
+225	    )
+226	
+227	    # Step 4: Save run state
+228	    progress(85, "Saving run state")
+229	    state_dir = Path.home() / ".nemoclaw" / "state" / "runs" / rid
+230	    state_dir.mkdir(parents=True, exist_ok=True)
+231	    (state_dir / "plan.json").write_text(
+232	        json.dumps(
+233	            {
+234	                "run_id": rid,
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos2/b/bin/lib/onboard.js", "offset": 790, "limit": 70}
+790	      await ensureApiKey();
+791	      model = model || (await promptCloudModel()) || DEFAULT_CLOUD_MODEL;
+792	    }
+793	    model = model || requestedModel || DEFAULT_CLOUD_MODEL;
+794	    console.log(`  Using NVIDIA Endpoint API with model: ${model}`);
+795	  }
+796	
+797	  registry.updateSandbox(sandboxName, { model, provider, nimContainer });
+798	
+799	  return { model, provider };
+800	}
+801	
+802	// ── Step 5: Inference provider ───────────────────────────────────
+803	
+804	async function setupInference(sandboxName, model, provider) {
+805	  step(5, 7, "Setting up inference provider");
+806	
+807	  if (provider === "nvidia-nim") {
+808	    // Create nvidia-nim provider
+809	    run(
+810	      `openshell provider create --name nvidia-nim --type openai ` +
+811	      `--credential NVIDIA_API_KEY ` +
+812	      `--config "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1" 2>&1 || true`,
+813	      { ignoreError: true }
+814	    );
+815	    run(
+816	      `openshell inference set --no-verify --provider nvidia-nim --model ${shellQuote(model)} 2>/dev/null || true`,
+817	      { ignoreError: true }
+818	    );
+819	  } else if (provider === "vllm-local") {
+820	    const validation = validateLocalProvider(provider, runCapture);
+821	    if (!validation.ok) {
+822	      console.error(`  ${validation.message}`);
+823	      process.exit(1);
+824	    }
+825	    const baseUrl = getLocalProviderBaseUrl(provider);
+826	    run(
+827	      `openshell provider create --name vllm-local --type openai ` +
+828	      `--credential "OPENAI_API_KEY=dummy" ` +
+829	      `--config "OPENAI_BASE_URL=${baseUrl}" 2>&1 || ` +
+830	      `openshell provider update vllm-local --credential "OPENAI_API_KEY=dummy" ` +
+831	      `--config "OPENAI_BASE_URL=${baseUrl}" 2>&1 || true`,
+832	      { ignoreError: true }
+833	    );
+834	    run(
+835	      `openshell inference set --no-verify --provider vllm-local --model ${shellQuote(model)} 2>/dev/null || true`,
+836	      { ignoreError: true }
+837	    );
+838	  } else if (provider === "ollama-local") {
+839	    const validation = validateLocalProvider(provider, runCapture);
+840	    if (!validation.ok) {
+841	      console.error(`  ${validation.message}`);
+842	      console.error("  On macOS, local inference also depends on OpenShell host routing support.");
+843	      process.exit(1);
+844	    }
+845	    const baseUrl = getLocalProviderBaseUrl(provider);
+846	    run(
+847	      `openshell provider create --name ollama-local --type openai ` +
+848	      `--credential "OPENAI_API_KEY=ollama" ` +
+849	      `--config "OPENAI_BASE_URL=${baseUrl}" 2>&1 || ` +
+850	      `openshell provider update ollama-local --credential "OPENAI_API_KEY=ollama" ` +
+851	      `--config "OPENAI_BASE_URL=${baseUrl}" 2>&1 || true`,
+852	      { ignoreError: true }
+853	    );
+854	    run(
+855	      `openshell inference set --no-verify --provider ollama-local --model ${shellQuote(model)} 2>/dev/null || true`,
+856	      { ignoreError: true }
+857	    );
+858	    console.log(`  Priming Ollama model: ${model}`);
+859	    run(getOllamaWarmupCommand(model), { ignoreError: true });
+Based on my analysis, the change removes the secret **value** from the `--credential` argument, passing only the bare env-var name `NVIDIA_API_KEY`. Every other `--credential` usage in the codebase supplies a `KEY=VALUE` pair:
+
+- `onboard.js`: `--credential "OPENAI_API_KEY=dummy"`, `"OPENAI_API_KEY=ollama"`
+- `runner.py:213`: `f"OPENAI_API_KEY={credential}"` (value resolved from env, then embedded)
+
+There is no evidence openshell resolves a bare credential name from the environment. The intent (avoid leaking the key in `ps`/process args) is legitimate, but as written the actual API key value is never passed to openshell, so the `nvidia-nim` provider is created/updated without a working credential — silently, since the calls are guarded by `|| true` / `ignoreError`.
+
+```json
+{
+  "claims": [
+    {
+      "file": "bin/lib/onboard.js",
+      "line": 811,
+      "description": "Passing `--credential NVIDIA_API_KEY` (bare name, no value) breaks credential setup: openshell's --credential flag expects a KEY=VALUE pair (as every other call in this file and runner.py does), so the actual API key value is never supplied and the nvidia-nim provider is registered without valid credentials."
+    },
+    {
+      "file": "scripts/setup.sh",
+      "line": 136,
+      "description": "The credential argument is changed from `NVIDIA_API_KEY=$NVIDIA_API_KEY` to bare `NVIDIA_API_KEY`, so upsert_provider passes `--credential NVIDIA_API_KEY` with no value; openshell expects KEY=VALUE, leaving the nvidia-nim provider without the actual API key."
+    }
+  ]
+}
+```

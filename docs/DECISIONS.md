@@ -888,6 +888,63 @@ commit's context ("base is the vitest migration") made this adjudication
 immediate rather than an investigation — the very substring the scanner
 flagged was already documented as expected.
 
+## D-037 · 2026-07-22 · Secret gate refined for precision: bearer/basic requires a token-shaped value (D-033 adjudication)
+
+**Adjudication (D-033 framework).** Position 2's five Codex transcripts tripped
+the D-019 `auth-header` gate. All five hits are the same class:
+`Authorization: Bearer $NVIDIA_API_KEY` / `$NEMOCLAW_PROBE_API_KEY` —
+**shell-variable references, not secret values.** No real token exists (the
+`SECRET_ENV_NAMES` exact-value check is clean; no token-shaped string is
+present). They appear because the **task itself is a credential-exposure fix**,
+so authors and reviewers quote `Bearer $VAR` header lines from the code under
+review. **Adjudicated benign, all five.**
+
+**Ruling (supervisor): refine the gate for precision, do not edit the
+artifacts.** A narrowed transcript is a narrowed experimental record; a
+narrowed *pattern* is a better instrument. The false-positive class **recurs
+across the corpus's credential-handling tasks**, and a release gate that cries
+wolf gets waved through — so precision is the security-preserving choice, not
+the lax one.
+
+**Change.** The `authorization: (bearer|basic)` branch now requires a
+**token-shaped value**: ≥16 chars from the base64/token alphabet whose first
+character is alphanumeric and is not preceded by a variable/placeholder sigil
+(`$ { < % ' "`). A `$VARIABLE`, `${VAR}`, `%VAR%`, `<placeholder>`, or quoted
+reference **passes**; a JWT, `sk-…`, or base64 `Basic` credential **still
+fires**. Scope is the bearer/basic branch **only** (the exact ruling); the
+Gemini-specific API-key header keeps its strict header-name match, and a
+leaked judge-key **value** is caught independently by the env-value check
+regardless of header context.
+
+**Binding condition (supervisor): paired regression, both permanent.**
+`tests/test_runner_corpus.py::test_auth_header_ignores_variable_references_but_still_flags_tokens`
+asserts the benign `Bearer $VAR` excerpt (the exact P1 position-2 class)
+**passes** and a token-shaped `Bearer <value>` (plus JWT and `Basic`) **still
+flags**. A narrowed security control ships with proof of **retained
+detection**, not merely reduced noise. Suite: **99 green**.
+
+**Outcome.** The five held transcripts re-scanned **clean** under the refined
+gate and are **released, committed, and pushed** — the artifacts are the
+unedited experimental record, and the gate is more precise than before, not
+weaker.
+
+*Gate-scope note (recorded because implementing this ruling surfaced it):*
+the release gate targets **pilot data artifacts** — transcripts, session logs,
+results files, Band 3 cards — per its own docstring. It is **not** run as a
+blocker over the harness source, its tests, or this decision log, which
+**necessarily contain the very patterns the gate detects** (the regex literal;
+the mandated token-shaped regression fixture; documentation of the control).
+This is pre-existing and definitional, not new: the prior regex and its prior
+test already contained gate-matching strings. The fixture tokens are
+**synthetic**, never real secrets. This entry's prose is nonetheless worded to
+avoid the literal header string so the decision log itself stays gate-clean.
+
+*Scanner-freeze note:* this is a security-gate precision fix ruled and
+implemented now (position 2 scoring was blocked on it), distinct from the
+D-036 exec-context refinement which is batched for the pilot-close freeze.
+Recorded so the freeze accounting stays honest about what changed mid-pilot
+and why.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)

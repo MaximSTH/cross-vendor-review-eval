@@ -1,0 +1,260 @@
+I’ll review only the working-tree changes and their surrounding credential semantics, without running the test suite.
+COMMAND /bin/zsh -lc "git status --short && git diff -- bin/lib/onboard.js scripts/setup.sh package-lock.json && sed -n '1,120p' test/credential-exposure.test.js && rg -n \"--credential|from-existing|NVIDIA_API_KEY\" README.md docs scripts bin test -g '"'!package-lock.json'"'"
+
+COMMAND /bin/zsh -lc "git status --short && git diff -- bin/lib/onboard.js scripts/setup.sh package-lock.json && sed -n '1,120p' test/credential-exposure.test.js && rg -n \"--credential|from-existing|NVIDIA_API_KEY\" README.md docs scripts bin test -g '"'!package-lock.json'"'"
+2026-07-22 11:17:00.419 xcodebuild[24807:3481656]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 11:17:00.697 xcodebuild[24807:3481654] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-KauCdGYD' (errno=Operation not permitted)
+2026-07-22 11:17:01.260 xcodebuild[24815:3481722]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 11:17:01.405 xcodebuild[24815:3481721] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+ M bin/lib/onboard.js
+ M scripts/setup.sh
+ A test/credential-exposure.test.js
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-allc4Btd' (errno=Operation not permitted)
+2026-07-22 11:17:02.456 xcodebuild[24820:3481748]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 11:17:02.592 xcodebuild[24820:3481747] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-8V4NDHhT' (errno=Operation not permitted)
+2026-07-22 11:17:03.042 xcodebuild[24822:3481762]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 11:17:03.178 xcodebuild[24822:3481761] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+diff --git a/bin/lib/onboard.js b/bin/lib/onboard.js
+index 252a303c8..ebc3c4283 100644
+--- a/bin/lib/onboard.js
++++ b/bin/lib/onboard.js
+@@ -808,7 +808,7 @@ async function setupInference(sandboxName, model, provider) {
+     // Create nvidia-nim provider
+     run(
+       `openshell provider create --name nvidia-nim --type openai ` +
+-      `--credential ${shellQuote("NVIDIA_API_KEY=" + process.env.NVIDIA_API_KEY)} ` +
++      `--credential NVIDIA_API_KEY ` +
+       `--config "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1" 2>&1 || true`,
+       { ignoreError: true }
+     );
+diff --git a/scripts/setup.sh b/scripts/setup.sh
+index 22b3ccfec..804b9033d 100755
+--- a/scripts/setup.sh
++++ b/scripts/setup.sh
+@@ -133,7 +133,7 @@ info "Setting up inference providers..."
+ upsert_provider \
+   "nvidia-nim" \
+   "openai" \
+-  "NVIDIA_API_KEY=$NVIDIA_API_KEY" \
++  "NVIDIA_API_KEY" \
+   "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1"
+ 
+ # vllm-local (if vLLM is installed or running)
+// SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+const fs = require("fs");
+const path = require("path");
+
+describe("provider credential exposure", () => {
+  const repoRoot = path.join(__dirname, "..");
+
+  it.each([
+    ["bin/lib/onboard.js", /--credential NVIDIA_API_KEY/],
+    ["scripts/setup.sh", /"NVIDIA_API_KEY" \\/],
+  ])(
+    "%s passes the NVIDIA credential by environment variable name",
+    (relativePath, envLookupPattern) => {
+      const source = fs.readFileSync(path.join(repoRoot, relativePath), "utf8");
+
+      expect(source).toMatch(envLookupPattern);
+      expect(source).not.toContain('"NVIDIA_API_KEY=" + process.env.NVIDIA_API_KEY');
+      expect(source).not.toContain('"NVIDIA_API_KEY=$NVIDIA_API_KEY"');
+    }
+  );
+});
+rg: unrecognized flag --credential|from-existing|NVIDIA_API_KEY
+
+The production change uses OpenShell’s name-only credential lookup consistently. I’m checking the staged/unstaged split and minimum OpenShell compatibility for any behavioral regression.
+COMMAND /bin/zsh -lc "git diff --cached -- test/credential-exposure.test.js bin/lib/onboard.js scripts/setup.sh; rg -n -- \"--credential|from-existing|NVIDIA_API_KEY\" README.md docs scripts bin test -g '"'!package-lock.json'"' 2>/dev/null | head -240; rg -n \"MIN.*OPENSHELL|minimum.*OpenShell|0\\.0\\.[0-9]+\" bin scripts test | head -120; nl -ba bin/lib/onboard.js | sed -n '802,820p'; nl -ba scripts/setup.sh | sed -n '35,58p;128,142p'"
+
+COMMAND /bin/zsh -lc "git diff --cached -- test/credential-exposure.test.js bin/lib/onboard.js scripts/setup.sh; rg -n -- \"--credential|from-existing|NVIDIA_API_KEY\" README.md docs scripts bin test -g '"'!package-lock.json'"' 2>/dev/null | head -240; rg -n \"MIN.*OPENSHELL|minimum.*OpenShell|0\\.0\\.[0-9]+\" bin scripts test | head -120; nl -ba bin/lib/onboard.js | sed -n '802,820p'; nl -ba scripts/setup.sh | sed -n '35,58p;128,142p'"
+2026-07-22 11:17:17.423 xcodebuild[24838:3481962]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 11:17:17.563 xcodebuild[24838:3481961] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-KUAXaHDO' (errno=Operation not permitted)
+2026-07-22 11:17:18.033 xcodebuild[24840:3481970]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 11:17:18.171 xcodebuild[24840:3481969] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+scripts/brev-setup.sh:8:#   export NVIDIA_API_KEY=nvapi-...
+scripts/brev-setup.sh:30:[ -n "${NVIDIA_API_KEY:-}" ] || fail "NVIDIA_API_KEY not set"
+scripts/brev-setup.sh:161:export NVIDIA_API_KEY
+docs/reference/inference-profiles.md:55:- **Credential:** `NVIDIA_API_KEY` environment variable
+scripts/walkthrough.sh:17:#   - NVIDIA_API_KEY in environment
+scripts/walkthrough.sh:40:#     export NVIDIA_API_KEY=nvapi-...
+scripts/walkthrough.sh:46:[ -n "${NVIDIA_API_KEY:-}" ] || { echo "NVIDIA_API_KEY required"; exit 1; }
+scripts/walkthrough.sh:72:  echo "    export NVIDIA_API_KEY=$NVIDIA_API_KEY"
+scripts/walkthrough.sh:88:  "openshell sandbox connect nemoclaw -- bash -c 'export NVIDIA_API_KEY=$NVIDIA_API_KEY && nemoclaw-start openclaw agent --agent main --local --session-id live'"
+bin/lib/onboard.js:537:  if (process.env.NVIDIA_API_KEY) {
+bin/lib/onboard.js:538:    envArgs.push(`NVIDIA_API_KEY=${shellQuote(process.env.NVIDIA_API_KEY)}`);
+bin/lib/onboard.js:783:      // In non-interactive mode, NVIDIA_API_KEY must be set via env var
+bin/lib/onboard.js:784:      if (!process.env.NVIDIA_API_KEY) {
+bin/lib/onboard.js:785:        console.error("  NVIDIA_API_KEY is required for cloud provider in non-interactive mode.");
+bin/lib/onboard.js:786:        console.error("  Set it via: NVIDIA_API_KEY=nvapi-... nemoclaw onboard --non-interactive");
+bin/lib/onboard.js:811:      `--credential NVIDIA_API_KEY ` +
+bin/lib/onboard.js:828:      `--credential "OPENAI_API_KEY=dummy" ` +
+bin/lib/onboard.js:830:      `openshell provider update vllm-local --credential "OPENAI_API_KEY=dummy" ` +
+bin/lib/onboard.js:848:      `--credential "OPENAI_API_KEY=ollama" ` +
+bin/lib/onboard.js:850:      `openshell provider update ollama-local --credential "OPENAI_API_KEY=ollama" ` +
+test/e2e/test-double-onboard.sh:8:# Key insight: running onboard without NVIDIA_API_KEY in non-interactive
+test/e2e/test-double-onboard.sh:16:#   - NVIDIA_API_KEY must NOT be set
+test/e2e/test-double-onboard.sh:19:#   unset NVIDIA_API_KEY
+test/e2e/test-double-onboard.sh:84:if [ -n "${NVIDIA_API_KEY:-}" ]; then
+test/e2e/test-double-onboard.sh:85:  fail "NVIDIA_API_KEY is set — this test requires it UNSET (unset NVIDIA_API_KEY)"
+test/e2e/test-double-onboard.sh:88:  pass "NVIDIA_API_KEY is not set (required for controlled step-4 exit)"
+test/smoke-macos-install.test.js:20:  it("requires NVIDIA_API_KEY", () => {
+test/smoke-macos-install.test.js:24:      env: { ...process.env, NVIDIA_API_KEY: "" },
+test/smoke-macos-install.test.js:28:    expect(`${result.stdout}${result.stderr}`).toMatch(/NVIDIA_API_KEY must be set/);
+test/smoke-macos-install.test.js:35:      env: { ...process.env, NVIDIA_API_KEY: "nvapi-test" },
+test/smoke-macos-install.test.js:46:      env: { ...process.env, NVIDIA_API_KEY: "nvapi-test" },
+test/smoke-macos-install.test.js:59:        NVIDIA_API_KEY: "nvapi-test",
+test/smoke-macos-install.test.js:92:      env: { ...process.env, NVIDIA_API_KEY: "nvapi-test" },
+test/e2e/test-full-e2e.sh:10:#   - NVIDIA_API_KEY set (real key, starts with nvapi-)
+test/e2e/test-full-e2e.sh:17:#   NVIDIA_API_KEY               — required for NVIDIA Endpoint API inference
+test/e2e/test-full-e2e.sh:20:#   NEMOCLAW_NON_INTERACTIVE=1 NVIDIA_API_KEY=nvapi-... bash test/e2e/test-full-e2e.sh
+test/e2e/test-full-e2e.sh:91:if [ -n "${NVIDIA_API_KEY:-}" ] && [[ "${NVIDIA_API_KEY}" == nvapi-* ]]; then
+test/e2e/test-full-e2e.sh:92:  pass "NVIDIA_API_KEY is set (starts with nvapi-)"
+test/e2e/test-full-e2e.sh:94:  fail "NVIDIA_API_KEY not set or invalid — required for live inference"
+test/e2e/test-full-e2e.sh:229:  -H "Authorization: Bearer $NVIDIA_API_KEY" \
+scripts/debug.sh:110:    -e 's/(NVIDIA_API_KEY|API_KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL|_KEY)=\S+/\1=<REDACTED>/gi' \
+test/credential-exposure.test.js:11:    ["bin/lib/onboard.js", /--credential NVIDIA_API_KEY/],
+test/credential-exposure.test.js:12:    ["scripts/setup.sh", /"NVIDIA_API_KEY" \\/],
+test/credential-exposure.test.js:19:      expect(source).not.toContain('"NVIDIA_API_KEY=" + process.env.NVIDIA_API_KEY');
+test/credential-exposure.test.js:20:      expect(source).not.toContain('"NVIDIA_API_KEY=$NVIDIA_API_KEY"');
+bin/nemoclaw.js:100:  run(`sudo -E NVIDIA_API_KEY=${shellQuote(process.env.NVIDIA_API_KEY)} bash "${SCRIPTS}/setup-spark.sh"`);
+bin/nemoclaw.js:172:  const envLines = [`NVIDIA_API_KEY=${shellQuote(process.env.NVIDIA_API_KEY || "")}`];
+scripts/nemoclaw-start.sh:9:#   NVIDIA_API_KEY   API key for NVIDIA-hosted inference
+scripts/nemoclaw-start.sh:19:  if [ -z "${NVIDIA_API_KEY:-}" ]; then
+scripts/nemoclaw-start.sh:32:        'keyRef': {'source': 'env', 'id': 'NVIDIA_API_KEY'},
+scripts/setup.sh:10:#   - NVIDIA_API_KEY set in environment (from build.nvidia.com)
+scripts/setup.sh:13:#   export NVIDIA_API_KEY=nvapi-...
+scripts/setup.sh:48:    --credential "$credential" \
+scripts/setup.sh:51:      --credential "$credential" \
+scripts/setup.sh:83:[ -n "${NVIDIA_API_KEY:-}" ] || fail "NVIDIA_API_KEY not set. Get one from build.nvidia.com"
+scripts/setup.sh:136:  "NVIDIA_API_KEY" \
+scripts/setup.sh:195:  -- env NVIDIA_API_KEY="$NVIDIA_API_KEY" > "$CREATE_LOG" 2>&1
+scripts/setup.sh:200:# Show progress lines (filter apt noise and env var dumps that contain NVIDIA_API_KEY)
+scripts/setup.sh:206:  tail -20 "$CREATE_LOG" | grep -v "NVIDIA_API_KEY"
+scripts/write-auth-profile.py:9:        "keyRef": {"source": "env", "id": "NVIDIA_API_KEY"},
+bin/lib/credentials.js:53:  let key = getCredential("NVIDIA_API_KEY");
+bin/lib/credentials.js:55:    process.env.NVIDIA_API_KEY = key;
+bin/lib/credentials.js:77:  saveCredential("NVIDIA_API_KEY", key);
+bin/lib/credentials.js:78:  process.env.NVIDIA_API_KEY = key;
+scripts/smoke-macos-install.sh:63:  NVIDIA_API_KEY              Required for the cloud install path
+scripts/smoke-macos-install.sh:110:[ -n "${NVIDIA_API_KEY:-}" ] || fail "NVIDIA_API_KEY must be set for the smoke install flow."
+scripts/telegram-bridge.js:14: *   NVIDIA_API_KEY      — for inference
+scripts/telegram-bridge.js:32:const API_KEY = process.env.NVIDIA_API_KEY;
+scripts/telegram-bridge.js:40:if (!API_KEY) { console.error("NVIDIA_API_KEY required"); process.exit(1); }
+scripts/telegram-bridge.js:109:    const cmd = `export NVIDIA_API_KEY=${shellQuote(API_KEY)} && nemoclaw-start openclaw agent --agent main --local -m ${shellQuote(message)} --session-id ${shellQuote("tg-" + safeSessionId)}`;
+scripts/start-services.sh:123:  [ -n "${NVIDIA_API_KEY:-}" ] || fail "NVIDIA_API_KEY required"
+docs/inference/switch-inference-providers.md:39:This requires the `NVIDIA_API_KEY` environment variable.
+docs/network-policy/approve-network-requests.md:75:The walkthrough requires tmux and the `NVIDIA_API_KEY` environment variable.
+test/onboard.test.js:41:    expect(getInstalledOpenshellVersion("openshell 0.0.12")).toBe("0.0.12");
+test/onboard.test.js:42:    expect(getInstalledOpenshellVersion("openshell 0.0.13-dev.8+gbbcaed2ea")).toBe("0.0.13");
+test/onboard.test.js:44:    expect(getStableGatewayImageRef("openshell 0.0.12")).toBe("ghcr.io/nvidia/openshell/cluster:0.0.12");
+test/onboard.test.js:45:    expect(getStableGatewayImageRef("openshell 0.0.13-dev.8+gbbcaed2ea")).toBe("ghcr.io/nvidia/openshell/cluster:0.0.13");
+bin/lib/local-inference.js:88:          "Local Ollama is responding on localhost, but containers cannot reach http://host.openshell.internal:11434. Ensure Ollama listens on 0.0.0.0:11434 instead of 127.0.0.1 so sandboxes can reach it.",
+scripts/brev-setup.sh:139:      --host 0.0.0.0 \
+bin/lib/preflight.js:85:    srv.listen(p, "127.0.0.1", () => {
+scripts/nemoclaw-start.sh:15:CHAT_UI_URL="${CHAT_UI_URL:-http://127.0.0.1:18789}"
+scripts/nemoclaw-start.sh:57:  local_url="http://127.0.0.1:${PUBLIC_PORT}/"
+bin/lib/onboard.js:535:  const chatUiUrl = process.env.CHAT_UI_URL || 'http://127.0.0.1:18789';
+bin/lib/onboard.js:750:        run("OLLAMA_HOST=0.0.0.0:11434 ollama serve > /dev/null 2>&1 &", { ignoreError: true });
+bin/lib/onboard.js:764:      run("OLLAMA_HOST=0.0.0.0:11434 ollama serve > /dev/null 2>&1 &", { ignoreError: true });
+test/install-preflight.test.js:453:  echo "openshell 0.0.9"
+test/install-preflight.test.js:722:  echo "openshell 0.0.9"
+scripts/fix-coredns.sh:8:# CoreDNS pod resolves to 127.0.0.11 (Docker's embedded DNS). That
+test/runtime-shell.test.js:136:      `source "${RUNTIME_SH}"; first_non_loopback_nameserver $'nameserver 127.0.0.11\\nnameserver 10.0.0.2'`,
+test/runtime-shell.test.js:140:    expect(result.stdout.trim()).toBe("10.0.0.2");
+test/runtime-shell.test.js:145:      `source "${RUNTIME_SH}"; resolve_coredns_upstream $'nameserver 10.0.0.2' $'nameserver 1.1.1.1' colima`,
+test/runtime-shell.test.js:149:    expect(result.stdout.trim()).toBe("10.0.0.2");
+test/runtime-shell.test.js:156:       resolve_coredns_upstream $'nameserver 127.0.0.11' $'nameserver 1.1.1.1' colima`,
+test/runtime-shell.test.js:167:       resolve_coredns_upstream $'nameserver 127.0.0.11' $'nameserver 9.9.9.9' colima`,
+test/security-c2-dockerfile-injection.test.js:57:    const src = vulnerableSource("http://127.0.0.1:18789");
+test/security-c2-dockerfile-injection.test.js:60:    expect(result.stdout.includes("127.0.0.1")).toBeTruthy();
+test/security-c2-dockerfile-injection.test.js:90:    const result = runPython(fixedSource(), { CHAT_UI_URL: "http://127.0.0.1:18789" });
+test/security-c2-dockerfile-injection.test.js:92:    expect(result.stdout.includes("127.0.0.1")).toBeTruthy();
+test/runner.test.js:67:      run("echo test", { env: { OPENSHELL_CLUSTER_IMAGE: "ghcr.io/nvidia/openshell/cluster:0.0.12" } });
+test/runner.test.js:79:    expect(calls[0][2].env.OPENSHELL_CLUSTER_IMAGE).toBe("ghcr.io/nvidia/openshell/cluster:0.0.12");
+scripts/install-openshell.sh:34:MIN_VERSION="0.0.7"
+scripts/install-openshell.sh:49:  INSTALLED_VERSION="$(openshell --version 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo '0.0.0')"
+scripts/setup.sh:159:      OLLAMA_HOST=0.0.0.0:11434 ollama serve > /dev/null 2>&1 &
+test/onboard-readiness.test.js:132:      "  Gateway endpoint: https://127.0.0.1:8080",
+test/onboard-readiness.test.js:141:      "  \x1b[2mGateway endpoint:\x1b[0m https://127.0.0.1:8080";
+test/onboard-readiness.test.js:165:      "  Gateway endpoint: https://127.0.0.1:8080",
+test/preflight.test.js:14:      srv.listen(0, "127.0.0.1", () => {
+test/preflight.test.js:28:      srv.listen(0, "127.0.0.1", () => resolve(srv.address().port));
+test/preflight.test.js:68:      srv.listen(0, "127.0.0.1", () => {
+test/preflight.test.js:80:      srv.listen(0, "127.0.0.1", () => resolve(srv.address().port));
+test/preflight.test.js:95:      srv.listen(0, "127.0.0.1", () => {
+test/preflight.test.js:113:      srv.listen(0, "127.0.0.1", () => {
+   802	// ── Step 5: Inference provider ───────────────────────────────────
+   803	
+   804	async function setupInference(sandboxName, model, provider) {
+   805	  step(5, 7, "Setting up inference provider");
+   806	
+   807	  if (provider === "nvidia-nim") {
+   808	    // Create nvidia-nim provider
+   809	    run(
+   810	      `openshell provider create --name nvidia-nim --type openai ` +
+   811	      `--credential NVIDIA_API_KEY ` +
+   812	      `--config "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1" 2>&1 || true`,
+   813	      { ignoreError: true }
+   814	    );
+   815	    run(
+   816	      `openshell inference set --no-verify --provider nvidia-nim --model ${shellQuote(model)} 2>/dev/null || true`,
+   817	      { ignoreError: true }
+   818	    );
+   819	  } else if (provider === "vllm-local") {
+   820	    const validation = validateLocalProvider(provider, runCapture);
+    35	. "$SCRIPT_DIR/lib/runtime.sh"
+    36	
+    37	info() { echo -e "${GREEN}>>>${NC} $1"; }
+    38	warn() { echo -e "${YELLOW}>>>${NC} $1"; }
+    39	fail() { echo -e "${RED}>>>${NC} $1"; exit 1; }
+    40	
+    41	upsert_provider() {
+    42	  local name="$1"
+    43	  local type="$2"
+    44	  local credential="$3"
+    45	  local config="$4"
+    46	
+    47	  if openshell provider create --name "$name" --type "$type" \
+    48	    --credential "$credential" \
+    49	    --config "$config" 2>&1 | grep -q "AlreadyExists"; then
+    50	    openshell provider update "$name" \
+    51	      --credential "$credential" \
+    52	      --config "$config" > /dev/null
+    53	    info "Updated $name provider"
+    54	  else
+    55	    info "Created $name provider"
+    56	  fi
+    57	}
+    58	
+   128	
+   129	# 3. Providers
+   130	info "Setting up inference providers..."
+   131	
+   132	# nvidia-nim (build.nvidia.com)
+   133	upsert_provider \
+   134	  "nvidia-nim" \
+   135	  "openai" \
+   136	  "NVIDIA_API_KEY" \
+   137	  "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1"
+   138	
+   139	# vllm-local (if vLLM is installed or running)
+   140	if check_local_provider_health "vllm-local" || python3 -c "import vllm" 2>/dev/null; then
+   141	  VLLM_LOCAL_BASE_URL="$(get_local_provider_base_url "vllm-local")"
+   142	  upsert_provider \
+
+No defects found in the working-tree change.
+
+```json
+{
+  "claims": []
+}
+```
