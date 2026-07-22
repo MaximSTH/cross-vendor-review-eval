@@ -1,0 +1,28 @@
+{
+ "oracle_files_reset": [
+  "test/transform-html.js",
+  "test/transform.js"
+ ],
+ "apply_rcs": [
+  "AUTHORED_RC=0",
+  "TESTPATCH_RC=0"
+ ],
+ "testpatch_applied": true,
+ "parsed": 177,
+ "f2p": {
+  "test/transform-html.js / given a file that includes html with header tags and maxHeaderLevel 8 / generates correct toc for non html and html headers": "pass",
+  "test/transform.js / transforming / generates correct anchors (#23)": "pass",
+  "test/transform-html.js / given a file that includes html with header tags using default maxHeaderLevel / generates correct toc for non html and html headers omitting headers larger than maxHeaderLevel": "pass",
+  "test/transform-html.js": "pass",
+  "test/transform.js": "pass",
+  "test/transform.js / transforming (#23)": "pass",
+  "test/transform-html.js / given a file that includes html with header tags and maxHeaderLevel 8": "pass",
+  "test/transform-html.js / given a file that includes html with header tags using default maxHeaderLevel": "pass"
+ },
+ "f2p_pass": 8,
+ "f2p_fail": 0,
+ "f2p_missing": 0,
+ "p2p_regressions": [],
+ "resolved": true,
+ "verdict": "not-confirmed-defective (authoring success)"
+}

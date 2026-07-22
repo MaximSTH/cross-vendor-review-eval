@@ -1,0 +1,17 @@
+{
+ "batch": "p1-b1",
+ "n_catches_audited": 2,
+ "band1_verdict": "catch (all)",
+ "human_catch": 0,
+ "human_no_catch": 2,
+ "catch_audit_agreement_rate": 0.0,
+ "interpretation": "2/2 mechanical catches judged NOT reader-actionable \u2014 'right line, wrong reason' confirmed present at 100% in this (tiny) first batch",
+ "categories": {
+  "coincidental_localization": [
+   "NVIDIA__NemoClaw-330/A2"
+  ],
+  "inverted_claim": [
+   "NVIDIA__NemoClaw-330/B"
+  ]
+ }
+}

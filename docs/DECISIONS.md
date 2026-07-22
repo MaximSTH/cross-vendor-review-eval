@@ -1122,7 +1122,7 @@ sandbox rule in `harness/runner.py`. Authoring arms keep edit capability
 (they must write the patch). The already-run arms' verified cleanliness is the
 evidence that no result is affected.
 
-## OQ-20 · 2026-07-22 · k=2 repeat mechanics for the in-session A1 arm (blocks completing position 3's repeat)
+## OQ-20 · 2026-07-22 · ~~k=2 repeat mechanics for the in-session A1 arm~~ — **RESOLVED by D-042**
 
 **The gap D-029 anticipated, now concrete.** D-029 ruled a k=2 repeat re-runs
 **review arms only** against the original authored patch, to measure reviewer
@@ -1164,6 +1164,156 @@ in-line.
 **Status:** position 3 run 1 is complete (A1 2 claims, A2 0, B 1 — A1 and B
 both flag `lib/transform.js:43`). Run 2 of **A2 and B** is unambiguous and
 proceeds now under either ruling; only **A1 run 2** waits on this.
+
+## D-042 · 2026-07-22 · OQ-20 ruled: A1 is structurally not-cleanly-repeatable (option b)
+
+**Ruled (supervisor): option (b).** The A2/B k=2 repeats stand as cleanly
+executed. A1 is **recorded as not-cleanly-repeatable** for the in-session
+condition.
+
+**Structural reason, logged verbatim per directive:** *an append-only session
+cannot re-review without contamination from its own first review, so a
+"repeat" of A1 is not the same measurement. This is a property of the A1
+condition (consistent with its information-asymmetry framing in the design
+section — A1 is constitutively unique per task), not a gap in execution.*
+
+**Do not resume-with-caveat** — a caveated non-repeat is worse than an honest
+structural exclusion. The variance table's **A1 run-2 cell records `n/a
+(structural)`**, not a value and not a caveated value.
+
+## D-043 · 2026-07-22 · Band 3 batch p1-b1 ruled: both catches → no_catch; catch-audit taxonomy established
+
+**Rulings ingested** (`results/band3/band3-rulings.json`;
+computation `results/band3/catch-audit-p1-b1.json`). Both position-2 mechanical
+catches ruled **no_catch** by human audit against P-001 reader-actionability.
+**Catch-audit agreement rate for p1-b1: 0/2 (0%)** — Band 1 said catch, the
+human audit said no_catch on both. Tiny batch; reported as-is, alongside Band
+2's κ, as the validity check on the mechanical metric (D-039). The result
+**empirically confirms** the OQ-19 concern: coordinate matching can be
+semantically empty.
+
+**Standing precedent taxonomy (append-only, from the rulings' notes):**
+- **P-002 · coincidental localization** — a semantically unrelated claim on a
+  coincidentally-correct line. (`NemoClaw-330/A2`: claim describes
+  error-swallowing; defect is credential exposure; same line by coincidence. A
+  reader following it would not find the leak.)
+- **P-003 · inverted claim** — right location and topic, but **asserting the
+  correct fix is the bug**; counter-productive to follow, not merely
+  non-actionable. (`NemoClaw-330/B`: claims the correct bare-env-var fix is
+  itself broken; a reader could revert the right approach and reintroduce the
+  leak.)
+
+**Card design ratified: single-claim per catch.** Standing rationale: the
+audit's unit is **the catch**, and P-001 rules on **claims**; carding the
+specific claim that earned the mechanical catch is the faithful unit.
+
+## D-044 · 2026-07-22 · Process notes + D-041 acceptance
+
+**(a) D-041 accepted.** The `acceptEdits` catch, the byte-for-byte verification
+that completed review arms did not edit their trees (so completed work stands),
+and the tool-disallow enforcement going forward. **Filed beside the codex
+`workspace-write` incident (D-031f) as the same failure class — a review arm
+granted write capability — caught independently on the second stack.** Two
+stacks, one lesson: review arms are read-only by construction, never by launch
+convention.
+
+**(b) Audit-blinding pre-registration for Step 3 (process note, not a
+mid-pilot change).** The pilot's Band 3 audit rulings were made by a supervisor
+**exposed to run context via checkpoints**. For the main study, pre-register
+that **audit cards are ruled before reading any arm analysis** — the card-alone
+discipline (D-014) extended to the reviewer's own analysis, closing the
+context-exposure path the pilot necessarily had.
+
+**(c) Write-up methods note (capture verbatim).** The supervisor's step-back —
+*"why does the busy-programmer [reader-actionability] standard matter if the
+goal is comparing vendors?"* → the **catch-definition dependency chain**: the
+vendor comparison is only as meaningful as the definition of "catch"; if a
+catch can be semantically empty (P-002/P-003), the headline metric measures
+coordinate coincidence, not detection; the reader-actionability standard is
+what ties "catch" to the lived claim the study is about. This is the methods
+section's plain-language justification for the audit.
+
+## OQ-21 · 2026-07-22 · [Step 3] Extend Band 2 judge panel to mechanically-caught claims → `semantic_catch` secondary verdict
+
+**Logged for Step 3; no mid-pilot change.** Proposal: extend Band 2's blinded
+judge panel to **also** evaluate mechanically-caught claims — semantic match of
+the claim against the answer-key annotation, under the **same rotation and
+anonymization** rules (D-013/D-015) — yielding a **`semantic_catch`** secondary
+verdict **alongside the untouched Band 1 primary**.
+
+**Rationale:** p1-b1 demonstrated (0/2) that Band 1 catches can be semantically
+empty. An automated semantic layer over **all** catches, **calibrated by the
+Band 3 human audit and its reported agreement rate**, converts the audit from a
+spot-check into the **calibration for a full secondary metric** — the mechanical
+primary stays objection-proof (D-005), and the secondary reports how many
+catches are semantically real.
+
+**Blocking check before adoption:** projected **judge-call volume** for
+"all catches, both non-authoring families each" must be checked against
+**D-019's free-tier Gemini quota** measurement — a semantic layer over every
+catch multiplies judge calls and may breach the 50% quota-feasibility threshold
+(D-021c). Quantify at Step 3 sizing before committing.
+
+## D-045 · 2026-07-22 · Evaluation OOM near-miss: `parsed==0` is HARNESS-ERROR; memory headroom standardized
+
+**A false CONFIRMED DEFECTIVE, caught.** Position 3's first oracle evaluation
+returned `parsed==0` with all 8 F2P `MISSING`, and the evaluator labelled it
+**CONFIRMED DEFECTIVE**. It is not. The tap runner was **`Killed` (OOM)** under
+amd64 emulation — the colima VM has only **2 GiB** — after emitting
+`TAP version 14 / 1..9`, writing a **0-byte** results file. Re-run with
+container memory headroom (`--memory=6g`, lifting the cgroup cap): **177 tests,
+all 8 F2P pass, no P2P regression → RESOLVED, authoring success (D-031a).**
+
+**Two fixes:**
+1. **`evaluate.py` verdict logic corrected.** `parsed==0` is now a
+   **HARNESS-ERROR** ("failure to measure — verdict UNKNOWN, not defective"),
+   never CONFIRMED DEFECTIVE — the same ERROR-vs-FAIL discipline as D-030/D-038.
+   The prior logic conflated "test_patch applied but nothing parsed" with
+   "patch is defective"; a runner Killed before writing results parses to
+   nothing and says nothing about the patch.
+2. **Memory headroom standard.** All oracle evaluations run with `--memory=6g`.
+   The oracle eval is **not a session**, so this does not touch the throughput
+   wall-clock measurement (which is measured on the CLI review/authoring
+   sessions only). Positions 1 and 2 had produced valid parses without it
+   (they did not OOM), so their verdicts stand; headroom makes evaluation
+   reliable rather than luck-of-the-memory-state.
+
+**Caught by the incoherence heuristic (D-040), again:** a task that **passed
+the ground-truth screen** (its F2P fail and P2P pass at base) cannot coherently
+read "defective with zero parsed tests" — a 0-parse on a screen-PASS task
+indicts the measurement, not the patch. That tell is what prompted the
+diagnosis instead of recording the false verdict.
+
+**Environment-reliability finding (pilot-report material):** the evaluation
+harness OOMs non-deterministically at 2 GiB under emulation on Node test suites
+run in parallel. Recorded alongside the platform-infeasibility (D-030) and
+label-integrity (D-028) findings as a **reproducibility caveat for
+SWE-bench-derived evaluation on consumer hardware.**
+
+## D-046 · 2026-07-22 · Position 3 is an authoring success; the k=2 repeat landed on a non-defective task
+
+**Position 3 (`thlorenz__doctoc-329`, anthropic): RESOLVED → authoring success
+(D-031a)** — throughput data only, enters neither the defective nor the
+false-alarm sample; reviews retained. **Second authoring success in three
+completed positions** (pos1 success, pos2 defective, pos3 success); running
+defect yield **1/3** — a §7 sizing input (authoring runs per harvested defect).
+
+**Consequence for the k=2 repeat (recorded, not corrected):** position 3 was a
+repeat position (D-027c), but its patch **resolved**, so there is **no defect
+to catch** and the repeat measures **claim-count / verbosity run-to-run
+variance, not catch-rate variance.** The observed variance stands as data:
+
+| arm | run 1 | run 2 |
+|---|---|---|
+| A1 (self) | 2 claims (`transform-html.js:77`, `transform.js:43`) | **n/a (structural, D-042)** |
+| A2 (fresh same-vendor) | **0 claims** | **2 claims** (`transform.js:112`, `transform.js:43`) |
+| B (cross-vendor) | 1 claim (`transform.js:43`) | 1 claim (`transform.js:43`) |
+
+Cross-vendor B was claim-stable across runs; fresh same-vendor A2 was not (0→2).
+Catch-rate variance from the repeats depends on **position 4** landing a
+defect; if both repeat positions resolve, the pilot measures verbosity variance
+but not catch-rate variance, and that is stated in the report rather than
+presented as if catch-rate variance were measured.
 
 ---
 
