@@ -1,0 +1,55 @@
+diff --git a/bin/lib/onboard.js b/bin/lib/onboard.js
+index 252a303c8..ebc3c4283 100644
+--- a/bin/lib/onboard.js
++++ b/bin/lib/onboard.js
+@@ -808,7 +808,7 @@ async function setupInference(sandboxName, model, provider) {
+     // Create nvidia-nim provider
+     run(
+       `openshell provider create --name nvidia-nim --type openai ` +
+-      `--credential ${shellQuote("NVIDIA_API_KEY=" + process.env.NVIDIA_API_KEY)} ` +
++      `--credential NVIDIA_API_KEY ` +
+       `--config "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1" 2>&1 || true`,
+       { ignoreError: true }
+     );
+diff --git a/scripts/setup.sh b/scripts/setup.sh
+index 22b3ccfec..804b9033d 100755
+--- a/scripts/setup.sh
++++ b/scripts/setup.sh
+@@ -133,7 +133,7 @@ info "Setting up inference providers..."
+ upsert_provider \
+   "nvidia-nim" \
+   "openai" \
+-  "NVIDIA_API_KEY=$NVIDIA_API_KEY" \
++  "NVIDIA_API_KEY" \
+   "OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1"
+ 
+ # vllm-local (if vLLM is installed or running)
+diff --git a/test/credential-exposure.test.js b/test/credential-exposure.test.js
+new file mode 100644
+index 000000000..a9e845bdc
+--- /dev/null
++++ b/test/credential-exposure.test.js
+@@ -0,0 +1,23 @@
++// SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
++// SPDX-License-Identifier: Apache-2.0
++
++const fs = require("fs");
++const path = require("path");
++
++describe("provider credential exposure", () => {
++  const repoRoot = path.join(__dirname, "..");
++
++  it.each([
++    ["bin/lib/onboard.js", /--credential NVIDIA_API_KEY/],
++    ["scripts/setup.sh", /"NVIDIA_API_KEY" \\/],
++  ])(
++    "%s passes the NVIDIA credential by environment variable name",
++    (relativePath, envLookupPattern) => {
++      const source = fs.readFileSync(path.join(repoRoot, relativePath), "utf8");
++
++      expect(source).toMatch(envLookupPattern);
++      expect(source).not.toContain('"NVIDIA_API_KEY=" + process.env.NVIDIA_API_KEY');
++      expect(source).not.toContain('"NVIDIA_API_KEY=$NVIDIA_API_KEY"');
++    }
++  );
++});

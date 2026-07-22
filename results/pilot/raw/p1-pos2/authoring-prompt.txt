@@ -1,0 +1,19 @@
+[Security] NVIDIA API key exposed in process list when creating inference provider
+During onboarding, `openshell provider create` is called with the API key interpolated directly into the shell command:
+
+```
+openshell provider create --name nvidia-nim --type openai \
+  --credential "NVIDIA_API_KEY=${process.env.NVIDIA_API_KEY}" ...
+```
+
+While this command is running, any user on the machine can see the full API key via `ps aux`. On shared systems (e.g., DGX Spark), this is a real credential exposure risk.
+
+**Expected:** Pass the credential via stdin, environment variable, or a temporary file with restricted permissions — not as a command-line argument.
+
+Related PRs that partially address this:
+- #148 — replace shell string interpolation with argv arrays
+- #191 — use provider-specific credential environment variable
+
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.
