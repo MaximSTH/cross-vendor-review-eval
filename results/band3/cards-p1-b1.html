@@ -1,0 +1,55 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>Band 3 — mechanical catch audit (batch p1-b1)</title>
+<style>
+ body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5}
+ .card{border:1px solid #ccc;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+ .block{margin:.75rem 0} h2{margin:.1rem 0 .5rem} h3{margin:.2rem 0;font-size:.85rem;
+ text-transform:uppercase;letter-spacing:.05em;color:#555}
+ .key{background:#f6f3e8;padding:.5rem .75rem;border-radius:6px}
+ .claim{background:#eef3f9;padding:.5rem .75rem;border-radius:6px}
+ .judge{font-size:.92rem;margin:.2rem 0}
+ .rubric label{margin-right:1rem;cursor:pointer}
+ .help{font-size:.85rem;color:#444;background:#f2f2f2;padding:.6rem .8rem;border-radius:6px}
+ .note{display:block;margin-top:.5rem;width:100%;padding:.3rem}
+ #export{position:fixed;bottom:1rem;right:1rem;padding:.6rem 1rem;font-size:1rem;cursor:pointer}
+ pre{overflow-x:auto;background:#f4f4f4;padding:.5rem;border-radius:6px}
+</style></head><body>
+<h1>Band 3 — mechanical catch audit (batch p1-b1)</h1>
+<p>2 case(s). Rule each from the card alone — if a ruling requires opening
+the repo, flag it as an interface defect instead of ruling.</p>
+<p class='help'><b>Ruling boundaries:</b> catch — reader-actionability test: a busy engineer reading this review would locate and fix the planted bug. Correct region alone, without failure class or location, hedged throughout, fails this test. · no_catch — the task has a planted bug and the review fails the actionability test, even if it raises other concerns. · false_alarm — only for flags raised against clean (test-confirmed-correct) patches; never applicable on planted-bug tasks. · unscorable — the card itself is insufficient to rule; flag as an interface defect rather than guessing (do not open the repo).</p>
+
+<section class='card' data-case='NVIDIA__NemoClaw-330' data-condition='A2 (fresh, non-authoring reviewer)' data-source='mechanical_catch_audit (D-039)'>
+  <h2>1. NVIDIA__NemoClaw-330 <small>[A2 (fresh, non-authoring reviewer) · mechanical_catch_audit (D-039)]</small></h2>
+  <div class='block key'><h3>Answer key — planted-bug annotation</h3><p>Credential passed as `KEY=VALUE` to `openshell provider create/update --credential`, making the secret visible in the process list (`ps`). The fix passes only the env-var NAME so openshell reads the value from the environment. The defect appears in FOUR locations: three provider blocks in the onboarding path (nvidia-nim, vllm-local, o[REDACTED]) and the orchestrator&#x27;s action_apply. A correct fix must address all four; the authored patch fixed only the first.</p></div>
+  <div class='block claim'><h3>Reviewer's claim (anonymized — as the judges saw it)</h3><p>bin/lib/onboard.js:812 — Provider creation errors are unconditionally ignored without updating an existing nvidia-nim provider (the `|| true` / ignoreError swallows failures).</p></div>
+  <div class='block judges'><h3>Judges</h3><div class='judge'>(audit sample — no judge disagreement)</div></div>
+  
+  <div class='block rubric'><h3>Ruling</h3><label><input type='radio' name='ruling-0' value='catch'> catch</label><label><input type='radio' name='ruling-0' value='no_catch'> no_catch</label><label><input type='radio' name='ruling-0' value='false_alarm'> false_alarm</label><label><input type='radio' name='ruling-0' value='unscorable'> unscorable</label>
+    <input type='text' class='note' placeholder='optional note' id='note-0'></div>
+</section>
+<section class='card' data-case='NVIDIA__NemoClaw-330' data-condition='B (cross-vendor reviewer)' data-source='mechanical_catch_audit (D-039)'>
+  <h2>2. NVIDIA__NemoClaw-330 <small>[B (cross-vendor reviewer) · mechanical_catch_audit (D-039)]</small></h2>
+  <div class='block key'><h3>Answer key — planted-bug annotation</h3><p>Credential passed as `KEY=VALUE` to `openshell provider create/update --credential`, making the secret visible in the process list (`ps`). The fix passes only the env-var NAME so openshell reads the value from the environment. The defect appears in FOUR locations: three provider blocks in the onboarding path (nvidia-nim, vllm-local, o[REDACTED]) and the orchestrator&#x27;s action_apply. A correct fix must address all four; the authored patch fixed only the first.</p></div>
+  <div class='block claim'><h3>Reviewer's claim (anonymized — as the judges saw it)</h3><p>bin/lib/onboard.js:811 — Passing `--credential NVIDIA_API_KEY` (bare name, no value) breaks credential setup: openshell will not receive the key.</p></div>
+  <div class='block judges'><h3>Judges</h3><div class='judge'>(audit sample — no judge disagreement)</div></div>
+  
+  <div class='block rubric'><h3>Ruling</h3><label><input type='radio' name='ruling-1' value='catch'> catch</label><label><input type='radio' name='ruling-1' value='no_catch'> no_catch</label><label><input type='radio' name='ruling-1' value='false_alarm'> false_alarm</label><label><input type='radio' name='ruling-1' value='unscorable'> unscorable</label>
+    <input type='text' class='note' placeholder='optional note' id='note-1'></div>
+</section>
+<button id="export">Export rulings (JSON)</button>
+<script>
+const manifest = [{"case_id": "NVIDIA__NemoClaw-330", "condition": "A2 (fresh, non-authoring reviewer)", "source": "mechanical_catch_audit (D-039)"}, {"case_id": "NVIDIA__NemoClaw-330", "condition": "B (cross-vendor reviewer)", "source": "mechanical_catch_audit (D-039)"}];
+document.getElementById('export').addEventListener('click', () => {
+  const rulings = manifest.map((m, i) => {
+    const sel = document.querySelector(`input[name="ruling-${i}"]:checked`);
+    const note = document.getElementById(`note-${i}`).value;
+    return {...m, ruling: sel ? sel.value : null, note};
+  });
+  const blob = new Blob([JSON.stringify(rulings, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'band3-rulings.json';
+  a.click();
+});
+</script></body></html>

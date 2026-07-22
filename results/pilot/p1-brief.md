@@ -53,7 +53,7 @@ unmeasured; that is a stated limitation, not an omission.
 |---|---|---|---|---|---|---|---|
 | 1 | `haraka__Haraka-3535` | haraka/Haraka | js | `37f2d18c2f75` | **anthropic** | — | PASS (F2P 2 fail, P2P 358 pass, 361 parsed) |
 | 2 | `NVIDIA__NemoClaw-330` | NVIDIA/NemoClaw | ts | `4a1b7499759f` | **openai** | — | PASS (F2P 3 fail, P2P 300 pass, 303 parsed) |
-| 3 | `thlorenz__doctoc-329` | thlorenz/doctoc | js | `428cf4189b60` | **anthropic** | ✅ | PASS (F2P 8 fail, P2P 169 pass, 177 parsed) |
+| 3 | `thlorenz__doctoc-329` | thlorenz/doctoc | js | `428cf4189b60` | **anthropic** | ✅ (k=2) | PASS (F2P 8 fail, P2P 169 pass, 177 parsed) |
 | 4 | *pending replacement* | — | — | — | **openai** | ✅ | walk resumes at row 11 |
 | 5 | `aralroca__next-translate-1259` | aralroca/next-translate | js | `f1fbf473b42c` | **anthropic** | — | PASS (F2P 1 fail, P2P 146 pass, 147 parsed) |
 
@@ -105,3 +105,16 @@ retired a task.
 other container work runs **only while no session is running**. Concurrent
 amd64-emulated containers inflate the session wall-clock that P1 exists to
 measure.
+
+
+## Repeat mechanics (D-029)
+
+Positions 3 and 4 carry the k=2 repeat (seed 1607515562). Per **D-029** a repeat
+**re-runs the review arms only (A1/A2/B) against the original authored patch** —
+the authoring session is not repeated. So position 3 runs once fully
+(author + A1/A2/B = run 1), then A1/A2/B are run a **second** time against the
+same `authored.patch` (run 2) to measure reviewer run-to-run variance. Position
+3 shares its repository with P0's task (`thlorenz/doctoc`) — recorded covariate
+(D-027), selected by the fixed rule, not corrected. The second repeat (position
+4) is unconditional now that D-032 amended D-021a's day-3 gate to
+session-consequence.

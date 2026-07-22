@@ -994,7 +994,7 @@ the 3/3 F2P-fail verdict was identical both times. A single non-deterministic
 P2P test is exactly the bundled-suite noise §6.4 and the k=2 repeats exist to
 surface; the **defective verdict is robust to it**. Logged, not smoothed over.
 
-## OQ-19 · 2026-07-22 · First real scored case: mechanical catches at the right line for the wrong reason
+## OQ-19 · 2026-07-22 · ~~First real scored case: mechanical catches, right line wrong reason~~ — **RESOLVED by D-039/D-040**
 
 **Position 2 is the pilot's first CONFIRMED DEFECTIVE case.** Ground-truth
 defect (from the gold patch): the credential is passed as `KEY=VALUE` to
@@ -1046,6 +1046,58 @@ mechanical catches** as a validation of the catch metric — symmetric with the
 Band 2 human audit. No mid-pilot change either way; this is a Step-3 /
 write-up input, surfaced now because the first real case is where it becomes
 concrete.
+
+## D-039 · 2026-07-22 · OQ-19 ruled: Band 3 audit of mechanical catches (symmetric with the Band 2 human audit)
+
+**Ruled (supervisor), pre-registered now, effective immediately and applied
+retroactively to position 2.**
+
+**The primary metric is untouched.** Band 1's mechanical coordinate match stays
+the primary catch/no-catch rule — D-005's objection-proofness is the design's
+spine and is not being softened.
+
+**Added: a Band 3 audit of mechanical catches**, symmetric with the existing
+Band 2 human audit. A pre-registered sample of Band 1 **catch** verdicts is
+rendered as cards and human-adjudicated against the **P-001 reader-actionability
+standard**; the **agreement rate is reported alongside Band 2's κ** as the
+validity check on the mechanical metric.
+
+**Sampling rule (worker proposal, ratified):** **all** Band 1 catches during
+the **pilot** (volume is small and every one is informative); a **fixed random
+fraction** in the **main study** (fraction fixed in the design doc before the
+main run, same discipline as the n=75 Band 2 sample). Cards use the same
+blindness discipline as Band 2/Band 3 (role-only judge labels — N/A here since
+these are mechanical, anonymized claim text, blindness-lint fail-closed).
+
+**Framing, logged verbatim per supervisor directive:** *"'right line, wrong
+reason' is invisible to localization scoring by design; the audit measures its
+prevalence rather than assuming it away."*
+
+**Position 2's two catches are catch-audit cases 1 and 2** (A2 `onboard.js:812`,
+B `onboard.js:811`) and are carded in the first Band 3 batch. No mid-pilot
+change to the primary metric; the audit is a validity layer over it.
+
+## D-040 · 2026-07-22 · OQ-19 companion: D-038 accepted; incoherence heuristic added to the ledger
+
+**Accepted (supervisor):** D-038 in full, **including the honest record that
+the first fix attempt was itself wrong** (unconditional reset deleted a base
+oracle file). The **incoherence heuristic** joins the ledger's catch list of
+reusable checks:
+
+> **A verdict that flips under a mere procedure change indicts the procedure,
+> not the case.** When a previously-`RESOLVED` case reads `DEFECTIVE` (or vice
+> versa) only because the harness changed, suspect the harness first.
+
+This sits alongside the other earned checks now standing in the log:
+- **ERROR ≠ FAIL** — a failure to *measure* is never a finding about the thing
+  measured (D-028/D-030).
+- **parsed==0 vs declared-N incoherence** — a task cannot have zero tests and N
+  declared tests both (D-028 near-miss).
+- **incoherence-under-procedure-change** — this entry (D-040).
+
+The **flaky-P2P observation** (position 2: 1 vs 0 P2P regressions across two
+runs, F2P verdict identical) is logged as **§6.4 bundled-suite noise**; the
+**defective verdict is robust to it**.
 
 ---
 
