@@ -1099,6 +1099,72 @@ The **flaky-P2P observation** (position 2: 1 vs 0 P2P regressions across two
 runs, F2P verdict identical) is logged as **§6.4 bundled-suite noise**; the
 **defective verdict is robust to it**.
 
+## D-041 · 2026-07-22 · D-031f extended to Claude review arms: enforce read-only via disallowed edit tools
+
+**Why (mechanics, extending the D-031f standing launch rule to the other
+stack):** D-031f made review arms read-only on the OpenAI side (`codex exec -s
+read-only`). The Claude review arms were launched with `--permission-mode
+acceptEdits`, which **permits** file edits — the Claude analog of the very
+`workspace-write` mistake D-031f exists to prevent. A reviewer that edits the
+tree under review corrupts the reviewed artifact.
+
+**Verified before changing anything (incoherence/least-surprise discipline):**
+all six Claude/Codex review trees run so far (pos1 A2/B, pos2 A2/B, pos3 A2/B)
+were compared **byte-for-byte** against their `authored.patch`. **All six are
+identical — no reviewer edited anything.** The capability was unused, so the
+completed arms **stand**; this is a latent-risk closure, not a
+re-run.
+
+**Standing rule going forward:** Claude review arms run with edit tools
+disallowed — `claude -p ... --disallowedTools Edit Write NotebookEdit` — so
+read-only is enforced by construction rather than by luck. Recorded next to the
+sandbox rule in `harness/runner.py`. Authoring arms keep edit capability
+(they must write the patch). The already-run arms' verified cleanliness is the
+evidence that no result is affected.
+
+## OQ-20 · 2026-07-22 · k=2 repeat mechanics for the in-session A1 arm (blocks completing position 3's repeat)
+
+**The gap D-029 anticipated, now concrete.** D-029 ruled a k=2 repeat re-runs
+**review arms only** against the original authored patch, to measure reviewer
+run-to-run variance. For **A2 and B** this is clean: each run 2 is a brand-new
+fresh session on the same patch (A2 fresh same-vendor, B fresh cross-vendor).
+For **A1 it is not clean:** A1 is *in-session self-review* — run 1 was produced
+by **resuming the authoring session**. Resuming that same session a second time
+for run 2 resumes it **as it now is** — already containing A1 run 1 — so
+run-2's context strictly differs from run-1's (which resumed a session
+containing only authoring). A1 run 2 is therefore **not a clean repeat of A1
+run 1**; it is "self-review, having already just self-reviewed."
+
+D-029 explicitly left this to per-session recording: *"Where a resumed
+in-session A1 is not reproducible for a given stack, that is recorded per
+session rather than substituted with a fresh-session review."*
+
+**Options:**
+(a) **Run A1 run 2 by resuming again, record the context-creep caveat.** The
+    variance measured for A1 then includes the "already reviewed once" effect.
+    Honest if labelled; A1's repeat is interpreted with the caveat.
+(b) **Repeat only A2 and B; record A1 as not-cleanly-repeatable** for the
+    in-session arm, per D-029's provision. A1 contributes one run; the variance
+    estimate covers A2/B (the fresh arms, which are also where the headline
+    A2-vs-B comparison lives).
+(c) **Fork the authoring session before A1 run 1** so run 2 resumes from the
+    same pre-review state — **not available**: Claude Code sessions are
+    append-only; there is no mid-session fork on this stack.
+
+**Worker recommendation: (b).** The repeat exists to quantify reviewer
+run-to-run variance, and the arms that variance most affects — and that carry
+the protected A2-vs-B headline — are the **fresh** arms, which repeat cleanly.
+A1's in-session definition makes a clean repeat impossible on this stack (c is
+out), and (a) measures a subtly different quantity ("review-again variance")
+under the same label. (b) repeats what can be honestly repeated and records the
+A1 limitation explicitly — which is exactly what D-029 provided for. If the
+supervisor prefers (a), the A1 run-2 record will carry the context-creep caveat
+in-line.
+
+**Status:** position 3 run 1 is complete (A1 2 claims, A2 0, B 1 — A1 and B
+both flag `lib/transform.js:43`). Run 2 of **A2 and B** is unambiguous and
+proceeds now under either ruling; only **A1 run 2** waits on this.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)

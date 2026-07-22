@@ -65,6 +65,12 @@ class VendorCLI:
 #   JUDGE invocations get neither (D-020): tools disabled/isolated entirely.
 AUTHORING_SANDBOX_FLAGS = {"openai": ("-s", "workspace-write")}
 REVIEW_SANDBOX_FLAGS = {"openai": ("-s", "read-only")}
+# D-041: Claude review arms enforce read-only by DISALLOWING edit tools. The
+# authoring arm keeps them (it must write the patch). `--permission-mode
+# acceptEdits` on a review arm permits tree edits under review (the Claude analog
+# of workspace-write) -- forbidden. Verified: no review arm actually edited, but
+# the capability is closed by construction going forward.
+REVIEW_DISALLOWED_TOOLS = {"anthropic": ("Edit", "Write", "NotebookEdit")}
 
 VENDOR_CLIS = {
     "anthropic": VendorCLI("anthropic",

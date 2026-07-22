@@ -139,3 +139,38 @@ remains logged and counted here regardless.
 ## Per-task provenance
 
 *(task id → brief, sessions.jsonl rows, scoring json — none yet)*
+
+
+## Working window W2 — 2026-07-22
+
+Positions 2 and 3 executed. Session tally this window: pos2 (author+A1+A2+B = 4),
+pos3 run1 (author+A1+A2+B = 4) + pos3 run2 (A2, B = 2) = 10 sessions. Running
+P1 total: **18 sessions + 1 discarded** (pos1 4, pos2 4, pos3 10).
+
+Notable results:
+- **pos2 CONFIRMED DEFECTIVE** — first real defect case; Band 1 A1 no_catch /
+  A2 catch / B catch (both catches "right line", reasons questionable → OQ-19 →
+  D-039 mechanical-catch audit; carded p1-b1).
+- **pos3 run-to-run variance** (k=2, review arms only): B (cross-vendor)
+  perfectly stable (`transform.js:43` both runs); A2 (fresh same-vendor) 0→2
+  claims; A1 run2 pending OQ-20.
+
+## Pause — W2 close, 2026-07-22
+
+**Boundary:** position 3 run 1 complete; run 2's A2 and B complete; **A1 run 2
+blocked on OQ-20** (in-session repeat mechanics). Position 3 oracle evaluation
+deliberately **not run** — the blind boundary holds scoring until all reviews
+(incl. A1 run 2) are captured or OQ-20 rules A1 run 2 out.
+
+**Open for supervisor (in priority order):**
+1. **OQ-20** — A1 k=2 repeat mechanics (blocks pos3 completion). Worker rec: (b).
+2. **Band 3 batch p1-b1** — `results/band3/cards-p1-b1.html`, 2 mechanical-catch
+   cards awaiting in-browser rulings + exported `band3-rulings.json`.
+3. **OQ-16 companion** (false-alarm construction gap), **OQ-19 done**; no others
+   block.
+
+**Remaining P1 work:** pos3 oracle+scoring (after OQ-20), position 4
+(replacement — screen of rows 11–15 was interrupted; re-run needed), position 5.
+
+**Nothing new starts during the pause.** Position-4 replacement screening is
+container work slated for an idle window, not the pause.

@@ -1,0 +1,16 @@
+[
+  {
+    "case_id": "NVIDIA__NemoClaw-330",
+    "condition": "A2 (fresh, non-authoring reviewer)",
+    "source": "mechanical_catch_audit (D-039)",
+    "ruling": "no_catch",
+    "note": "No semantic link between the claim and the defect. The claim describes error-swallowing while the defect is credential exposure in the process list. Same line by coincidence. A reader following this claim would not find or fix the leak."
+  },
+  {
+    "case_id": "NVIDIA__NemoClaw-330",
+    "condition": "B (cross-vendor reviewer)",
+    "source": "mechanical_catch_audit (D-039)",
+    "ruling": "no_catch",
+    "note": "Same topic, but wrong direction. The claim asserts the correct fix (bare env-var name) is itself the bug. A reader following it could revert or 'repair' the right approach and could reintroduce the leak. Counter-productive, not merely non-actionable. Separately noted: the claim also doesn't touch the three unfixed locations, but this ruling rests on the direction error"
+  }
+]

@@ -1,0 +1,345 @@
+Review the code change in this repository's working tree for defects.
+
+You may explore the repository, read any files, and run static tooling, but do
+NOT run the test suite.
+
+When you are done, output your findings as a fenced JSON block in exactly this
+format, as the last thing in your response:
+
+```json
+{
+  "claims": [
+    {
+      "file": "path/relative/to/repo/root.py",
+      "line": 123,
+      "description": "One-sentence statement of the defect and why it is wrong."
+    }
+  ]
+}
+```
+
+Rules:
+- Report only defects you believe are real. An empty list (`"claims": []`) is a
+  valid and correct answer for a clean change.
+- Report at most 5 claims, ranked most-confident first. Claims beyond the
+  fifth are discarded unread.
+- Give `file` and `line` whenever you can localize the defect. Use `null` only
+  when you genuinely cannot.
+- One claim per distinct defect. Do not pad.
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/authoring/lib/get-html-headers.js"}
+1	"use strict";
+2	
+3	var htmlparser = require("htmlparser2"),
+4	  md = require("@textlint/markdown-to-ast");
+5	
+6	function addLinenos(lines, headers) {
+7	  var current = 0, line;
+8	
+9	  return headers.map(function (x) {
+10	    for (var lineno = current; lineno < lines.length; lineno++) {
+11	      line = lines[lineno];
+12	      if (new RegExp(x.text[0]).test(line)) {
+13	        current = lineno;
+14	        x.line = lineno;
+15	        x.name = x.text.join("");
+16	        return x;
+17	      }
+18	    }
+19	
+20	    // in case we didn't find a matching line, which is odd,
+21	    // we'll have to assume it's right on the next line
+22	    x.line = ++current;
+23	    x.name = x.text.join("");
+24	    return x;
+25	  });
+26	}
+27	
+28	function rankify(headers, max, min) {
+29	  return headers
+30	    .map(function (x) {
+31	      x.rank = parseInt(x.tagName.slice(1), 10);
+32	      return x;
+33	    })
+34	    .filter(function (x) {
+35	      return x.rank <= max && x.rank >= min;
+36	    });
+37	}
+38	
+39	var go = (module.exports = function (lines, maxHeaderLevel, minHeaderLevel) {
+40	  var source = md
+41	    .parse(lines.join("\n"))
+42	    .children.filter(function (node) {
+43	      return node.type === md.Syntax.HtmlBlock || node.type === md.Syntax.Html;
+44	    })
+45	    .map(function (node) {
+46	      return node.raw;
+47	    })
+48	    .join("\n");
+49	
+50	  //var headers = [], grabbing = null, text = [];
+51	  var currentLine = 1,
+52	    headers = [],
+53	    grabbing = [],
+54	    text = [];
+55	
+56	  var parser = new htmlparser.Parser(
+57	    {
+58	      onopentag: function (name, attr) {
+59	        // Short circuit if we're already inside a pre
+60	        if (grabbing[grabbing.length - 1]?.tagName === "pre") return;
+61	
+62	        if (name === "pre" || /h\d/.test(name)) {
+63	          grabbing.push({ tagName: name, line: currentLine, id: attr.id });
+64	        }
+65	      },
+66	      ontext: function (text_) {
+67	        // Count newlines
+68	        let newlines = text_.match(/\n/g);
+69	        if (newlines) currentLine += newlines.length;
+70	
+71	        // Explicitly skip pre tags, and implicitly skip all others
+72	        if (grabbing.length === 0 || grabbing[grabbing.length - 1].tagName === "pre")
+73	          return;
+74	
+75	        // Only accept text on the SAME LINE as the opening <hX> otherwise discard it
+76	        let top = grabbing[grabbing.length - 1];
+77	        if (currentLine === top.line) {
+78	          text.push(text_);
+79	        }
+80	        else{
+81	          grabbing.pop();
+82	        }
+83	      },
+84	      onclosetag: function (name) {
+85	        if (grabbing.length === 0) return;
+86	        if (grabbing[grabbing.length - 1].tagName === name) {
+87	          var tag = grabbing.pop();
+88	          headers.push({ text: text, tagName: tag.tagName, id: tag.id });
+89	          text = [];
+90	        }
+91	      },
+92	    },
+93	    { decodeEntities: true },
+94	  );
+95	
+96	  parser.write(source);
+97	  parser.end();
+98	
+99	  headers = addLinenos(lines, headers);
+100	  // consider anything past h4 to small to warrant a link, may be made configurable in the future
+101	  headers = rankify(headers, maxHeaderLevel, minHeaderLevel);
+102	  return headers;
+103	});
+104	
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/authoring/lib/transform.js", "offset": 98, "limit": 30}
+98	          }
+99	        : null;
+100	    })
+101	    .filter(notNull);
+102	}
+103	
+104	function countHeaders(headers, mode) {
+105	  var instances = {};
+106	
+107	  for (var i = 0; i < headers.length; i++) {
+108	    var header = headers[i];
+109	
+110	    // Headers with an explicit `id` use that id verbatim as their anchor, so
+111	    // they shouldn't participate in the generated-slug de-duplication counting.
+112	    if (header.id) continue;
+113	
+114	    var name = anchor(header.name, mode).split('#')[1].slice(0, -1);
+115	
+116	    if (Object.prototype.hasOwnProperty.call(instances, name)) {
+117	      // `instances.hasOwnProperty(name)` fails when there’s an instance named "hasOwnProperty".
+118	      instances[name]++;
+119	    } else {
+120	      instances[name] = 0;
+121	    }
+122	
+123	    header.instance = instances[name];
+124	    header.tag = name;
+125	  }
+126	
+127	  return headers;
+TOOL Bash {"command": "grep -rn \"\\.instance\\|\\.tag\\b\\|header.id\\|\\.id\\b\" lib/ doctoc.js", "description": "Find usages of instance, tag, id"}
+lib/get-html-headers.js:63:          grabbing.push({ tagName: name, line: currentLine, id: attr.id });
+lib/get-html-headers.js:88:          headers.push({ text: text, tagName: tag.tagName, id: tag.id });
+lib/transform.js:42:  if (header.id) {
+lib/transform.js:43:    header.anchor = '[' + header.name + '](#' + encodeURI(header.id) + ')';
+lib/transform.js:45:    header.anchor = anchor(header.name, mode, header.instance);
+lib/transform.js:112:    if (header.id) continue;
+lib/transform.js:123:    header.instance = instances[name];
+lib/transform.js:124:    header.tag = name;
+TOOL Bash {"command": "grep -n '<h[0-9]\\|id=' test/fixtures/readme-with-html.md", "description": "Inspect html headers and ids in fixture"}
+70:<h4 class="name" id="dockops::Containers"><span class="type-signature"></span>dockops::Containers<span class="signature">(docker)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+76:<h5>Parameters:</h5>
+105:<h5>Returns:</h5>
+119:<h4 class="name" id="dockops::Containers::activePorts"><span class="type-signature"></span>dockops::Containers::activePorts<span class="signature">(cb)</span><span class="type-signature"></span></h4>
+125:<h5>Parameters:</h5>
+156:<h4 class="name" id="dockops::Containers::clean"><span class="type-signature"></span>dockops::Containers::clean<span class="signature">(id, cb)</span><span class="type-signature"></span></h4>
+165:<h5>Parameters:</h5>
+Let me examine how the title is determined for these fixtures, since the new test expects the default title:
+TOOL Bash {"command": "sed -n '1,12p' test/fixtures/readme-with-html.md | cat -A | head -20", "description": "Show opening lines of readme-with-html.md with markers"}
+cat: illegal option -- A
+usage: cat [-belnstuv] [file ...]
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/authoring/test/fixtures/readme-with-html.md", "limit": 12}
+1	# dockops [![build status](https://secure.travis-ci.org/thlorenz/dockops.png)](http://travis-ci.org/thlorenz/dockops)
+2	
+3	docker convenience functions on top of dockerode
+4	
+5	<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+6	<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+7	**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+8	
+9	- [Installation](#installation)
+10	- [API](#api)
+11	- [License](#license)
+12	
+The new fixture uses the bare `<!-- START doctoc -->` / `<!-- END doctoc -->` markers. Let me verify how `determineTitle` behaves for that, by comparing with an existing test that uses the same bare form:
+TOOL Bash {"command": "grep -rln 'readme-with-hX\\|readme-with-code\\|readme-benign' test/*.js", "description": "Find tests using bare-marker fixtures"}
+test/transform-html.js
+test/transform.js
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/authoring/test/fixtures/readme-with-code.md", "limit": 6}
+1	README to test doctoc with edge-case headers.
+2	
+3	<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+4	<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+5	## Table of Contents
+6	
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/authoring/test/fixtures/readme-benign-backticks.md", "limit": 8}
+1	# Hello, world!
+2	
+3	> You can make code blocks with three back ticks:
+4	>
+5	> ```
+6	
+7	# Add this header
+8	
+Let me get exact line numbers for the new test's expected output:
+TOOL Bash {"command": "grep -n 'Table of Contents\\|Test 1\\](#test-1)\\|explicit id\\|benign backticks\\|toc.split' test/transform-html.js", "description": "Locate new test lines"}
+12:      headers.toc.split('\n')
+13:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+37:      headers.toc.split('\n')
+38:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+57:      headers.toc.split('\n')
+58:    , [ '## Table of Contents',
+71:test('\ngiven a file that includes html headers with explicit id attributes', function (t) {
+76:      headers.toc.split('\n')
+77:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+79:        '- [Test 1](#test-1)',
+84:    , 'uses the explicit id attribute as the anchor and excludes it from duplicate slug counting'
+90:test('\ngiven a file with benign backticks', function (t) {
+95:      headers.toc.split('\n')
+96:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+102:    , 'generates a correct toc when readme has benign backticks'
+Let me confirm my understanding of `determineTitle` with bare markers by checking a test that uses the `readme-with-hX.md` bare-marker fixture:
+TOOL Bash {"command": "grep -n 'readme-with-hX\\|Table of Contents\\|Hello, world' test/transform-html.js test/transform.js", "description": "Check hX fixture test title expectation"}
+test/transform-html.js:13:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform-html.js:38:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform-html.js:58:    , [ '## Table of Contents',
+test/transform-html.js:77:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform-html.js:96:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform-html.js:98:        '- [Hello, world!](#hello-world)',
+test/transform.js:48:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:67:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:84:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:95:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:113:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:124:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:135:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n',
+test/transform.js:146:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:158:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:271:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:286:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:302:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:333:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:353:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:369:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:384:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:401:    , '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*'
+test/transform.js:417:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform.js:428:        '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform.js:445:        '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform.js:466:    , '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*'
+test/transform.js:482:    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform.js:494:        '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform.js:512:        '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+test/transform.js:538:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:560:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:582:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:608:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:634:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:660:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:689:  , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*\n\n'
+test/transform.js:784:  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-hX.md', 'utf8');
+test/transform.js:790:        '- [Hello, world!](#hello-world)',
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/authoring/test/transform.js", "offset": 782, "limit": 30}
+782	
+783	test('\nignores the hX which is in the content on or a different line', function (t) {
+784	  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-hX.md', 'utf8');
+785	  var headers = transform(content, 'github.com', 8);
+786	
+787	  t.same(
+788	      headers.toc.split('\n')
+789	    , [ '',
+790	        '- [Hello, world!](#hello-world)',
+791	        '  - [Installation](#installation)',
+792	        '  - [API](#api)',
+793	        '  - [License](#license)',
+794	        '' ]
+795	    , 'generates correct toc for non html and html headers'
+796	  )
+797	
+798	  t.end()
+799	})
+800	
+I have found a concrete defect. Let me verify the exact line of the new test's expected block and the fixture's markers once more.
+TOOL Read {"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/authoring/test/transform-html.js", "offset": 71, "limit": 18}
+71	test('\ngiven a file that includes html headers with explicit id attributes', function (t) {
+72	  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-html-id.md', 'utf8');
+73	  var headers = transform(content);
+74	
+75	  t.same(
+76	      headers.toc.split('\n')
+77	    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+78	        '',
+79	        '- [Test 1](#test-1)',
+80	        '- [Test á](#test-a)',
+81	        '  - [Duplicate](#custom-dup)',
+82	        '  - [Duplicate](#duplicate)',
+83	        '' ]
+84	    , 'uses the explicit id attribute as the anchor and excludes it from duplicate slug counting'
+85	  )
+86	
+87	  t.end()
+88	})
+## Review findings
+
+I focused on the working-tree change that makes doctoc honor an explicit `id` attribute on HTML headings. The core functional change is sound:
+
+- `lib/get-html-headers.js` correctly captures `attr.id` and threads it through `addLinenos`/`rankify`.
+- `lib/transform.js` `addAnchor` uses the id when present, and `countHeaders` correctly excludes id-bearing headers from generated-slug de-duplication.
+
+However, the **added test is wrong and will fail**, and there is a minor escaping gap.
+
+**Defect 1 (high confidence) — new test's expected title is wrong.** The fixture `test/fixtures/readme-with-html-id.md` opens with the *bare* markers `<!-- START doctoc -->` / `<!-- END doctoc -->`. Since those set `info.hasStart = true`, `determineTitle` returns `lines[info.startIdx + 2]` — the blank line between the END marker and `# Test 1` — so the inferred title is empty (`''`), and `toc.split('\n')[0]` will be `''`, not the default `**Table of Contents**…` line the test asserts. This is confirmed by the analogous bare-marker fixture `readme-with-hX.md`, whose test (`test/transform.js:789`) expects exactly `''` as the first element. The new test will therefore fail. (The prior author noted they could not run the suite, so this went uncaught.)
+
+**Defect 2 (low confidence) — `encodeURI` doesn't escape `)`/`(`.** `encodeURI(header.id)` leaves parentheses intact, so an id containing `)` yields a malformed markdown link such as `[text](#a)b)`. The generated-slug path never triggers this (GitHub slug rules strip parens), but the raw-id path passes them through. Edge-case/low-severity, since ids rarely contain parens.
+
+```json
+{
+  "claims": [
+    {
+      "file": "test/transform-html.js",
+      "line": 77,
+      "description": "New test expects the default '**Table of Contents**' title as the first TOC line, but the fixture readme-with-html-id.md uses bare START/END markers, so determineTitle returns the empty line between them and no title is emitted (first split element is ''), making this test fail — as the analogous readme-with-hX.md test at transform.js:789 confirms."
+    },
+    {
+      "file": "lib/transform.js",
+      "line": 43,
+      "description": "encodeURI(header.id) does not escape '(' or ')', so an HTML heading whose id contains a paren produces a malformed markdown link like [text](#a)b) that breaks the TOC entry; the slug path avoids this only because GitHub slug generation strips parens."
+    }
+  ]
+}
+```

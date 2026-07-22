@@ -1,0 +1,630 @@
+Review the code change in this repository's working tree for defects.
+
+You may explore the repository, read any files, and run static tooling, but do
+NOT run the test suite.
+
+When you are done, output your findings as a fenced JSON block in exactly this
+format, as the last thing in your response:
+
+```json
+{
+  "claims": [
+    {
+      "file": "path/relative/to/repo/root.py",
+      "line": 123,
+      "description": "One-sentence statement of the defect and why it is wrong."
+    }
+  ]
+}
+```
+
+Rules:
+- Report only defects you believe are real. An empty list (`"claims": []`) is a
+  valid and correct answer for a clean change.
+- Report at most 5 claims, ranked most-confident first. Claims beyond the
+  fifth are discarded unread.
+- Give `file` and `line` whenever you can localize the defect. Use `null` only
+  when you genuinely cannot.
+- One claim per distinct defect. Do not pad.
+TOOL Bash{"command": "git diff", "description": "Show working tree diff"}
+diff --git a/README.md b/README.md
+index b9afeff..d713ef2 100644
+--- a/README.md
++++ b/README.md
+@@ -64,6 +64,8 @@ By default,
+ - no limit is placed on Markdown-formatted headings,
+ - whereas headings from embedded HTML are limited to 4 levels.
+ 
++When an embedded HTML heading carries an explicit `id` attribute (e.g. `<h2 id="my-anchor">Title</h2>`), that id is used as the TOC link target instead of a slug generated from the heading text.
++
+ ### Include all headings
+ 
+ Use the `--all` option to include all headings in the TOC regardless of their location
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index e3b5786..aeda77c 100644
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -60,7 +60,7 @@ var go = (module.exports = function (lines, maxHeaderLevel, minHeaderLevel) {
+         if (grabbing[grabbing.length - 1]?.tagName === "pre") return;
+ 
+         if (name === "pre" || /h\d/.test(name)) {
+-          grabbing.push({ tagName: name, line: currentLine });
++          grabbing.push({ tagName: name, line: currentLine, id: attr.id });
+         }
+       },
+       ontext: function (text_) {
+@@ -85,7 +85,7 @@ var go = (module.exports = function (lines, maxHeaderLevel, minHeaderLevel) {
+         if (grabbing.length === 0) return;
+         if (grabbing[grabbing.length - 1].tagName === name) {
+           var tag = grabbing.pop();
+-          headers.push({ text: text, tagName: tag.tagName });
++          headers.push({ text: text, tagName: tag.tagName, id: tag.id });
+           text = [];
+         }
+       },
+diff --git a/lib/transform.js b/lib/transform.js
+index dd46769..6350035 100644
+--- a/lib/transform.js
++++ b/lib/transform.js
+@@ -37,7 +37,13 @@ function matchesEnd(syntax) {
+ function notNull(x) { return  x !== null; }
+ 
+ function addAnchor(mode, header) {
+-  header.anchor = anchor(header.name, mode, header.instance);
++  // Respect an explicit `id` attribute (only present on HTML headers) instead
++  // of generating a slug from the header text.
++  if (header.id) {
++    header.anchor = '[' + header.name + '](#' + encodeURI(header.id) + ')';
++  } else {
++    header.anchor = anchor(header.name, mode, header.instance);
++  }
+   return header;
+ }
+ 
+@@ -100,6 +106,11 @@ function countHeaders(headers, mode) {
+ 
+   for (var i = 0; i < headers.length; i++) {
+     var header = headers[i];
++
++    // Headers with an explicit `id` use that id verbatim as their anchor, so
++    // they shouldn't participate in the generated-slug de-duplication counting.
++    if (header.id) continue;
++
+     var name = anchor(header.name, mode).split('#')[1].slice(0, -1);
+ 
+     if (Object.prototype.hasOwnProperty.call(instances, name)) {
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763..3b30982 100644
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -14,12 +14,12 @@ test('\ngiven a file that includes html with header tags and maxHeaderLevel 8',
+         '',
+         '- [Installation](#installation)',
+         '- [API](#api)',
+-        '    - [dockops::Containers(docker) → {Object}](#dockopscontainersdocker-%E2%86%92-object)',
++        '    - [dockops::Containers(docker) → {Object}](#dockops::Containers)',
+         '      - [Parameters:](#parameters)',
+         '      - [Returns:](#returns)',
+-        '    - [dockops::Containers::activePorts(cb)](#dockopscontainersactiveportscb)',
++        '    - [dockops::Containers::activePorts(cb)](#dockops::Containers::activePorts)',
+         '      - [Parameters:](#parameters-1)',
+-        '    - [dockops::Containers::clean(id, cb)](#dockopscontainerscleanid-cb)',
++        '    - [dockops::Containers::clean(id, cb)](#dockops::Containers::clean)',
+         '      - [Parameters:](#parameters-2)',
+         '- [License](#license)',
+         '' ]
+@@ -39,9 +39,9 @@ test('\ngiven a file that includes html with header tags using default maxHeader
+         '',
+         '- [Installation](#installation)',
+         '- [API](#api)',
+-        '    - [dockops::Containers(docker) → {Object}](#dockopscontainersdocker-%E2%86%92-object)',
+-        '    - [dockops::Containers::activePorts(cb)](#dockopscontainersactiveportscb)',
+-        '    - [dockops::Containers::clean(id, cb)](#dockopscontainerscleanid-cb)',
++        '    - [dockops::Containers(docker) → {Object}](#dockops::Containers)',
++        '    - [dockops::Containers::activePorts(cb)](#dockops::Containers::activePorts)',
++        '    - [dockops::Containers::clean(id, cb)](#dockops::Containers::clean)',
+         '- [License](#license)',
+         '' ]
+     , 'generates correct toc for non html and html headers omitting headers larger than maxHeaderLevel'
+@@ -68,6 +68,25 @@ test('\ngiven a file with headers embedded in code', function (t) {
+   t.end()
+ })
+ 
++test('\ngiven a file that includes html headers with explicit id attributes', function (t) {
++  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-html-id.md', 'utf8');
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Test 1](#test-1)',
++        '- [Test á](#test-a)',
++        '  - [Duplicate](#custom-dup)',
++        '  - [Duplicate](#duplicate)',
++        '' ]
++    , 'uses the explicit id attribute as the anchor and excludes it from duplicate slug counting'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with benign backticks', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-benign-backticks.md', 'utf8');
+   var headers = transform(content);
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2/lib/transform.js"}
+1	"use strict";
+2	
+3	var anchor = require("anchor-markdown-header"),
+4	  updateSection = require("update-section"),
+5	  getHtmlHeaders = require("./get-html-headers"),
+6	  md = require("@textlint/markdown-to-ast");
+7	
+8	var commentTypes = {
+9	  md: {
+10	    start: "<!--",
+11	    end: "-->",
+12	    escapedStart: "<!--",
+13	  },
+14	  mdx: {
+15	    start: "{/*",
+16	    end: "*/}",
+17	    escapedStart: "{\/\\*",
+18	  }
+19	}
+20	
+21	var { start: startMd , end: endMd } = generateComments('md')
+22	
+23	function matchesStart(syntax) {
+24	  var commentEscapedStart = commentTypes[syntax].escapedStart
+25	  return function(line){
+26	    return new RegExp(`${commentEscapedStart} START doctoc `).test(line);
+27	  }
+28	}
+29	
+30	function matchesEnd(syntax) {
+31	  var commentEscapedStart = commentTypes[syntax].escapedStart
+32	  return function(line){
+33	    return new RegExp(`${commentEscapedStart} END doctoc `).test(line);
+34	  }
+35	}
+36	
+37	function notNull(x) { return  x !== null; }
+38	
+39	function addAnchor(mode, header) {
+40	  // Respect an explicit `id` attribute (only present on HTML headers) instead
+41	  // of generating a slug from the header text.
+42	  if (header.id) {
+43	    header.anchor = '[' + header.name + '](#' + encodeURI(header.id) + ')';
+44	  } else {
+45	    header.anchor = anchor(header.name, mode, header.instance);
+46	  }
+47	  return header;
+48	}
+49	
+50	function isString(y) {
+51	  return typeof y === 'string';
+52	}
+53	
+54	function generateComments(syntax){
+55	  var commentStart = commentTypes[syntax].start
+56	  , commentEnd = commentTypes[syntax].end;
+57	
+58	  var start = `${commentStart} START doctoc generated TOC please keep comment here to allow auto update ${commentEnd}\n` +
+59	            `${commentStart} DON\'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE ${commentEnd}`
+60	  , end   = `${commentStart} END doctoc generated TOC please keep comment here to allow auto update ${commentEnd}`
+61	  , skipTag = `${commentStart} DOCTOC SKIP ${commentEnd}\n`;
+62	
+63	  exports.start = start;
+64	  exports.end = end;
+65	  return { start, end, skipTag}
+66	}
+67	
+68	function getMarkdownHeaders (lines, maxHeaderLevel, minHeaderLevel) {
+69	  function extractText (header) {
+70	    return header.children
+71	      .map(function (x) {
+72	        if (x.type === md.Syntax.Link || x.type === md.Syntax.LinkReference) {
+73	          return extractText(x);
+74	        }
+75	        else if (x.type === md.Syntax.Image || x.type === md.Syntax.ImageReference) {
+76	          // Images (at least on GitHub, untested elsewhere) are given a hyphen
+77	          // in the slug. We can achieve this behavior by adding an '*' to the
+78	          // TOC entry. Think of it as a "magic char" that represents the image.
+79	          return '*';
+80	        }
+81	        else {
+82	          return x.raw;
+83	        }
+84	      })
+85	      .join("");
+86	  }
+87	
+88	  return md
+89	    .parse(lines.join("\n"))
+90	    .children.filter(function (x) {
+91	      return x.type === md.Syntax.Header;
+92	    })
+93	    .map(function (x) {
+94	      return x.depth >= minHeaderLevel && (!maxHeaderLevel || x.depth <= maxHeaderLevel)
+95	        ? { rank :  x.depth
+96	          , name :  extractText(x)
+97	          , line :  x.loc.start.line
+98	          }
+99	        : null;
+100	    })
+101	    .filter(notNull);
+102	}
+103	
+104	function countHeaders(headers, mode) {
+105	  var instances = {};
+106	
+107	  for (var i = 0; i < headers.length; i++) {
+108	    var header = headers[i];
+109	
+110	    // Headers with an explicit `id` use that id verbatim as their anchor, so
+111	    // they shouldn't participate in the generated-slug de-duplication counting.
+112	    if (header.id) continue;
+113	
+114	    var name = anchor(header.name, mode).split('#')[1].slice(0, -1);
+115	
+116	    if (Object.prototype.hasOwnProperty.call(instances, name)) {
+117	      // `instances.hasOwnProperty(name)` fails when there’s an instance named "hasOwnProperty".
+118	      instances[name]++;
+119	    } else {
+120	      instances[name] = 0;
+121	    }
+122	
+123	    header.instance = instances[name];
+124	    header.tag = name;
+125	  }
+126	
+127	  return headers;
+128	}
+129	
+130	function getLinesToToc(lines, currentToc, info, processAll) {
+131	  if (processAll || !currentToc) return lines;
+132	
+133	  var tocableStart = 0;
+134	
+135	  // when updating an existing toc, we only take the headers into account
+136	  // that are below the existing toc
+137	  if (info.hasEnd) tocableStart = info.endIdx + 1;
+138	
+139	  return lines.slice(tocableStart);
+140	}
+141	
+142	// Use document context as well as command line args to infer the title
+143	function determineTitle(title, notitle, lines, info) {
+144	  var defaultTitle = '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*';
+145	
+146	  if (notitle) return "";
+147	  if (title) return title;
+148	  return info.hasStart ? lines[info.startIdx + 2] : defaultTitle;
+149	}
+150	
+151	exports = module.exports = function transform(content, mode, maxHeaderLevel, minHeaderLevel, minTocItems, title, notitle, entryPrefix, processAll, updateOnly, syntax, padTitle) {
+152	  syntax = syntax || "md"
+153	  var { skipTag, start, end } = generateComments(syntax)
+154	  var matchesStartBySyntax = matchesStart(syntax)
+155	  var matchesEndBySyntax = matchesEnd(syntax)
+156	  var index = content.indexOf(skipTag);
+157	  if (index === 0 || (index >= 0 && content[index-1] === '\n')) return { transformed: false };
+158	
+159	  mode = mode || "github.com";
+160	  entryPrefix = entryPrefix || "-";
+161	  minHeaderLevel = minHeaderLevel || 1;
+162	
+163	  if (isNaN(minTocItems) || minTocItems < 1){
+164	    minTocItems = 1;
+165	  }
+166	
+167	  if (padTitle === undefined){
+168	    padTitle = notitle || false;
+169	  }
+170	
+171	  // only limit *HTML* headings by default
+172	  var maxHeaderLevelHtml = maxHeaderLevel || 4;
+173	
+174	  var lines = content.split('\n')
+175	    , info = updateSection.parse(lines, matchesStartBySyntax, matchesEndBySyntax)
+176	
+177	  if (!info.hasStart && updateOnly) {
+178	    return { transformed: false };
+179	  }
+180	
+181	  var inferredTitle = determineTitle(title, notitle, lines, info);
+182	
+183	  var titleSeparator = inferredTitle ? '\n\n' : '\n';
+184	  var titlePadding = padTitle && inferredTitle ? '\n' : '';
+185	
+186	  var currentToc = info.hasStart && lines.slice(info.startIdx, info.endIdx + 1).join('\n')
+187	    , linesToToc = getLinesToToc(lines, currentToc, info, processAll);
+188	
+189	  var headers = getMarkdownHeaders(linesToToc, maxHeaderLevel, minHeaderLevel)
+190	    .concat(getHtmlHeaders(linesToToc, maxHeaderLevelHtml, minHeaderLevel))
+191	
+192	  headers.sort(function (a, b) {
+193	    return a.line - b.line;
+194	  });
+195	
+196	  var allHeaders = countHeaders(headers, mode),
+197	    lowestRank = allHeaders.reduce((min, h) => Math.min(min, h.rank), Infinity),
+198	    linkedHeaders = allHeaders.map(h => addAnchor(mode, h));
+199	
+200	  // 4 spaces required for proper indention on Bitbucket and GitLab
+201	  var indentation = (mode === 'bitbucket.org' || mode === 'gitlab.com') ? '    ' : '  ';
+202	
+203	  var toc = '';
+204	  var wrappedToc;
+205	
+206	  if (linkedHeaders.length >= minTocItems) {
+207	    toc = 
+208	      titlePadding
+209	    + inferredTitle
+210	    + titleSeparator
+211	    + linkedHeaders
+212	        .map(function (x) {
+213	          return indentation.repeat(x.rank - lowestRank) + entryPrefix + ' ' + x.anchor;
+214	        })
+215	        .join('\n')
+216	    + '\n';
+217	    wrappedToc = start + '\n' + toc + '\n' + end;
+218	  }
+219	  else {
+220	    wrappedToc =  start + '\n' + end;
+221	  }
+222	
+223	  var data;
+224	  if (currentToc != wrappedToc){
+225	    data = updateSection(lines.join('\n'), wrappedToc, matchesStartBySyntax, matchesEndBySyntax, true);
+226	  }
+227	  return { transformed : currentToc != wrappedToc, data : data, toc: toc, wrappedToc: wrappedToc };
+228	};
+229	
+230	exports.start = startMd;
+231	exports.end = endMd;
+232	
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2/lib/get-html-headers.js"}
+1	"use strict";
+2	
+3	var htmlparser = require("htmlparser2"),
+4	  md = require("@textlint/markdown-to-ast");
+5	
+6	function addLinenos(lines, headers) {
+7	  var current = 0, line;
+8	
+9	  return headers.map(function (x) {
+10	    for (var lineno = current; lineno < lines.length; lineno++) {
+11	      line = lines[lineno];
+12	      if (new RegExp(x.text[0]).test(line)) {
+13	        current = lineno;
+14	        x.line = lineno;
+15	        x.name = x.text.join("");
+16	        return x;
+17	      }
+18	    }
+19	
+20	    // in case we didn't find a matching line, which is odd,
+21	    // we'll have to assume it's right on the next line
+22	    x.line = ++current;
+23	    x.name = x.text.join("");
+24	    return x;
+25	  });
+26	}
+27	
+28	function rankify(headers, max, min) {
+29	  return headers
+30	    .map(function (x) {
+31	      x.rank = parseInt(x.tagName.slice(1), 10);
+32	      return x;
+33	    })
+34	    .filter(function (x) {
+35	      return x.rank <= max && x.rank >= min;
+36	    });
+37	}
+38	
+39	var go = (module.exports = function (lines, maxHeaderLevel, minHeaderLevel) {
+40	  var source = md
+41	    .parse(lines.join("\n"))
+42	    .children.filter(function (node) {
+43	      return node.type === md.Syntax.HtmlBlock || node.type === md.Syntax.Html;
+44	    })
+45	    .map(function (node) {
+46	      return node.raw;
+47	    })
+48	    .join("\n");
+49	
+50	  //var headers = [], grabbing = null, text = [];
+51	  var currentLine = 1,
+52	    headers = [],
+53	    grabbing = [],
+54	    text = [];
+55	
+56	  var parser = new htmlparser.Parser(
+57	    {
+58	      onopentag: function (name, attr) {
+59	        // Short circuit if we're already inside a pre
+60	        if (grabbing[grabbing.length - 1]?.tagName === "pre") return;
+61	
+62	        if (name === "pre" || /h\d/.test(name)) {
+63	          grabbing.push({ tagName: name, line: currentLine, id: attr.id });
+64	        }
+65	      },
+66	      ontext: function (text_) {
+67	        // Count newlines
+68	        let newlines = text_.match(/\n/g);
+69	        if (newlines) currentLine += newlines.length;
+70	
+71	        // Explicitly skip pre tags, and implicitly skip all others
+72	        if (grabbing.length === 0 || grabbing[grabbing.length - 1].tagName === "pre")
+73	          return;
+74	
+75	        // Only accept text on the SAME LINE as the opening <hX> otherwise discard it
+76	        let top = grabbing[grabbing.length - 1];
+77	        if (currentLine === top.line) {
+78	          text.push(text_);
+79	        }
+80	        else{
+81	          grabbing.pop();
+82	        }
+83	      },
+84	      onclosetag: function (name) {
+85	        if (grabbing.length === 0) return;
+86	        if (grabbing[grabbing.length - 1].tagName === name) {
+87	          var tag = grabbing.pop();
+88	          headers.push({ text: text, tagName: tag.tagName, id: tag.id });
+89	          text = [];
+90	        }
+91	      },
+92	    },
+93	    { decodeEntities: true },
+94	  );
+95	
+96	  parser.write(source);
+97	  parser.end();
+98	
+99	  headers = addLinenos(lines, headers);
+100	  // consider anything past h4 to small to warrant a link, may be made configurable in the future
+101	  headers = rankify(headers, maxHeaderLevel, minHeaderLevel);
+102	  return headers;
+103	});
+104	
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2/test/fixtures/readme-with-html-id.md"}
+1	<!-- START doctoc -->
+2	<!-- END doctoc -->
+3	
+4	# Test 1
+5	
+6	<h1 id="test-a">Test á</h1>
+7	
+8	<h2 id="custom-dup">Duplicate</h2>
+9	
+10	## Duplicate
+11	
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2\" && head -30 test/transform-html.js && echo \"---FIXTURE---\" && grep -rl \"dockops\" test/fixtures/ | head", "description": "Find fixture for first tests"}
+'use strict';
+/*jshint asi: true */
+
+var test = require('tap').test
+  , transform = require('../lib/transform')
+
+test('\ngiven a file that includes html with header tags and maxHeaderLevel 8', function (t) {
+  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-html.md', 'utf8');
+  var headers = transform(content, 'github.com', 8);
+
+  t.same(
+      headers.toc.split('\n')
+    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
+        '',
+        '- [Installation](#installation)',
+        '- [API](#api)',
+        '    - [dockops::Containers(docker) → {Object}](#dockops::Containers)',
+        '      - [Parameters:](#parameters)',
+        '      - [Returns:](#returns)',
+        '    - [dockops::Containers::activePorts(cb)](#dockops::Containers::activePorts)',
+        '      - [Parameters:](#parameters-1)',
+        '    - [dockops::Containers::clean(id, cb)](#dockops::Containers::clean)',
+        '      - [Parameters:](#parameters-2)',
+        '- [License](#license)',
+        '' ]
+    , 'generates correct toc for non html and html headers'
+  )
+
+  t.end()
+})
+---FIXTURE---
+test/fixtures/readme-with-html.md
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2\" && grep -n \"dockops\\|Parameters\\|Returns\\|<h\" test/fixtures/readme-with-html.md | head -40", "description": "Inspect html fixture headers"}
+1:# dockops [![build status](https://secure.travis-ci.org/thlorenz/dockops.png)](http://travis-ci.org/thlorenz/dockops)
+16:var dockops = require('dockops')
+17:var docker = dockops.createDocker({ dockerhost: dockerhost });
+19:var images = new dockops.Images(docker);
+20:dockops.logEvents(images, 'verbose');
+22:var containers = new dockops.Containers(docker);
+23:dockops.logEvents(containers, 'verbose');
+47:[full example](https://github.com/thlorenz/dockops/blob/master/example/create-wipe.js)
+49:![output](https://github.com/thlorenz/dockops/raw/master/assets/output.gif)
+53:    npm install dockops
+70:<h4 class="name" id="dockops::Containers"><span class="type-signature"></span>dockops::Containers<span class="signature">(docker)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+76:<h5>Parameters:</h5>
+99:<a href="https://github.com/thlorenz/dockops/blob/master/containers.js">containers.js</a>
+101:<a href="https://github.com/thlorenz/dockops/blob/master/containers.js#L24">lineno 24</a>
+105:<h5>Returns:</h5>
+119:<h4 class="name" id="dockops::Containers::activePorts"><span class="type-signature"></span>dockops::Containers::activePorts<span class="signature">(cb)</span><span class="type-signature"></span></h4>
+125:<h5>Parameters:</h5>
+148:<a href="https://github.com/thlorenz/dockops/blob/master/containers.js">containers.js</a>
+150:<a href="https://github.com/thlorenz/dockops/blob/master/containers.js#L275">lineno 275</a>
+156:<h4 class="name" id="dockops::Containers::clean"><span class="type-signature"></span>dockops::Containers::clean<span class="signature">(id, cb)</span><span class="type-signature"></span></h4>
+165:<h5>Parameters:</h5>
+195:<a href="https://github.com/thlorenz/dockops/blob/master/containers.js">containers.js</a>
+197:<a href="https://github.com/thlorenz/dockops/blob/master/containers.js#L97">lineno 97</a>
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2\" && grep -rn \"\\.tag\\b\\|\\.instance\\|\\.anchor\\|\\.id\\b\\|header\\.name\" lib/ | grep -v node_modules", "description": "Check usages of header fields"}
+lib/get-html-headers.js:63:          grabbing.push({ tagName: name, line: currentLine, id: attr.id });
+lib/get-html-headers.js:88:          headers.push({ text: text, tagName: tag.tagName, id: tag.id });
+lib/transform.js:42:  if (header.id) {
+lib/transform.js:43:    header.anchor = '[' + header.name + '](#' + encodeURI(header.id) + ')';
+lib/transform.js:45:    header.anchor = anchor(header.name, mode, header.instance);
+lib/transform.js:112:    if (header.id) continue;
+lib/transform.js:114:    var name = anchor(header.name, mode).split('#')[1].slice(0, -1);
+lib/transform.js:123:    header.instance = instances[name];
+lib/transform.js:124:    header.tag = name;
+lib/transform.js:213:          return indentation.repeat(x.rank - lowestRank) + entryPrefix + ' ' + x.anchor;
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2\" && node -c lib/transform.js && node -c lib/get-html-headers.js && echo \"syntax ok\"", "description": "Syntax check"}
+This Bash command contains multiple operations. The following parts require approval: node -c lib/transform.js, node -c lib/get-html-headers.js
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2\" && node -e \"require('./lib/transform.js'); require('./lib/get-html-headers.js'); console.log('loads ok')\"", "description": "Load modules to verify"}
+This Bash command contains multiple operations. The following part requires approval: node -e "require('./lib/transform.js'); require('./lib/get-html-headers.js'); console.log('loads ok')"
+TOOL Write{"file_path": "/private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos3-a2/c58c3a11-f34e-4e58-b495-e3e7b328eee6/scratchpad/check.js", "content": "var transform = require('/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2/lib/transform.js');\nvar fs = require('fs');\nvar base = '/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2/';\nvar content = fs.readFileSync(base + 'test/fixtures/readme-with-html-id.md', 'utf8');\nconsole.log(JSON.stringify(transform(content).toc.split('\\n'), null, 2));\n\n// Extra edge: HTML header with id but duplicate markdown before it\nvar edge = '<!-- START doctoc -->\\n<!-- END doctoc -->\\n\\n## Foo\\n\\n## Foo\\n\\n<h2 id=\"foo\">Foo</h2>\\n';\nconsole.log('EDGE:', JSON.stringify(transform(edge).toc.split('\\n')));\n"}
+File created successfully at: /private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos3-a2/c58c3a11-f34e-4e58-b495-e3e7b328eee6/scratchpad/check.js (file state is current in your context — no need to Read it back)
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos3-a2/c58c3a11-f34e-4e58-b495-e3e7b328eee6/scratchpad\" && node check.js", "description": "Run verification script"}
+This Bash command contains multiple operations. The following part requires approval: node check.js
+TOOL Bash{"command": "node \"/private/tmp/claude-501/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-a2d38e60-a217-4ee4-a289-d17e6d6eb038-scratchpad-p1-pos3-a2/c58c3a11-f34e-4e58-b495-e3e7b328eee6/scratchpad/check.js\"", "description": "Run verification script"}
+This command requires approval
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2\" && sed -n '1,80p' node_modules/anchor-markdown-header/anchor-markdown-header.js 2>/dev/null | grep -n \"replace\\|repr\\|\\\\[\\|escape\" | head -30", "description": "Inspect anchor library escaping of display text"}
+8:  text = text.replace(/[^a-z0-9]+/g, '_');
+9:  text = text.replace(/^_+|_+$/, '');
+10:  text = text.replace(/^([^a-z])/, '_$1');
+22:  return text.replace(/ /g,'-')
+23:    // escape codes
+24:    .replace(/%([abcdef]|\d){2,2}/ig, '')
+26:    .replace(/[\/\\?!%:\[\]`.,()*"';{}+=<>~\$|#@&–—]/g,'')
+28:    .replace(/[。？！，、；：“”【】（）〔〕［］﹃﹄“ ”‘’﹁﹂—…－～《》〈〉「」]/g, '')
+30:    .replace(/[¡¢£¤¥¦§¨©«¬®¯°±²³´¶·¸¹»¼½¾¿]/g, '')
+44:  text = text.replace(emojiRegex(), '')
+56:  text = text.replace(/--+/g, '-');
+68:  return text.replace(/ /g,'')
+69:    // escape codes are not removed
+71:    .replace(/[\/?:\[\]`.,()*"';{}\-+=<>!@#%^&\\\|]/g,'')
+72:    // $ replaced with d
+73:    .replace(/\$/g, 'd')
+74:    // ~ replaced with t
+75:    .replace(/~/g, 't')
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos3/a2\" && grep -n \"return\\|repr\\|module.exports\\|function main\\|'\\\\['\" node_modules/anchor-markdown-header/anchor-markdown-header.js | tail -30", "description": "Inspect how anchor lib builds final link display text"}
+18:  return text;
+22:  return text.replace(/ /g,'-')
+49:  return text;
+64:  return text;
+68:  return text.replace(/ /g,'')
+87:  return text;
+107:  return text;
+119: * @return            {String} The header anchor that is compatible with the given mode.
+121:module.exports = function anchorMarkdownHeader(header, mode, repetition) {
+136:        return newURI.replace(/%E2%80%8D/g, '\u200D');
+140:        return input.toLowerCase();
+168:    return result;
+173:  return '[' + header + '](#' + customEncodeURI(href) + ')';
+I've thoroughly reviewed the change, which adds support for using an explicit `id` attribute on embedded HTML headings as the TOC anchor target.
+
+I verified:
+- `get-html-headers.js` correctly captures `attr.id` on open and attaches it on close; `undefined` for headers without an id (so markdown headers and id-less HTML headers fall through to the slug path).
+- `addAnchor` produces a `[name](#id)` link parallel to what the `anchor-markdown-header` library produces (line 173 of that lib confirms it also leaves display text unescaped, so no regression there).
+- The `countHeaders` skip is actually *correct* GitHub semantics: an HTML heading with an explicit id does not consume an auto-generated slug, so a later same-named markdown heading correctly starts at instance 0 (`#duplicate`), while the id heading keeps `#custom-dup`.
+- The new fixture/test expectations match the code's output (ranks, indentation, ordering, de-dup all check out), and the two modified pre-existing tests are consistent with the fixture ids (`encodeURI` leaves `::` intact → `#dockops::Containers`).
+
+The change is clean, internally consistent, and well-covered by tests. I found no real defects.
+
+```json
+{
+  "claims": []
+}
+```

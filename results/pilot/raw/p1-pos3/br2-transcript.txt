@@ -1,0 +1,698 @@
+I’ll inspect the working-tree diff and the surrounding code paths, then use only non-test static checks if useful. I won’t run the test suite.
+COMMAND /bin/zsh -lc 'git status --short && git diff --stat && git diff --no-ext-diff'
+
+COMMAND /bin/zsh -lc 'git status --short && git diff --stat && git diff --no-ext-diff'
+2026-07-22 12:28:22.346 xcodebuild[63395:3620966]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 12:28:22.582 xcodebuild[63395:3620965] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-Fs564H2e' (errno=Operation not permitted)
+2026-07-22 12:28:23.114 xcodebuild[63397:3620981]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 12:28:23.257 xcodebuild[63397:3620979] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+ M README.md
+ M lib/get-html-headers.js
+ M lib/transform.js
+ A test/fixtures/readme-with-html-id.md
+ M test/transform-html.js
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-ZhP3CStm' (errno=Operation not permitted)
+2026-07-22 12:28:24.333 xcodebuild[63402:3621008]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 12:28:24.475 xcodebuild[63402:3621007] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-jpkhy7JN' (errno=Operation not permitted)
+2026-07-22 12:28:24.948 xcodebuild[63404:3621029]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 12:28:25.093 xcodebuild[63404:3621027] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+ README.md                            |  2 ++
+ lib/get-html-headers.js              |  4 ++--
+ lib/transform.js                     | 13 ++++++++++++-
+ test/fixtures/readme-with-html-id.md | 10 ++++++++++
+ test/transform-html.js               | 31 +++++++++++++++++++++++++------
+ 5 files changed, 51 insertions(+), 9 deletions(-)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-8iVJgLRJ' (errno=Operation not permitted)
+2026-07-22 12:28:26.154 xcodebuild[63408:3621083]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 12:28:26.294 xcodebuild[63408:3621082] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-UbjNbyQk' (errno=Operation not permitted)
+2026-07-22 12:28:26.754 xcodebuild[63410:3621096]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-22 12:28:26.891 xcodebuild[63410:3621095] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+diff --git a/README.md b/README.md
+index b9afeff..d713ef2 100644
+--- a/README.md
++++ b/README.md
+@@ -64,6 +64,8 @@ By default,
+ - no limit is placed on Markdown-formatted headings,
+ - whereas headings from embedded HTML are limited to 4 levels.
+ 
++When an embedded HTML heading carries an explicit `id` attribute (e.g. `<h2 id="my-anchor">Title</h2>`), that id is used as the TOC link target instead of a slug generated from the heading text.
++
+ ### Include all headings
+ 
+ Use the `--all` option to include all headings in the TOC regardless of their location
+diff --git a/lib/get-html-headers.js b/lib/get-html-headers.js
+index e3b5786..aeda77c 100644
+--- a/lib/get-html-headers.js
++++ b/lib/get-html-headers.js
+@@ -60,7 +60,7 @@ var go = (module.exports = function (lines, maxHeaderLevel, minHeaderLevel) {
+         if (grabbing[grabbing.length - 1]?.tagName === "pre") return;
+ 
+         if (name === "pre" || /h\d/.test(name)) {
+-          grabbing.push({ tagName: name, line: currentLine });
++          grabbing.push({ tagName: name, line: currentLine, id: attr.id });
+         }
+       },
+       ontext: function (text_) {
+@@ -85,7 +85,7 @@ var go = (module.exports = function (lines, maxHeaderLevel, minHeaderLevel) {
+         if (grabbing.length === 0) return;
+         if (grabbing[grabbing.length - 1].tagName === name) {
+           var tag = grabbing.pop();
+-          headers.push({ text: text, tagName: tag.tagName });
++          headers.push({ text: text, tagName: tag.tagName, id: tag.id });
+           text = [];
+         }
+       },
+diff --git a/lib/transform.js b/lib/transform.js
+index dd46769..6350035 100644
+--- a/lib/transform.js
++++ b/lib/transform.js
+@@ -37,7 +37,13 @@ function matchesEnd(syntax) {
+ function notNull(x) { return  x !== null; }
+ 
+ function addAnchor(mode, header) {
+-  header.anchor = anchor(header.name, mode, header.instance);
++  // Respect an explicit `id` attribute (only present on HTML headers) instead
++  // of generating a slug from the header text.
++  if (header.id) {
++    header.anchor = '[' + header.name + '](#' + encodeURI(header.id) + ')';
++  } else {
++    header.anchor = anchor(header.name, mode, header.instance);
++  }
+   return header;
+ }
+ 
+@@ -100,6 +106,11 @@ function countHeaders(headers, mode) {
+ 
+   for (var i = 0; i < headers.length; i++) {
+     var header = headers[i];
++
++    // Headers with an explicit `id` use that id verbatim as their anchor, so
++    // they shouldn't participate in the generated-slug de-duplication counting.
++    if (header.id) continue;
++
+     var name = anchor(header.name, mode).split('#')[1].slice(0, -1);
+ 
+     if (Object.prototype.hasOwnProperty.call(instances, name)) {
+diff --git a/test/fixtures/readme-with-html-id.md b/test/fixtures/readme-with-html-id.md
+new file mode 100644
+index 0000000..1bc098a
+--- /dev/null
++++ b/test/fixtures/readme-with-html-id.md
+@@ -0,0 +1,10 @@
++<!-- START doctoc -->
++<!-- END doctoc -->
++
++# Test 1
++
++<h1 id="test-a">Test á</h1>
++
++<h2 id="custom-dup">Duplicate</h2>
++
++## Duplicate
+diff --git a/test/transform-html.js b/test/transform-html.js
+index 8692763..3b30982 100644
+--- a/test/transform-html.js
++++ b/test/transform-html.js
+@@ -14,12 +14,12 @@ test('\ngiven a file that includes html with header tags and maxHeaderLevel 8',
+         '',
+         '- [Installation](#installation)',
+         '- [API](#api)',
+-        '    - [dockops::Containers(docker) → {Object}](#dockopscontainersdocker-%E2%86%92-object)',
++        '    - [dockops::Containers(docker) → {Object}](#dockops::Containers)',
+         '      - [Parameters:](#parameters)',
+         '      - [Returns:](#returns)',
+-        '    - [dockops::Containers::activePorts(cb)](#dockopscontainersactiveportscb)',
++        '    - [dockops::Containers::activePorts(cb)](#dockops::Containers::activePorts)',
+         '      - [Parameters:](#parameters-1)',
+-        '    - [dockops::Containers::clean(id, cb)](#dockopscontainerscleanid-cb)',
++        '    - [dockops::Containers::clean(id, cb)](#dockops::Containers::clean)',
+         '      - [Parameters:](#parameters-2)',
+         '- [License](#license)',
+         '' ]
+@@ -39,9 +39,9 @@ test('\ngiven a file that includes html with header tags using default maxHeader
+         '',
+         '- [Installation](#installation)',
+         '- [API](#api)',
+-        '    - [dockops::Containers(docker) → {Object}](#dockopscontainersdocker-%E2%86%92-object)',
+-        '    - [dockops::Containers::activePorts(cb)](#dockopscontainersactiveportscb)',
+-        '    - [dockops::Containers::clean(id, cb)](#dockopscontainerscleanid-cb)',
++        '    - [dockops::Containers(docker) → {Object}](#dockops::Containers)',
++        '    - [dockops::Containers::activePorts(cb)](#dockops::Containers::activePorts)',
++        '    - [dockops::Containers::clean(id, cb)](#dockops::Containers::clean)',
+         '- [License](#license)',
+         '' ]
+     , 'generates correct toc for non html and html headers omitting headers larger than maxHeaderLevel'
+@@ -68,6 +68,25 @@ test('\ngiven a file with headers embedded in code', function (t) {
+   t.end()
+ })
+ 
++test('\ngiven a file that includes html headers with explicit id attributes', function (t) {
++  var content = require('fs').readFileSync(__dirname + '/fixtures/readme-with-html-id.md', 'utf8');
++  var headers = transform(content);
++
++  t.same(
++      headers.toc.split('\n')
++    , [ '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*',
++        '',
++        '- [Test 1](#test-1)',
++        '- [Test á](#test-a)',
++        '  - [Duplicate](#custom-dup)',
++        '  - [Duplicate](#duplicate)',
++        '' ]
++    , 'uses the explicit id attribute as the anchor and excludes it from duplicate slug counting'
++  )
++
++  t.end()
++})
++
+ test('\ngiven a file with benign backticks', function (t) {
+   var content = require('fs').readFileSync(__dirname + '/fixtures/readme-benign-backticks.md', 'utf8');
+   var headers = transform(content);
+
+COMMAND /bin/zsh -lc "sed -n '1,180p' lib/get-html-headers.js; sed -n '1,240p' lib/transform.js; rg -n \"getHtmlHeaders|id:|countHeaders|addAnchor\" lib test doctoc.js"
+
+COMMAND /bin/zsh -lc "sed -n '1,180p' lib/get-html-headers.js; sed -n '1,240p' lib/transform.js; rg -n \"getHtmlHeaders|id:|countHeaders|addAnchor\" lib test doctoc.js"
+"use strict";
+
+var htmlparser = require("htmlparser2"),
+  md = require("@textlint/markdown-to-ast");
+
+function addLinenos(lines, headers) {
+  var current = 0, line;
+
+  return headers.map(function (x) {
+    for (var lineno = current; lineno < lines.length; lineno++) {
+      line = lines[lineno];
+      if (new RegExp(x.text[0]).test(line)) {
+        current = lineno;
+        x.line = lineno;
+        x.name = x.text.join("");
+        return x;
+      }
+    }
+
+    // in case we didn't find a matching line, which is odd,
+    // we'll have to assume it's right on the next line
+    x.line = ++current;
+    x.name = x.text.join("");
+    return x;
+  });
+}
+
+function rankify(headers, max, min) {
+  return headers
+    .map(function (x) {
+      x.rank = parseInt(x.tagName.slice(1), 10);
+      return x;
+    })
+    .filter(function (x) {
+      return x.rank <= max && x.rank >= min;
+    });
+}
+
+var go = (module.exports = function (lines, maxHeaderLevel, minHeaderLevel) {
+  var source = md
+    .parse(lines.join("\n"))
+    .children.filter(function (node) {
+      return node.type === md.Syntax.HtmlBlock || node.type === md.Syntax.Html;
+    })
+    .map(function (node) {
+      return node.raw;
+    })
+    .join("\n");
+
+  //var headers = [], grabbing = null, text = [];
+  var currentLine = 1,
+    headers = [],
+    grabbing = [],
+    text = [];
+
+  var parser = new htmlparser.Parser(
+    {
+      onopentag: function (name, attr) {
+        // Short circuit if we're already inside a pre
+        if (grabbing[grabbing.length - 1]?.tagName === "pre") return;
+
+        if (name === "pre" || /h\d/.test(name)) {
+          grabbing.push({ tagName: name, line: currentLine, id: attr.id });
+        }
+      },
+      ontext: function (text_) {
+        // Count newlines
+        let newlines = text_.match(/\n/g);
+        if (newlines) currentLine += newlines.length;
+
+        // Explicitly skip pre tags, and implicitly skip all others
+        if (grabbing.length === 0 || grabbing[grabbing.length - 1].tagName === "pre")
+          return;
+
+        // Only accept text on the SAME LINE as the opening <hX> otherwise discard it
+        let top = grabbing[grabbing.length - 1];
+        if (currentLine === top.line) {
+          text.push(text_);
+        }
+        else{
+          grabbing.pop();
+        }
+      },
+      onclosetag: function (name) {
+        if (grabbing.length === 0) return;
+        if (grabbing[grabbing.length - 1].tagName === name) {
+          var tag = grabbing.pop();
+          headers.push({ text: text, tagName: tag.tagName, id: tag.id });
+          text = [];
+        }
+      },
+    },
+    { decodeEntities: true },
+  );
+
+  parser.write(source);
+  parser.end();
+
+  headers = addLinenos(lines, headers);
+  // consider anything past h4 to small to warrant a link, may be made configurable in the future
+  headers = rankify(headers, maxHeaderLevel, minHeaderLevel);
+  return headers;
+});
+"use strict";
+
+var anchor = require("anchor-markdown-header"),
+  updateSection = require("update-section"),
+  getHtmlHeaders = require("./get-html-headers"),
+  md = require("@textlint/markdown-to-ast");
+
+var commentTypes = {
+  md: {
+    start: "<!--",
+    end: "-->",
+    escapedStart: "<!--",
+  },
+  mdx: {
+    start: "{/*",
+    end: "*/}",
+    escapedStart: "{\/\\*",
+  }
+}
+
+var { start: startMd , end: endMd } = generateComments('md')
+
+function matchesStart(syntax) {
+  var commentEscapedStart = commentTypes[syntax].escapedStart
+  return function(line){
+    return new RegExp(`${commentEscapedStart} START doctoc `).test(line);
+  }
+}
+
+function matchesEnd(syntax) {
+  var commentEscapedStart = commentTypes[syntax].escapedStart
+  return function(line){
+    return new RegExp(`${commentEscapedStart} END doctoc `).test(line);
+  }
+}
+
+function notNull(x) { return  x !== null; }
+
+function addAnchor(mode, header) {
+  // Respect an explicit `id` attribute (only present on HTML headers) instead
+  // of generating a slug from the header text.
+  if (header.id) {
+    header.anchor = '[' + header.name + '](#' + encodeURI(header.id) + ')';
+  } else {
+    header.anchor = anchor(header.name, mode, header.instance);
+  }
+  return header;
+}
+
+function isString(y) {
+  return typeof y === 'string';
+}
+
+function generateComments(syntax){
+  var commentStart = commentTypes[syntax].start
+  , commentEnd = commentTypes[syntax].end;
+
+  var start = `${commentStart} START doctoc generated TOC please keep comment here to allow auto update ${commentEnd}\n` +
+            `${commentStart} DON\'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE ${commentEnd}`
+  , end   = `${commentStart} END doctoc generated TOC please keep comment here to allow auto update ${commentEnd}`
+  , skipTag = `${commentStart} DOCTOC SKIP ${commentEnd}\n`;
+
+  exports.start = start;
+  exports.end = end;
+  return { start, end, skipTag}
+}
+
+function getMarkdownHeaders (lines, maxHeaderLevel, minHeaderLevel) {
+  function extractText (header) {
+    return header.children
+      .map(function (x) {
+        if (x.type === md.Syntax.Link || x.type === md.Syntax.LinkReference) {
+          return extractText(x);
+        }
+        else if (x.type === md.Syntax.Image || x.type === md.Syntax.ImageReference) {
+          // Images (at least on GitHub, untested elsewhere) are given a hyphen
+          // in the slug. We can achieve this behavior by adding an '*' to the
+          // TOC entry. Think of it as a "magic char" that represents the image.
+          return '*';
+        }
+        else {
+          return x.raw;
+        }
+      })
+      .join("");
+  }
+
+  return md
+    .parse(lines.join("\n"))
+    .children.filter(function (x) {
+      return x.type === md.Syntax.Header;
+    })
+    .map(function (x) {
+      return x.depth >= minHeaderLevel && (!maxHeaderLevel || x.depth <= maxHeaderLevel)
+        ? { rank :  x.depth
+          , name :  extractText(x)
+          , line :  x.loc.start.line
+          }
+        : null;
+    })
+    .filter(notNull);
+}
+
+function countHeaders(headers, mode) {
+  var instances = {};
+
+  for (var i = 0; i < headers.length; i++) {
+    var header = headers[i];
+
+    // Headers with an explicit `id` use that id verbatim as their anchor, so
+    // they shouldn't participate in the generated-slug de-duplication counting.
+    if (header.id) continue;
+
+    var name = anchor(header.name, mode).split('#')[1].slice(0, -1);
+
+    if (Object.prototype.hasOwnProperty.call(instances, name)) {
+      // `instances.hasOwnProperty(name)` fails when there’s an instance named "hasOwnProperty".
+      instances[name]++;
+    } else {
+      instances[name] = 0;
+    }
+
+    header.instance = instances[name];
+    header.tag = name;
+  }
+
+  return headers;
+}
+
+function getLinesToToc(lines, currentToc, info, processAll) {
+  if (processAll || !currentToc) return lines;
+
+  var tocableStart = 0;
+
+  // when updating an existing toc, we only take the headers into account
+  // that are below the existing toc
+  if (info.hasEnd) tocableStart = info.endIdx + 1;
+
+  return lines.slice(tocableStart);
+}
+
+// Use document context as well as command line args to infer the title
+function determineTitle(title, notitle, lines, info) {
+  var defaultTitle = '**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*';
+
+  if (notitle) return "";
+  if (title) return title;
+  return info.hasStart ? lines[info.startIdx + 2] : defaultTitle;
+}
+
+exports = module.exports = function transform(content, mode, maxHeaderLevel, minHeaderLevel, minTocItems, title, notitle, entryPrefix, processAll, updateOnly, syntax, padTitle) {
+  syntax = syntax || "md"
+  var { skipTag, start, end } = generateComments(syntax)
+  var matchesStartBySyntax = matchesStart(syntax)
+  var matchesEndBySyntax = matchesEnd(syntax)
+  var index = content.indexOf(skipTag);
+  if (index === 0 || (index >= 0 && content[index-1] === '\n')) return { transformed: false };
+
+  mode = mode || "github.com";
+  entryPrefix = entryPrefix || "-";
+  minHeaderLevel = minHeaderLevel || 1;
+
+  if (isNaN(minTocItems) || minTocItems < 1){
+    minTocItems = 1;
+  }
+
+  if (padTitle === undefined){
+    padTitle = notitle || false;
+  }
+
+  // only limit *HTML* headings by default
+  var maxHeaderLevelHtml = maxHeaderLevel || 4;
+
+  var lines = content.split('\n')
+    , info = updateSection.parse(lines, matchesStartBySyntax, matchesEndBySyntax)
+
+  if (!info.hasStart && updateOnly) {
+    return { transformed: false };
+  }
+
+  var inferredTitle = determineTitle(title, notitle, lines, info);
+
+  var titleSeparator = inferredTitle ? '\n\n' : '\n';
+  var titlePadding = padTitle && inferredTitle ? '\n' : '';
+
+  var currentToc = info.hasStart && lines.slice(info.startIdx, info.endIdx + 1).join('\n')
+    , linesToToc = getLinesToToc(lines, currentToc, info, processAll);
+
+  var headers = getMarkdownHeaders(linesToToc, maxHeaderLevel, minHeaderLevel)
+    .concat(getHtmlHeaders(linesToToc, maxHeaderLevelHtml, minHeaderLevel))
+
+  headers.sort(function (a, b) {
+    return a.line - b.line;
+  });
+
+  var allHeaders = countHeaders(headers, mode),
+    lowestRank = allHeaders.reduce((min, h) => Math.min(min, h.rank), Infinity),
+    linkedHeaders = allHeaders.map(h => addAnchor(mode, h));
+
+  // 4 spaces required for proper indention on Bitbucket and GitLab
+  var indentation = (mode === 'bitbucket.org' || mode === 'gitlab.com') ? '    ' : '  ';
+
+  var toc = '';
+  var wrappedToc;
+
+  if (linkedHeaders.length >= minTocItems) {
+    toc = 
+      titlePadding
+    + inferredTitle
+    + titleSeparator
+    + linkedHeaders
+        .map(function (x) {
+          return indentation.repeat(x.rank - lowestRank) + entryPrefix + ' ' + x.anchor;
+        })
+        .join('\n')
+    + '\n';
+    wrappedToc = start + '\n' + toc + '\n' + end;
+  }
+  else {
+    wrappedToc =  start + '\n' + end;
+  }
+
+  var data;
+  if (currentToc != wrappedToc){
+    data = updateSection(lines.join('\n'), wrappedToc, matchesStartBySyntax, matchesEndBySyntax, true);
+  }
+  return { transformed : currentToc != wrappedToc, data : data, toc: toc, wrappedToc: wrappedToc };
+};
+
+exports.start = startMd;
+exports.end = endMd;
+lib/transform.js:5:  getHtmlHeaders = require("./get-html-headers"),
+lib/transform.js:39:function addAnchor(mode, header) {
+lib/transform.js:104:function countHeaders(headers, mode) {
+lib/transform.js:190:    .concat(getHtmlHeaders(linesToToc, maxHeaderLevelHtml, minHeaderLevel))
+lib/transform.js:196:  var allHeaders = countHeaders(headers, mode),
+lib/transform.js:198:    linkedHeaders = allHeaders.map(h => addAnchor(mode, h));
+lib/get-html-headers.js:63:          grabbing.push({ tagName: name, line: currentLine, id: attr.id });
+lib/get-html-headers.js:88:          headers.push({ text: text, tagName: tag.tagName, id: tag.id });
+
+The change is narrowly scoped to propagating HTML `id` attributes and bypassing generated-slug counting. I’m checking edge cases where raw HTML IDs interact with Markdown link syntax and with the existing heading parser.
+COMMAND /bin/zsh -lc "node - <<'NODE'
+var transform = require('./lib/transform')
+var inputs = ['a)b', 'a b', 'a#b', 'a<b', 'a\\\\b']
+inputs.forEach(function (id) {
+  var content = '<"'!-- START doctoc -->'"\\n<"'!-- END doctoc -->'"\\n<h2 id=\"' + id + '\">Title</h2>\\n'
+  try { console.log(JSON.stringify(id), '=>', JSON.stringify(transform(content).toc)) }
+  catch (e) { console.log(JSON.stringify(id), 'THREW', e.message) }
+})
+NODE
+nl -ba lib/transform.js | sed -n '34,118p'; cat package.json"
+
+COMMAND /bin/zsh -lc "node - <<'NODE'
+var transform = require('./lib/transform')
+var inputs = ['a)b', 'a b', 'a#b', 'a<b', 'a\\\\b']
+inputs.forEach(function (id) {
+  var content = '<"'!-- START doctoc -->'"\\n<"'!-- END doctoc -->'"\\n<h2 id=\"' + id + '\">Title</h2>\\n'
+  try { console.log(JSON.stringify(id), '=>', JSON.stringify(transform(content).toc)) }
+  catch (e) { console.log(JSON.stringify(id), 'THREW', e.message) }
+})
+NODE
+nl -ba lib/transform.js | sed -n '34,118p'; cat package.json"
+zsh:1: can't create temp file for here document: operation not permitted
+    34	  }
+    35	}
+    36	
+    37	function notNull(x) { return  x !== null; }
+    38	
+    39	function addAnchor(mode, header) {
+    40	  // Respect an explicit `id` attribute (only present on HTML headers) instead
+    41	  // of generating a slug from the header text.
+    42	  if (header.id) {
+    43	    header.anchor = '[' + header.name + '](#' + encodeURI(header.id) + ')';
+    44	  } else {
+    45	    header.anchor = anchor(header.name, mode, header.instance);
+    46	  }
+    47	  return header;
+    48	}
+    49	
+    50	function isString(y) {
+    51	  return typeof y === 'string';
+    52	}
+    53	
+    54	function generateComments(syntax){
+    55	  var commentStart = commentTypes[syntax].start
+    56	  , commentEnd = commentTypes[syntax].end;
+    57	
+    58	  var start = `${commentStart} START doctoc generated TOC please keep comment here to allow auto update ${commentEnd}\n` +
+    59	            `${commentStart} DON\'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE ${commentEnd}`
+    60	  , end   = `${commentStart} END doctoc generated TOC please keep comment here to allow auto update ${commentEnd}`
+    61	  , skipTag = `${commentStart} DOCTOC SKIP ${commentEnd}\n`;
+    62	
+    63	  exports.start = start;
+    64	  exports.end = end;
+    65	  return { start, end, skipTag}
+    66	}
+    67	
+    68	function getMarkdownHeaders (lines, maxHeaderLevel, minHeaderLevel) {
+    69	  function extractText (header) {
+    70	    return header.children
+    71	      .map(function (x) {
+    72	        if (x.type === md.Syntax.Link || x.type === md.Syntax.LinkReference) {
+    73	          return extractText(x);
+    74	        }
+    75	        else if (x.type === md.Syntax.Image || x.type === md.Syntax.ImageReference) {
+    76	          // Images (at least on GitHub, untested elsewhere) are given a hyphen
+    77	          // in the slug. We can achieve this behavior by adding an '*' to the
+    78	          // TOC entry. Think of it as a "magic char" that represents the image.
+    79	          return '*';
+    80	        }
+    81	        else {
+    82	          return x.raw;
+    83	        }
+    84	      })
+    85	      .join("");
+    86	  }
+    87	
+    88	  return md
+    89	    .parse(lines.join("\n"))
+    90	    .children.filter(function (x) {
+    91	      return x.type === md.Syntax.Header;
+    92	    })
+    93	    .map(function (x) {
+    94	      return x.depth >= minHeaderLevel && (!maxHeaderLevel || x.depth <= maxHeaderLevel)
+    95	        ? { rank :  x.depth
+    96	          , name :  extractText(x)
+    97	          , line :  x.loc.start.line
+    98	          }
+    99	        : null;
+   100	    })
+   101	    .filter(notNull);
+   102	}
+   103	
+   104	function countHeaders(headers, mode) {
+   105	  var instances = {};
+   106	
+   107	  for (var i = 0; i < headers.length; i++) {
+   108	    var header = headers[i];
+   109	
+   110	    // Headers with an explicit `id` use that id verbatim as their anchor, so
+   111	    // they shouldn't participate in the generated-slug de-duplication counting.
+   112	    if (header.id) continue;
+   113	
+   114	    var name = anchor(header.name, mode).split('#')[1].slice(0, -1);
+   115	
+   116	    if (Object.prototype.hasOwnProperty.call(instances, name)) {
+   117	      // `instances.hasOwnProperty(name)` fails when there’s an instance named "hasOwnProperty".
+   118	      instances[name]++;
+{
+  "author": "Thorsten Lorenz <thlorenz@gmx.de> (thlorenz.com)",
+  "name": "doctoc",
+  "description": "Generates TOC for markdown files of local git repo.",
+  "version": "0.0.0-development",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thlorenz/doctoc.git"
+  },
+  "scripts": {
+    "test": "tap",
+    "doctoc": "node doctoc.js README.md --update-only"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "doctoc.js",
+  "bin": "doctoc.js",
+  "dependencies": {
+    "@textlint/markdown-to-ast": "^15.5.2",
+    "anchor-markdown-header": "^0.8.2",
+    "htmlparser2": "^7.2.0",
+    "loglevel": "^1.9.2",
+    "minimist": "^1.2.6",
+    "update-section": "^0.3.3"
+  },
+  "devDependencies": {
+    "tap": "^21.5.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "github",
+    "markdown",
+    "documentation",
+    "readme",
+    "parser",
+    "bitbucket",
+    "gitlab",
+    "ghost"
+  ]
+}
+
+COMMAND /bin/zsh -lc "node -e \"var t=require('./lib/transform'); ['a)b','a(b','a b','a#b'].forEach(function(id){var c='<"'!-- START doctoc -->'"\\\\n<"'!-- END doctoc -->'"\\\\n<h2 id=\\\\\\\"'+id+'\\\\\\\">Title</h2>\\\\n'; console.log(id, JSON.stringify(t(c).toc))})\" && node -e \"var md=require('@textlint/markdown-to-ast'); ['- [Title](#a)b)','- [Title](#a(b)','- [Title](#a%20b)','- [Title](#a#b)'].forEach(function(s){try{console.log(s, JSON.stringify(md.parse(s).children[0]))}catch(e){console.log('ERR',s,e.message)}})\""
+
+COMMAND /bin/zsh -lc "node -e \"var t=require('./lib/transform'); ['a)b','a(b','a b','a#b'].forEach(function(id){var c='<"'!-- START doctoc -->'"\\\\n<"'!-- END doctoc -->'"\\\\n<h2 id=\\\\\\\"'+id+'\\\\\\\">Title</h2>\\\\n'; console.log(id, JSON.stringify(t(c).toc))})\" && node -e \"var md=require('@textlint/markdown-to-ast'); ['- [Title](#a)b)','- [Title](#a(b)','- [Title](#a%20b)','- [Title](#a#b)'].forEach(function(s){try{console.log(s, JSON.stringify(md.parse(s).children[0]))}catch(e){console.log('ERR',s,e.message)}})\""
+a)b "<h2 id=\"a)b\">Title</h2>\n\n- [Title](#a)b)\n"
+a(b "<h2 id=\"a(b\">Title</h2>\n\n- [Title](#a(b)\n"
+a b "<h2 id=\"a b\">Title</h2>\n\n- [Title](#a%20b)\n"
+a#b "<h2 id=\"a#b\">Title</h2>\n\n- [Title](#a#b)\n"
+- [Title](#a)b) {"type":"List","ordered":false,"start":null,"spread":false,"children":[{"type":"ListItem","spread":false,"checked":null,"children":[{"type":"Paragraph","children":[{"type":"Link","title":null,"url":"#a","children":[{"type":"Str","value":"Title","loc":{"start":{"line":1,"column":3},"end":{"line":1,"column":8}},"range":[3,8],"raw":"Title"}],"loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":13}},"range":[2,13],"raw":"[Title](#a)"},{"type":"Str","value":"b)","loc":{"start":{"line":1,"column":13},"end":{"line":1,"column":15}},"range":[13,15],"raw":"b)"}],"loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":15}},"range":[2,15],"raw":"[Title](#a)b)"}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}},"range":[0,15],"raw":"- [Title](#a)b)"}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}},"range":[0,15],"raw":"- [Title](#a)b)"}
+- [Title](#a(b) {"type":"List","ordered":false,"start":null,"spread":false,"children":[{"type":"ListItem","spread":false,"checked":null,"children":[{"type":"Paragraph","children":[{"type":"Str","value":"[Title](#a(b)","loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":15}},"range":[2,15],"raw":"[Title](#a(b)"}],"loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":15}},"range":[2,15],"raw":"[Title](#a(b)"}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}},"range":[0,15],"raw":"- [Title](#a(b)"}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}},"range":[0,15],"raw":"- [Title](#a(b)"}
+- [Title](#a%20b) {"type":"List","ordered":false,"start":null,"spread":false,"children":[{"type":"ListItem","spread":false,"checked":null,"children":[{"type":"Paragraph","children":[{"type":"Link","title":null,"url":"#a%20b","children":[{"type":"Str","value":"Title","loc":{"start":{"line":1,"column":3},"end":{"line":1,"column":8}},"range":[3,8],"raw":"Title"}],"loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":17}},"range":[2,17],"raw":"[Title](#a%20b)"}],"loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":17}},"range":[2,17],"raw":"[Title](#a%20b)"}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":17}},"range":[0,17],"raw":"- [Title](#a%20b)"}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":17}},"range":[0,17],"raw":"- [Title](#a%20b)"}
+- [Title](#a#b) {"type":"List","ordered":false,"start":null,"spread":false,"children":[{"type":"ListItem","spread":false,"checked":null,"children":[{"type":"Paragraph","children":[{"type":"Link","title":null,"url":"#a#b","children":[{"type":"Str","value":"Title","loc":{"start":{"line":1,"column":3},"end":{"line":1,"column":8}},"range":[3,8],"raw":"Title"}],"loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":15}},"range":[2,15],"raw":"[Title](#a#b)"}],"loc":{"start":{"line":1,"column":2},"end":{"line":1,"column":15}},"range":[2,15],"raw":"[Title](#a#b)"}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}},"range":[0,15],"raw":"- [Title](#a#b)"}],"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":15}},"range":[0,15],"raw":"- [Title](#a#b)"}
+
+```json
+{
+  "claims": [
+    {
+      "file": "lib/transform.js",
+      "line": 43,
+      "description": "Using encodeURI leaves parentheses in explicit IDs unescaped, so an ID such as \"a)b\" prematurely closes the generated Markdown link and produces a broken TOC target."
+    }
+  ]
+}
+```
