@@ -1,0 +1,35 @@
+{
+ "A1": {
+  "verdict": "no_catch",
+  "band": "MECHANICAL",
+  "note": "all claims fully localized; none within tolerance",
+  "matched": null,
+  "sweep": {
+   "1": "no_catch",
+   "5": "no_catch",
+   "10": "no_catch"
+  }
+ },
+ "A2": {
+  "verdict": "catch",
+  "band": "MECHANICAL",
+  "note": "",
+  "matched": "bin/lib/onboard.js:812",
+  "sweep": {
+   "1": "catch",
+   "5": "catch",
+   "10": "catch"
+  }
+ },
+ "B": {
+  "verdict": "catch",
+  "band": "MECHANICAL",
+  "note": "",
+  "matched": "bin/lib/onboard.js:811",
+  "sweep": {
+   "1": "catch",
+   "5": "catch",
+   "10": "catch"
+  }
+ }
+}

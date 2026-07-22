@@ -945,6 +945,108 @@ D-036 exec-context refinement which is batched for the pilot-close freeze.
 Recorded so the freeze accounting stays honest about what changed mid-pilot
 and why.
 
+## D-038 · 2026-07-22 · Oracle test files are authoritative; standing evaluation procedure (with a self-correction)
+
+**Why:** position 2's authoring agent independently created a regression test
+at the **exact path the hidden `test_patch` also creates**
+(`test/credential-exposure.test.js`). Applying the authored patch then the
+test_patch failed (`TESTPATCH_RC=1`) — the oracle never ran — and a naive
+reading would have mislabelled the case **CONFIRMED DEFECTIVE** when the true
+cause was a **patch collision**, a harness error.
+
+**Standing procedure (SWE-bench semantics).** The `test_patch` is
+**authoritative**; the model must never supply oracle test files. For every
+file the test_patch touches, reset it to base **before** applying test_patch,
+using the idiom that handles both cases correctly:
+
+```
+git checkout HEAD -- '<f>' 2>/dev/null || rm -f '<f>'
+```
+
+— restore the base version if the file exists at `base_commit` (discarding the
+model's edits to an oracle file), or remove it if the model created a net-new
+colliding file. A `TESTPATCH_RC != 0` after this is a **HARNESS-ERROR verdict**
+(unknown), never CONFIRMED DEFECTIVE — the same ERROR-vs-FAIL discipline as
+D-030. Encoded in the evaluator (`results/pilot/raw/evaluate.py`).
+
+**Self-correction, logged (the fix's own near-miss).** The first version of
+this reset ran `git checkout -- f` **and** `rm -f f` unconditionally. On
+position 1 — whose oracle file `test/transaction.js` **exists at base** (the
+author modified it) — the unconditional `rm` **deleted a file the test_patch
+needed to modify**, producing `TESTPATCH_RC=1` and a spurious "verdict CHANGED"
+on a case that is in fact unchanged. Caught because a *resolved* case suddenly
+reading *defective* under a procedure change is exactly the incoherence that
+warrants re-checking the procedure, not the case. The conditional idiom above
+is the fix; both positions then evaluated cleanly.
+
+**Re-verification (both positions, corrected procedure):**
+- **Position 1** (`haraka__Haraka-3535`): `TESTPATCH_RC=0`, 361 tests, both
+  F2P pass, no P2P regression → **RESOLVED, authoring success (D-031a)** —
+  **verdict unchanged** from its original evaluation. The original had by luck
+  applied cleanly (author's test additions did not collide with the oracle's),
+  so its verdict was already correct; this confirms it rather than revises it.
+- **Position 2** (`NVIDIA__NemoClaw-330`): `TESTPATCH_RC=0`, 303 tests, **3/3
+  F2P fail**, no P2P regression → **CONFIRMED DEFECTIVE.** Stable across runs.
+
+*Ground-truth-noise observation (recorded, §6.4-relevant):* two runs of
+position 2's evaluation differed by **one P2P test** (1 regression vs 0) while
+the 3/3 F2P-fail verdict was identical both times. A single non-deterministic
+P2P test is exactly the bundled-suite noise §6.4 and the k=2 repeats exist to
+surface; the **defective verdict is robust to it**. Logged, not smoothed over.
+
+## OQ-19 · 2026-07-22 · First real scored case: mechanical catches at the right line for the wrong reason
+
+**Position 2 is the pilot's first CONFIRMED DEFECTIVE case.** Ground-truth
+defect (from the gold patch): the credential is passed as `KEY=VALUE` to
+`openshell --credential` (visible in `ps`), in **four locations** — three
+`onboard.js` provider blocks (nvidia-nim 808–814, vllm-local 824–833,
+ollama-local 844–853) and `runner.py` action_apply (209–216). The authored
+patch fixed **only the nvidia-nim block** (plus a `setup.sh` file not in the
+oracle), missing the other three — a natural incomplete fix.
+
+**Band 1 mechanical result (±5, and stable across the ±1/±10 sweep):**
+
+| arm | claims | Band 1 | matched on |
+|---|---|---|---|
+| A1 (self, openai) | 0 | **no_catch** | — |
+| A2 (fresh, openai) | 3 | **catch** | `onboard.js:812` ∈ 808–814 |
+| B (cross, claude) | 2 | **catch** | `onboard.js:811` ∈ 808–814 |
+
+**The nuance worth a ruling.** Both catches are coordinate matches inside the
+nvidia-nim region, but neither claim is clearly *about the planted defect*:
+
+- **A2's** matching claim (`812`) is *"provider-creation errors are
+  unconditionally ignored"* — an error-handling observation at the right line,
+  not the credential exposure.
+- **B's** matching claim (`811`) is *"passing bare `--credential
+  NVIDIA_API_KEY` breaks credential setup"* — but the gold fix uses **exactly**
+  the bare-name form, so B is arguing the *correct* approach is a bug. Right
+  line; the claim's substance is backwards.
+- **Neither** arm localized the actual incompleteness (the vllm/ollama/runner.py
+  regions the author missed). A2 gestured *"still embedded elsewhere"* but at
+  `537`/`setup.sh`, not the missed regions.
+
+Under the mechanical design (D-005) both are catches, full stop — Band 1 does
+not inspect reason, and Band 2 only receives **partially-localized** claims
+(there are none here), so this case **generates no Band 2/3 traffic** and the
+"right-line/wrong-reason" question is never adjudicated. That is the mechanical
+metric behaving exactly as pre-registered — but it means the pilot's first
+substantive reviewer disagreement is scored **catch/catch** without the
+reader-actionability check the design reserves for Band 3.
+
+**Question for the supervisor (design-level; not resolved here):** is this the
+intended, disclosed behavior of the mechanical band — coordinate matches count
+regardless of stated reason, and reader-actionability is validated **only** on
+the Band-2-sampled subset — or should **fully-localized catches on defective
+tasks also be eligible for the Band 3 audit sample**, so "right line, wrong
+reason" is measurable rather than invisible? Worker leans **disclosed as-is for
+the primary metric** (it is the reviewer-objection-proof mechanical rule D-005
+was built to be) **plus** adding a small **pre-registered Band 3 audit of
+mechanical catches** as a validation of the catch metric — symmetric with the
+Band 2 human audit. No mid-pilot change either way; this is a Step-3 /
+write-up input, surfaced now because the first real case is where it becomes
+concrete.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)

@@ -1,0 +1,22 @@
+{
+ "oracle_files_reset": [
+  "test/credential-exposure.test.js"
+ ],
+ "apply_rcs": [
+  "AUTHORED_RC=0",
+  "TESTPATCH_RC=0"
+ ],
+ "testpatch_applied": true,
+ "parsed": 303,
+ "f2p": {
+  "credential exposure in process arguments onboard.js --credential flags pass env var names only": "fail",
+  "credential exposure in process arguments onboard.js must not pass KEY=VALUE to --credential": "fail",
+  "credential exposure in process arguments runner.py must not pass KEY=VALUE to --credential": "fail"
+ },
+ "f2p_pass": 0,
+ "f2p_fail": 3,
+ "f2p_missing": 0,
+ "p2p_regressions": [],
+ "resolved": false,
+ "verdict": "CONFIRMED DEFECTIVE"
+}
