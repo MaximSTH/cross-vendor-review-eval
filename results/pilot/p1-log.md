@@ -174,3 +174,35 @@ deliberately **not run** — the blind boundary holds scoring until all reviews
 
 **Nothing new starts during the pause.** Position-4 replacement screening is
 container work slated for an idle window, not the pause.
+
+
+## Pause — lid-close, 2026-07-22 (mid-screen)
+
+**Position-4 replacement screen stopped cleanly** at supervisor's imminent
+sleep (containers don't survive lid-close). State captured
+(`results/pilot/raw/p1-gt-screen/screen-pos4-partial.json`):
+
+| row | task | verdict |
+|---|---|---|
+| 11 | `vueuse__vueuse-5336` | **ERROR** (parsed=0, undiagnosed) — captured |
+| 12 | `gsd-build__gsd-2-2643` | **FAIL** (ground-truth) — captured |
+| 13 | `gsd-build__gsd-2-2738` | **INTERRUPTED** — container killed mid-run; **rerun from here**, not a result |
+| 14 | `iOfficeAI__AionUi-1818` | not started |
+| 15 | `usebruno__bruno-7620` | not started |
+
+**Orphan check performed (the standing lesson):** stopping the screen driver
+left row 13's `docker run` alive (`Up 3 minutes`); killed explicitly. No sweb
+container survives.
+
+**Resume plan (on supervisor's word):** rerun the screen **from row 13**;
+**diagnose the row-11 vueuse ERROR** (parsed=0 — likely the D-045 OOM/emit
+class now that the screen has memory headroom; an undiagnosed ERROR at row 11
+would otherwise *halt* the walk per D-030b, so it must be resolved or the walk
+holds); then **select position 4's replacement** (first reachable PASS) per
+D-028b/D-030d, inheriting the k=2 flag, and stop at that boundary. **No
+sessions run** until then.
+
+**P1 standing:** positions 1, 2, 3 complete (pos1 authoring-success, pos2
+CONFIRMED DEFECTIVE + scored, pos3 authoring-success). 18 sessions + 1
+discarded. Remaining: position 4 (replacement selection → full flow with k=2)
+and position 5.

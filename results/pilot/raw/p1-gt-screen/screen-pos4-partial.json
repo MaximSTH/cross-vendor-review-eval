@@ -1,0 +1,36 @@
+{
+ "vueuse__vueuse-5336": {
+  "verdict": "ERROR",
+  "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+  "parsed_tests": 0,
+  "F2P": {
+   "n": 1,
+   "PASS_at_base": 0,
+   "not_reported": 1
+  },
+  "P2P": {
+   "n": 1375,
+   "not_pass_at_base": 0,
+   "not_reported": 1375
+  }
+ },
+ "gsd-build__gsd-2-2643": {
+  "verdict": "FAIL",
+  "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+  "parsed_tests": 2930,
+  "F2P": {
+   "n": 4,
+   "PASS_at_base": 0,
+   "not_reported": 2
+  },
+  "P2P": {
+   "n": 4557,
+   "not_pass_at_base": 124,
+   "not_reported": 1781
+  }
+ },
+ "gsd-build__gsd-2-2738": {
+  "verdict": "INTERRUPTED",
+  "reason": "container killed at lid-close before verdict; rerun from this row (not a result)"
+ }
+}
