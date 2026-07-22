@@ -1315,6 +1315,32 @@ defect; if both repeat positions resolve, the pilot measures verbosity variance
 but not catch-rate variance, and that is stated in the report rather than
 presented as if catch-rate variance were measured.
 
+## D-047 · 2026-07-22 · The incoherence heuristic generalized to a design principle (third save)
+
+**Third save recorded.** The incoherence heuristic (D-040) has now caught a
+false verdict at **each pipeline stage**:
+
+1. **Intake** — `parsed==0` vs a declared 300 P2P tests: a task cannot have
+   zero tests and 300 declared tests both (D-028 near-miss, `NemoClaw-330`).
+2. **Selection/procedure** — a `RESOLVED` case reading `DEFECTIVE` only because
+   the harness changed: the procedure is indicted, not the case (D-040, pos1
+   under the first oracle-reset attempt).
+3. **Evaluation** — a **screen-PASS** task reading `DEFECTIVE` with `parsed==0`:
+   a task whose F2P demonstrably fail and P2P pass at base cannot coherently be
+   defective-with-nothing-parsed; the measurement is indicted (D-045, pos3 OOM).
+
+**Generalization for the write-up — present as a design principle, not three
+incidents.** *Every pipeline stage carries a coherence check against
+upstream-verified facts.* Each stage (intake → selection → evaluation →
+scoring) has, upstream of it, facts already verified (declared test counts, a
+prior verdict, a screen result). Before a stage's output is trusted, it is
+checked for coherence against those facts; an output that contradicts an
+upstream-verified fact indicts the stage's **measurement**, not the underlying
+task — and triggers diagnosis rather than recording. This converted three
+would-be false verdicts (two defective, one procedural) into diagnosed harness
+bugs. It is the operational form of the ERROR-vs-FAIL discipline (D-030): a
+failure to measure coherently is never a finding about the thing measured.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
