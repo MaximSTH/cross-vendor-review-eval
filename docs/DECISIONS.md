@@ -1405,7 +1405,7 @@ neither sub-category is a property of the task or a permanent corpus loss.
 12 (`gsd-2-2643`, FAIL) precede it; row 13 now skipped on diagnosis. Selection
 continues at rows 14–15 (screening at ruling time).
 
-## OQ-22 · 2026-07-23 · Position-4 replacement supply exhausted through row 15; shrinking-supply escalation (HELD)
+## OQ-22 · 2026-07-23 · ~~Position-4 replacement supply exhausted through row 15~~ — **RESOLVED by D-049**
 
 **Held per supervisor ruling** ("if both [14/15] fail, surface the
 shrinking-supply picture and hold"). Rows 11–15 yielded **zero PASS**:
@@ -1471,6 +1471,69 @@ for the walk (diagnosed, recorded) pending the supervisor's category ruling.
 **Status: HELD. No further screening or sessions until the supervisor picks
 (a)/(b)/(c).** Positions 1–3 complete, position 5 task selected (screened PASS,
 not yet run). P1 total: 18 sessions + 1 discarded.
+
+## D-049 · 2026-07-23 · OQ-22 ruled: capped walk with resequencing; eval_harness_failure adopted; oracle-repair boundary
+
+**Ruled (supervisor): option (a), capped at row 22, with resequencing.**
+
+**(a) Resequence — position 5 before the row-16–22 screen.** Position 5 is
+already screened and selected; **sessions are the scarce resource** against both
+the D-021b ceiling and the calendar, so position 5's full flow runs **first**,
+not idling behind container work. The row-16–22 screen runs **after position 5
+completes, or in the supervisor's offline windows — never alongside sessions**
+(the D-045/measurement contention rule).
+
+**(b) Cap and stop-rule.** The replacement walk screens **through row 22**
+(~7 more rows). If a PASS lands, **position 4 runs its full flow with the k=2
+repeat** (D-030d position-inheritance). If rows 16–22 yield **zero PASS**:
+**do not grind rows 23–39.** P1 **closes at n=4 usable positions**
+(pos1/2/3/5); **position 4 is recorded as unfillable under measured supply**;
+the **second k=2 repeat is recorded as unmeasured, with the reason**; and the
+**supply finding graduates from a Step-3 input to the pilot's headline corpus
+result.**
+
+**(c) Corpus re-ratification stays a Hanoi decision** (D-028c): with the pilot
+report open, not a mid-pilot swerve. Option (c) from OQ-22 is **not** taken now.
+
+**(d) `eval_harness_failure` adopted as a standing diagnosed-skip category**,
+provisional for the walk, **classified precisely: a FEED DEFECT** — the shipped
+test command runs no tests (jest absent, node flags invalid) — **distinct from
+`platform_infeasible`'s rig-relative class.** It is therefore the **fifth
+distinct corpus-integrity failure mode**, and the **fourth attributable to the
+feed itself.**
+
+**(e) Oracle-repair boundary, logged (supervisor directive):** the worker's
+refusal to hand-fix bruno's test command was correct — **repairing the oracle
+is authoring the benchmark.** Standing boundary: the harness runs each task's
+**shipped** test command verbatim; a command that does not execute is a
+**recorded finding about the feed**, never something the worker patches into
+working order. Patching it would manufacture a passing task and destroy the
+task's status as an independent, externally-provenanced artifact.
+
+## Findings taxonomy — corpus-integrity failure modes (updated per D-049d)
+
+Standing catalog for the pilot report. **Five distinct modes; four
+feed-attributable, one rig-relative:**
+
+1. **Label integrity — whole-suite-as-F2P** (feed): the entire suite labelled
+   FAIL_TO_PASS, P2P empty (`youtube-3708`; D-028).
+2. **Label integrity — phantom F2P names** (feed): declared F2P test names exist
+   nowhere in the suite after the test_patch applies (`Gladys-2504`; D-028).
+3. **Label integrity — F2P-passes-at-base** (feed): declared F2P tests already
+   pass at base, so there is no failing oracle (`vueuse-5336`, `gsd-2-2643`,
+   `AionUi-1818`; the general D-028 screen FAIL).
+4. **Missing image** (feed): the declared `docker_image` returns a registry 404
+   (`anything-llm-5252`, `mongoose-16153`; D-030 `image_missing`).
+5. **Eval-harness failure** (feed): the shipped test command runs no tests
+   (`bruno-7620`: jest absent / invalid node flags; D-049 `eval_harness_failure`).
+
+*Rig-relative (NOT feed defects; rerunnable on native amd64 — the replication
+story):* **platform_infeasible** — hard (`oh-my-pi-489` bun crash) and time
+(`gsd-2-2738` process-per-test × emulation); D-030/D-048.
+
+*(Modes 1–3 are all "label integrity" sub-types but are listed separately
+because each is a distinct diagnostic signature and the pilot report reports
+their individual prevalence.)*
 
 ---
 
