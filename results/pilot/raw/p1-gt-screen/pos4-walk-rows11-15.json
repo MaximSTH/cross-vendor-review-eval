@@ -1,0 +1,31 @@
+{
+ "pos4_walk_rows_11_15": {
+  "11": {
+   "task": "vueuse__vueuse-5336",
+   "verdict": "FAIL",
+   "detail": "ground-truth: 1 F2P passes at base (parsed 1378, complete)"
+  },
+  "12": {
+   "task": "gsd-build__gsd-2-2643",
+   "verdict": "FAIL",
+   "detail": "ground-truth: 2 F2P pass at base (parsed 4573, complete)"
+  },
+  "13": {
+   "task": "gsd-build__gsd-2-2738",
+   "verdict": "platform_infeasible(time)",
+   "detail": "--experimental-test-isolation=process x 4296 tests under emulation (D-048)"
+  },
+  "14": {
+   "task": "iOfficeAI__AionUi-1818",
+   "verdict": "FAIL",
+   "detail": "ground-truth: 2 F2P pass at base + 11 F2P absent names (parsed 1755, complete)"
+  },
+  "15": {
+   "task": "usebruno__bruno-7620",
+   "verdict": "ERROR (diagnosed: eval_harness_failure)",
+   "detail": "jest not found / `node: bad option --verbose`; no tests execute; NOT OOM (parsed 0 at 8GiB too)"
+  }
+ },
+ "result": "ZERO PASS in rows 11-15",
+ "next": "walk must continue to row 16+; HELD per supervisor ruling"
+}

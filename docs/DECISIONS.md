@@ -1284,6 +1284,37 @@ read "defective with zero parsed tests" — a 0-parse on a screen-PASS task
 indicts the measurement, not the patch. That tell is what prompted the
 diagnosis instead of recording the false verdict.
 
+**AMENDMENT (2026-07-23, supervisor ruling): the `--memory=6g` remedy was
+partly cosmetic; the real fix is VM-level memory.** A `--memory=6g` container
+cap **cannot be honored on a 1.9 GiB colima VM** — Docker cannot hand out
+memory the VM does not have. So no run since that flag was added ever received
+6 GiB; the runs that succeeded did so by **fitting within 1.9 GiB**, not by
+headroom. The **actual** safeguard against a false verdict is the
+**`parsed==0` → HARNESS-ERROR** rule plus the **completeness check
+(`not_reported == 0`)** — a run either completes and parses fully, or it is
+caught as ERROR. The genuine remedy, applied at the next container-job
+boundary: **the colima VM was resized 2 GiB → 8 GiB** (host has the RAM), so
+evaluations are *reliably* within memory rather than luck-of-fit.
+
+**Checked-not-assumed sweep — every verdict recorded since the `6g` flag,
+stated per-verdict (not assumed):**
+
+| verdict (since 6g flag) | parsed / not_reported | fit or headroom? | stands? |
+|---|---|---|---|
+| **pos3 oracle → RESOLVED** (D-045) | 177 parsed, 0 F2P missing, 8/8 pass | **fit within 1.9 GiB** (complete run; 177 = screen's count) | **stands** |
+| **row 11 `vueuse` → FAIL** | 1378 parsed, 0 not_reported | **fit** (complete; 1 F2P passes at base = real GT fail) | **stands** |
+| **row 12 `gsd-2-2643` → FAIL** | 4573 parsed, 0 not_reported | **fit** (complete; 2 F2P pass at base) | **stands** |
+| **row 14 `AionUi-1818` → FAIL** | 1755 parsed, P2P 0 missing, 11 F2P genuinely absent | **fit** (complete; 11 missing are absent test *names*, not OOM — P2P fully reported) | **stands** |
+| **row 15 `bruno-7620` → ERROR** | **0 parsed** | **did NOT fit** (OOM under 1.9 GiB) | **re-verified under 8 GiB** (in progress at ruling time) |
+
+**Conclusion: "fit, verdicts stand" for all four completed verdicts** — each
+completed with `not_reported == 0`, which is the actual proof of a valid run,
+independent of the (unhonorable) memory flag. Only `bruno` (the sole
+`parsed==0`) required real headroom and is re-screened at 8 GiB; its 1.9 GiB
+ERROR is discarded as an OOM non-result, not a verdict. The `--memory=6g` flag
+is retained (harmless, and correct once a host/VM can honor it) but is **not**
+the safeguard — the ERROR-on-`parsed==0` discipline and VM sizing are.
+
 **Environment-reliability finding (pilot-report material):** the evaluation
 harness OOMs non-deterministically at 2 GiB under emulation on Node test suites
 run in parallel. Recorded alongside the platform-infeasibility (D-030) and
@@ -1340,6 +1371,106 @@ task — and triggers diagnosis rather than recording. This converted three
 would-be false verdicts (two defective, one procedural) into diagnosed harness
 bugs. It is the operational form of the ERROR-vs-FAIL discipline (D-030): a
 failure to measure coherently is never a finding about the thing measured.
+
+## D-048 · 2026-07-23 · `platform_infeasible (time)` — a D-030a sub-category for practically-unbounded runtime under emulation
+
+**Ruled in advance (supervisor).** Extends D-030's `platform_infeasible`
+diagnosed-exclusion class with a second sub-category.
+
+**Row 13 of the position-4 replacement walk, `gsd-build__gsd-2-2738`, is
+excluded as `platform_infeasible (time)`.** Mechanism recorded exactly: its
+`test_cmds` run Node with **`--experimental-test-isolation=process`** across
+**4,296 PASS_TO_PASS tests** — **one emulated process spawned per test** under
+amd64 emulation on Apple Silicon. This is impractical **by construction**, not
+merely slow: process-per-test × thousands × emulation is unbounded practical
+runtime (observed: one container ran ~1 h without completing, `docker top`
+unresponsive, then killed). The container was killed at the boundary; the
+orphan check confirmed no sweb container survived.
+
+**The two sub-categories of D-030a `platform_infeasible`:**
+- **hard-infeasible (D-030 original)** — the binary cannot execute at all
+  (`bun` → `Illegal instruction (core dumped)`; the CPU/emulation lacks the
+  required instructions).
+- **time-infeasible (this entry)** — the binary runs, but practical runtime is
+  unbounded under emulation (process-per-test isolation × thousands of tests).
+
+Both retire on a **diagnosed** cause (never an undiagnosed halt — D-030b), both
+are **rig-relative** (a property of *this study's execution environment: amd64
+emulation on Apple Silicon*, D-030a), and **both are explicitly rerunnable on
+native amd64 hardware** — recorded here for the **version-pinned API/native
+replication story** (design §7): the replication host runs these natively, so
+neither sub-category is a property of the task or a permanent corpus loss.
+
+**Walk consequence:** rows 11 (`vueuse`, FAIL — complete run, 1378 parsed) and
+12 (`gsd-2-2643`, FAIL) precede it; row 13 now skipped on diagnosis. Selection
+continues at rows 14–15 (screening at ruling time).
+
+## OQ-22 · 2026-07-23 · Position-4 replacement supply exhausted through row 15; shrinking-supply escalation (HELD)
+
+**Held per supervisor ruling** ("if both [14/15] fail, surface the
+shrinking-supply picture and hold"). Rows 11–15 yielded **zero PASS**:
+
+| row | task | verdict |
+|---|---|---|
+| 11 | `vueuse-5336` | FAIL (ground-truth; 1 F2P passes at base; complete run, 1378 parsed) |
+| 12 | `gsd-2-2643` | FAIL (ground-truth; 2 F2P pass at base; complete, 4573 parsed) |
+| 13 | `gsd-2-2738` | **platform_infeasible (time)** (D-048) |
+| 14 | `AionUi-1818` | FAIL (ground-truth; 2 F2P pass + 11 F2P absent names; complete, 1755 parsed) |
+| 15 | `bruno-7620` | **ERROR — diagnosed `eval_harness_failure`** (see below) |
+
+**bruno-7620 diagnosis (still `parsed=0` under the 8 GiB VM — not OOM):** its
+shipped `test_cmds` (`npm test --workspaces --if-present -- --verbose`) **fails
+to execute any tests.** Two failure modes in the raw output: `jest: not found`
+in several workspaces, and `node: bad option: --verbose` in others (their test
+scripts are `node … $(npx which jest) --verbose`; when `npx which jest` returns
+empty, `--verbose` falls through to `node`). Root cause: **jest is not resolved
+after the rebuild chain.** No tests run → `parsed=0`. **Diagnosed** (so not an
+undiagnosed halt), but its skip *category* needs a ruling: the `node: bad
+option` failure is a **task-shipping incompatibility** (independent of
+platform); the `jest: not found` could be rig-relative (build flakiness under
+emulation) or task-intrinsic (missing/hoisted dep). Worker did **not** hand-fix
+the test command — that would modify the oracle.
+
+**Full post-gate screen tally, rows 2–15 (14 of 39 screened):**
+
+- **PASS = 4** (rows 3,4,6,10 → filled positions 1,2,3,5)
+- FAIL (ground-truth) = 5 · image_missing = 2 · platform_infeasible = 2 · eval_harness_failure = 1
+- **Usable (PASS) rate ≈ 29 % (4/14).**
+
+**Position 4 still needs its 5th PASS, from rows 16–39 (24 unscreened).**
+
+**Why this is a genuine escalation, not just "keep walking":**
+1. **The measured usable rate (~29%) is far below what the OQ-9 evidence table
+   implied** — it credited SWE-bench-Live/MultiLang with "invalid instances
+   filtered by running regression tests ×3." The pilot is measuring a very
+   different number. This is first-class **D-023 Step-3 re-ratification input**,
+   sharper now than at OQ-14.
+2. **Continuing to row 16+ costs real container time** (each large TS suite is
+   many minutes under emulation; row 13 alone burned ~1 h before diagnosis),
+   and may hit more infeasible/broken rows before a PASS.
+3. The bruno classification (new `eval_harness_failure` category) wants a
+   ruling before it is applied as a standing diagnosed-skip.
+
+**Options for the supervisor:**
+(a) **Continue the walk to row 16+** under the standing green light until the
+    next PASS fills position 4 (worker proceeds autonomously, batching any new
+    diagnosed-skips, surfacing only a fresh escalation).
+(b) **Pause P1 at n=4 usable positions** (pos1/2/3/5 complete or in flight) and
+    treat position 4 as unfillable-within-budget — report P1 on 4 tasks with
+    the supply finding as the headline corpus result.
+(c) **Re-ratify the corpus now** (D-023 fallback to SWE-rebench, or the §7
+    options) rather than spend more of the window walking a 29%-usable feed.
+
+**Worker recommendation: (a) with a cap** — continue the walk, but **cap it at
+screening through row ~22** (a further ~7 rows); if no PASS fills position 4 by
+then, escalate to (b)/(c) rather than walking the full remaining 24. This
+bounds the cost while giving position 4 a fair chance, and every skipped row is
+recorded. The bruno `eval_harness_failure` category is adopted provisionally
+for the walk (diagnosed, recorded) pending the supervisor's category ruling.
+
+**Status: HELD. No further screening or sessions until the supervisor picks
+(a)/(b)/(c).** Positions 1–3 complete, position 5 task selected (screened PASS,
+not yet run). P1 total: 18 sessions + 1 discarded.
 
 ---
 
