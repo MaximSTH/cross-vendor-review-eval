@@ -1,99 +1,176 @@
 ---
 name: handoff
-description: Session handoff — current state, active authorizations and bounds, open items, and in-flight nuance not yet in DECISIONS.md. Written 2026-07-18 at supervised-window close.
+description: Session handoff — pilot-complete state, the three Step-3 decision branches + pre-registration queue, standing rules, and operational nuance not in the ledger. Written 2026-07-23 at pilot close.
 status: active
 ---
 
-# HANDOFF — written 2026-07-18, window close
+# HANDOFF — written 2026-07-23, pilot complete
 
-For a successor who has read [`DECISIONS.md`](DECISIONS.md) (D-001–D-025) and
-[`pilot-protocol.md`](pilot-protocol.md) but lived none of it. The decision
-log is the SSOT; this file adds only state, bounds, and nuance.
+For a successor who has read [`DECISIONS.md`](DECISIONS.md) (D-001–D-053) and
+the pilot report ([`results/pilot/report.md`](../results/pilot/report.md)) but
+lived none of it. The decision log is the SSOT; this file adds only **state,
+bounds, and operational nuance** — the things that are true but not written as
+D-entries.
 
-## Current state
+*(Supersedes the 2026-07-18 window-close handoff, which covered D-001–D-025 and
+the pre-P1 frozen state. That state is now history: P0 and P1 are both done.)*
 
-- **Repo is PUBLIC:** github.com/MaximSTH/cross-vendor-review-eval, published
-  2026-07-18 *before results existed* (deliberate). History rewritten to the
-  owner's noreply email first (D-024, map in `hash-map.md`); local git config
-  already uses the noreply address — never change it back.
-- **Build: complete and accepted** (Step 2a, provenance `e1f7beb`). 83 unit
-  tests green; mock canaries 4/4 (permanent, OQ-4); real-backend canaries 4/4.
-- **P0: run and ACCEPTED** (2026-07-18, single-night authorization). Task
-  `thlorenz__doctoc-328` (selected by the pre-registered rule, brief at
-  `results/pilot/p0-brief.md`). Outcome: authored patch machine-confirmed
-  **defective** (2/2 FAIL_TO_PASS failing), and **all three review arms
-  returned zero claims** — a unanimous miss, cleanly captured. Scoring +
-  provenance: `results/pilot/p0-scoring.json`, `results/pilot/raw/`.
-  D-023c RepoLaunch validation PASSED → corpus is confirmed
-  SWE-bench-Live/MultiLang; the SWE-rebench fallback did NOT trigger.
+## Current state — the one-paragraph version
 
-## Active authorizations and their bounds
+**The pilot is COMPLETE and the report is drafted.** P0 + P1 ran end to end:
+6 tasks, 3 confirmed-defective. Two publishable findings emerged — **F-001
+diff-anchoring** (reviewers grade the diff and miss defects located elsewhere;
+all 3 defective cases) and the **corpus-integrity taxonomy** (~29% usable feed,
+5 failure modes, 4 feed-attributable). The catch-audit came back **0/2** (both
+mechanical catches were diff-anchoring artifacts). Everything is committed and
+pushed to the public repo. **Nothing runs until the supervisor rules on the
+report** — the go/no-go across three branches is theirs, on their schedule.
 
-- **Execution is FROZEN.** P0's authorization expired at window close. No
-  reviewer sessions, no authoring sessions, no corpus harvesting beyond what
-  intake tests require. **P1 authorization comes only from the supervisor,
-  expected July 20–21 (from Da Nang).**
-- Things that are standing (need no re-authorization): editing docs/code/tests
-  locally, pushing to the public repo, logging open questions.
-- Things that always need the supervisor: any design-doc change (via
-  DECISIONS.md), any session execution, anything touching the ratified prompt
-  (OQ-3 pin — reopening ratification), any new judge-input content (D-015
-  binding condition).
+## What is done (do not redo)
 
-## Open items (in priority order)
+- **Build + P0:** complete and accepted (pre-2026-07-18 history).
+- **P1:** 5 tasks, full flow each, all scored. Positions: 1 haraka (success),
+  2 NemoClaw (**defective**), 3 doctoc-329 (success), 4 codex-plugin-cc
+  (success), 5 next-translate (**defective**). 24 sessions + 1 discarded.
+  Provenance: `results/pilot/sessions.jsonl`, `scoring.jsonl`,
+  `raw/p1-pos{1..5}/`, `p1-checkpoint.md`, `p1-log.md`, `p1-brief.md`.
+- **Both deliverables drafted:** `results/pilot/report.md` (§6, full) and
+  `results/pilot/practitioner-writeup.md` (branch-independent standalone).
+- **Band 3:** one batch (`results/band3/cards-p1-b1.html`, pos2's 2 catches),
+  **ruled by the supervisor** (both no_catch, `band3-rulings.json`). No cards
+  pending.
 
-1. **P1 (on authorization):** 5 tasks per D-021, k=2 repeats on two tasks
-   (second conditional on zero limit-hits by day 3), interleaved, with the
-   supervisor's **normal-week ceiling declaration** collected at go (D-021b —
-   still undeclared).
-2. **Scanner pattern work (D-025):** exec-context patterns are seeded and
-   regression-tested (`tests/fixtures/d018-false-positive-transcript.txt`);
-   refinements during P1 are logged; **everything freezes at pilot close.**
-   Same freeze applies to the anonymizer's vendor-furniture list (band2.py)
-   and the judge tool-markers (compliance.py) — all need sampling from real
-   P1 transcripts before freeze.
-3. **Quota measurement (D-019/D-021c):** free-tier Gemini daily cap vs Band 2
-   volume — P0 never reached Band 2 (zero claims → Band 1 everywhere), so
-   quota remains unmeasured. P1 must capture it if any case reaches Band 2.
-4. **Pilot report** (`results/pilot/report.md`, per protocol §6) — start it
-   from the P0 findings; final-n computation waits for P1 throughput.
+## The decision that is open — Step 3 go/no-go (report §11)
 
-## In-flight nuance not yet in DECISIONS.md
+The supervisor rules across **three branches** (all laid out neutrally in the
+report; the worker takes no position):
 
-- **Codex authoring needs `-s workspace-write`** — `codex exec` defaults to a
-  read-only sandbox; P0's one authorized fix-and-rerun cycle was consumed
-  discovering this. It is a P0 finding for the pilot report, not a D-entry.
-  Judge invocations (D-020) deliberately do NOT get workspace-write.
-- **A1 mechanics:** in-session self-review = `codex exec resume --last` in
-  the authoring directory. A2/B run in separately cloned trees with
-  `authored.patch` applied uncommitted (`git apply`), deps installed, so the
-  change is visible via `git diff`. Rebuild trees fresh per case.
-- **Colima runs Docker** (installed 2026-07-18); task images are amd64 and
-  run under emulation — slower, works; noted in provenance. `/private/tmp`
-  is NOT mounted into the colima VM — pipe files into containers via tar on
-  stdin (see the P0 pattern), don't use `-v` from scratch dirs.
-- **Session-scratch layout** (ephemeral, outside both repos): task record,
-  prompts, transcripts land in the session scratchpad and are copied into
-  `results/pilot/raw/` (secret-scanned) before commit. Raw transcripts of the
-  P0 sessions are already committed.
-- **Numbering discipline:** two supervisor ruling messages arrived with
-  already-used D-numbers (→ D-023, D-025); the convention is: keep content
-  verbatim, take the next free number, note the collision in-entry. Check the
-  log's tail before assigning numbers.
-- **Cite by commit/file, never by chat position** (OQ-3 correction note) —
-  the supervisor verifies citations.
-- **Context discipline (standing):** compact summaries + file paths in chat;
-  no transcript dumps; Band 3 cards are delivered as file paths only, never
-  inline.
-- **D-022 (no adoption claims)** governs ALL outreach text from this repo,
-  including the README if it is ever expanded.
-- The supervisor rules fast and precisely; present evidence + option lists,
-  take a position, and never resolve design-level ambiguity unilaterally —
-  the permission layer has enforced this once already (incident preserved in
-  D-017).
+- **A — Full study** (~900 sessions, ~60 wk at 15/wk → effectively needs the
+  §7 **API-replication budget $1.5–4k** to be feasible; also fixes the D-012
+  OpenAI-model-ID gap and pins versions).
+- **B — Lean study** (~40 confirmed-defective cases, ~16 wk; correct-sample
+  force-cut; **requires corpus re-ratification** because the current feed's
+  post-gate JS/TS supply is 39 rows and ~29% usable).
+- **C — Terminal** (publish the practitioner write-up; repo stays open; no more
+  sessions).
+
+Binding constraints: **throughput (declared 15/wk, D-026) and corpus supply
+(~29%)**. A needs budget, B needs corpus expansion, C needs neither.
+
+**Do not execute any branch, screen any new task, or run any session until the
+supervisor's explicit ruling.** Standing-rule territory (below) is the only
+thing that proceeds without a fresh authorization.
+
+### Step-3 pre-registration queue (report appendix — none adopted yet)
+
+Each must be pre-registered as a D-entry **before** any Step-3 execution:
+1. Semantic-catch layer (OQ-21) — Band 2 over mechanical catches → quota-check
+   first (D-019).
+2. Model-tier arm (OQ-23) — same-vendor premium (Fable-class) as a routing axis.
+3. False-alarm construction (D-031b) — augment tests / descope to secondary /
+   re-ratify corpus.
+4. **Scanner freeze** — apply the **four D-018 quotation channels** (see nuance
+   below) as exec-context patterns, then freeze.
+5. Repeat-on-defective rule (D-052) — k=2 repeats must land on defective cases.
+6. Problem-statement scrubbing (D-035b) — strip fix-pointing links, uniformly.
+7. Config-introspection provenance (D-053) — snapshot codex model+effort per
+   session.
+8. Corpus re-ratification (D-028c) — the Hanoi decision, report open.
+
+## Standing rules (proceed without re-authorization)
+
+- Editing docs/code/tests locally; pushing to the public repo; logging open
+  questions. **Design-level ambiguity is never resolved unilaterally** — it goes
+  to DECISIONS.md as an OQ and waits for the supervisor. This has fired many
+  times (see the OQ chain) and is the single most important discipline here.
+- **Cite by commit/file, never by chat position** (the supervisor verifies).
+- **Secret-hygiene gate is release-blocking (D-019):** run
+  `scan_artifact_for_secrets` over every artifact before commit. It is a gate,
+  not hygiene, because logs ship with the dataset (D-012). Bearer/`$VAR` refs
+  pass since D-037; the gate targets **data artifacts**, not the harness source
+  (which necessarily contains the gate's own patterns).
+- **Never repair a task's oracle** (D-049e): the harness runs each task's
+  shipped test command verbatim; a command that won't execute is a *recorded
+  finding*, never patched into working order. Repairing the oracle is authoring
+  the benchmark.
+
+## Operational nuance NOT in the ledger (the reason this file exists)
+
+- **D-018 quotation channels — the scanner cries wolf on read content.** The
+  compliance scan flags test-runner *names*; four channels are pure quotation,
+  not invocation, and are adjudicated clean (D-036/D-050/D-053), to be folded
+  into exec-context patterns **at the freeze**: (1) a **git-log commit-subject**
+  line naming a runner; (2) a **test-file mock** (`jest.fn()`); (3)
+  **package.json scripts/devDeps**; (4) a **source-code regex literal listing
+  runners** (a repo's own command-classifier). When a reviewer scan comes back
+  `ambiguous`, adjudicate on the **executed command list, blind to the claim** —
+  if the runner name only appears in read/quoted content and the only executed
+  commands are git/read/`tsc --noEmit`/`node --check` (permitted static
+  tooling), it is clean.
+
+- **Compliance scans require the FULL session transcript, never the CLI summary
+  (D-031d).** `claude --output-format json` and Codex's final message carry
+  **only final text, no tool calls** — a D-018 scan over them is a silent
+  false-negative (would pass a session that ran the whole suite). Reconstruct
+  the transcript from: the **session JSONL**
+  (`~/.claude/projects/<slug>/<session_id>.jsonl`) for Claude, the **`--json`
+  event stream** for Codex. This is done in every arm's logging step; do not
+  skip it.
+
+- **Codex model ID via config introspection (D-053).** `codex exec --json`
+  emits **no** model ID. The resolved model+effort live in
+  `~/.codex/config.toml` (`model = "gpt-5.6-sol"`,
+  `model_reasoning_effort = "xhigh"`). Snapshot **only those two lines** per
+  session (`codex-model-snapshot.txt`), **never the full config** — it carries
+  local project paths, MCP/notify commands, trust levels (no secrets, but
+  over-sharing for a public dataset).
+
+- **VM memory: the colima VM must be ≥8 GiB.** It was resized 2→8 GiB mid-pilot
+  (D-045). At 2 GiB, Node test suites OOM non-deterministically under emulation
+  and the runner is `Killed` mid-run → `parsed=0`. **`--memory=6g` on the docker
+  run is cosmetic if the VM is smaller** — Docker can't hand out RAM the VM
+  lacks. The real safeguard is (a) VM size, and (b) the discipline that
+  **`parsed==0` is HARNESS-ERROR, never CONFIRMED DEFECTIVE** (D-030/D-038/D-045).
+  A screened-PASS task reading "defective with 0 parsed" is the incoherence tell
+  (D-047) — suspect the measurement, re-run with headroom, do **not** record the
+  verdict.
+
+- **Docker/emulation basics.** colima runs Docker; task images are amd64 under
+  emulation (slow). `/private/tmp` is **not** mounted into the VM — pipe files
+  into containers via stdin (the eval/screen scripts base64 the patch inline).
+  Two rig-relative exclusions exist (D-030/D-048): **bun** binaries crash
+  (`Illegal instruction`) and **`--experimental-test-isolation=process` × 1000s
+  of tests** is time-infeasible; both are `platform_infeasible`, rerunnable on
+  native amd64.
+
+- **Orphan + lid discipline (learned twice).** Stopping a runner (TaskStop)
+  **does not stop the `docker run` it spawned** — the container keeps burning
+  CPU. After any interrupted run: `docker ps`, then `docker kill` the survivor,
+  then confirm `(clean)`. Before the laptop lid closes, containers die anyway —
+  so **stop cleanly, record the in-flight row as INTERRUPTED-to-rerun (never a
+  verdict), commit, push.** This happened 3× in P1; the log has the incidents.
+
+- **Oracle-authoritative evaluation (D-038).** The evaluator resets the
+  test_patch's files before applying it: `git checkout HEAD -- f 2>/dev/null ||
+  rm -f f` (restore if it exists at base, remove if the model created a
+  colliding new file). The model must never supply oracle test files. Ground-
+  truth defect regions come from the **gold patch's `-` side** (base coords);
+  reviewer claims are matched at ±5 (sweep ±1/±10). The reusable evaluator is
+  `results/pilot/raw/evaluate.py`; the screen is `raw/p1-gt-screen/`.
+
+- **Session mechanics.** Authoring: Codex `-s workspace-write` (read-only
+  silently produces no patch); Claude `--permission-mode acceptEdits`. Reviews
+  are **read-only** both stacks (D-031f/D-041): Codex `-s read-only`, Claude
+  `--disallowedTools Edit Write NotebookEdit`. A1 = resume the authoring session
+  (Codex `exec resume -c sandbox_mode="read-only"`; Claude `--resume <id>`).
+  A2/B = fresh clones with the authored patch applied on a **post-setup baseline
+  commit** (D-034: commit build artifacts behind HEAD with `--no-verify` to
+  dodge husky hooks, so the reviewed `git diff` is exactly the authored change +
+  its untracked tests, no lockfile noise).
 
 ## The one-sentence version
 
-The benchmark is public, the pipeline is proven end to end on a real task
-whose defective patch fooled all three review arms, and everything now waits
-— frozen — for the supervisor's P1 go from Da Nang.
+The pilot is done and its report is on the table; the pipeline is proven and
+hardened, diff-anchoring and the corpus-integrity taxonomy are the findings, and
+the only thing moving is the supervisor's pending three-branch ruling — until
+which **nothing runs.**
