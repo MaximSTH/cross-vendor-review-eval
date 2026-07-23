@@ -1,0 +1,3610 @@
+I’ll inspect the working-tree diff and surrounding code, then run only non-test static checks if they help validate a suspected defect.
+COMMAND /bin/zsh -lc 'git status --short && git diff --stat && git diff --no-ext-diff --unified=80'
+
+COMMAND /bin/zsh -lc 'git status --short && git diff --stat && git diff --no-ext-diff --unified=80'
+2026-07-23 16:01:29.423 xcodebuild[93606:4587250]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:29.707 xcodebuild[93606:4587249] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-hOqDa3OC' (errno=Operation not permitted)
+2026-07-23 16:01:30.273 xcodebuild[93611:4587262]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:30.415 xcodebuild[93611:4587261] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+ M src/appWithI18n.tsx
+?? __tests__/appWithI18n.test.js
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-hG7qj63S' (errno=Operation not permitted)
+2026-07-23 16:01:31.476 xcodebuild[93616:4587281]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:31.617 xcodebuild[93616:4587280] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-vqn2gCl2' (errno=Operation not permitted)
+2026-07-23 16:01:32.082 xcodebuild[93618:4587292]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:32.223 xcodebuild[93618:4587291] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+ src/appWithI18n.tsx | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-lfa2L0w6' (errno=Operation not permitted)
+2026-07-23 16:01:33.259 xcodebuild[93622:4587334]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:33.403 xcodebuild[93622:4587333] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-6oUsMqRO' (errno=Operation not permitted)
+2026-07-23 16:01:33.874 xcodebuild[93624:4587346]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:34.016 xcodebuild[93624:4587345] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+diff --git a/src/appWithI18n.tsx b/src/appWithI18n.tsx
+index 38b4317..dffec1c 100644
+--- a/src/appWithI18n.tsx
++++ b/src/appWithI18n.tsx
+@@ -1,82 +1,84 @@
+ import React from 'react'
+ import I18nProvider from './I18nProvider'
+ import loadNamespaces from './loadNamespaces'
+ import { LoaderConfig } from '.'
+ 
+ type Props = {
+   [key: string]: any
+ }
+ 
+ interface PartialNextContext {
+   res?: any
+   AppTree?: NextComponentType<PartialNextContext>
+   Component?: NextComponentType<PartialNextContext>
+   ctx?: PartialNextContext
+   [key: string]: any
+ }
+ 
+ type NextComponentType<
+   C extends PartialNextContext = PartialNextContext,
+   IP = {},
+   P = {}
+ > = React.ComponentType<P> & {
+   getInitialProps?(context: C): IP | Promise<IP>
+ }
+ 
+ export default function appWithI18n(
+   AppToTranslate: NextComponentType,
+   config: LoaderConfig = {}
+ ) {
+   if (!config.isLoader && config.loader !== false) {
+     console.warn(
+       '🚨 [next-translate] You can remove the "appWithI18n" HoC on the _app.js, unless you set "loader: false" in your i18n config file.'
+     )
+   }
+ 
+   function AppWithTranslations(props: Props) {
+     const { defaultLocale } = config
+     const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+     const namespaces = props.pageProps?.__namespaces || props.__namespaces
+ 
+-    if (lang && namespaces) {
+-      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+-    }
+-
++    // NOTE: Do not set `globalThis.__NEXT_TRANSLATE__` here. That global is the
++    // app-dir signal (set only by AppDirI18nProvider) and is what
++    // `useTranslation` uses to switch from the reactive pages-dir React context
++    // to the frozen app-dir `createTranslation`. Setting it in this pages-dir
++    // HoC made `useTranslation` read a fixed `lang` from the global and ignore
++    // the reactive `I18nProvider` lang prop (see #1256, regression in 3.0.2).
+     return (
+       <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+         <AppToTranslate {...props} />
+       </I18nProvider>
+     )
+   }
+ 
+   if (typeof config.staticsHoc === 'function') {
+     config.staticsHoc(AppWithTranslations, AppToTranslate)
+   }
+ 
+   // @ts-ignore
+   if (typeof window === 'undefined') global.i18nConfig = config
+   // @ts-ignore
+   else window.i18nConfig = config
+ 
+   if (config.skipInitialProps) return AppWithTranslations
+ 
+   AppWithTranslations.getInitialProps = async (appCtx: any) => {
+     const ctx = { ...(appCtx.ctx || {}), ...(appCtx || {}) }
+     let appProps: object = { pageProps: {} }
+ 
+     if (AppToTranslate.getInitialProps) {
+       appProps = (await AppToTranslate.getInitialProps(appCtx)) || {}
+     }
+ 
+     return {
+       ...appProps,
+       ...(await loadNamespaces({
+         ...ctx,
+         ...config,
+         loaderName: 'getInitialProps',
+       })),
+     }
+   }
+ 
+   return AppWithTranslations
+ }
+
+COMMAND /bin/zsh -lc "sed -n '1,240p' __tests__/appWithI18n.test.js; rg -n \"__NEXT_TRANSLATE__|AppDirI18nProvider|function useTranslation|const useTranslation|export default function useTranslation|I18nProvider\" src __tests__ package.json tsconfig.json; sed -n '1,240p' src/useTranslation.tsx; sed -n '1,240p' src/I18nProvider.tsx; sed -n '1,220p' src/AppDirI18nProvider.tsx 2>/dev/null || true; sed -n '1,200p' package.json"
+
+COMMAND /bin/zsh -lc "sed -n '1,240p' __tests__/appWithI18n.test.js; rg -n \"__NEXT_TRANSLATE__|AppDirI18nProvider|function useTranslation|const useTranslation|export default function useTranslation|I18nProvider\" src __tests__ package.json tsconfig.json; sed -n '1,240p' src/useTranslation.tsx; sed -n '1,240p' src/I18nProvider.tsx; sed -n '1,220p' src/AppDirI18nProvider.tsx 2>/dev/null || true; sed -n '1,200p' package.json"
+import React, { useState } from 'react'
+import { render, cleanup, fireEvent } from '@testing-library/react'
+import appWithI18n from '../src/appWithI18n'
+import I18nProvider from '../src/I18nProvider'
+import useTranslation from '../src/useTranslation'
+
+const namespaces = {
+  common: {
+    en: { languageName: 'English' },
+    es: { languageName: 'Español' },
+  },
+}
+
+// Mirrors the user's _app.tsx: a reactive <I18nProvider> whose lang is driven
+// by React state, nested inside the plugin-injected appWithI18n HoC.
+function App() {
+  const [lang, setLang] = useState('en')
+  return (
+    <I18nProvider key={lang} lang={lang} namespaces={{ common: namespaces.common[lang] }}>
+      <button onClick={() => setLang('es')}>change</button>
+      <Current />
+    </I18nProvider>
+  )
+}
+
+function Current() {
+  const { t, lang } = useTranslation('common')
+  return (
+    <span>
+      {t('languageName')} ({lang})
+    </span>
+  )
+}
+
+describe('appWithI18n', () => {
+  afterEach(() => {
+    cleanup()
+    // The app-dir global must never leak out of a pages-dir render.
+    delete globalThis.__NEXT_TRANSLATE__
+  })
+  beforeEach(() => {
+    delete globalThis.__NEXT_TRANSLATE__
+    console.warn = jest.fn()
+  })
+
+  // Regression for #1256: appWithI18n (pages-dir) used to set
+  // globalThis.__NEXT_TRANSLATE__, which made useTranslation switch to the
+  // frozen app-dir path and ignore the reactive I18nProvider lang prop.
+  test('does not set the app-dir globalThis.__NEXT_TRANSLATE__', () => {
+    const AppWithI18n = appWithI18n(App, { defaultLocale: 'en' })
+    render(
+      <AppWithI18n pageProps={{ __lang: 'en', __namespaces: namespaces }} />
+    )
+    expect(globalThis.__NEXT_TRANSLATE__).toBeUndefined()
+  })
+
+  test('reactive I18nProvider lang prop is respected under appWithI18n', () => {
+    const AppWithI18n = appWithI18n(App, { defaultLocale: 'en' })
+    const { container, getByText } = render(
+      <AppWithI18n pageProps={{ __lang: 'en', __namespaces: namespaces }} />
+    )
+
+    expect(container.textContent).toContain('English (en)')
+
+    fireEvent.click(getByText('change'))
+
+    expect(container.textContent).toContain('Español (es)')
+  })
+})
+package.json:59:    "./I18nProvider": {
+package.json:60:      "types": "./I18nProvider.d.ts",
+package.json:61:      "import": "./lib/esm/I18nProvider.js",
+package.json:62:      "require": "./lib/cjs/I18nProvider.js"
+package.json:64:    "./AppDirI18nProvider": {
+package.json:65:      "types": "./AppDirI18nProvider.d.ts",
+package.json:66:      "import": "./lib/esm/AppDirI18nProvider.js",
+package.json:67:      "require": "./lib/cjs/AppDirI18nProvider.js"
+package.json:115:    "I18nProvider",
+package.json:125:    "AppDirI18nProvider",
+package.json:132:    "clean:build": "del lib appWith* Dynamic* I18n* index context loadNa* setLang* Trans* useT* withT* getP* getC* *.d.ts getT transC* wrapT* types formatElements isServer AppDirI18nProvider* createTrans*",
+__tests__/withTranslation.test.js:3:import I18nProvider from '../src/I18nProvider'
+__tests__/withTranslation.test.js:19:    <I18nProvider lang="en" namespaces={namespaces}>
+__tests__/withTranslation.test.js:21:    </I18nProvider>
+__tests__/withTranslation.test.js:27:    <I18nProvider lang="ru" namespaces={namespaces}>
+__tests__/withTranslation.test.js:29:    </I18nProvider>
+__tests__/withTranslation.test.js:250:      <I18nProvider lang="en" namespaces={{ ns: namespace }}>
+__tests__/withTranslation.test.js:252:      </I18nProvider>
+__tests__/getT.test.js:12:    globalThis.__NEXT_TRANSLATE__ = {}
+__tests__/getT.test.js:48:    globalThis.__NEXT_TRANSLATE__ = {
+__tests__/Trans.test.js:3:import I18nProvider from '../src/I18nProvider'
+__tests__/Trans.test.js:8:    <I18nProvider lang="en" namespaces={namespaces} config={{ logger }}>
+__tests__/Trans.test.js:10:    </I18nProvider>
+__tests__/Trans.test.js:133:        <I18nProvider
+__tests__/Trans.test.js:139:        </I18nProvider>
+__tests__/Trans.test.js:154:        <I18nProvider
+__tests__/Trans.test.js:160:        </I18nProvider>
+__tests__/Trans.test.js:175:        <I18nProvider lang="en" namespaces={{ ns }} config={config}>
+__tests__/Trans.test.js:177:        </I18nProvider>
+__tests__/Trans.test.js:192:        <I18nProvider lang="en" namespaces={{ ns }} config={config}>
+__tests__/Trans.test.js:194:        </I18nProvider>
+__tests__/useTranslation.test.js:3:import I18nProvider from '../src/I18nProvider'
+__tests__/useTranslation.test.js:13:    <I18nProvider lang="en" namespaces={namespaces}>
+__tests__/useTranslation.test.js:15:    </I18nProvider>
+__tests__/useTranslation.test.js:40:        <I18nProvider lang="en" namespaces={{}}>
+__tests__/useTranslation.test.js:42:        </I18nProvider>
+__tests__/useTranslation.test.js:59:        <I18nProvider
+__tests__/useTranslation.test.js:64:        </I18nProvider>
+__tests__/useTranslation.test.js:115:        <I18nProvider lang="en" namespaces={{}}>
+__tests__/useTranslation.test.js:117:        </I18nProvider>
+__tests__/useTranslation.test.js:153:        <I18nProvider lang="en" namespaces={{}}>
+__tests__/useTranslation.test.js:155:        </I18nProvider>
+__tests__/useTranslation.test.js:178:        <I18nProvider lang="en" namespaces={ns}>
+__tests__/useTranslation.test.js:180:        </I18nProvider>
+__tests__/useTranslation.test.js:199:        <I18nProvider lang="en" namespaces={ns} config={{ nsSeparator: '||' }}>
+__tests__/useTranslation.test.js:201:        </I18nProvider>
+__tests__/useTranslation.test.js:219:        <I18nProvider
+__tests__/useTranslation.test.js:225:        </I18nProvider>
+__tests__/useTranslation.test.js:243:        <I18nProvider
+__tests__/useTranslation.test.js:249:        </I18nProvider>
+__tests__/useTranslation.test.js:272:        <I18nProvider lang="en" namespaces={ns}>
+__tests__/useTranslation.test.js:274:        </I18nProvider>
+__tests__/useTranslation.test.js:300:        <I18nProvider lang="en" namespaces={ns}>
+__tests__/useTranslation.test.js:302:        </I18nProvider>
+__tests__/useTranslation.test.js:542:        <I18nProvider lang="ar" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:544:        </I18nProvider>
+__tests__/useTranslation.test.js:563:        <I18nProvider lang="fr" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:565:        </I18nProvider>
+__tests__/useTranslation.test.js:582:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:584:        </I18nProvider>
+__tests__/useTranslation.test.js:726:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:728:        </I18nProvider>
+__tests__/useTranslation.test.js:757:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:759:        </I18nProvider>
+__tests__/useTranslation.test.js:791:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:793:        </I18nProvider>
+__tests__/useTranslation.test.js:817:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:819:        </I18nProvider>
+__tests__/useTranslation.test.js:843:        <I18nProvider lang="en" namespaces={{ ns: {} }}>
+__tests__/useTranslation.test.js:845:        </I18nProvider>
+__tests__/useTranslation.test.js:882:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:884:        </I18nProvider>
+__tests__/useTranslation.test.js:903:        <I18nProvider lang="en" namespaces={{ ns }}>
+__tests__/useTranslation.test.js:905:        </I18nProvider>
+__tests__/useTranslation.test.js:928:        <I18nProvider lang="en" namespaces={{ ns }}>
+__tests__/useTranslation.test.js:930:        </I18nProvider>
+__tests__/useTranslation.test.js:953:        <I18nProvider lang="en" namespaces={{ ns }}>
+__tests__/useTranslation.test.js:955:        </I18nProvider>
+__tests__/useTranslation.test.js:974:        <I18nProvider lang="en" namespaces={{ ns }}>
+__tests__/useTranslation.test.js:976:        </I18nProvider>
+__tests__/useTranslation.test.js:1004:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:1006:        </I18nProvider>
+__tests__/useTranslation.test.js:1034:        <I18nProvider
+__tests__/useTranslation.test.js:1040:        </I18nProvider>
+__tests__/useTranslation.test.js:1068:        <I18nProvider
+__tests__/useTranslation.test.js:1074:        </I18nProvider>
+__tests__/useTranslation.test.js:1094:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:1096:        </I18nProvider>
+__tests__/useTranslation.test.js:1114:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:1116:        </I18nProvider>
+__tests__/useTranslation.test.js:1134:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:1136:        </I18nProvider>
+__tests__/useTranslation.test.js:1154:        <I18nProvider lang="en" namespaces={{}}>
+__tests__/useTranslation.test.js:1156:        </I18nProvider>
+__tests__/useTranslation.test.js:1174:        <I18nProvider lang="en" namespaces={{}}>
+__tests__/useTranslation.test.js:1176:        </I18nProvider>
+__tests__/useTranslation.test.js:1198:        <I18nProvider lang="en" namespaces={{}}>
+__tests__/useTranslation.test.js:1200:        </I18nProvider>
+__tests__/useTranslation.test.js:1224:        <I18nProvider lang="en" namespaces={{}}>
+__tests__/useTranslation.test.js:1226:        </I18nProvider>
+__tests__/useTranslation.test.js:1248:        <I18nProvider lang="en" namespaces={{}}>
+__tests__/useTranslation.test.js:1250:        </I18nProvider>
+__tests__/useTranslation.test.js:1272:        <I18nProvider lang="en" namespaces={{}}>
+__tests__/useTranslation.test.js:1274:        </I18nProvider>
+__tests__/useTranslation.test.js:1296:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:1298:        </I18nProvider>
+__tests__/useTranslation.test.js:1318:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:1320:        </I18nProvider>
+__tests__/useTranslation.test.js:1349:        <I18nProvider
+__tests__/useTranslation.test.js:1355:        </I18nProvider>
+__tests__/useTranslation.test.js:1384:        <I18nProvider
+__tests__/useTranslation.test.js:1390:        </I18nProvider>
+__tests__/useTranslation.test.js:1424:        <I18nProvider
+__tests__/useTranslation.test.js:1430:        </I18nProvider>
+__tests__/useTranslation.test.js:1459:        <I18nProvider
+__tests__/useTranslation.test.js:1465:        </I18nProvider>
+__tests__/useTranslation.test.js:1493:        <I18nProvider
+__tests__/useTranslation.test.js:1499:        </I18nProvider>
+__tests__/useTranslation.test.js:1519:        <I18nProvider lang="en" namespaces={{ ns: templateString }}>
+__tests__/useTranslation.test.js:1521:        </I18nProvider>
+__tests__/useTranslation.test.js:1528:    test('should work without context (with globalThis.__NEXT_TRANSLATE__)', () => {
+__tests__/useTranslation.test.js:1539:      globalThis.__NEXT_TRANSLATE__ = {
+__tests__/useTranslation.test.js:1565:      globalThis.__NEXT_TRANSLATE__ = {
+src/useTranslation.tsx:7:function useTranslationInPages(defaultNS?: string): I18n {
+src/useTranslation.tsx:18:export default function useTranslation(defaultNS?: string): I18n {
+src/useTranslation.tsx:19:  const appDir = globalThis.__NEXT_TRANSLATE__
+src/AppDirI18nProvider.tsx:5:type AppDirI18nProviderProps = {
+src/AppDirI18nProvider.tsx:13: * @description AppDirI18nProvider for internal use (next-translate-plugin) only.
+src/AppDirI18nProvider.tsx:17:export default function AppDirI18nProvider({
+src/AppDirI18nProvider.tsx:22:}: AppDirI18nProviderProps) {
+src/AppDirI18nProvider.tsx:23:  globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+__tests__/appWithI18n.test.js:4:import I18nProvider from '../src/I18nProvider'
+__tests__/appWithI18n.test.js:14:// Mirrors the user's _app.tsx: a reactive <I18nProvider> whose lang is driven
+__tests__/appWithI18n.test.js:19:    <I18nProvider key={lang} lang={lang} namespaces={{ common: namespaces.common[lang] }}>
+__tests__/appWithI18n.test.js:22:    </I18nProvider>
+__tests__/appWithI18n.test.js:39:    delete globalThis.__NEXT_TRANSLATE__
+__tests__/appWithI18n.test.js:42:    delete globalThis.__NEXT_TRANSLATE__
+__tests__/appWithI18n.test.js:47:  // globalThis.__NEXT_TRANSLATE__, which made useTranslation switch to the
+__tests__/appWithI18n.test.js:48:  // frozen app-dir path and ignore the reactive I18nProvider lang prop.
+__tests__/appWithI18n.test.js:49:  test('does not set the app-dir globalThis.__NEXT_TRANSLATE__', () => {
+__tests__/appWithI18n.test.js:54:    expect(globalThis.__NEXT_TRANSLATE__).toBeUndefined()
+__tests__/appWithI18n.test.js:57:  test('reactive I18nProvider lang prop is respected under appWithI18n', () => {
+src/I18nProvider.tsx:6:import { I18nDictionary, I18nProviderProps } from '.'
+src/I18nProvider.tsx:10:export default function I18nProvider({
+src/I18nProvider.tsx:15:}: I18nProviderProps) {
+src/DynamicNamespaces.tsx:3:import I18nProvider, { InternalContext } from './I18nProvider'
+src/DynamicNamespaces.tsx:36:    <I18nProvider
+src/DynamicNamespaces.tsx:47:    </I18nProvider>
+src/appWithI18n.tsx:2:import I18nProvider from './I18nProvider'
+src/appWithI18n.tsx:41:    // NOTE: Do not set `globalThis.__NEXT_TRANSLATE__` here. That global is the
+src/appWithI18n.tsx:42:    // app-dir signal (set only by AppDirI18nProvider) and is what
+src/appWithI18n.tsx:46:    // the reactive `I18nProvider` lang prop (see #1256, regression in 3.0.2).
+src/appWithI18n.tsx:48:      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+src/appWithI18n.tsx:50:      </I18nProvider>
+src/index.tsx:30:export interface I18nProviderProps {
+src/index.tsx:122:  var __NEXT_TRANSLATE__: {
+src/index.tsx:131:      __NEXT_TRANSLATE__: {
+src/index.tsx:140:    __NEXT_TRANSLATE__: {
+src/index.tsx:166: *   export default function useTranslation<
+src/createTranslation.tsx:8:  const { lang, namespaces, config } = globalThis.__NEXT_TRANSLATE__ ?? {}
+src/getT.tsx:10:  const appDir = globalThis.__NEXT_TRANSLATE__
+import { useContext, useMemo } from 'react'
+import { I18n } from '.'
+import wrapTWithDefaultNs from './wrapTWithDefaultNs'
+import I18nContext from './context'
+import createTranslation from './createTranslation'
+
+function useTranslationInPages(defaultNS?: string): I18n {
+  const ctx = useContext(I18nContext)
+  return useMemo(
+    () => ({
+      ...ctx,
+      t: wrapTWithDefaultNs(ctx.t, defaultNS),
+    }),
+    [ctx, defaultNS]
+  )
+}
+
+export default function useTranslation(defaultNS?: string): I18n {
+  const appDir = globalThis.__NEXT_TRANSLATE__
+  const useT = appDir?.config ? createTranslation : useTranslationInPages
+  return useT(defaultNS)
+}
+import React, { createContext, useContext } from 'react'
+import { useRouter } from 'next/router'
+import I18nContext from './context'
+import transCore from './transCore'
+import useTranslation from './useTranslation'
+import { I18nDictionary, I18nProviderProps } from '.'
+
+export const InternalContext = createContext({ ns: {}, config: {} })
+
+export default function I18nProvider({
+  lang: lng,
+  namespaces = {},
+  children,
+  config: newConfig = {},
+}: I18nProviderProps) {
+  const { lang: parentLang } = useTranslation()
+  const { locale, defaultLocale } = useRouter() || {}
+  const internal = useContext(InternalContext)
+  const allNamespaces: Record<string, I18nDictionary> = {
+    ...initialBrowserNamespaces(),
+    ...internal.ns,
+    ...namespaces,
+  }
+  const lang = lng || parentLang || locale || defaultLocale || ''
+  const config = { ...internal.config, ...newConfig }
+  const localesToIgnore = config.localesToIgnore || ['default']
+  const ignoreLang = !lang || localesToIgnore.includes(lang)
+  const pluralRules = new Intl.PluralRules(ignoreLang ? undefined : lang)
+  const t = transCore({ config, allNamespaces, pluralRules, lang })
+
+  return (
+    <I18nContext.Provider value={{ lang, t }}>
+      <InternalContext.Provider value={{ ns: allNamespaces, config }}>
+        {children}
+      </InternalContext.Provider>
+    </I18nContext.Provider>
+  )
+}
+
+function initialBrowserNamespaces() {
+  if (typeof window === 'undefined') return {}
+  return window.__NEXT_DATA__?.props?.__namespaces || {}
+}
+'use client'
+
+import { I18nDictionary, LoaderConfig } from '.'
+
+type AppDirI18nProviderProps = {
+  lang: string
+  namespaces: Record<string, I18nDictionary>
+  config: LoaderConfig
+  children: React.ReactNode
+}
+
+/**
+ * @description AppDirI18nProvider for internal use (next-translate-plugin) only.
+ * Is required because this is a RCC (React Client Component) and this way we
+ * provide a global i18n context for client components.
+ */
+export default function AppDirI18nProvider({
+  lang,
+  namespaces = {},
+  config,
+  children,
+}: AppDirI18nProviderProps) {
+  globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+
+  // It return children and avoid re-renders and also allow children to be RSC (React Server Components)
+  return children
+}
+{
+  "name": "next-translate",
+  "version": "3.1.0-canary.4",
+  "description": "Tiny and powerful i18n tools (Next plugin + API) to translate your Next.js pages.",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "preact",
+    "i18n",
+    "nextjs",
+    "next.js",
+    "next",
+    "plugin",
+    "translate",
+    "translation",
+    "internationalization",
+    "locale",
+    "locales",
+    "globalization"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aralroca/next-translate.git"
+  },
+  "author": {
+    "name": "Aral Roca Gòmez",
+    "email": "contact@aralroca.com"
+  },
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    },
+    "./useTranslation": {
+      "types": "./useTranslation.d.ts",
+      "import": "./lib/esm/useTranslation.js",
+      "require": "./lib/cjs/useTranslation.js"
+    },
+    "./loadNamespaces": {
+      "types": "./loadNamespaces.d.ts",
+      "import": "./lib/esm/loadNamespaces.js",
+      "require": "./lib/cjs/loadNamespaces.js"
+    },
+    "./Trans": {
+      "types": "./Trans.d.ts",
+      "import": "./lib/esm/Trans.js",
+      "require": "./lib/cjs/Trans.js"
+    },
+    "./TransText": {
+      "types": "./TransText.d.ts",
+      "import": "./lib/esm/TransText.js",
+      "require": "./lib/cjs/TransText.js"
+    },
+    "./I18nProvider": {
+      "types": "./I18nProvider.d.ts",
+      "import": "./lib/esm/I18nProvider.js",
+      "require": "./lib/cjs/I18nProvider.js"
+    },
+    "./AppDirI18nProvider": {
+      "types": "./AppDirI18nProvider.d.ts",
+      "import": "./lib/esm/AppDirI18nProvider.js",
+      "require": "./lib/cjs/AppDirI18nProvider.js"
+    },
+    "./appWithI18n": {
+      "types": "./appWithI18n.d.ts",
+      "import": "./lib/esm/appWithI18n.js",
+      "require": "./lib/cjs/appWithI18n.js"
+    },
+    "./withTranslation": {
+      "types": "./withTranslation.d.ts",
+      "import": "./lib/esm/withTranslation.js",
+      "require": "./lib/cjs/withTranslation.js"
+    },
+    "./setLanguage": {
+      "types": "./setLanguage.d.ts",
+      "import": "./lib/esm/setLanguage.js",
+      "require": "./lib/cjs/setLanguage.js"
+    },
+    "./getT": {
+      "types": "./getT.d.ts",
+      "import": "./lib/esm/getT.js",
+      "require": "./lib/cjs/getT.js"
+    },
+    "./DynamicNamespaces": {
+      "types": "./DynamicNamespaces.d.ts",
+      "import": "./lib/esm/DynamicNamespaces.js",
+      "require": "./lib/cjs/DynamicNamespaces.js"
+    },
+    "./context": {
+      "types": "./context.d.ts",
+      "import": "./lib/esm/context.js",
+      "require": "./lib/cjs/context.js"
+    },
+    "./createTranslation": {
+      "types": "./createTranslation.d.ts",
+      "import": "./lib/esm/createTranslation.js",
+      "require": "./lib/cjs/createTranslation.js"
+    },
+    "./formatElements": {
+      "types": "./formatElements.d.ts",
+      "import": "./lib/esm/formatElements.js",
+      "require": "./lib/cjs/formatElements.js"
+    }
+  },
+  "files": [
+    "lib",
+    "*.d.ts",
+    "appWithI18n",
+    "DynamicNamespaces",
+    "I18nProvider",
+    "context",
+    "getT",
+    "loadNamespaces",
+    "Trans",
+    "TransText",
+    "withTranslation",
+    "useTranslation",
+    "setLanguage",
+    "index",
+    "AppDirI18nProvider",
+    "createTranslation",
+    "formatElements"
+  ],
+  "scripts": {
+    "build": "yarn clean && cross-env NODE_ENV=production && yarn tsc",
+    "clean": "yarn clean:build && yarn clean:examples",
+    "clean:build": "del lib appWith* Dynamic* I18n* index context loadNa* setLang* Trans* useT* withT* getP* getC* *.d.ts getT transC* wrapT* types formatElements isServer AppDirI18nProvider* createTrans*",
+    "clean:examples": "del examples/**/.next examples/**/node_modules examples/**/yarn.lock",
+    "example": "yarn example:complex",
+    "example:basic": "yarn build && yarn --cwd examples/basic && yarn --cwd examples/basic dev",
+    "example:complex": "yarn build && yarn --cwd examples/complex && yarn --cwd examples/complex dev",
+    "example:with-app-directory": "yarn build && yarn --cwd examples/with-app-directory && yarn --cwd examples/with-app-directory dev",
+    "example:without-loader": "yarn build && yarn --cwd examples/without-loader && yarn --cwd examples/without-loader dev",
+    "format": "pretty-quick",
+    "husky": "pretty-quick --staged && yarn test",
+    "prepare": "husky install",
+    "prepublish": "yarn test && yarn build",
+    "test": "cross-env NODE_ENV=test jest --env=jsdom",
+    "test:coverage": "cross-env NODE_ENV=test jest --env=jsdom --coverage",
+    "test:watch": "cross-env NODE_ENV=test jest --env=jsdom --watch",
+    "tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node build-packages.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.22.5",
+    "@babel/core": "7.22.5",
+    "@babel/preset-env": "7.22.5",
+    "@babel/preset-typescript": "7.22.5",
+    "@testing-library/react": "13.4.0",
+    "@types/jest": "29.5.2",
+    "@types/node": "20.3.1",
+    "@types/react": "18.2.13",
+    "@types/react-dom": "18.2.6",
+    "@types/webpack": "5.28.1",
+    "babel-jest": "29.5.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
+    "babel-preset-minify": "0.5.2",
+    "cross-env": "7.0.3",
+    "del-cli": "^5.0.0",
+    "express": "4.18.2",
+    "husky": "7.0.4",
+    "jest": "27.3.1",
+    "next": "13.4.7",
+    "next-router-mock": "0.9.6",
+    "prettier": "2.8.8",
+    "pretty-quick": "3.1.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "supertest": "6.3.3",
+    "typescript": "5.1.3"
+  },
+  "peerDependencies": {
+    "next": ">= 13.2.5",
+    "react": ">= 18.0.0"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  },
+  "engines": {
+    "node": ">=16.10.0"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/__tests__",
+      "<rootDir>/src"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      ".utils.js"
+    ],
+
+The change is narrowly removing a shared global assignment. I’m tracing every consumer of that global and checking whether any supported pages-router behavior relied on it, beyond the regression case covered by the new tests.
+COMMAND /bin/zsh -lc "sed -n '1,220p' src/createTranslation.tsx; sed -n '1,180p' src/getT.tsx; sed -n '90,175p' src/index.tsx; git log --oneline --decorate -12 -- src/appWithI18n.tsx src/AppDirI18nProvider.tsx src/useTranslation.tsx; git blame -L 28,58 HEAD -- src/appWithI18n.tsx; rg -n \"getT\\(|createTranslation\\(|appWithI18n|loader: false|skipInitialProps|i18nConfig\" README.md docs examples src __tests__ | head -n 260"
+
+COMMAND /bin/zsh -lc "sed -n '1,220p' src/createTranslation.tsx; sed -n '1,180p' src/getT.tsx; sed -n '90,175p' src/index.tsx; git log --oneline --decorate -12 -- src/appWithI18n.tsx src/AppDirI18nProvider.tsx src/useTranslation.tsx; git blame -L 28,58 HEAD -- src/appWithI18n.tsx; rg -n \"getT\\(|createTranslation\\(|appWithI18n|loader: false|skipInitialProps|i18nConfig\" README.md docs examples src __tests__ | head -n 260"
+2026-07-23 16:01:49.190 xcodebuild[93650:4587574]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:49.346 xcodebuild[93650:4587573] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-aTC5vM22' (errno=Operation not permitted)
+2026-07-23 16:01:49.843 xcodebuild[93652:4587587]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:49.983 xcodebuild[93652:4587586] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+0b60435 Update examples and add Next.js 16/Remote Loading demos (#1251)
+920fa81 (tag: 2.6.0) feat: add createTranslation helper for app dir (#1150)
+5bbfb10 (tag: 2.4.1) Update package.json version (#1087)
+1a4ad01 Update package.json version (#1075)
+e636125 Support Next.js 13 app-dir for server/client pages/components (#982)
+fc429c7 `I18nContext` exposed (#969)
+f832a34 undo https://github.com/vinissimus/next-translate/pull/829 to resolve https://github.com/vinissimus/next-translate/issues/834 (#836)
+3d37c03 Fix dependables of useTranslation hook (#829)
+64da9c1 Prevent infinite re-renders by memoizing the useTranslation hook (#743)
+b7b65bc Add support for nsSeparator and defaultNS (#739)
+8c86d10 Release 1.0.7 (#614)
+016de4b (tag: 1.0.6) Release 1.0.6 (#583)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-MRamldvR' (errno=Operation not permitted)
+2026-07-23 16:01:51.018 xcodebuild[93658:4587612]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:51.161 xcodebuild[93658:4587611] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-0oaLz9DM' (errno=Operation not permitted)
+2026-07-23 16:01:51.621 xcodebuild[93660:4587620]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:51.761 xcodebuild[93660:4587619] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 28)   config: LoaderConfig = {}
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 29) ) {
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 30)   if (!config.isLoader && config.loader !== false) {
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 31)     console.warn(
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 32)       '🚨 [next-translate] You can remove the "appWithI18n" HoC on the _app.js, unless you set "loader: false" in your i18n config file.'
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 33)     )
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 34)   }
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 35) 
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 36)   function AppWithTranslations(props: Props) {
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 37)     const { defaultLocale } = config
+0b604359 (Aral Roca Gomez 2026-03-12 09:32:18 +0100 38)     const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+0b604359 (Aral Roca Gomez 2026-03-12 09:32:18 +0100 39)     const namespaces = props.pageProps?.__namespaces || props.__namespaces
+0b604359 (Aral Roca Gomez 2026-03-12 09:32:18 +0100 40) 
+0b604359 (Aral Roca Gomez 2026-03-12 09:32:18 +0100 41)     if (lang && namespaces) {
+0b604359 (Aral Roca Gomez 2026-03-12 09:32:18 +0100 42)       globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+0b604359 (Aral Roca Gomez 2026-03-12 09:32:18 +0100 43)     }
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 44) 
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 45)     return (
+0b604359 (Aral Roca Gomez 2026-03-12 09:32:18 +0100 46)       <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 47)         <AppToTranslate {...props} />
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 48)       </I18nProvider>
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 49)     )
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 50)   }
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 51) 
+c1069d0a (Aral Roca Gomez 2021-01-30 21:27:15 +0100 52)   if (typeof config.staticsHoc === 'function') {
+c1069d0a (Aral Roca Gomez 2021-01-30 21:27:15 +0100 53)     config.staticsHoc(AppWithTranslations, AppToTranslate)
+c1069d0a (Aral Roca Gomez 2021-01-30 21:27:15 +0100 54)   }
+c1069d0a (Aral Roca Gomez 2021-01-30 21:27:15 +0100 55) 
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 56)   // @ts-ignore
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 57)   if (typeof window === 'undefined') global.i18nConfig = config
+e9d22f03 (Aral Roca Gomez 2020-12-09 18:16:18 +0100 58)   // @ts-ignore
+README.md:47:  - [appWithI18n](#appwithi18n)
+README.md:280:| `staticsHoc`   | The HOCs we have in our API ([appWithI18n](#appwithi18n)), do not use [hoist-non-react-statics](https://github.com/mridgway/hoist-non-react-statics) in order not to include more kb than necessary _(static values different than getInitialProps in the pages are rarely used)_. If you have any conflict with statics, you can add hoist-non-react-statics (or any other alternative) here. [See an example](docs/hoist-non-react-statics.md).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | `Function` | `null`
+README.md:348:  const { t, lang } = createTranslation('ns1') // default namespace (optional)
+README.md:507:  const t = await getT(locale, 'common')
+README.md:519:  const t = await getT(req.query.__nextLocale, 'common')
+README.md:535:  const t = await getT(req.query.__nextLocale, ['common', 'errors'])
+README.md:587:### appWithI18n
+README.md:591:The `appWithI18n` is internally used by next-translate. **SO MAYBE YOU'LL NEVER NEED THIS**. However, we expose it in the API in case you disable the webpack [loader](#3-configuration) option and decide to load the namespaces manually.
+README.md:600:import appWithI18n from 'next-translate/appWithI18n'
+README.md:601:import i18nConfig from '../i18n'
+README.md:608:export default appWithI18n(MyApp, {
+README.md:609:  ...i18nConfig,
+README.md:611:  skipInitialProps: true,
+README.md:615:If `skipInitialProps=true`, then you should also use the [loadNamespaces](#loadnamespaces) helper to manually load the namespaces on each page.
+README.md:637:🚨 To work well, it is necessary that your `_app.js` will be wrapped with the [appWithI18n](#appwithi18n). Also, the `loadLocaleFrom` configuration property is **mandatory** to define it.
+README.md:881:import i18nConfig from '../i18n.json'
+README.md:883:const { locales } = i18nConfig
+docs/hoist-non-react-statics.md:3:The HOCs we have in our API ([appWithI18n](../README.md#appwithi18n)), do not use [hoist-non-react-statics](https://github.com/mridgway/hoist-non-react-statics) in order not to include more kb than necessary _(static values different than getInitialProps in the pages are rarely used)_. If you have any conflict with statics, you can add hoist-non-react-statics (or any other alternative) in the configuration.
+__tests__/getT.test.js:5:global.i18nConfig = {
+__tests__/getT.test.js:28:    const t = await getT('en', 'ns1')
+__tests__/getT.test.js:42:    const t = await getT('en', 'common')
+__tests__/getT.test.js:57:    const t = await getT('en', 'common')
+__tests__/getT.test.js:62:    const t = await getT('en', ['ns1', 'ns2'])
+__tests__/getT.test.js:70:    const t = await getT('en', 'ns1')
+__tests__/getT.test.js:78:    const t = await getT('en', ['ns2', 'ns1'])
+docs/migration-guide-1.0.0.md:12:This guide is useful both if you used the **"build step"** and if you used a **`getInitialProps` on top of `_app.js`** with the `appWithI18n`, since both have been unified under the webpack loader.
+docs/migration-guide-1.0.0.md:97:7. Remove the `appWithI18n` wrapper on `_app.js` _(if instead of the "build step" you were using the appWithI18n)_:
+docs/migration-guide-1.0.0.md:102:-import appWithI18n from 'next-translate/appWithI18n'
+docs/migration-guide-1.0.0.md:103:-import i18nConfig from '../i18n'
+docs/migration-guide-1.0.0.md:111:-export default appWithI18n(MyApp, i18nConfig)
+__tests__/loadNamespaces.test.js:8:      loader: false,
+__tests__/loadNamespaces.test.js:25:      loader: false,
+src/getConfig.tsx:6:  return g.i18nConfig
+__tests__/appWithI18n.test.js:3:import appWithI18n from '../src/appWithI18n'
+__tests__/appWithI18n.test.js:15:// by React state, nested inside the plugin-injected appWithI18n HoC.
+__tests__/appWithI18n.test.js:35:describe('appWithI18n', () => {
+__tests__/appWithI18n.test.js:46:  // Regression for #1256: appWithI18n (pages-dir) used to set
+__tests__/appWithI18n.test.js:50:    const AppWithI18n = appWithI18n(App, { defaultLocale: 'en' })
+__tests__/appWithI18n.test.js:57:  test('reactive I18nProvider lang prop is respected under appWithI18n', () => {
+__tests__/appWithI18n.test.js:58:    const AppWithI18n = appWithI18n(App, { defaultLocale: 'en' })
+src/appWithI18n.tsx:26:export default function appWithI18n(
+src/appWithI18n.tsx:32:      '🚨 [next-translate] You can remove the "appWithI18n" HoC on the _app.js, unless you set "loader: false" in your i18n config file.'
+src/appWithI18n.tsx:59:  if (typeof window === 'undefined') global.i18nConfig = config
+src/appWithI18n.tsx:61:  else window.i18nConfig = config
+src/appWithI18n.tsx:63:  if (config.skipInitialProps) return AppWithTranslations
+src/loadNamespaces.tsx:31:      '🚨 [next-translate] You can remove the "loadNamespaces" helper, unless you set "loader: false" in your i18n config file.'
+src/index.tsx:91:  skipInitialProps?: boolean
+src/index.tsx:120:  var i18nConfig: LoaderConfig
+src/index.tsx:130:      i18nConfig: LoaderConfig
+src/index.tsx:139:    i18nConfig: LoaderConfig
+src/createTranslation.tsx:7:export default function createTranslation(defaultNS?: string) {
+src/createTranslation.tsx:22:  const t = isServer() ? getT() : useMemo(getT, [defaultNS, lang])
+src/getT.tsx:6:export default async function getT(
+examples/basic/pages/more-examples/dynamicroute/[slug].js:25:  const t = await getT(locale, 'common')
+examples/without-loader/i18n.js:4:  loader: false, // This deactivate the webpack loader that loads the namespaces
+examples/without-loader/pages/_app.js:2:import appWithI18n from 'next-translate/appWithI18n'
+examples/without-loader/pages/_app.js:3:import i18nConfig from '../i18n'
+examples/without-loader/pages/_app.js:9:export default appWithI18n(MyApp, {
+examples/without-loader/pages/_app.js:10:  ...i18nConfig,
+examples/without-loader/pages/_app.js:12:  // If you remove the "skipInitialProps", then all the namespaces
+examples/without-loader/pages/_app.js:16:  // skipInitialProps=false (default):
+examples/without-loader/pages/_app.js:20:  // skipInitialProps=true:
+examples/without-loader/pages/_app.js:24:  skipInitialProps: true,
+examples/with-app-directory/src/app/[lang]/page.tsx:9:  const { t, lang } = await createTranslation('common')
+examples/with-app-directory/src/app/[lang]/remote-loading/page.tsx:7:  const { t, lang } = await createTranslation('remote')
+examples/complex/src/pages/api/example.tsx:5:  const t = await getT(req.query.__nextLocale, 'common')
+examples/complex/src/pages/more-examples/dynamicroute/[slug].tsx:38:  const t = await getT(locale, 'common')
+
+COMMAND /bin/zsh -lc "git show --stat --oneline 0b60435; git show --no-ext-diff --unified=100 0b60435 -- src/appWithI18n.tsx src/getT.tsx src/useTranslation.tsx src/AppDirI18nProvider.tsx README.md examples | sed -n '1,1200p'; sed -n '580,655p' README.md; sed -n '1,100p' examples/without-loader/pages/_app.js; sed -n '1,160p' examples/without-loader/i18n.js; sed -n '1,220p' src/loadNamespaces.tsx"
+
+COMMAND /bin/zsh -lc "git show --stat --oneline 0b60435; git show --no-ext-diff --unified=100 0b60435 -- src/appWithI18n.tsx src/getT.tsx src/useTranslation.tsx src/AppDirI18nProvider.tsx README.md examples | sed -n '1,1200p'; sed -n '580,655p' README.md; sed -n '1,100p' examples/without-loader/pages/_app.js; sed -n '1,160p' examples/without-loader/i18n.js; sed -n '1,220p' src/loadNamespaces.tsx"
+2026-07-23 16:01:59.716 xcodebuild[93674:4587845]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:01:59.865 xcodebuild[93674:4587844] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-kF3DewI3' (errno=Operation not permitted)
+2026-07-23 16:02:00.327 xcodebuild[93677:4587863]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:02:00.466 xcodebuild[93677:4587862] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+0b60435 Update examples and add Next.js 16/Remote Loading demos (#1251)
+ .gitignore                                         |  1 +
+ examples/basic/components/header.js                |  5 ++++
+ examples/basic/i18n.js                             | 11 ++++++++
+ examples/basic/i18n.json                           | 11 --------
+ examples/basic/locales/en/home.json                |  2 +-
+ examples/basic/next-env.d.ts                       |  3 ++-
+ examples/basic/next.config.js                      |  5 +++-
+ examples/basic/package.json                        |  8 +++---
+ examples/basic/pages/about.js                      | 18 +++++++++++++
+ examples/basic/pages/dashboard.js                  | 16 +++++++++++
+ examples/basic/tsconfig.json                       |  3 ++-
+ examples/complex/i18n.js                           |  2 +-
+ examples/complex/next-env.d.ts                     |  3 ++-
+ examples/complex/next.config.js                    |  7 +++--
+ examples/complex/package.json                      | 14 +++++-----
+ examples/complex/src/translations/home_en.json     |  2 +-
+ examples/complex/tsconfig.json                     |  2 +-
+ examples/with-app-directory/README.md              | 11 +++++++-
+ examples/with-app-directory/i18n.js                | 12 +++++++++
+ examples/with-app-directory/package.json           |  8 +++---
+ .../with-app-directory/src/app/[lang]/page.tsx     | 10 ++++---
+ .../src/app/[lang]/remote-loading/page.tsx         | 31 ++++++++++++++++++++++
+ examples/without-loader/README.md                  |  6 +++--
+ examples/without-loader/i18n.js                    |  4 +--
+ examples/without-loader/locales/en/home.json       |  2 +-
+ examples/without-loader/next.config.js             |  5 +++-
+ examples/without-loader/package.json               |  8 +++---
+ package.json                                       |  1 +
+ src/appWithI18n.tsx                                | 12 +++++----
+ 29 files changed, 168 insertions(+), 55 deletions(-)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-G2bw63O7' (errno=Operation not permitted)
+2026-07-23 16:02:01.555 xcodebuild[93683:4587885]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:02:01.714 xcodebuild[93683:4587884] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-vytyPdqP' (errno=Operation not permitted)
+2026-07-23 16:02:02.227 xcodebuild[93685:4587920]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:02:02.383 xcodebuild[93685:4587919] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+commit 0b604359962c12c478f209c7fea4ee1f248081d6
+Author: Aral Roca Gomez <aral-rg@hotmail.com>
+Date:   Thu Mar 12 09:32:18 2026 +0100
+
+    Update examples and add Next.js 16/Remote Loading demos (#1251)
+    
+    * Update examples to Next.js 16 and add remote loading demo
+    
+    - Update examples/with-app-directory and examples/without-loader to Next.js 16 and React 19.
+    - Add remote loading demonstration using `loadLocaleFrom` in i18n.js.
+    - Create a new page showcasing `createTranslation` (with await) and `Trans` component.
+    - Update READMEs to document new features and version 3 plugin usage.
+    - Fix plugin dependency pathing in examples.
+    
+    Co-authored-by: aralroca <13313058+aralroca@users.noreply.github.com>
+    
+    * Address PR feedback: Use next-translate-plugin 3.0.0 instead of link
+    
+    - Updated `next-translate-plugin` to version `3.0.0` in `examples/with-app-directory` and `examples/without-loader`.
+    
+    Co-authored-by: aralroca <13313058+aralroca@users.noreply.github.com>
+    
+    * docs: add CHANGES.md and update examples to use i18n.js for Turbopack support
+    
+    * improvements
+    
+    * update version
+    
+    * refactor: clean loadLocaleFrom
+    
+    ---------
+    
+    Co-authored-by: google-labs-jules[bot] <161369871+google-labs-jules[bot]@users.noreply.github.com>
+    Co-authored-by: aralroca <13313058+aralroca@users.noreply.github.com>
+
+diff --git a/examples/basic/components/header.js b/examples/basic/components/header.js
+index e194554..64b92a4 100644
+--- a/examples/basic/components/header.js
++++ b/examples/basic/components/header.js
+@@ -1,47 +1,52 @@
+ import React from 'react'
+ import Head from 'next/head'
+ import Link from 'next/link'
+ import Router from 'next/router'
+ import useTranslation from 'next-translate/useTranslation'
+ 
+ import styles from './header.module.css'
+ 
+ export default function Header() {
+   const { t, lang } = useTranslation('common')
+   const title = t('title')
+   const headTitle = `${title} (${lang.toUpperCase()})`
+ 
+   function changeToEn() {
+     Router.push('/', undefined, { locale: 'en' })
+   }
+ 
+   return (
+     <>
+       <Head>
+         <title key="title">{headTitle}</title>
+         <link key="favicon" rel="icon" href="/favicon.ico" />
+       </Head>
+       <header className={styles.header}>
+         <h1>{title}</h1>
++        <nav style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
++          <Link href="/">Home</Link>
++          <Link href="/about">About</Link>
++          <Link href="/dashboard">Dashboard</Link>
++        </nav>
+         {lang !== 'es' && (
+           <Link href="/" locale="es">
+             Español
+           </Link>
+         )}
+         {lang !== 'ca' && (
+           <Link href="/" locale="ca">
+             Català
+           </Link>
+         )}
+         {lang !== 'en' && (
+           <>
+             <Link href="/" locale="en">
+               English
+             </Link>
+             <button onClick={changeToEn}>English Router.push</button>
+           </>
+         )}
+       </header>
+     </>
+   )
+ }
+diff --git a/examples/basic/i18n.js b/examples/basic/i18n.js
+new file mode 100644
+index 0000000..91c42e5
+--- /dev/null
++++ b/examples/basic/i18n.js
+@@ -0,0 +1,11 @@
++module.exports = {
++  locales: ['en', 'ca', 'es'],
++  defaultLocale: 'en',
++  pages: {
++    '*': ['common'],
++    '/404': ['error'],
++    '/': ['home'],
++    '/dashboard': ['common', 'home'],
++    'rgx:^/more-examples': ['more-examples'],
++  },
++}
+diff --git a/examples/basic/i18n.json b/examples/basic/i18n.json
+deleted file mode 100644
+index 5c3482e..0000000
+--- a/examples/basic/i18n.json
++++ /dev/null
+@@ -1,11 +0,0 @@
+-{
+-  "locales": ["en", "ca", "es"],
+-  "defaultLocale": "en",
+-  "pages": {
+-    "*": ["common"],
+-    "/404": ["error"],
+-    "/": ["home"],
+-    "/dashboard": ["home"],
+-    "rgx:^/more-examples": ["more-examples"]
+-  }
+-}
+diff --git a/examples/basic/locales/en/home.json b/examples/basic/locales/en/home.json
+index 41f930c..06fd805 100644
+--- a/examples/basic/locales/en/home.json
++++ b/examples/basic/locales/en/home.json
+@@ -1,4 +1,4 @@
+ {
+-  "description": "This text is wrote in English from the homepage dictionary",
++  "description": "This text is written in English from the homepage dictionary",
+   "more-examples": "More examples"
+ }
+diff --git a/examples/basic/next-env.d.ts b/examples/basic/next-env.d.ts
+index 4f11a03..83311bd 100644
+--- a/examples/basic/next-env.d.ts
++++ b/examples/basic/next-env.d.ts
+@@ -1,5 +1,6 @@
+ /// <reference types="next" />
+ /// <reference types="next/image-types/global" />
++import './.next/dev/types/routes.d.ts'
+ 
+ // NOTE: This file should not be edited
+-// see https://nextjs.org/docs/basic-features/typescript for more information.
++// see https://nextjs.org/docs/pages/api-reference/config/typescript for more information.
+diff --git a/examples/basic/next.config.js b/examples/basic/next.config.js
+index 5c08f5c..5e5091c 100644
+--- a/examples/basic/next.config.js
++++ b/examples/basic/next.config.js
+@@ -1,3 +1,6 @@
+ const nextTranslate = require('next-translate-plugin')
+ 
+-module.exports = nextTranslate()
++// Note: only available in Next.js +16 (for 15, you need to force a boolean)
++const isTurbopack = !process.argv.includes('--webpack')
++
++module.exports = nextTranslate({}, { turbopack: isTurbopack })
+diff --git a/examples/basic/package.json b/examples/basic/package.json
+index b5789d1..71ed2f8 100644
+--- a/examples/basic/package.json
++++ b/examples/basic/package.json
+@@ -1,19 +1,19 @@
+ {
+   "name": "-",
+   "version": "1.0.0",
+   "private": true,
+   "license": "MIT",
+   "scripts": {
+     "dev": "next dev",
+     "build": "next build"
+   },
+   "dependencies": {
+-    "next": "14.1.0",
++    "next": "^16.1.6",
+     "next-translate": "link:../../",
+-    "react": "link:../../node_modules/react",
+-    "react-dom": "link:../../node_modules/react-dom"
++    "react": "^19.0.0",
++    "react-dom": "^19.0.0"
+   },
+   "devDependencies": {
+-    "next-translate-plugin": "2.6.2"
++    "next-translate-plugin": "3.0.1-canary.3"
+   }
+ }
+diff --git a/examples/basic/pages/about.js b/examples/basic/pages/about.js
+new file mode 100644
+index 0000000..e47025d
+--- /dev/null
++++ b/examples/basic/pages/about.js
+@@ -0,0 +1,18 @@
++import React from 'react'
++import Link from 'next/link'
++import useTranslation from 'next-translate/useTranslation'
++import Header from '../components/header'
++
++export default function About() {
++  const { t } = useTranslation('common')
++  return (
++    <>
++      <Header />
++      <h1>About Page</h1>
++      <p>
++        This is a working page to demonstrate that navigation doesn't crash.
++      </p>
++      <Link href="/">Go back home</Link>
++    </>
++  )
++}
+diff --git a/examples/basic/pages/dashboard.js b/examples/basic/pages/dashboard.js
+new file mode 100644
+index 0000000..38826e4
+--- /dev/null
++++ b/examples/basic/pages/dashboard.js
+@@ -0,0 +1,16 @@
++import React from 'react'
++import Link from 'next/link'
++import useTranslation from 'next-translate/useTranslation'
++import Header from '../components/header'
++
++export default function Dashboard() {
++  const { t } = useTranslation('home')
++  return (
++    <>
++      <Header />
++      <h1>Dashboard Page</h1>
++      <p>Using home namespace. Translation: {t('description')}</p>
++      <Link href="/">Go back home</Link>
++    </>
++  )
++}
+diff --git a/examples/basic/tsconfig.json b/examples/basic/tsconfig.json
+index c9f7567..3114462 100644
+--- a/examples/basic/tsconfig.json
++++ b/examples/basic/tsconfig.json
+@@ -1,19 +1,20 @@
+ {
+   "compilerOptions": {
+     "lib": ["dom", "dom.iterable", "esnext"],
+     "allowJs": true,
+     "skipLibCheck": true,
+     "strict": false,
+     "forceConsistentCasingInFileNames": true,
+     "noEmit": true,
+     "incremental": true,
+     "esModuleInterop": true,
+     "module": "esnext",
+     "moduleResolution": "node",
+     "resolveJsonModule": true,
+     "isolatedModules": true,
+-    "jsx": "preserve"
++    "jsx": "react-jsx",
++    "target": "ES2017"
+   },
+   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/**/*.js"],
+   "exclude": ["node_modules"]
+ }
+diff --git a/examples/complex/i18n.js b/examples/complex/i18n.js
+index 6042640..8db399f 100644
+--- a/examples/complex/i18n.js
++++ b/examples/complex/i18n.js
+@@ -1,18 +1,18 @@
+ module.exports = {
+   locales: ['__default', 'en', 'ca', 'es'],
+   defaultLocale: '__default',
+   localesToIgnore: ['__default'],
+   pages: {
+     '*': ['common'],
+     '/404': ['error'],
+     '/': ['home'],
+     '/dashboard': ['home'],
+     'rgx:^/more-examples': ['more-examples'],
+   },
+   interpolation: {
+     prefix: '${',
+     suffix: '}',
+   },
+-  loadLocaleFrom: async (locale, namespace) =>
++  loadLocaleFrom: (locale, namespace) =>
+     import(`./src/translations/${namespace}_${locale}`).then((r) => r.default),
+ }
+diff --git a/examples/complex/next-env.d.ts b/examples/complex/next-env.d.ts
+index 4f11a03..83311bd 100644
+--- a/examples/complex/next-env.d.ts
++++ b/examples/complex/next-env.d.ts
+@@ -1,5 +1,6 @@
+ /// <reference types="next" />
+ /// <reference types="next/image-types/global" />
++import './.next/dev/types/routes.d.ts'
+ 
+ // NOTE: This file should not be edited
+-// see https://nextjs.org/docs/basic-features/typescript for more information.
++// see https://nextjs.org/docs/pages/api-reference/config/typescript for more information.
+diff --git a/examples/complex/next.config.js b/examples/complex/next.config.js
+index 140e501..7e13c93 100644
+--- a/examples/complex/next.config.js
++++ b/examples/complex/next.config.js
+@@ -1,9 +1,12 @@
+ const nextTranslate = require('next-translate-plugin')
+ const withMDX = require('@next/mdx')()
+ const withBundleAnalyzer = require('@next/bundle-analyzer')({
+   enabled: process.env.ANALYZE === 'true',
+ })
+ 
+-console.log('Webpack version', require('webpack').version)
++// Note: only available in Next.js +16 (for 15, you need to force a boolean)
++const isTurbopack = !process.argv.includes('--webpack')
+ 
+-module.exports = nextTranslate(withBundleAnalyzer(withMDX()))
++module.exports = nextTranslate(withBundleAnalyzer(withMDX()), {
++  turbopack: isTurbopack,
++})
+diff --git a/examples/complex/package.json b/examples/complex/package.json
+index 90e93ca..5647a31 100644
+--- a/examples/complex/package.json
++++ b/examples/complex/package.json
+@@ -1,30 +1,30 @@
+ {
+   "name": "-",
+   "version": "1.0.0",
+   "private": true,
+   "license": "MIT",
+   "scripts": {
+     "dev": "next dev",
+     "build": "next build",
+     "analyze": "ANALYZE=true yarn build"
+   },
+   "dependencies": {
+     "@mdx-js/loader": "3.0.0",
+     "@mdx-js/react": "3.0.0",
+-    "@next/mdx": "14.1.0",
+-    "next": "14.1.0",
++    "@next/mdx": "^16.1.6",
++    "next": "^16.1.6",
+     "next-translate": "link:../../",
+-    "react": "link:../../node_modules/react",
+-    "react-dom": "link:../../node_modules/react-dom"
++    "react": "^19.0.0",
++    "react-dom": "^19.0.0"
+   },
+   "devDependencies": {
+-    "@next/bundle-analyzer": "14.1.0",
++    "@next/bundle-analyzer": "^16.1.6",
+     "@types/node": "20.11.5",
+-    "@types/react": "18.2.48",
+-    "next-translate-plugin": "2.6.2",
++    "@types/react": "^19.0.0",
++    "next-translate-plugin": "3.0.1-canary.3",
+     "typescript": "5.3.3"
+   },
+   "resolutions": {
+     "webpack": "5.11.1"
+   }
+ }
+diff --git a/examples/complex/src/translations/home_en.json b/examples/complex/src/translations/home_en.json
+index 41f930c..06fd805 100644
+--- a/examples/complex/src/translations/home_en.json
++++ b/examples/complex/src/translations/home_en.json
+@@ -1,4 +1,4 @@
+ {
+-  "description": "This text is wrote in English from the homepage dictionary",
++  "description": "This text is written in English from the homepage dictionary",
+   "more-examples": "More examples"
+ }
+diff --git a/examples/complex/tsconfig.json b/examples/complex/tsconfig.json
+index 7038ef7..4cb83e9 100644
+--- a/examples/complex/tsconfig.json
++++ b/examples/complex/tsconfig.json
+@@ -1,22 +1,22 @@
+ {
+   "compilerOptions": {
+     "target": "es5",
+     "lib": ["dom", "dom.iterable", "esnext"],
+     "allowJs": true,
+     "skipLibCheck": true,
+     "strict": true,
+     "noImplicitAny": true,
+     "forceConsistentCasingInFileNames": true,
+     "noEmit": true,
+     "esModuleInterop": true,
+     "module": "esnext",
+     "moduleResolution": "node",
+     "resolveJsonModule": true,
+     "isolatedModules": true,
+-    "jsx": "preserve",
++    "jsx": "react-jsx",
+     "incremental": true
+   },
+   "exclude": ["node_modules"],
+   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+   "typeRoots": ["./src/mdx.d.ts"]
+ }
+diff --git a/examples/with-app-directory/README.md b/examples/with-app-directory/README.md
+index 4837ddc..85dfa1a 100644
+--- a/examples/with-app-directory/README.md
++++ b/examples/with-app-directory/README.md
+@@ -1,4 +1,13 @@
+ # App dir example
+ 
+-Example loading and consuming translations with Next.js 13 app dir.
++Example loading and consuming translations with **Next.js 16** app dir.
++
++## Features demonstrated:
++
++- **Next.js 16 Support**: Uses the latest Next.js version.
++- **Server Components**: Using `createTranslation` in async Server Components.
++- **Client Components**: Using `useTranslation` hook in `'use client'` components.
++- **Remote Loading**: Demonstrates how to use `loadLocaleFrom` to fetch translations from a remote source (mocked in this example).
++- **Trans Component**: Using the `Trans` component for complex translations with HTML.
++- **Turbopack**: Configured to work with Turbopack (default in Next 16).
+  
+diff --git a/examples/with-app-directory/i18n.js b/examples/with-app-directory/i18n.js
+index fc2d912..34a78dc 100644
+--- a/examples/with-app-directory/i18n.js
++++ b/examples/with-app-directory/i18n.js
+@@ -1,9 +1,21 @@
+ module.exports = {
+   locales: ['en', 'ca', 'es'],
+   defaultLocale: 'en',
+   pages: {
+     '*': ['common'],
+     '/[lang]': ['home'],
+     '/[lang]/second-page': ['home'],
++    '/[lang]/remote-loading': ['remote'],
++  },
++  loadLocaleFrom: (lang, ns) => {
++    if (ns === 'remote') {
++      // Mocking a remote fetch
++      return Promise.resolve({
++        title: `Remote Title (${lang})`,
++        description: `This is a remote translation for ${lang}!`,
++        'html-example': 'This is a <0>remote</0> example with <b>HTML</b>',
++      })
++    }
++    return import(`./locales/${lang}/${ns}.json`).then((m) => m.default)
+   },
+ }
+diff --git a/examples/with-app-directory/package.json b/examples/with-app-directory/package.json
+index 64c266e..ba66c9a 100644
+--- a/examples/with-app-directory/package.json
++++ b/examples/with-app-directory/package.json
+@@ -1,30 +1,30 @@
+ {
+   "name": "with-app-directory",
+   "version": "1.0.0",
+   "private": true,
+   "license": "MIT",
+   "scripts": {
+     "dev": "next dev",
+     "build": "next build",
+     "start": "next start"
+   },
+   "dependencies": {
+     "@mdx-js/loader": "3.0.0",
+     "@mdx-js/react": "3.0.0",
+     "@next/mdx": "14.1.0",
+     "next": "^16.1.6",
+     "next-translate": "link:../../",
+-    "react": "link:../../node_modules/react",
+-    "react-dom": "link:../../node_modules/react-dom"
++    "react": "^19.0.0",
++    "react-dom": "^19.0.0"
+   },
+   "devDependencies": {
+     "@next/bundle-analyzer": "14.1.0",
+     "@types/node": "20.11.5",
+-    "@types/react": "^18.2.48",
+-    "next-translate-plugin": "link:../../../next-translate-plugin",
++    "@types/react": "^19.0.0",
++    "next-translate-plugin": "3.0.1-canary.3",
+     "typescript": "5.3.3"
+   },
+   "resolutions": {
+     "webpack": "5.11.1"
+   }
+ }
+diff --git a/examples/with-app-directory/src/app/[lang]/page.tsx b/examples/with-app-directory/src/app/[lang]/page.tsx
+index dc23a52..d76e60d 100644
+--- a/examples/with-app-directory/src/app/[lang]/page.tsx
++++ b/examples/with-app-directory/src/app/[lang]/page.tsx
+@@ -1,42 +1,46 @@
+ import React from 'react'
+ import Link from 'next/link'
+-import useTranslation from 'next-translate/useTranslation'
++import createTranslation from 'next-translate/createTranslation'
+ import ClientCode from '../../components/client-code'
+ 
+ export default async function Page() {
+   await sleep(500) // simulate slow page load to show loading page
+ 
+-  const { t, lang } = useTranslation('common')
++  const { t, lang } = await createTranslation('common')
+ 
+   return (
+     <>
+       <h2>{t('title')}</h2>
+ 
+       <ClientCode />
+ 
+       <div style={{ marginTop: 20 }}>
+         <Link href="/en">English</Link>
+       </div>
+ 
+       <div>
+         <Link href="/es">Español</Link>
+       </div>
+ 
+       <div>
+         <Link href="/ca">Català</Link>
+       </div>
+ 
++      <div style={{ marginTop: 20 }}>
++        <Link href={`/${lang}/second-page`}>Second page ➡️</Link>
++      </div>
++
+       <div>
+-        <Link href={`/${lang}/second-page`}>➡️</Link>
++        <Link href={`/${lang}/remote-loading`}>Remote loading example ➡️</Link>
+       </div>
+     </>
+   )
+ }
+ 
+ function sleep(ms: number) {
+   return new Promise((resolve) => setTimeout(resolve, ms))
+ }
+ 
+ export const metadata = {
+   title: 'App directory',
+ }
+diff --git a/examples/with-app-directory/src/app/[lang]/remote-loading/page.tsx b/examples/with-app-directory/src/app/[lang]/remote-loading/page.tsx
+new file mode 100644
+index 0000000..6521acf
+--- /dev/null
++++ b/examples/with-app-directory/src/app/[lang]/remote-loading/page.tsx
+@@ -0,0 +1,31 @@
++import React from 'react'
++import createTranslation from 'next-translate/createTranslation'
++import Trans from 'next-translate/Trans'
++import Link from 'next/link'
++
++export default async function RemoteLoadingPage() {
++  const { t, lang } = await createTranslation('remote')
++
++  return (
++    <>
++      <h2>{t('title')}</h2>
++      <p>{t('description')}</p>
++
++      <div style={{ margin: '20px 0', padding: '10px', border: '1px solid #ccc' }}>
++        <h3>Using Trans Component:</h3>
++        <Trans
++          i18nKey="remote:html-example"
++          components={[<span style={{ color: 'blue' }} />, <b />]}
++        />
++      </div>
++
++      <div style={{ marginTop: 20 }}>
++        <Link href={`/${lang}`}>⬅️ Back home</Link>
++      </div>
++    </>
++  )
++}
++
++export const metadata = {
++  title: 'Remote Loading Example',
++}
+diff --git a/examples/without-loader/README.md b/examples/without-loader/README.md
+index 71d7721..d65452b 100644
+--- a/examples/without-loader/README.md
++++ b/examples/without-loader/README.md
+@@ -1,7 +1,9 @@
+-# Example without the webpack loader
++# Without the webpack loader example (Version 3 plugin)
+ 
+-Similar than the basic example but loading the page namespaces manually deactivating the webpack loader in the `i18n.json` config file.
++Loading the page namespaces manually deactivating the webpack loader in the `i18n.js` config file.
++
++This example uses the **version 3 plugin** and is updated for **Next.js 16**.
+ 
+ > We do not recommend that it be used in this way. However we give the opportunity for anyone to do so if they are not comfortable with our webpack loader.
+ 
+ ![next-translate](../../images/translation-prerendered.gif 'Translations in prerendered pages')
+diff --git a/examples/without-loader/i18n.js b/examples/without-loader/i18n.js
+index 6cced53..8144dea 100644
+--- a/examples/without-loader/i18n.js
++++ b/examples/without-loader/i18n.js
+@@ -1,15 +1,15 @@
+ module.exports = {
+   locales: ['en', 'ca', 'es'],
+   defaultLocale: 'en',
+   loader: false, // This deactivate the webpack loader that loads the namespaces
+   pages: {
+     '*': ['common'],
+     '/404': ['error'],
+     '/': ['home'],
+     '/dashboard': ['home'],
+     'rgx:^/more-examples': ['more-examples'],
+   },
+-  // When loader === false, then loadLocaleFrom is required
+-  loadLocaleFrom: async (locale, namespace) =>
++  // When loader === false (or when using Turbopack), then loadLocaleFrom is required
++  loadLocaleFrom: (locale, namespace) =>
+     import(`./locales/${locale}/${namespace}`).then((r) => r.default),
+ }
+diff --git a/examples/without-loader/locales/en/home.json b/examples/without-loader/locales/en/home.json
+index 41f930c..06fd805 100644
+--- a/examples/without-loader/locales/en/home.json
++++ b/examples/without-loader/locales/en/home.json
+@@ -1,4 +1,4 @@
+ {
+-  "description": "This text is wrote in English from the homepage dictionary",
++  "description": "This text is written in English from the homepage dictionary",
+   "more-examples": "More examples"
+ }
+diff --git a/examples/without-loader/next.config.js b/examples/without-loader/next.config.js
+index 5c08f5c..5e5091c 100644
+--- a/examples/without-loader/next.config.js
++++ b/examples/without-loader/next.config.js
+@@ -1,3 +1,6 @@
+ const nextTranslate = require('next-translate-plugin')
+ 
+-module.exports = nextTranslate()
++// Note: only available in Next.js +16 (for 15, you need to force a boolean)
++const isTurbopack = !process.argv.includes('--webpack')
++
++module.exports = nextTranslate({}, { turbopack: isTurbopack })
+diff --git a/examples/without-loader/package.json b/examples/without-loader/package.json
+index b5789d1..71ed2f8 100644
+--- a/examples/without-loader/package.json
++++ b/examples/without-loader/package.json
+@@ -1,19 +1,19 @@
+ {
+   "name": "-",
+   "version": "1.0.0",
+   "private": true,
+   "license": "MIT",
+   "scripts": {
+     "dev": "next dev",
+     "build": "next build"
+   },
+   "dependencies": {
+-    "next": "14.1.0",
++    "next": "^16.1.6",
+     "next-translate": "link:../../",
+-    "react": "link:../../node_modules/react",
+-    "react-dom": "link:../../node_modules/react-dom"
++    "react": "^19.0.0",
++    "react-dom": "^19.0.0"
+   },
+   "devDependencies": {
+-    "next-translate-plugin": "2.6.2"
++    "next-translate-plugin": "3.0.1-canary.3"
+   }
+ }
+diff --git a/src/appWithI18n.tsx b/src/appWithI18n.tsx
+index a06b91f..38b4317 100644
+--- a/src/appWithI18n.tsx
++++ b/src/appWithI18n.tsx
+@@ -1,80 +1,82 @@
+ import React from 'react'
+ import I18nProvider from './I18nProvider'
+ import loadNamespaces from './loadNamespaces'
+ import { LoaderConfig } from '.'
+ 
+ type Props = {
+   [key: string]: any
+ }
+ 
+ interface PartialNextContext {
+   res?: any
+   AppTree?: NextComponentType<PartialNextContext>
+   Component?: NextComponentType<PartialNextContext>
+   ctx?: PartialNextContext
+   [key: string]: any
+ }
+ 
+ type NextComponentType<
+   C extends PartialNextContext = PartialNextContext,
+   IP = {},
+   P = {}
+ > = React.ComponentType<P> & {
+   getInitialProps?(context: C): IP | Promise<IP>
+ }
+ 
+ export default function appWithI18n(
+   AppToTranslate: NextComponentType,
+   config: LoaderConfig = {}
+ ) {
+   if (!config.isLoader && config.loader !== false) {
+     console.warn(
+       '🚨 [next-translate] You can remove the "appWithI18n" HoC on the _app.js, unless you set "loader: false" in your i18n config file.'
+     )
+   }
+ 
+   function AppWithTranslations(props: Props) {
+     const { defaultLocale } = config
++    const lang = props.pageProps?.__lang || props.__lang || defaultLocale
++    const namespaces = props.pageProps?.__namespaces || props.__namespaces
++
++    if (lang && namespaces) {
++      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
++    }
+ 
+     return (
+-      <I18nProvider
+-        lang={props.pageProps?.__lang || props.__lang || defaultLocale}
+-        namespaces={props.pageProps?.__namespaces || props.__namespaces}
+-        config={config}
+-      >
++      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+         <AppToTranslate {...props} />
+       </I18nProvider>
+     )
+   }
+ 
+   if (typeof config.staticsHoc === 'function') {
+     config.staticsHoc(AppWithTranslations, AppToTranslate)
+   }
+ 
+   // @ts-ignore
+   if (typeof window === 'undefined') global.i18nConfig = config
+   // @ts-ignore
+   else window.i18nConfig = config
+ 
+   if (config.skipInitialProps) return AppWithTranslations
+ 
+   AppWithTranslations.getInitialProps = async (appCtx: any) => {
+     const ctx = { ...(appCtx.ctx || {}), ...(appCtx || {}) }
+     let appProps: object = { pageProps: {} }
+ 
+     if (AppToTranslate.getInitialProps) {
+       appProps = (await AppToTranslate.getInitialProps(appCtx)) || {}
+     }
+ 
+     return {
+       ...appProps,
+       ...(await loadNamespaces({
+         ...ctx,
+         ...config,
+         loaderName: 'getInitialProps',
+       })),
+     }
+   }
+ 
+   return AppWithTranslations
+ }
+    <I18nProvider lang={lang} namespaces={{ commonEN }}>
+      <PageContent />
+    </I18nProvider>
+  )
+}
+```
+
+### appWithI18n
+
+**Size**: ~3.7kb 📦
+
+The `appWithI18n` is internally used by next-translate. **SO MAYBE YOU'LL NEVER NEED THIS**. However, we expose it in the API in case you disable the webpack [loader](#3-configuration) option and decide to load the namespaces manually.
+
+If you wish not to use the webpack loader, then you should put this in your `_app.js` file (and create the `_app.js` file if you don't have it).
+
+Example:
+
+`_app.js`
+
+```jsx
+import appWithI18n from 'next-translate/appWithI18n'
+import i18nConfig from '../i18n'
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />
+}
+
+// Wrapping your _app.js
+export default appWithI18n(MyApp, {
+  ...i18nConfig,
+  // Set to false if you want to load all the namespaces on _app.js getInitialProps
+  skipInitialProps: true,
+})
+```
+
+If `skipInitialProps=true`, then you should also use the [loadNamespaces](#loadnamespaces) helper to manually load the namespaces on each page.
+
+
+### loadNamespaces
+
+**Size**: ~1.9kb 📦
+
+The `loadNamespaces` is internally used by next-translate. **SO MAYBE YOU'LL NEVER NEED THIS**. However, we expose it in the API in case you disable the webpack [loader](#3-configuration) option and decide to load the namespaces manually.
+
+To load the namespaces, you must return in your pages the props that the helper provides.
+
+```js
+import loadNamespaces from 'next-translate/loadNamespaces'
+
+export function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await loadNamespaces({ locale, pathname: '/about' })),
+    }
+  }
+}
+```
+🚨 To work well, it is necessary that your `_app.js` will be wrapped with the [appWithI18n](#appwithi18n). Also, the `loadLocaleFrom` configuration property is **mandatory** to define it.
+
+## 5. Plurals
+
+We support 6 plural forms (taken from [CLDR Plurals](http://cldr.unicode.org/index/cldr-spec/plural-rules) page) by adding to the key this suffix (or nesting it under the key with no `_` prefix):
+
+- `_zero`
+- `_one` (singular)
+- `_two` (dual)
+- `_few` (paucal)
+- `_many` (also used for fractions if they have a separate class)
+- `_other` (required—general plural form—also used if the language only has a single form)
+
+_See more info about plurals [here](https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html#sl)_.
+
+Only the last one, **`_other`**, is required because it’s the only common plural form used in all locales.
+
+All other plural forms depends on locale. For example English has only two: `_one` and `_other` (1 cat vs. 2 cats). Some languages have more, like Russian and Arabic.
+
+import React from 'react'
+import appWithI18n from 'next-translate/appWithI18n'
+import i18nConfig from '../i18n'
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />
+}
+
+export default appWithI18n(MyApp, {
+  ...i18nConfig,
+  //
+  // If you remove the "skipInitialProps", then all the namespaces
+  // will be downloaded in the getInitialProps of the app.js and you
+  // won't need to have any helper loadNamespaces on each page.
+  //
+  // skipInitialProps=false (default):
+  // 🟢 Easy to configure
+  // 🔴 All your pages are behind a server. No automatic page optimization.
+  //
+  // skipInitialProps=true:
+  // 🔴 Hard to configure
+  // 🟢 Better performance with automatic page optimization.
+  //
+  skipInitialProps: true,
+})
+module.exports = {
+  locales: ['en', 'ca', 'es'],
+  defaultLocale: 'en',
+  loader: false, // This deactivate the webpack loader that loads the namespaces
+  pages: {
+    '*': ['common'],
+    '/404': ['error'],
+    '/': ['home'],
+    '/dashboard': ['home'],
+    'rgx:^/more-examples': ['more-examples'],
+  },
+  // When loader === false (or when using Turbopack), then loadLocaleFrom is required
+  loadLocaleFrom: (locale, namespace) =>
+    import(`./locales/${locale}/${namespace}`).then((r) => r.default),
+}
+import { I18nDictionary, LoaderConfig, LocaleLoader } from '.'
+import getConfig from './getConfig'
+import getPageNamespaces from './getPageNamespaces'
+
+export default async function loadNamespaces(
+  config: LoaderConfig = {} as LoaderConfig
+): Promise<{
+  __lang: string
+  __namespaces?: Record<string, I18nDictionary>
+}> {
+  const conf = { ...getConfig(), ...config }
+  const localesToIgnore = conf.localesToIgnore || ['default']
+  const __lang: string =
+    conf.req?.locale ||
+    conf.locale ||
+    conf.router?.locale ||
+    conf.defaultLocale ||
+    ''
+
+  if (!conf.pathname) {
+    console.warn(
+      '🚨 [next-translate] You forgot to pass the "pathname" inside "loadNamespaces" configuration'
+    )
+    return { __lang }
+  }
+
+  if (localesToIgnore.includes(__lang)) return { __lang }
+
+  if (!conf.loaderName && conf.loader !== false) {
+    console.warn(
+      '🚨 [next-translate] You can remove the "loadNamespaces" helper, unless you set "loader: false" in your i18n config file.'
+    )
+  }
+
+  const page = removeTrailingSlash(conf.pathname.replace(/\/index$/, '')) || '/'
+  const namespaces = await getPageNamespaces(conf, page, conf)
+  const defaultLoader: LocaleLoader = () => Promise.resolve({})
+  const pageNamespaces =
+    (await Promise.all(
+      namespaces.map((ns) =>
+        typeof conf.loadLocaleFrom === 'function'
+          ? conf.loadLocaleFrom(__lang, ns).catch(() => ({}))
+          : defaultLoader(__lang, ns)
+      )
+    )) || []
+
+  log(conf, { page, lang: __lang, namespaces })
+
+  return {
+    __lang,
+    __namespaces: namespaces.reduce(
+      (obj: Record<string, I18nDictionary>, ns, i) => {
+        obj[ns] = pageNamespaces[i] || (null as unknown as I18nDictionary)
+        return obj
+      },
+      {}
+    ),
+  }
+}
+
+function removeTrailingSlash(path = '') {
+  return path.length > 1 && path.endsWith('/') ? path.slice(0, -1) : path
+}
+
+type LogProps = {
+  page: string
+  lang: string
+  namespaces: string[]
+}
+
+export function log(conf: LoaderConfig, { page, lang, namespaces }: LogProps) {
+  if (conf.logBuild !== false && typeof window === 'undefined') {
+    const colorEnabled =
+      process.env.NODE_DISABLE_COLORS == null &&
+      process.env.NO_COLOR == null &&
+      process.env.TERM !== 'dumb' &&
+      process.env.FORCE_COLOR !== '0'
+    const color = (c: string) => (colorEnabled ? `\x1b[36m${c}\x1b[0m` : c)
+    console.log(
+      color('next-translate'),
+      `- compiled page:`,
+      color(page),
+      '- locale:',
+      color(lang),
+      '- namespaces:',
+      color(namespaces.join(', ')),
+      '- used loader:',
+      color(conf.loaderName || '-')
+    )
+  }
+}
+
+COMMAND /bin/zsh -lc "nl -ba src/appWithI18n.tsx | sed -n '30,70p'; nl -ba __tests__/appWithI18n.test.js | sed -n '30,80p'; sed -n '1,120p' src/context.tsx; rg -n \"AppDirI18nProvider\" . --glob '"'!node_modules/**'"' --glob '"'!lib/**'"'; rg -n \"pages/|app/|hybrid|coexist|migration\" examples docs README.md .github 2>/dev/null | head -n 220; git status --short --branch; git diff --check; git diff --no-index /dev/null __tests__/appWithI18n.test.js | sed -n '1,180p'"
+
+COMMAND /bin/zsh -lc "nl -ba src/appWithI18n.tsx | sed -n '30,70p'; nl -ba __tests__/appWithI18n.test.js | sed -n '30,80p'; sed -n '1,120p' src/context.tsx; rg -n \"AppDirI18nProvider\" . --glob '"'!node_modules/**'"' --glob '"'!lib/**'"'; rg -n \"pages/|app/|hybrid|coexist|migration\" examples docs README.md .github 2>/dev/null | head -n 220; git status --short --branch; git diff --check; git diff --no-index /dev/null __tests__/appWithI18n.test.js | sed -n '1,180p'"
+2026-07-23 16:02:43.198 xcodebuild[93735:4588486]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:02:43.340 xcodebuild[93735:4588485] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-60aOENIF' (errno=Operation not permitted)
+2026-07-23 16:02:43.807 xcodebuild[93737:4588497]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:02:43.954 xcodebuild[93737:4588495] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+## HEAD (no branch)
+ M src/appWithI18n.tsx
+?? __tests__/appWithI18n.test.js
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-uEI0Tr65' (errno=Operation not permitted)
+2026-07-23 16:02:45.023 xcodebuild[93743:4588540]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:02:45.165 xcodebuild[93743:4588538] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-yv03TtUo' (errno=Operation not permitted)
+2026-07-23 16:02:45.626 xcodebuild[93745:4588550]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:02:45.765 xcodebuild[93745:4588549] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-2xBSEZWB' (errno=Operation not permitted)
+2026-07-23 16:02:46.812 xcodebuild[93751:4588577]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:02:46.953 xcodebuild[93751:4588576] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-Dep8GOTu' (errno=Operation not permitted)
+2026-07-23 16:02:47.420 xcodebuild[93753:4588604]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:02:47.558 xcodebuild[93753:4588603] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+diff --git a/__tests__/appWithI18n.test.js b/__tests__/appWithI18n.test.js
+new file mode 100644
+index 0000000..a43369b
+--- /dev/null
++++ b/__tests__/appWithI18n.test.js
+@@ -0,0 +1,69 @@
++import React, { useState } from 'react'
++import { render, cleanup, fireEvent } from '@testing-library/react'
++import appWithI18n from '../src/appWithI18n'
++import I18nProvider from '../src/I18nProvider'
++import useTranslation from '../src/useTranslation'
++
++const namespaces = {
++  common: {
++    en: { languageName: 'English' },
++    es: { languageName: 'Español' },
++  },
++}
++
++// Mirrors the user's _app.tsx: a reactive <I18nProvider> whose lang is driven
++// by React state, nested inside the plugin-injected appWithI18n HoC.
++function App() {
++  const [lang, setLang] = useState('en')
++  return (
++    <I18nProvider key={lang} lang={lang} namespaces={{ common: namespaces.common[lang] }}>
++      <button onClick={() => setLang('es')}>change</button>
++      <Current />
++    </I18nProvider>
++  )
++}
++
++function Current() {
++  const { t, lang } = useTranslation('common')
++  return (
++    <span>
++      {t('languageName')} ({lang})
++    </span>
++  )
++}
++
++describe('appWithI18n', () => {
++  afterEach(() => {
++    cleanup()
++    // The app-dir global must never leak out of a pages-dir render.
++    delete globalThis.__NEXT_TRANSLATE__
++  })
++  beforeEach(() => {
++    delete globalThis.__NEXT_TRANSLATE__
++    console.warn = jest.fn()
++  })
++
++  // Regression for #1256: appWithI18n (pages-dir) used to set
++  // globalThis.__NEXT_TRANSLATE__, which made useTranslation switch to the
++  // frozen app-dir path and ignore the reactive I18nProvider lang prop.
++  test('does not set the app-dir globalThis.__NEXT_TRANSLATE__', () => {
++    const AppWithI18n = appWithI18n(App, { defaultLocale: 'en' })
++    render(
++      <AppWithI18n pageProps={{ __lang: 'en', __namespaces: namespaces }} />
++    )
++    expect(globalThis.__NEXT_TRANSLATE__).toBeUndefined()
++  })
++
++  test('reactive I18nProvider lang prop is respected under appWithI18n', () => {
++    const AppWithI18n = appWithI18n(App, { defaultLocale: 'en' })
++    const { container, getByText } = render(
++      <AppWithI18n pageProps={{ __lang: 'en', __namespaces: namespaces }} />
++    )
++
++    expect(container.textContent).toContain('English (en)')
++
++    fireEvent.click(getByText('change'))
++
++    expect(container.textContent).toContain('Español (es)')
++  })
++})
+
+COMMAND /bin/zsh -lc "git remote -v; git branch -a --contains HEAD; git tag --contains HEAD; git log --all --oneline --decorate --grep='1256\\|translation instance\\|locale changes' -20; git show-ref --heads --tags | tail -n 30; git rev-parse HEAD; git log -1 --format=fuller HEAD; git log --oneline --decorate -20"
+
+COMMAND /bin/zsh -lc "git remote -v; git branch -a --contains HEAD; git tag --contains HEAD; git log --all --oneline --decorate --grep='1256\\|translation instance\\|locale changes' -20; git show-ref --heads --tags | tail -n 30; git rev-parse HEAD; git log -1 --format=fuller HEAD; git log --oneline --decorate -20"
+2026-07-23 16:03:15.274 xcodebuild[93840:4589075]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:15.414 xcodebuild[93840:4589074] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-jKJzYUHI' (errno=Operation not permitted)
+2026-07-23 16:03:15.882 xcodebuild[93842:4589086]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:16.024 xcodebuild[93842:4589085] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+origin	https://github.com/aralroca/next-translate.git (fetch)
+origin	https://github.com/aralroca/next-translate.git (push)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-VYOT4ERJ' (errno=Operation not permitted)
+2026-07-23 16:03:17.079 xcodebuild[93847:4589113]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:17.220 xcodebuild[93847:4589112] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-UKT5NhLn' (errno=Operation not permitted)
+2026-07-23 16:03:17.692 xcodebuild[93849:4589131]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:17.834 xcodebuild[93849:4589130] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+* (HEAD detached from f1fbf47)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-Am0yFbxF' (errno=Operation not permitted)
+2026-07-23 16:03:18.910 xcodebuild[93854:4589188]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:19.051 xcodebuild[93854:4589187] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-tW0NZiI4' (errno=Operation not permitted)
+2026-07-23 16:03:19.523 xcodebuild[93864:4589235]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:19.666 xcodebuild[93864:4589234] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-8mGD7GVH' (errno=Operation not permitted)
+2026-07-23 16:03:20.736 xcodebuild[93870:4589260]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:20.879 xcodebuild[93870:4589257] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-tkuYLoTO' (errno=Operation not permitted)
+2026-07-23 16:03:21.348 xcodebuild[93872:4589270]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:21.490 xcodebuild[93872:4589269] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+7479174 fix(app-router): update translation instance when locale changes (#1256)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-haTXRekG' (errno=Operation not permitted)
+2026-07-23 16:03:22.569 xcodebuild[93878:4589314]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:22.708 xcodebuild[93878:4589313] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-iw4UPAuK' (errno=Operation not permitted)
+2026-07-23 16:03:23.186 xcodebuild[93880:4589331]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:23.328 xcodebuild[93880:4589330] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+01eecab94bb465c91b0ffaf612da00c2a1fde991 refs/tags/2.4.2
+aed6aabd9981072b9253b67d75cd1c31b50eb60d refs/tags/2.4.3
+de5ad45d005488b36f21fed291e18437af468972 refs/tags/2.4.4
+36d8150324650315962c97848848fb80c065fc6e refs/tags/2.5.0
+4f409c212c564c403b7f6c0f75f41c21d5b1bee3 refs/tags/2.5.2
+ba63f4dcdb65ed258185b2851a4574a2feeb2ebb refs/tags/2.5.3
+920fa81415f7efae1cb04510325bb323aa75fbb9 refs/tags/2.6.0
+38524fa89a42029d3c62eae90d95e2adb7dead9f refs/tags/2.6.1
+6696e3adbc5efce37f3f0be4451c48c5584fe3f9 refs/tags/2.6.2
+8c77ecd51b1c3887f7cd9a514442a90a601b2ce1 refs/tags/2.7.0-canary.1
+2bedb8d957ca4990c1ebc4f4639118556d971178 refs/tags/3.0.0
+c3b71ad73d4f39f5fdb3bb5c86180ee0ba2b93c4 refs/tags/3.0.0-canary.1
+c3b71ad73d4f39f5fdb3bb5c86180ee0ba2b93c4 refs/tags/3.0.0-canary.2
+fbdcb8246028ebd6a7f22ec2899482ab922fb75a refs/tags/3.0.0-canary.3
+4a45e9b235e86da30dffe5eac7d07b7a68469439 refs/tags/3.0.0-canary.4
+c47f226ffd0c0f2600595ae7620f8708d6f70a05 refs/tags/3.0.0-canary.5
+c47f226ffd0c0f2600595ae7620f8708d6f70a05 refs/tags/3.0.0-canary.6
+c47f226ffd0c0f2600595ae7620f8708d6f70a05 refs/tags/3.0.0-canary.7
+c47f226ffd0c0f2600595ae7620f8708d6f70a05 refs/tags/3.0.0-canary.8
+c47f226ffd0c0f2600595ae7620f8708d6f70a05 refs/tags/3.0.0-canary.9
+00b2b54972bcc69bd530caf228d4b3a390152d89 refs/tags/3.0.1
+91aad7e1cc90ec78839faeb7c3a8ff9e034c4f8b refs/tags/3.0.2
+8a1d59e5f7915da792e5ddd96be5b6c8a226de27 refs/tags/3.1.0
+4467eca964acdf954059a726e708ad0150c65789 refs/tags/3.1.0-canary.3
+f1fbf473b42cf795ae8eb996003222625bfc58ac refs/tags/3.1.0-canary.4
+9a6a2136cb7dec495e6c733ef7b4120a081b1b55 refs/tags/3.1.0-canary.5
+583b5e2870c850343401e0076b2f1392e6b65c9a refs/tags/3.1.1
+c4951c2094fcad5b3e7d7c0704c9c80d23182cff refs/tags/3.1.2
+5e346a1947f71e261d357bedfc15bb3fa07cacbe refs/tags/3.1.3
+1a2e7676d45230484b0705c98fd652d308253e25 refs/tags/3.2.0
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-chZywCam' (errno=Operation not permitted)
+2026-07-23 16:03:24.376 xcodebuild[93886:4589374]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:24.517 xcodebuild[93886:4589373] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-MxQDrqrO' (errno=Operation not permitted)
+2026-07-23 16:03:24.975 xcodebuild[93888:4589385]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:25.116 xcodebuild[93888:4589384] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+94753d92c3368d30c22fb77b01c361cad8a60284
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-BV3nsIAz' (errno=Operation not permitted)
+2026-07-23 16:03:26.149 xcodebuild[93893:4589412]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:26.291 xcodebuild[93893:4589411] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-ZwPMiYDB' (errno=Operation not permitted)
+2026-07-23 16:03:26.756 xcodebuild[93895:4589433]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:26.896 xcodebuild[93895:4589432] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+commit 94753d92c3368d30c22fb77b01c361cad8a60284
+Author:     setup <noreply@github.com>
+AuthorDate: Thu Jul 23 15:56:55 2026 +0700
+Commit:     setup <noreply@github.com>
+CommitDate: Thu Jul 23 15:56:55 2026 +0700
+
+    post-setup baseline (D-034)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-pBZoah7H' (errno=Operation not permitted)
+2026-07-23 16:03:27.960 xcodebuild[93899:4589462]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:28.105 xcodebuild[93899:4589461] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-1XquTDgV' (errno=Operation not permitted)
+2026-07-23 16:03:28.602 xcodebuild[93901:4589471]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:28.740 xcodebuild[93901:4589470] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+94753d9 (HEAD) post-setup baseline (D-034)
+f1fbf47 (tag: 3.1.0-canary.4) prelease 3.1.0-canary.4
+4467eca (tag: 3.1.0-canary.3) prerelease 3.1.0-canary.3
+7479174 fix(app-router): update translation instance when locale changes (#1256)
+a8dfad7 prerelease 3.1.0-canary.2
+fd63c89 feat: add formatElements to tarball (#1255)
+2f62ad0 prerelease 3.1.0-canary.1
+7a35738 feat(format-elements): support attributes in tags and href injection (#1254)
+91aad7e (tag: 3.0.2) release
+7ce86e7 prerelease
+9d5dd0c Add TransText module to package.json (#1252)
+00b2b54 (tag: 3.0.1) chore: release 3.0.1
+a7ca89d prerelease
+0b60435 Update examples and add Next.js 16/Remote Loading demos (#1251)
+2bedb8d (tag: 3.0.0) release 3.0.0
+8ab890e Release 3.0.0 (#1249)
+c47f226 (tag: 3.0.0-canary.9, tag: 3.0.0-canary.8, tag: 3.0.0-canary.7, tag: 3.0.0-canary.6, tag: 3.0.0-canary.5) chore: update readme
+480e8ae fix: fix tarball (#1227)
+2ab5636 Expose formatElements (#1213)
+fbdcb82 (tag: 3.0.0-canary.3) docs: add jessemartin as a contributor for code (#1208)
+
+COMMAND /bin/zsh -lc "git log --oneline --decorate HEAD..1a2e767 -- src/appWithI18n.tsx src/I18nProvider.tsx src/AppDirI18nProvider.tsx src/useTranslation.tsx src/createTranslation.tsx __tests__ | head -n 100; git show --stat --oneline 7479174; git show --no-ext-diff --unified=100 7479174 -- src __tests__ | sed -n '1,1000p'; for ref in 3.1.0 3.1.1 3.1.2 3.1.3 3.2.0; do echo \""'$ref"; git show "$ref":src/appWithI18n.tsx | sed -n '"'30,55p'; done; git log --all --oneline --decorate -- src/appWithI18n.tsx | head -n 30"
+
+COMMAND /bin/zsh -lc "git log --oneline --decorate HEAD..1a2e767 -- src/appWithI18n.tsx src/I18nProvider.tsx src/AppDirI18nProvider.tsx src/useTranslation.tsx src/createTranslation.tsx __tests__ | head -n 100; git show --stat --oneline 7479174; git show --no-ext-diff --unified=100 7479174 -- src __tests__ | sed -n '1,1000p'; for ref in 3.1.0 3.1.1 3.1.2 3.1.3 3.2.0; do echo \""'$ref"; git show "$ref":src/appWithI18n.tsx | sed -n '"'30,55p'; done; git log --all --oneline --decorate -- src/appWithI18n.tsx | head -n 30"
+2026-07-23 16:03:35.937 xcodebuild[93917:4589692]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:36.087 xcodebuild[93917:4589691] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-SaPGuVC8' (errno=Operation not permitted)
+2026-07-23 16:03:36.593 xcodebuild[93919:4589720]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:36.749 xcodebuild[93919:4589719] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+1337451 fix: update t when the loaded namespace set changes (#1269)
+b34e288 fix: match page namespaces ignoring App Router route groups (#1263) (#1267)
+3e07466 fix: prevent server crash with invalid locale (#1265)
+583b5e2 (tag: 3.1.1) fix: prevent cross-locale namespace pollution during static builds (#1262)
+444c635 fix(app-router): prevent AppDirI18nProvider from overwriting loadLocaleFrom on the server (#1261)
+f135f4d fix(core): ensure language updates correctly in I18nProvider and DynamicNamespaces (#1259)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-VIgY8Z2f' (errno=Operation not permitted)
+2026-07-23 16:03:37.825 xcodebuild[93924:4589745]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:37.967 xcodebuild[93924:4589744] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-rEHhO0e7' (errno=Operation not permitted)
+2026-07-23 16:03:38.443 xcodebuild[93926:4589754]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:38.595 xcodebuild[93926:4589753] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+7479174 fix(app-router): update translation instance when locale changes (#1256)
+ src/createTranslation.tsx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-AdbDaU72' (errno=Operation not permitted)
+2026-07-23 16:03:39.755 xcodebuild[93932:4589781]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:39.908 xcodebuild[93932:4589780] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-YS0L6HsZ' (errno=Operation not permitted)
+2026-07-23 16:03:40.445 xcodebuild[93935:4589804]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:40.598 xcodebuild[93935:4589803] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+commit 74791746d6cdbaadbd11b6906a8d26afca7fcd36
+Author: Aral Roca Gomez <aral-rg@hotmail.com>
+Date:   Tue Mar 17 10:29:35 2026 +0100
+
+    fix(app-router): update translation instance when locale changes (#1256)
+    
+    The useMemo hook in createTranslation was only depending on defaultNS. In App Router, during soft navigation where components might not unmount, the translation function 't' was remaining stale with the previous language. Adding 'lang' to the dependency array ensures 't' is regenerated when the locale changes.
+
+diff --git a/src/createTranslation.tsx b/src/createTranslation.tsx
+index 1197f57..4f6976f 100644
+--- a/src/createTranslation.tsx
++++ b/src/createTranslation.tsx
+@@ -1,24 +1,24 @@
+ import { useMemo } from 'react'
+ import isServer from './isServer'
+ import transCore from './transCore'
+ import wrapTWithDefaultNs from './wrapTWithDefaultNs'
+ 
+ // Only for App directory
+ export default function createTranslation(defaultNS?: string) {
+   const { lang, namespaces, config } = globalThis.__NEXT_TRANSLATE__ ?? {}
+   const localesToIgnore = config.localesToIgnore || ['default']
+   const ignoreLang = !lang || localesToIgnore.includes(lang)
+   const getT = () => {
+     const t = transCore({
+       config,
+       allNamespaces: namespaces,
+       pluralRules: new Intl.PluralRules(ignoreLang ? undefined : lang),
+       lang,
+     })
+ 
+     return wrapTWithDefaultNs(t, defaultNS)
+   }
+ 
+-  const t = isServer() ? getT() : useMemo(getT, [defaultNS])
++  const t = isServer() ? getT() : useMemo(getT, [defaultNS, lang])
+   return { t, lang }
+ }
+3.1.0
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-kbruMnf6' (errno=Operation not permitted)
+2026-07-23 16:03:41.758 xcodebuild[93942:4589851]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:41.899 xcodebuild[93942:4589850] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-dW1DKLPy' (errno=Operation not permitted)
+2026-07-23 16:03:42.365 xcodebuild[93944:4589880]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:42.503 xcodebuild[93944:4589879] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+  if (!config.isLoader && config.loader !== false) {
+    console.warn(
+      '🚨 [next-translate] You can remove the "appWithI18n" HoC on the _app.js, unless you set "loader: false" in your i18n config file.'
+    )
+  }
+
+  function AppWithTranslations(props: Props) {
+    const { defaultLocale } = config
+    const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+    const namespaces = props.pageProps?.__namespaces || props.__namespaces
+
+    if (lang && namespaces) {
+      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+    }
+
+    return (
+      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+        <AppToTranslate {...props} />
+      </I18nProvider>
+    )
+  }
+
+  if (typeof config.staticsHoc === 'function') {
+    config.staticsHoc(AppWithTranslations, AppToTranslate)
+  }
+
+3.1.1
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-Z6yIEILF' (errno=Operation not permitted)
+2026-07-23 16:03:43.571 xcodebuild[93951:4589918]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:43.712 xcodebuild[93951:4589917] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-byHSc2EF' (errno=Operation not permitted)
+2026-07-23 16:03:44.181 xcodebuild[93953:4589990]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:44.323 xcodebuild[93953:4589989] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+  if (!config.isLoader && config.loader !== false) {
+    console.warn(
+      '🚨 [next-translate] You can remove the "appWithI18n" HoC on the _app.js, unless you set "loader: false" in your i18n config file.'
+    )
+  }
+
+  function AppWithTranslations(props: Props) {
+    const { defaultLocale } = config
+    const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+    const namespaces = props.pageProps?.__namespaces || props.__namespaces
+
+    if (lang && namespaces) {
+      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+    }
+
+    return (
+      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+        <AppToTranslate {...props} />
+      </I18nProvider>
+    )
+  }
+
+  if (typeof config.staticsHoc === 'function') {
+    config.staticsHoc(AppWithTranslations, AppToTranslate)
+  }
+
+3.1.2
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-o5FcGErI' (errno=Operation not permitted)
+2026-07-23 16:03:45.354 xcodebuild[93959:4590012]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:45.496 xcodebuild[93959:4590011] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-5yC6xInm' (errno=Operation not permitted)
+2026-07-23 16:03:45.967 xcodebuild[93968:4590068]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:46.109 xcodebuild[93968:4590062] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+  if (!config.isLoader && config.loader !== false) {
+    console.warn(
+      '🚨 [next-translate] You can remove the "appWithI18n" HoC on the _app.js, unless you set "loader: false" in your i18n config file.'
+    )
+  }
+
+  function AppWithTranslations(props: Props) {
+    const { defaultLocale } = config
+    const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+    const namespaces = props.pageProps?.__namespaces || props.__namespaces
+
+    if (lang && namespaces) {
+      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+    }
+
+    return (
+      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+        <AppToTranslate {...props} />
+      </I18nProvider>
+    )
+  }
+
+  if (typeof config.staticsHoc === 'function') {
+    config.staticsHoc(AppWithTranslations, AppToTranslate)
+  }
+
+3.1.3
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-mtmBpc9t' (errno=Operation not permitted)
+2026-07-23 16:03:47.178 xcodebuild[93976:4590120]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:47.322 xcodebuild[93976:4590119] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-YFBDGWmj' (errno=Operation not permitted)
+2026-07-23 16:03:47.789 xcodebuild[93978:4590129]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:47.933 xcodebuild[93978:4590128] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+  if (!config.isLoader && config.loader !== false) {
+    console.warn(
+      '🚨 [next-translate] You can remove the "appWithI18n" HoC on the _app.js, unless you set "loader: false" in your i18n config file.'
+    )
+  }
+
+  function AppWithTranslations(props: Props) {
+    const { defaultLocale } = config
+    const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+    const namespaces = props.pageProps?.__namespaces || props.__namespaces
+
+    if (lang && namespaces) {
+      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+    }
+
+    return (
+      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+        <AppToTranslate {...props} />
+      </I18nProvider>
+    )
+  }
+
+  if (typeof config.staticsHoc === 'function') {
+    config.staticsHoc(AppWithTranslations, AppToTranslate)
+  }
+
+3.2.0
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-IEYUehAX' (errno=Operation not permitted)
+2026-07-23 16:03:48.991 xcodebuild[93984:4590156]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:49.130 xcodebuild[93984:4590155] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-YPzdz73w' (errno=Operation not permitted)
+2026-07-23 16:03:49.586 xcodebuild[93986:4590166]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:49.727 xcodebuild[93986:4590165] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+  if (!config.isLoader && config.loader !== false) {
+    console.warn(
+      '🚨 [next-translate] You can remove the "appWithI18n" HoC on the _app.js, unless you set "loader: false" in your i18n config file.'
+    )
+  }
+
+  function AppWithTranslations(props: Props) {
+    const { defaultLocale } = config
+    const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+    const namespaces = props.pageProps?.__namespaces || props.__namespaces
+
+    if (lang && namespaces) {
+      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+    }
+
+    return (
+      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+        <AppToTranslate {...props} />
+      </I18nProvider>
+    )
+  }
+
+  if (typeof config.staticsHoc === 'function') {
+    config.staticsHoc(AppWithTranslations, AppToTranslate)
+  }
+
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-2bbtiuAW' (errno=Operation not permitted)
+2026-07-23 16:03:50.756 xcodebuild[93993:4590194]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:50.898 xcodebuild[93993:4590193] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-Qu9Okgw4' (errno=Operation not permitted)
+2026-07-23 16:03:51.357 xcodebuild[93995:4590207]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:03:51.496 xcodebuild[93995:4590206] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+0b60435 Update examples and add Next.js 16/Remote Loading demos (#1251)
+c1069d0 (tag: 1.0.2-canary.10) Add staticsHoc in config to allow hoist-non-react-statics or other alternatives for the HOCs (#479)
+1e52a87 (tag: 1.0.1-canary.4) Improve appWithI18n types (#414)
+e9d22f0 (tag: 1.0.0) Canary (#390)
+a2e6eb5 (tag: 1.0.0-canary.9) Fix issue with Node 10 (#386)
+d84dbc8 (tag: 1.0.0-canary.8) Add (getT) to get the t function outside components / pages (#383)
+3c7090e Change config way i18provider (#369)
+adaa09e (tag: 1.0.0-canary.1) Replace CLI to next plugin + move project to typescript + refactor (#359)
+efb3123 Update examples + some fixes
+9ca13e5 (tag: 1.0.0-experimental.15) Remove next/app from appWithI18n + refactor
+667c9ef (tag: 1.0.0-experimental.10) Do dynamic prop from DynamicNamespace transparent
+15c6f18 Merge branch '1.0.0-experimental' of github.com:vinissimus/i18n-next-static into 1.0.0-experimental-temp
+15d9e2f [WIP] migrate to TypeScript
+
+COMMAND /bin/zsh -lc 'for ref in 3.1.2 3.1.3 3.2.0; do echo "$ref"; git show "$ref":src/appWithI18n.tsx | sed -n '"'34,54p'; done; git log --all --oneline --decorate -- src/appWithI18n.tsx | head -n 40; git show 3.2.0:src/useTranslation.tsx; git show 3.2.0:src/AppDirI18nProvider.tsx; git show 3.2.0:src/I18nProvider.tsx | sed -n '1,100p'; git show 3.2.0:src/createTranslation.tsx | sed -n '1,100p'"
+
+COMMAND /bin/zsh -lc 'for ref in 3.1.2 3.1.3 3.2.0; do echo "$ref"; git show "$ref":src/appWithI18n.tsx | sed -n '"'34,54p'; done; git log --all --oneline --decorate -- src/appWithI18n.tsx | head -n 40; git show 3.2.0:src/useTranslation.tsx; git show 3.2.0:src/AppDirI18nProvider.tsx; git show 3.2.0:src/I18nProvider.tsx | sed -n '1,100p'; git show 3.2.0:src/createTranslation.tsx | sed -n '1,100p'"
+2026-07-23 16:04:01.277 xcodebuild[94009:4590399]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:01.423 xcodebuild[94009:4590398] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-xPrYOKMh' (errno=Operation not permitted)
+2026-07-23 16:04:01.884 xcodebuild[94011:4590409]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:02.024 xcodebuild[94011:4590408] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+  }
+
+  function AppWithTranslations(props: Props) {
+    const { defaultLocale } = config
+    const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+    const namespaces = props.pageProps?.__namespaces || props.__namespaces
+
+    if (lang && namespaces) {
+      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+    }
+
+    return (
+      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+        <AppToTranslate {...props} />
+      </I18nProvider>
+    )
+  }
+
+  if (typeof config.staticsHoc === 'function') {
+    config.staticsHoc(AppWithTranslations, AppToTranslate)
+  }
+3.1.3
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-rnIIApPw' (errno=Operation not permitted)
+2026-07-23 16:04:03.062 xcodebuild[94017:4590430]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:03.203 xcodebuild[94017:4590429] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-mFyCEHY4' (errno=Operation not permitted)
+2026-07-23 16:04:03.661 xcodebuild[94019:4590447]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:03.801 xcodebuild[94019:4590446] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+  }
+
+  function AppWithTranslations(props: Props) {
+    const { defaultLocale } = config
+    const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+    const namespaces = props.pageProps?.__namespaces || props.__namespaces
+
+    if (lang && namespaces) {
+      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+    }
+
+    return (
+      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+        <AppToTranslate {...props} />
+      </I18nProvider>
+    )
+  }
+
+  if (typeof config.staticsHoc === 'function') {
+    config.staticsHoc(AppWithTranslations, AppToTranslate)
+  }
+3.2.0
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-B54wozY0' (errno=Operation not permitted)
+2026-07-23 16:04:04.870 xcodebuild[94033:4590507]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:05.011 xcodebuild[94033:4590506] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-oqpOUo5G' (errno=Operation not permitted)
+2026-07-23 16:04:05.476 xcodebuild[94035:4590518]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:05.616 xcodebuild[94035:4590517] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+  }
+
+  function AppWithTranslations(props: Props) {
+    const { defaultLocale } = config
+    const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+    const namespaces = props.pageProps?.__namespaces || props.__namespaces
+
+    if (lang && namespaces) {
+      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+    }
+
+    return (
+      <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+        <AppToTranslate {...props} />
+      </I18nProvider>
+    )
+  }
+
+  if (typeof config.staticsHoc === 'function') {
+    config.staticsHoc(AppWithTranslations, AppToTranslate)
+  }
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-s51NPKCk' (errno=Operation not permitted)
+2026-07-23 16:04:06.669 xcodebuild[94041:4590566]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:06.820 xcodebuild[94041:4590565] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-uFb9K7KG' (errno=Operation not permitted)
+2026-07-23 16:04:07.314 xcodebuild[94043:4590589]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:07.453 xcodebuild[94043:4590588] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+0b60435 Update examples and add Next.js 16/Remote Loading demos (#1251)
+c1069d0 (tag: 1.0.2-canary.10) Add staticsHoc in config to allow hoist-non-react-statics or other alternatives for the HOCs (#479)
+1e52a87 (tag: 1.0.1-canary.4) Improve appWithI18n types (#414)
+e9d22f0 (tag: 1.0.0) Canary (#390)
+a2e6eb5 (tag: 1.0.0-canary.9) Fix issue with Node 10 (#386)
+d84dbc8 (tag: 1.0.0-canary.8) Add (getT) to get the t function outside components / pages (#383)
+3c7090e Change config way i18provider (#369)
+adaa09e (tag: 1.0.0-canary.1) Replace CLI to next plugin + move project to typescript + refactor (#359)
+efb3123 Update examples + some fixes
+9ca13e5 (tag: 1.0.0-experimental.15) Remove next/app from appWithI18n + refactor
+667c9ef (tag: 1.0.0-experimental.10) Do dynamic prop from DynamicNamespace transparent
+15c6f18 Merge branch '1.0.0-experimental' of github.com:vinissimus/i18n-next-static into 1.0.0-experimental-temp
+15d9e2f [WIP] migrate to TypeScript
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-66DoV7m4' (errno=Operation not permitted)
+2026-07-23 16:04:08.548 xcodebuild[94048:4590620]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:08.692 xcodebuild[94048:4590619] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-hhQqcJhU' (errno=Operation not permitted)
+2026-07-23 16:04:09.178 xcodebuild[94050:4590642]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:09.325 xcodebuild[94050:4590641] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+import { useContext, useMemo } from 'react'
+import { I18n } from '.'
+import wrapTWithDefaultNs from './wrapTWithDefaultNs'
+import I18nContext from './context'
+import createTranslation from './createTranslation'
+
+function useTranslationInPages(defaultNS?: string): I18n {
+  const ctx = useContext(I18nContext)
+  return useMemo(
+    () => ({
+      ...ctx,
+      t: wrapTWithDefaultNs(ctx.t, defaultNS),
+    }),
+    [ctx, defaultNS]
+  )
+}
+
+export default function useTranslation(defaultNS?: string): I18n {
+  const appDir = globalThis.__NEXT_TRANSLATE__
+  const useT = appDir?.config ? createTranslation : useTranslationInPages
+  return useT(defaultNS)
+}
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-wazEHg4F' (errno=Operation not permitted)
+2026-07-23 16:04:10.391 xcodebuild[94056:4590669]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:10.539 xcodebuild[94056:4590668] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-0dFn242o' (errno=Operation not permitted)
+2026-07-23 16:04:11.005 xcodebuild[94058:4590679]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:11.145 xcodebuild[94058:4590678] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+'use client'
+
+import { I18nDictionary, LoaderConfig } from '.'
+
+type AppDirI18nProviderProps = {
+  lang: string
+  namespaces: Record<string, I18nDictionary>
+  config: LoaderConfig
+  children: React.ReactNode
+}
+
+/**
+ * @description AppDirI18nProvider for internal use (next-translate-plugin) only.
+ * Is required because this is a RCC (React Client Component) and this way we
+ * provide a global i18n context for client components.
+ */
+export default function AppDirI18nProvider({
+  lang,
+  namespaces = {},
+  config,
+  children,
+}: AppDirI18nProviderProps) {
+  globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+
+  // It return children and avoid re-renders and also allow children to be RSC (React Server Components)
+  return children
+}
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-6FjHBqA6' (errno=Operation not permitted)
+2026-07-23 16:04:12.187 xcodebuild[94064:4590712]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:12.329 xcodebuild[94064:4590711] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-Pcr7VQ47' (errno=Operation not permitted)
+2026-07-23 16:04:12.805 xcodebuild[94066:4590726]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:12.950 xcodebuild[94066:4590725] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+import React, { createContext, useContext, useMemo } from 'react'
+import { useRouter } from 'next/router'
+import I18nContext from './context'
+import safePluralRules from './safePluralRules'
+import transCore from './transCore'
+import useTranslation from './useTranslation'
+import { I18nDictionary, I18nProviderProps } from '.'
+
+export const InternalContext = createContext({ ns: {}, config: {} })
+
+export default function I18nProvider({
+  lang: lng,
+  namespaces = {},
+  children,
+  config: newConfig = {},
+}: I18nProviderProps) {
+  const { lang: parentLang } = useTranslation()
+  const { locale, defaultLocale } = useRouter() || {}
+  const internal = useContext(InternalContext)
+  const allNamespaces: Record<string, I18nDictionary> = {
+    ...initialBrowserNamespaces(),
+    ...internal.ns,
+    ...namespaces,
+  }
+  const lang = lng || parentLang || locale || defaultLocale || ''
+  const config = { ...internal.config, ...newConfig }
+  const localesToIgnore = config.localesToIgnore || ['default']
+  const ignoreLang = !lang || localesToIgnore.includes(lang)
+  const pluralRules = useMemo(
+    () => safePluralRules(ignoreLang ? undefined : lang),
+    [ignoreLang, lang]
+  )
+  const t = useMemo(
+    () => transCore({ config, allNamespaces, pluralRules, lang }),
+    [config, allNamespaces, pluralRules, lang]
+  )
+
+  return (
+    <I18nContext.Provider value={{ lang, t }}>
+      <InternalContext.Provider value={{ ns: allNamespaces, config }}>
+        {children}
+      </InternalContext.Provider>
+    </I18nContext.Provider>
+  )
+}
+
+function initialBrowserNamespaces() {
+  if (typeof window === 'undefined') return {}
+  return window.__NEXT_DATA__?.props?.__namespaces || {}
+}
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-fzh6Sbzi' (errno=Operation not permitted)
+2026-07-23 16:04:14.009 xcodebuild[94072:4590754]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:14.151 xcodebuild[94072:4590753] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-Z955noVu' (errno=Operation not permitted)
+2026-07-23 16:04:14.643 xcodebuild[94080:4590806]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:14.783 xcodebuild[94080:4590805] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+import { useMemo } from 'react'
+import isServer from './isServer'
+import safePluralRules from './safePluralRules'
+import transCore from './transCore'
+import wrapTWithDefaultNs from './wrapTWithDefaultNs'
+
+// Only for App directory
+export default function createTranslation(defaultNS?: string) {
+  const { lang, namespaces, config } = globalThis.__NEXT_TRANSLATE__ ?? {}
+  const localesToIgnore = config.localesToIgnore || ['default']
+  const ignoreLang = !lang || localesToIgnore.includes(lang)
+  const getT = () => {
+    const t = transCore({
+      config,
+      allNamespaces: namespaces,
+      pluralRules: safePluralRules(ignoreLang ? undefined : lang),
+      lang,
+    })
+
+    return wrapTWithDefaultNs(t, defaultNS)
+  }
+
+  // A stable signature of the currently loaded namespace set. In the Pages
+  // Router the appWithI18n HoC reassigns globalThis.__NEXT_TRANSLATE__ on every
+  // navigation, so a translation function held by a component that never
+  // unmounts (e.g. lifted to _app or a context provider) would otherwise stay
+  // memoized on the first page's namespaces and miss namespaces loaded later.
+  // Keying on the namespace names refreshes t when the set actually changes,
+  // while keeping its identity stable otherwise (#447).
+  const nsKey = namespaces ? Object.keys(namespaces).sort().join('|') : ''
+  const t = isServer() ? getT() : useMemo(getT, [defaultNS, lang, nsKey])
+  return { t, lang }
+}
+
+COMMAND /bin/zsh -lc "sed -n '1,260p' src/Trans.tsx; sed -n '1,180p' src/TransText.tsx; sed -n '1,180p' src/withTranslation.tsx; sed -n '1,180p' src/DynamicNamespaces.tsx; git show 0b60435"'^:src/useTranslation.tsx; git show 0b60435''^:src/AppDirI18nProvider.tsx; git show 0b60435''^:src/I18nProvider.tsx | sed -n '"'1,100p'; git show 0b60435"'^:src/createTranslation.tsx | sed -n '"'1,100p'"
+
+COMMAND /bin/zsh -lc "sed -n '1,260p' src/Trans.tsx; sed -n '1,180p' src/TransText.tsx; sed -n '1,180p' src/withTranslation.tsx; sed -n '1,180p' src/DynamicNamespaces.tsx; git show 0b60435"'^:src/useTranslation.tsx; git show 0b60435''^:src/AppDirI18nProvider.tsx; git show 0b60435''^:src/I18nProvider.tsx | sed -n '"'1,100p'; git show 0b60435"'^:src/createTranslation.tsx | sed -n '"'1,100p'"
+2026-07-23 16:04:25.797 xcodebuild[94092:4590978]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:25.945 xcodebuild[94092:4590977] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-v6zbXxlw' (errno=Operation not permitted)
+2026-07-23 16:04:26.448 xcodebuild[94094:4590990]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:26.589 xcodebuild[94094:4590989] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+import { useContext, useMemo } from 'react'
+import { I18n } from '.'
+import wrapTWithDefaultNs from './wrapTWithDefaultNs'
+import I18nContext from './context'
+import createTranslation from './createTranslation'
+
+function useTranslationInPages(defaultNS?: string): I18n {
+  const ctx = useContext(I18nContext)
+  return useMemo(
+    () => ({
+      ...ctx,
+      t: wrapTWithDefaultNs(ctx.t, defaultNS),
+    }),
+    [ctx, defaultNS]
+  )
+}
+
+export default function useTranslation(defaultNS?: string): I18n {
+  const appDir = globalThis.__NEXT_TRANSLATE__
+  const useT = appDir?.config ? createTranslation : useTranslationInPages
+  return useT(defaultNS)
+}
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-LcK3viyl' (errno=Operation not permitted)
+2026-07-23 16:04:27.646 xcodebuild[94099:4591016]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:27.793 xcodebuild[94099:4591015] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-rumSPrke' (errno=Operation not permitted)
+2026-07-23 16:04:28.302 xcodebuild[94101:4591030]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:28.448 xcodebuild[94101:4591029] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+'use client'
+
+import { I18nDictionary, LoaderConfig } from '.'
+
+type AppDirI18nProviderProps = {
+  lang: string
+  namespaces: Record<string, I18nDictionary>
+  config: LoaderConfig
+  children: React.ReactNode
+}
+
+/**
+ * @description AppDirI18nProvider for internal use (next-translate-plugin) only.
+ * Is required because this is a RCC (React Client Component) and this way we
+ * provide a global i18n context for client components.
+ */
+export default function AppDirI18nProvider({
+  lang,
+  namespaces = {},
+  config,
+  children,
+}: AppDirI18nProviderProps) {
+  globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+
+  // It return children and avoid re-renders and also allow children to be RSC (React Server Components)
+  return children
+}
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-gFP6TLsR' (errno=Operation not permitted)
+2026-07-23 16:04:29.592 xcodebuild[94107:4591089]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:29.739 xcodebuild[94107:4591088] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-hHr4Yjr7' (errno=Operation not permitted)
+2026-07-23 16:04:30.240 xcodebuild[94109:4591100]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:30.394 xcodebuild[94109:4591097] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+import React, { createContext, useContext } from 'react'
+import { useRouter } from 'next/router'
+import I18nContext from './context'
+import transCore from './transCore'
+import useTranslation from './useTranslation'
+import { I18nDictionary, I18nProviderProps } from '.'
+
+export const InternalContext = createContext({ ns: {}, config: {} })
+
+export default function I18nProvider({
+  lang: lng,
+  namespaces = {},
+  children,
+  config: newConfig = {},
+}: I18nProviderProps) {
+  const { lang: parentLang } = useTranslation()
+  const { locale, defaultLocale } = useRouter() || {}
+  const internal = useContext(InternalContext)
+  const allNamespaces: Record<string, I18nDictionary> = {
+    ...initialBrowserNamespaces(),
+    ...internal.ns,
+    ...namespaces,
+  }
+  const lang = lng || parentLang || locale || defaultLocale || ''
+  const config = { ...internal.config, ...newConfig }
+  const localesToIgnore = config.localesToIgnore || ['default']
+  const ignoreLang = !lang || localesToIgnore.includes(lang)
+  const pluralRules = new Intl.PluralRules(ignoreLang ? undefined : lang)
+  const t = transCore({ config, allNamespaces, pluralRules, lang })
+
+  return (
+    <I18nContext.Provider value={{ lang, t }}>
+      <InternalContext.Provider value={{ ns: allNamespaces, config }}>
+        {children}
+      </InternalContext.Provider>
+    </I18nContext.Provider>
+  )
+}
+
+function initialBrowserNamespaces() {
+  if (typeof window === 'undefined') return {}
+  return window.__NEXT_DATA__?.props?.__namespaces || {}
+}
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-eSQzBfmu' (errno=Operation not permitted)
+2026-07-23 16:04:31.500 xcodebuild[94117:4591127]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:31.639 xcodebuild[94117:4591126] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-HaKsVkCM' (errno=Operation not permitted)
+2026-07-23 16:04:32.102 xcodebuild[94119:4591158]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:32.241 xcodebuild[94119:4591157] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+import { useMemo } from 'react'
+import isServer from './isServer'
+import transCore from './transCore'
+import wrapTWithDefaultNs from './wrapTWithDefaultNs'
+
+// Only for App directory
+export default function createTranslation(defaultNS?: string) {
+  const { lang, namespaces, config } = globalThis.__NEXT_TRANSLATE__ ?? {}
+  const localesToIgnore = config.localesToIgnore || ['default']
+  const ignoreLang = !lang || localesToIgnore.includes(lang)
+  const getT = () => {
+    const t = transCore({
+      config,
+      allNamespaces: namespaces,
+      pluralRules: new Intl.PluralRules(ignoreLang ? undefined : lang),
+      lang,
+    })
+
+    return wrapTWithDefaultNs(t, defaultNS)
+  }
+
+  const t = isServer() ? getT() : useMemo(getT, [defaultNS])
+  return { t, lang }
+}
+
+COMMAND /bin/zsh -lc "git show --stat --oneline f135f4d; git show --no-ext-diff --unified=100 f135f4d -- src __tests__ | sed -n '1,1200p'; git show --stat --oneline 444c635; git show --no-ext-diff --unified=100 444c635 -- src __tests__ | sed -n '1,800p'; git show 3.2.0:src/I18nProvider.tsx | sed -n '1,120p'; git show 3.2.0:src/AppDirI18nProvider.tsx | sed -n '1,120p'; git show 3.2.0:src/createTranslation.tsx | sed -n '1,100p'"
+
+COMMAND /bin/zsh -lc "git show --stat --oneline f135f4d; git show --no-ext-diff --unified=100 f135f4d -- src __tests__ | sed -n '1,1200p'; git show --stat --oneline 444c635; git show --no-ext-diff --unified=100 444c635 -- src __tests__ | sed -n '1,800p'; git show 3.2.0:src/I18nProvider.tsx | sed -n '1,120p'; git show 3.2.0:src/AppDirI18nProvider.tsx | sed -n '1,120p'; git show 3.2.0:src/createTranslation.tsx | sed -n '1,100p'"
+2026-07-23 16:04:41.915 xcodebuild[94126:4591266]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:42.056 xcodebuild[94126:4591265] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-AKGcDZwR' (errno=Operation not permitted)
+2026-07-23 16:04:42.520 xcodebuild[94128:4591297]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:42.661 xcodebuild[94128:4591296] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+f135f4d fix(core): ensure language updates correctly in I18nProvider and DynamicNamespaces (#1259)
+ __tests__/DynamicNamespaces.test.js | 120 ++++++++++++++++++++++++++++++++++++
+ __tests__/I18nProvider.test.js      |  47 ++++++++++++++
+ src/DynamicNamespaces.tsx           |  29 ++++++---
+ src/I18nProvider.tsx                |  12 +++-
+ 4 files changed, 195 insertions(+), 13 deletions(-)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-BThIkCTc' (errno=Operation not permitted)
+2026-07-23 16:04:43.790 xcodebuild[94134:4591328]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:43.940 xcodebuild[94134:4591327] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-hSYJXFTp' (errno=Operation not permitted)
+2026-07-23 16:04:44.447 xcodebuild[94136:4591336]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:44.593 xcodebuild[94136:4591335] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+commit f135f4dff419b607ea9b609599e47ad37045f7b6
+Author: Aral Roca Gomez <aral-rg@hotmail.com>
+Date:   Sun Mar 22 08:12:48 2026 +0100
+
+    fix(core): ensure language updates correctly in I18nProvider and DynamicNamespaces (#1259)
+    
+    * fix(core): ensure language updates correctly in I18nProvider and DynamicNamespaces
+    
+    This fix addresses a bug where the application language would not update after a change to the `lang` prop in `I18nProvider`.
+    
+    Technical Explanation:
+    1. I18nProvider: By wrapping `pluralRules` and the `t` function in `useMemo` with `lang` and `namespaces` as dependencies, we ensure these values are re-calculated whenever the language or the loaded namespaces change. Without this, the context might provide a stale translation function that still uses the previous language's state.
+    2. DynamicNamespaces: Included `lang` in the `useEffect` dependency array to trigger a re-load of namespaces when the global language changes.
+    
+    Verification:
+    - Added regression tests in `I18nProvider.test.js` and `DynamicNamespaces.test.js`.
+    - All 146 tests passed.
+    
+    * fix(DynamicNamespaces): prevent race condition during rapid language changes
+    
+    This ensures that stale translation requests do not overwrite newer ones if they arrive later. Also adds a regression test and fixes import extensions in tests.
+
+diff --git a/__tests__/DynamicNamespaces.test.js b/__tests__/DynamicNamespaces.test.js
+new file mode 100644
+index 0000000..e9e0484
+--- /dev/null
++++ b/__tests__/DynamicNamespaces.test.js
+@@ -0,0 +1,120 @@
++import React, { useState } from 'react'
++import { render, cleanup, fireEvent, act } from '@testing-library/react'
++import I18nProvider from '../src/I18nProvider'
++import useTranslation from '../src/useTranslation'
++import DynamicNamespaces from '../src/DynamicNamespaces'
++
++describe('DynamicNamespaces', () => {
++  afterEach(cleanup)
++
++  test('should reload namespaces when lang changes', async () => {
++    const loadLocale = jest.fn((lang, ns) => {
++      const locales = {
++        en: { common: { hello: 'Hello' } },
++        es: { common: { hello: 'Hola' } },
++      }
++      return Promise.resolve(locales[lang][ns])
++    })
++
++    const App = () => {
++      const [lang, setLang] = useState('en')
++      return (
++        <I18nProvider lang={lang} config={{ loadLocaleFrom: loadLocale }}>
++          <DynamicNamespaces namespaces={['common']}>
++            <Content />
++          </DynamicNamespaces>
++          <button onClick={() => setLang('es')}>Change to ES</button>
++        </I18nProvider>
++      )
++    }
++
++    const Content = () => {
++      const { t } = useTranslation('common')
++      return <span data-testid="text">{t('hello')}</span>
++    }
++
++    const { getByTestId, getByText } = render(<App />)
++
++    await act(async () => {
++      await Promise.resolve()
++    })
++
++    expect(getByTestId('text').textContent).toBe('Hello')
++    expect(loadLocale).toHaveBeenCalledWith('en', 'common')
++
++    await act(async () => {
++      fireEvent.click(getByText('Change to ES'))
++    })
++
++    expect(loadLocale).toHaveBeenCalledWith('es', 'common')
++
++    await act(async () => {
++      await Promise.resolve()
++    })
++
++    expect(getByTestId('text').textContent).toBe('Hola')
++  })
++
++  test('should not suffer from race conditions when lang changes rapidly', async () => {
++    let resolveES
++    const esPromise = new Promise((resolve) => {
++      resolveES = () => resolve({ hello: 'Hola' })
++    })
++
++    const loadLocale = jest.fn((lang, ns) => {
++      if (lang === 'en') return Promise.resolve({ hello: 'Hello' })
++      if (lang === 'es') return esPromise
++      return Promise.resolve({})
++    })
++
++    const App = () => {
++      const [lang, setLang] = useState('en')
++      return (
++        <I18nProvider lang={lang} config={{ loadLocaleFrom: loadLocale }}>
++          <DynamicNamespaces namespaces={['common']}>
++            <Content />
++          </DynamicNamespaces>
++          <button onClick={() => setLang('es')}>Change to ES</button>
++          <button onClick={() => setLang('en')}>Change back to EN</button>
++        </I18nProvider>
++      )
++    }
++
++    const Content = () => {
++      const { t } = useTranslation('common')
++      return <span data-testid="text">{t('hello')}</span>
++    }
++
++    const { getByTestId, getByText } = render(<App />)
++
++    // Initial load EN
++    await act(async () => {
++      await Promise.resolve()
++    })
++    expect(getByTestId('text').textContent).toBe('Hello')
++
++    // Change to ES (will be pending)
++    await act(async () => {
++      fireEvent.click(getByText('Change to ES'))
++    })
++
++    // Change back to EN immediately
++    await act(async () => {
++      fireEvent.click(getByText('Change back to EN'))
++    })
++
++    // Wait for EN to resolve (it resolves instantly in our mock)
++    await act(async () => {
++      await Promise.resolve()
++    })
++
++    // Now resolve the stale ES request
++    await act(async () => {
++      resolveES()
++      await esPromise
++    })
++
++    // It should still be 'Hello' because the ES request was stale
++    expect(getByTestId('text').textContent).toBe('Hello')
++  })
++})
+diff --git a/__tests__/I18nProvider.test.js b/__tests__/I18nProvider.test.js
+new file mode 100644
+index 0000000..2ba73b9
+--- /dev/null
++++ b/__tests__/I18nProvider.test.js
+@@ -0,0 +1,47 @@
++import React, { useState } from 'react'
++import { render, cleanup, fireEvent, act } from '@testing-library/react'
++import I18nProvider from '../src/I18nProvider.tsx'
++import useTranslation from '../src/useTranslation.tsx'
++
++describe('I18nProvider', () => {
++  afterEach(cleanup)
++
++  test('should update translation function when lang changes', async () => {
++    const App = () => {
++      const [lang, setLang] = useState('en')
++      const namespaces =
++        lang === 'en'
++          ? { common: { hello: 'Hello' } }
++          : { common: { hello: 'Hola' } }
++
++      return (
++        <I18nProvider lang={lang} namespaces={namespaces}>
++          <Content />
++          <button onClick={() => setLang('es')}>Change to ES</button>
++        </I18nProvider>
++      )
++    }
++
++    const Content = () => {
++      const { t, lang } = useTranslation('common')
++      return (
++        <div>
++          <span data-testid="lang">{lang}</span>
++          <span data-testid="text">{t('hello')}</span>
++        </div>
++      )
++    }
++
++    const { getByTestId, getByText } = render(<App />)
++
++    expect(getByTestId('lang').textContent).toBe('en')
++    expect(getByTestId('text').textContent).toBe('Hello')
++
++    await act(async () => {
++      fireEvent.click(getByText('Change to ES'))
++    })
++
++    expect(getByTestId('lang').textContent).toBe('es')
++    expect(getByTestId('text').textContent).toBe('Hola')
++  })
++})
+diff --git a/src/DynamicNamespaces.tsx b/src/DynamicNamespaces.tsx
+index ce9c1e4..520c5f3 100644
+--- a/src/DynamicNamespaces.tsx
++++ b/src/DynamicNamespaces.tsx
+@@ -1,49 +1,58 @@
+ import React, { useContext, useEffect, useState } from 'react'
+ import { DynamicNamespacesProps, I18nConfig, I18nDictionary } from '.'
+ import I18nProvider, { InternalContext } from './I18nProvider'
+ import useTranslation from './useTranslation'
+ 
+ export default function DynamicNamespaces({
+   dynamic,
+   namespaces = [],
+   fallback,
+   children,
+ }: DynamicNamespacesProps): any {
+   const config = useContext(InternalContext).config as I18nConfig
+   const { lang } = useTranslation()
+   const [loaded, setLoaded] = useState(false)
+   const [pageNs, setPageNs] = useState<I18nDictionary[]>([])
+   const loadLocale =
+     dynamic || config.loadLocaleFrom || (() => Promise.resolve({}))
+ 
+-  async function loadNamespaces() {
+-    if (typeof loadLocale !== 'function') return
++  useEffect(() => {
++    let isCancelled = false
+ 
+-    const pageNamespaces = await Promise.all(
+-      namespaces.map((ns) => loadLocale(lang, ns))
+-    )
+-    setPageNs(pageNamespaces)
+-    setLoaded(true)
+-  }
++    async function loadNamespaces() {
++      if (typeof loadLocale !== 'function') return
++
++      const pageNamespaces = await Promise.all(
++        namespaces.map((ns) => loadLocale(lang, ns))
++      )
++
++      if (isCancelled) return
++
++      setPageNs(pageNamespaces)
++      setLoaded(true)
++    }
+ 
+-  useEffect(() => {
+     loadNamespaces()
+-  }, [namespaces.join()])
++
++    return () => {
++      isCancelled = true
++    }
++  }, [namespaces.join(), lang])
+ 
+   if (!loaded) return fallback || null
+ 
+   return (
+     <I18nProvider
+       lang={lang}
+       namespaces={namespaces.reduce(
+         (obj: Record<string, I18nDictionary>, ns, i) => {
+           obj[ns] = pageNs[i]
+           return obj
+         },
+         {}
+       )}
+     >
+       {children}
+     </I18nProvider>
+   )
+ }
+diff --git a/src/I18nProvider.tsx b/src/I18nProvider.tsx
+index 8230eb3..001d05d 100644
+--- a/src/I18nProvider.tsx
++++ b/src/I18nProvider.tsx
+@@ -1,43 +1,49 @@
+-import React, { createContext, useContext } from 'react'
++import React, { createContext, useContext, useMemo } from 'react'
+ import { useRouter } from 'next/router'
+ import I18nContext from './context'
+ import transCore from './transCore'
+ import useTranslation from './useTranslation'
+ import { I18nDictionary, I18nProviderProps } from '.'
+ 
+ export const InternalContext = createContext({ ns: {}, config: {} })
+ 
+ export default function I18nProvider({
+   lang: lng,
+   namespaces = {},
+   children,
+   config: newConfig = {},
+ }: I18nProviderProps) {
+   const { lang: parentLang } = useTranslation()
+   const { locale, defaultLocale } = useRouter() || {}
+   const internal = useContext(InternalContext)
+   const allNamespaces: Record<string, I18nDictionary> = {
+     ...initialBrowserNamespaces(),
+     ...internal.ns,
+     ...namespaces,
+   }
+   const lang = lng || parentLang || locale || defaultLocale || ''
+   const config = { ...internal.config, ...newConfig }
+   const localesToIgnore = config.localesToIgnore || ['default']
+   const ignoreLang = !lang || localesToIgnore.includes(lang)
+-  const pluralRules = new Intl.PluralRules(ignoreLang ? undefined : lang)
+-  const t = transCore({ config, allNamespaces, pluralRules, lang })
++  const pluralRules = useMemo(
++    () => new Intl.PluralRules(ignoreLang ? undefined : lang),
++    [ignoreLang, lang]
++  )
++  const t = useMemo(
++    () => transCore({ config, allNamespaces, pluralRules, lang }),
++    [config, allNamespaces, pluralRules, lang]
++  )
+ 
+   return (
+     <I18nContext.Provider value={{ lang, t }}>
+       <InternalContext.Provider value={{ ns: allNamespaces, config }}>
+         {children}
+       </InternalContext.Provider>
+     </I18nContext.Provider>
+   )
+ }
+ 
+ function initialBrowserNamespaces() {
+   if (typeof window === 'undefined') return {}
+   return window.__NEXT_DATA__?.props?.__namespaces || {}
+ }
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-7BqaaRxg' (errno=Operation not permitted)
+2026-07-23 16:04:45.727 xcodebuild[94141:4591364]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:45.878 xcodebuild[94141:4591363] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-o5TBSR3r' (errno=Operation not permitted)
+2026-07-23 16:04:46.385 xcodebuild[94143:4591374]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:46.533 xcodebuild[94143:4591373] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+444c635 fix(app-router): prevent AppDirI18nProvider from overwriting loadLocaleFrom on the server (#1261)
+ __tests__/AppDirI18nProvider.test.js | 113 +++++++++++++++++++++++++++++++++++
+ src/AppDirI18nProvider.tsx           |  11 +++-
+ 2 files changed, 123 insertions(+), 1 deletion(-)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-d5o3YQRx' (errno=Operation not permitted)
+2026-07-23 16:04:47.584 xcodebuild[94149:4591419]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:47.745 xcodebuild[94149:4591418] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-iNdE1fid' (errno=Operation not permitted)
+2026-07-23 16:04:48.271 xcodebuild[94151:4591430]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:48.425 xcodebuild[94151:4591429] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+commit 444c63512313d076935aa0ef8374fe4893306d13
+Author: Aral Roca Gomez <aral-rg@hotmail.com>
+Date:   Sun Mar 22 13:38:51 2026 +0100
+
+    fix(app-router): prevent AppDirI18nProvider from overwriting loadLocaleFrom on the server (#1261)
+    
+    * docs: improve docs about DynamicNamespaces in App Folder
+    
+    * fix(app-router): prevent AppDirI18nProvider from overwriting loadLocaleFrom on the server
+    
+    When using the App Router, the RSC wrapper generated by next-translate-plugin
+    (templateAppDir) correctly sets globalThis.__NEXT_TRANSLATE__ with the full
+    i18n config, including non-serializable properties like loadLocaleFrom.
+    
+    However, AppDirI18nProvider receives its config prop via
+    JSON.parse(JSON.stringify(config)), which strips all functions. Since
+    AppDirI18nProvider is a 'use client' component that also executes during SSR,
+    it was unconditionally overwriting globalThis.__NEXT_TRANSLATE__ with the
+    serialized (function-stripped) config.
+    
+    This caused a bug during client-side (soft) navigation: when generateMetadata
+    in a layout calls getT(), it reads globalThis.__NEXT_TRANSLATE__.config, which
+    no longer has loadLocaleFrom. Without that loader, getT falls back to a
+    default loader that returns an empty dictionary, so t('some.key') returns the
+    raw key instead of the translated string.
+    
+    On a full page refresh the issue did not reproduce because the dev server
+    re-evaluates modules, resetting globalThis.__NEXT_TRANSLATE__ to undefined,
+    which makes getT fall back to getConfig() — where loadLocaleFrom is intact.
+    
+    The fix: only set globalThis.__NEXT_TRANSLATE__ inside AppDirI18nProvider when
+    running on the client (typeof window !== 'undefined'). On the server, the RSC
+    wrapper already sets it correctly, so the provider does not need to touch it.
+    
+    Fixes #1020
+    
+    Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+    
+    ---------
+    
+    Co-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+diff --git a/__tests__/AppDirI18nProvider.test.js b/__tests__/AppDirI18nProvider.test.js
+new file mode 100644
+index 0000000..5a962ef
+--- /dev/null
++++ b/__tests__/AppDirI18nProvider.test.js
+@@ -0,0 +1,113 @@
++import React from 'react'
++import { render } from '@testing-library/react'
++import AppDirI18nProvider from '../src/AppDirI18nProvider'
++import getT from '../src/getT'
++
++describe('AppDirI18nProvider', () => {
++  const originalWindow = global.window
++
++  afterEach(() => {
++    global.window = originalWindow
++    delete globalThis.__NEXT_TRANSLATE__
++    delete global.i18nConfig
++  })
++
++  describe('on the server (window is undefined)', () => {
++    beforeEach(() => {
++      delete global.window
++    })
++
++    afterEach(() => {
++      global.window = originalWindow
++    })
++
++    test('should NOT overwrite globalThis.__NEXT_TRANSLATE__ on the server', () => {
++      const loadLocaleFrom = jest.fn()
++      const serverConfig = {
++        loadLocaleFrom,
++        keySeparator: false,
++      }
++
++      // Simulate what the RSC wrapper (templateAppDir) does before rendering:
++      // it sets globalThis.__NEXT_TRANSLATE__ with the full config including functions
++      globalThis.__NEXT_TRANSLATE__ = {
++        lang: 'en',
++        namespaces: { common: { title: 'Hello' } },
++        config: serverConfig,
++      }
++
++      // AppDirI18nProvider receives a serialized config (JSON.parse(JSON.stringify()))
++      // which strips functions like loadLocaleFrom
++      const serializedConfig = JSON.parse(JSON.stringify(serverConfig))
++
++      // Call the component directly (as happens during SSR)
++      AppDirI18nProvider({
++        lang: 'en',
++        namespaces: { common: { title: 'Hello' } },
++        config: serializedConfig,
++        children: React.createElement('div'),
++      })
++
++      // The config in globalThis should still have loadLocaleFrom
++      expect(globalThis.__NEXT_TRANSLATE__.config.loadLocaleFrom).toBe(
++        loadLocaleFrom
++      )
++    })
++
++    test('getT should resolve translations after AppDirI18nProvider renders on server', async () => {
++      const loadLocaleFrom = jest
++        .fn()
++        .mockImplementation((lang, ns) =>
++          Promise.resolve({ 'meta.title': 'My Site Title' })
++        )
++
++      const serverConfig = {
++        loadLocaleFrom,
++        keySeparator: false,
++      }
++
++      // 1. RSC wrapper sets globalThis with full config (as templateAppDir does)
++      globalThis.__NEXT_TRANSLATE__ = {
++        lang: 'en',
++        namespaces: { common: { 'meta.title': 'My Site Title' } },
++        config: serverConfig,
++      }
++
++      // 2. AppDirI18nProvider runs on the server with serialized config (functions stripped)
++      const serializedConfig = JSON.parse(JSON.stringify(serverConfig))
++      AppDirI18nProvider({
++        lang: 'en',
++        namespaces: { common: { 'meta.title': 'My Site Title' } },
++        config: serializedConfig,
++        children: React.createElement('div'),
++      })
++
++      // 3. A subsequent getT call (e.g. from generateMetadata during soft navigation)
++      //    should still resolve translations, not return the raw key
++      const t = await getT('en', 'common')
++      expect(t('meta.title')).toBe('My Site Title')
++    })
++  })
++
++  describe('on the client (window is defined)', () => {
++    test('should set globalThis.__NEXT_TRANSLATE__ on the client', () => {
++      const config = { keySeparator: '.' }
++      const namespaces = { common: { title: 'Hello' } }
++
++      render(
++        React.createElement(AppDirI18nProvider, {
++          lang: 'en',
++          namespaces,
++          config,
++          children: React.createElement('div'),
++        })
++      )
++
++      expect(globalThis.__NEXT_TRANSLATE__).toEqual({
++        lang: 'en',
++        namespaces,
++        config,
++      })
++    })
++  })
++})
+diff --git a/src/AppDirI18nProvider.tsx b/src/AppDirI18nProvider.tsx
+index 8a091b3..f6a0915 100644
+--- a/src/AppDirI18nProvider.tsx
++++ b/src/AppDirI18nProvider.tsx
+@@ -1,27 +1,36 @@
+ 'use client'
+ 
+ import { I18nDictionary, LoaderConfig } from '.'
+ 
+ type AppDirI18nProviderProps = {
+   lang: string
+   namespaces: Record<string, I18nDictionary>
+   config: LoaderConfig
+   children: React.ReactNode
+ }
+ 
+ /**
+  * @description AppDirI18nProvider for internal use (next-translate-plugin) only.
+  * Is required because this is a RCC (React Client Component) and this way we
+  * provide a global i18n context for client components.
+  */
+ export default function AppDirI18nProvider({
+   lang,
+   namespaces = {},
+   config,
+   children,
+ }: AppDirI18nProviderProps) {
+-  globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
++  // On the server, the RSC wrapper (templateAppDir) already sets
++  // globalThis.__NEXT_TRANSLATE__ with the full config including
++  // non-serializable properties like loadLocaleFrom.
++  // The config prop here has been serialized via JSON.parse(JSON.stringify()),
++  // which strips functions. Setting it on the server would overwrite the
++  // correct config and break subsequent getT() calls (e.g. in generateMetadata)
++  // that rely on loadLocaleFrom to dynamically load translations.
++  if (typeof window !== 'undefined') {
++    globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
++  }
+ 
+   // It return children and avoid re-renders and also allow children to be RSC (React Server Components)
+   return children
+ }
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-d4nSU49c' (errno=Operation not permitted)
+2026-07-23 16:04:49.474 xcodebuild[94157:4591495]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:49.610 xcodebuild[94157:4591494] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-0nGuTJdt' (errno=Operation not permitted)
+2026-07-23 16:04:50.067 xcodebuild[94159:4591518]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:50.206 xcodebuild[94159:4591517] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+import React, { createContext, useContext, useMemo } from 'react'
+import { useRouter } from 'next/router'
+import I18nContext from './context'
+import safePluralRules from './safePluralRules'
+import transCore from './transCore'
+import useTranslation from './useTranslation'
+import { I18nDictionary, I18nProviderProps } from '.'
+
+export const InternalContext = createContext({ ns: {}, config: {} })
+
+export default function I18nProvider({
+  lang: lng,
+  namespaces = {},
+  children,
+  config: newConfig = {},
+}: I18nProviderProps) {
+  const { lang: parentLang } = useTranslation()
+  const { locale, defaultLocale } = useRouter() || {}
+  const internal = useContext(InternalContext)
+  const allNamespaces: Record<string, I18nDictionary> = {
+    ...initialBrowserNamespaces(),
+    ...internal.ns,
+    ...namespaces,
+  }
+  const lang = lng || parentLang || locale || defaultLocale || ''
+  const config = { ...internal.config, ...newConfig }
+  const localesToIgnore = config.localesToIgnore || ['default']
+  const ignoreLang = !lang || localesToIgnore.includes(lang)
+  const pluralRules = useMemo(
+    () => safePluralRules(ignoreLang ? undefined : lang),
+    [ignoreLang, lang]
+  )
+  const t = useMemo(
+    () => transCore({ config, allNamespaces, pluralRules, lang }),
+    [config, allNamespaces, pluralRules, lang]
+  )
+
+  return (
+    <I18nContext.Provider value={{ lang, t }}>
+      <InternalContext.Provider value={{ ns: allNamespaces, config }}>
+        {children}
+      </InternalContext.Provider>
+    </I18nContext.Provider>
+  )
+}
+
+function initialBrowserNamespaces() {
+  if (typeof window === 'undefined') return {}
+  return window.__NEXT_DATA__?.props?.__namespaces || {}
+}
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-azAnBUCA' (errno=Operation not permitted)
+2026-07-23 16:04:51.292 xcodebuild[94167:4591560]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:51.443 xcodebuild[94167:4591559] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-SaGFzYhl' (errno=Operation not permitted)
+2026-07-23 16:04:51.912 xcodebuild[94169:4591574]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:52.054 xcodebuild[94169:4591573] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+'use client'
+
+import { I18nDictionary, LoaderConfig } from '.'
+
+type AppDirI18nProviderProps = {
+  lang: string
+  namespaces: Record<string, I18nDictionary>
+  config: LoaderConfig
+  children: React.ReactNode
+}
+
+/**
+ * @description AppDirI18nProvider for internal use (next-translate-plugin) only.
+ * Is required because this is a RCC (React Client Component) and this way we
+ * provide a global i18n context for client components.
+ */
+export default function AppDirI18nProvider({
+  lang,
+  namespaces = {},
+  config,
+  children,
+}: AppDirI18nProviderProps) {
+  globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+
+  // It return children and avoid re-renders and also allow children to be RSC (React Server Components)
+  return children
+}
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-Ug70HX57' (errno=Operation not permitted)
+2026-07-23 16:04:53.091 xcodebuild[94175:4591617]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:53.235 xcodebuild[94175:4591616] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-etSL1jCQ' (errno=Operation not permitted)
+2026-07-23 16:04:53.692 xcodebuild[94177:4591630]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:04:53.830 xcodebuild[94177:4591629] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+import { useMemo } from 'react'
+import isServer from './isServer'
+import safePluralRules from './safePluralRules'
+import transCore from './transCore'
+import wrapTWithDefaultNs from './wrapTWithDefaultNs'
+
+// Only for App directory
+export default function createTranslation(defaultNS?: string) {
+  const { lang, namespaces, config } = globalThis.__NEXT_TRANSLATE__ ?? {}
+  const localesToIgnore = config.localesToIgnore || ['default']
+  const ignoreLang = !lang || localesToIgnore.includes(lang)
+  const getT = () => {
+    const t = transCore({
+      config,
+      allNamespaces: namespaces,
+      pluralRules: safePluralRules(ignoreLang ? undefined : lang),
+      lang,
+    })
+
+    return wrapTWithDefaultNs(t, defaultNS)
+  }
+
+  // A stable signature of the currently loaded namespace set. In the Pages
+  // Router the appWithI18n HoC reassigns globalThis.__NEXT_TRANSLATE__ on every
+  // navigation, so a translation function held by a component that never
+  // unmounts (e.g. lifted to _app or a context provider) would otherwise stay
+  // memoized on the first page's namespaces and miss namespaces loaded later.
+  // Keying on the namespace names refreshes t when the set actually changes,
+  // while keeping its identity stable otherwise (#447).
+  const nsKey = namespaces ? Object.keys(namespaces).sort().join('|') : ''
+  const t = isServer() ? getT() : useMemo(getT, [defaultNS, lang, nsKey])
+  return { t, lang }
+}
+
+COMMAND /bin/zsh -lc 'git log --oneline --decorate --graph -20 HEAD; git show --stat --oneline HEAD; git show --format=fuller --no-patch HEAD; git merge-base HEAD 3.1.0; git log --oneline $(git merge-base HEAD 3.1.0)..3.1.0'
+
+COMMAND /bin/zsh -lc 'git log --oneline --decorate --graph -20 HEAD; git show --stat --oneline HEAD; git show --format=fuller --no-patch HEAD; git merge-base HEAD 3.1.0; git log --oneline $(git merge-base HEAD 3.1.0)..3.1.0'
+2026-07-23 16:05:03.074 xcodebuild[94184:4591744]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:03.211 xcodebuild[94184:4591743] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-X0UjsBkl' (errno=Operation not permitted)
+2026-07-23 16:05:03.669 xcodebuild[94186:4591762]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:03.806 xcodebuild[94186:4591761] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+* 94753d9 (HEAD) post-setup baseline (D-034)
+* f1fbf47 (tag: 3.1.0-canary.4) prelease 3.1.0-canary.4
+* 4467eca (tag: 3.1.0-canary.3) prerelease 3.1.0-canary.3
+* 7479174 fix(app-router): update translation instance when locale changes (#1256)
+* a8dfad7 prerelease 3.1.0-canary.2
+* fd63c89 feat: add formatElements to tarball (#1255)
+* 2f62ad0 prerelease 3.1.0-canary.1
+* 7a35738 feat(format-elements): support attributes in tags and href injection (#1254)
+* 91aad7e (tag: 3.0.2) release
+* 7ce86e7 prerelease
+* 9d5dd0c Add TransText module to package.json (#1252)
+* 00b2b54 (tag: 3.0.1) chore: release 3.0.1
+* a7ca89d prerelease
+* 0b60435 Update examples and add Next.js 16/Remote Loading demos (#1251)
+* 2bedb8d (tag: 3.0.0) release 3.0.0
+* 8ab890e Release 3.0.0 (#1249)
+* c47f226 (tag: 3.0.0-canary.9, tag: 3.0.0-canary.8, tag: 3.0.0-canary.7, tag: 3.0.0-canary.6, tag: 3.0.0-canary.5) chore: update readme
+* 480e8ae fix: fix tarball (#1227)
+* 2ab5636 Expose formatElements (#1213)
+* fbdcb82 (tag: 3.0.0-canary.3) docs: add jessemartin as a contributor for code (#1208)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-eRh1Zjgk' (errno=Operation not permitted)
+2026-07-23 16:05:04.832 xcodebuild[94191:4591783]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:04.972 xcodebuild[94191:4591782] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-yfwS3NNB' (errno=Operation not permitted)
+2026-07-23 16:05:05.426 xcodebuild[94193:4591792]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:05.565 xcodebuild[94193:4591791] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+94753d9 post-setup baseline (D-034)
+ package-lock.json | 15344 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ yarn.lock         |  1767 +++---
+ 2 files changed, 16228 insertions(+), 883 deletions(-)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-aO1meY46' (errno=Operation not permitted)
+2026-07-23 16:05:06.596 xcodebuild[94198:4591811]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:06.734 xcodebuild[94198:4591810] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-qRM8tTMC' (errno=Operation not permitted)
+2026-07-23 16:05:07.193 xcodebuild[94200:4591821]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:07.332 xcodebuild[94200:4591820] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+commit 94753d92c3368d30c22fb77b01c361cad8a60284
+Author:     setup <noreply@github.com>
+AuthorDate: Thu Jul 23 15:56:55 2026 +0700
+Commit:     setup <noreply@github.com>
+CommitDate: Thu Jul 23 15:56:55 2026 +0700
+
+    post-setup baseline (D-034)
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-O1IWiAXz' (errno=Operation not permitted)
+2026-07-23 16:05:08.362 xcodebuild[94205:4591840]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:08.501 xcodebuild[94205:4591839] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-lm3D9Rql' (errno=Operation not permitted)
+2026-07-23 16:05:08.954 xcodebuild[94207:4591854]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:09.094 xcodebuild[94207:4591853] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+f1fbf473b42cf795ae8eb996003222625bfc58ac
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-P9JDcZCa' (errno=Operation not permitted)
+2026-07-23 16:05:10.117 xcodebuild[94212:4591877]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:10.254 xcodebuild[94212:4591876] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-PunJNjGQ' (errno=Operation not permitted)
+2026-07-23 16:05:10.709 xcodebuild[94215:4591890]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:10.848 xcodebuild[94215:4591889] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-CXhpYouh' (errno=Operation not permitted)
+2026-07-23 16:05:11.879 xcodebuild[94219:4591912]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:12.020 xcodebuild[94219:4591911] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-crQfnaX8' (errno=Operation not permitted)
+2026-07-23 16:05:12.480 xcodebuild[94221:4591957]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:05:12.620 xcodebuild[94221:4591956] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+8a1d59e release 3.1
+444c635 fix(app-router): prevent AppDirI18nProvider from overwriting loadLocaleFrom on the server (#1261)
+c3a4bf9 docs: improve docs about DynamicNamespaces in App Folder (#1260)
+9a6a213 prerelease 3.1.0-canary.5
+f135f4d fix(core): ensure language updates correctly in I18nProvider and DynamicNamespaces (#1259)
+
+COMMAND /bin/zsh -lc "rg --files node_modules examples 2>/dev/null | rg 'next-translate-plugin|templateAppDir|appWithI18n' | head -n 200; find node_modules -maxdepth 3 -type d -name 'next-translate-plugin' -print 2>/dev/null; rg -n \"templateAppDir|appWithI18n|AppDirI18nProvider|__NEXT_TRANSLATE__\" node_modules/next-translate-plugin node_modules 2>/dev/null | head -n 300"
+
+COMMAND /bin/zsh -lc "rg --files node_modules examples 2>/dev/null | rg 'next-translate-plugin|templateAppDir|appWithI18n' | head -n 200; find node_modules -maxdepth 3 -type d -name 'next-translate-plugin' -print 2>/dev/null; rg -n \"templateAppDir|appWithI18n|AppDirI18nProvider|__NEXT_TRANSLATE__\" node_modules/next-translate-plugin node_modules 2>/dev/null | head -n 300"
+
+I found one mixed-router edge case worth validating: the pages wrapper now avoids creating the marker, but it also leaves any existing app-router marker intact. I’m checking the build-time types and the exact routing path before deciding whether it is reportable.
+COMMAND /bin/zsh -lc "sed -n '1,220p' tsconfig.json; sed -n '1,220p' tsconfig-cjs.json; ./node_modules/.bin/tsc -p tsconfig.json --noEmit --incremental false"
+
+COMMAND /bin/zsh -lc "sed -n '1,220p' tsconfig.json; sed -n '1,220p' tsconfig-cjs.json; ./node_modules/.bin/tsc -p tsconfig.json --noEmit --incremental false"
+
+COMMAND /bin/zsh -lc "rg -n 'next-translate-plugin|templateAppDir' package-lock.json yarn.lock README.md .github 2>/dev/null | head -n 200; git show 3.2.0:README.md | rg -n \"app dir|pages dir|AppDirI18nProvider|hybrid|both\" | head -n 120; git show 444c635 --format=fuller --no-patch; git show 3.2.0:CHANGES.md 2>/dev/null | sed -n '1,220p'"
+
+COMMAND /bin/zsh -lc "rg -n 'next-translate-plugin|templateAppDir' package-lock.json yarn.lock README.md .github 2>/dev/null | head -n 200; git show 3.2.0:README.md | rg -n \"app dir|pages dir|AppDirI18nProvider|hybrid|both\" | head -n 120; git show 444c635 --format=fuller --no-patch; git show 3.2.0:CHANGES.md 2>/dev/null | sed -n '1,220p'"
+2026-07-23 16:06:10.545 xcodebuild[94293:4592906]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:06:10.686 xcodebuild[94293:4592905] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-uTRVdpz6' (errno=Operation not permitted)
+2026-07-23 16:06:11.149 xcodebuild[94295:4592914]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:06:11.286 xcodebuild[94295:4592913] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+63:- [14. Use Next 13 app directory](#14-use-next-13-app-directory)
+68:  - [With app directory demo](#with-app-directory-demo)
+84:- 🚀  ・ Automatic page optimization (pages dir).
+85:- 🏝️  ・ React 18 server/client pages/components (app dir).
+203:In the configuration file you can use both the configuration that we [specified here](#3-configuration) and the own [features about internationalization of Next.js 10](https://nextjs.org/docs/advanced-features/i18n-routing).
+269:In the configuration file you can use both the configuration that we specified here and the own [features about internationalization of Next.js 10](https://nextjs.org/docs/advanced-features/i18n-routing).
+278:| `loggerEnvironment`          | String to define if the logger should run in the browser, in node or both                                                                                                                                                                                                                                                                                                                                                                                                                                                     | `"node"` &#124; `"browser"` &#124; `"both"`                      | `"browser"` |     |
+350:Similar than `useTranslation` but without being a hook. This helper **only works** in **app dir**.
+492:**Using DynamicNamespaces with App Router (app directory)**
+532:Asynchronous function to load the `t` function outside components / pages. It works on both server-side and client-side.
+990:- the `NEXT_TRANSLATE_PATH` environment variable. It supports both relative and absolute path
+993:## 14. Use Next 13 app directory
+997:If you're interested in learning more about how Next-translate works with the new Next.js 13 app dir paradigm, check out **[this article](https://dev.to/aralroca/i18n-translations-in-nextjs-13s-app-dir-for-serverclient-components-4ek8)** for a detailed explanation. 
+1045:However, since the pages have been moved from the `pages` dir to the **app dir**, this i18n routing **no longer works correctly**.
+1069:### Using Turbopack with app directory (Next.js 16+)
+1071:When using the app directory with **Next.js 16+** (which defaults to Turbopack), you must pass `{ turbopack: true }` to the plugin:
+1085:- The `i18n` key in `next.config.js` is **not supported** in the App Router — the plugin automatically skips adding it when using the app directory.
+1140:### With app directory demo
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-DJ9GxVE7' (errno=Operation not permitted)
+2026-07-23 16:06:12.327 xcodebuild[94300:4592933]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:06:12.468 xcodebuild[94300:4592932] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-g8uKITGk' (errno=Operation not permitted)
+2026-07-23 16:06:12.928 xcodebuild[94302:4592947]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 16:06:13.068 xcodebuild[94302:4592946] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+commit 444c63512313d076935aa0ef8374fe4893306d13
+Author:     Aral Roca Gomez <aral-rg@hotmail.com>
+AuthorDate: Sun Mar 22 13:38:51 2026 +0100
+Commit:     GitHub <noreply@github.com>
+CommitDate: Sun Mar 22 13:38:51 2026 +0100
+
+    fix(app-router): prevent AppDirI18nProvider from overwriting loadLocaleFrom on the server (#1261)
+    
+    * docs: improve docs about DynamicNamespaces in App Folder
+    
+    * fix(app-router): prevent AppDirI18nProvider from overwriting loadLocaleFrom on the server
+    
+    When using the App Router, the RSC wrapper generated by next-translate-plugin
+    (templateAppDir) correctly sets globalThis.__NEXT_TRANSLATE__ with the full
+    i18n config, including non-serializable properties like loadLocaleFrom.
+    
+    However, AppDirI18nProvider receives its config prop via
+    JSON.parse(JSON.stringify(config)), which strips all functions. Since
+    AppDirI18nProvider is a 'use client' component that also executes during SSR,
+    it was unconditionally overwriting globalThis.__NEXT_TRANSLATE__ with the
+    serialized (function-stripped) config.
+    
+    This caused a bug during client-side (soft) navigation: when generateMetadata
+    in a layout calls getT(), it reads globalThis.__NEXT_TRANSLATE__.config, which
+    no longer has loadLocaleFrom. Without that loader, getT falls back to a
+    default loader that returns an empty dictionary, so t('some.key') returns the
+    raw key instead of the translated string.
+    
+    On a full page refresh the issue did not reproduce because the dev server
+    re-evaluates modules, resetting globalThis.__NEXT_TRANSLATE__ to undefined,
+    which makes getT fall back to getConfig() — where loadLocaleFrom is intact.
+    
+    The fix: only set globalThis.__NEXT_TRANSLATE__ inside AppDirI18nProvider when
+    running on the client (typeof window !== 'undefined'). On the server, the RSC
+    wrapper already sets it correctly, so the provider does not need to touch it.
+    
+    Fixes #1020
+    
+    Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+    
+    ---------
+    
+    Co-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
+```json
+{
+  "claims": [
+    {
+      "file": "src/appWithI18n.tsx",
+      "line": 41,
+      "description": "The pages-router wrapper does not clear an existing __NEXT_TRANSLATE__ marker, so a mixed app/pages server can reuse stale app-router language and namespaces through createTranslation instead of this render's I18nProvider."
+    }
+  ]
+}
+```

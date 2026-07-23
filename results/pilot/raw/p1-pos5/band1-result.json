@@ -1,0 +1,32 @@
+{
+ "A1": {
+  "verdict": "no_catch",
+  "band": "MECHANICAL",
+  "matched": null,
+  "sweep": {
+   "1": "no_catch",
+   "5": "no_catch",
+   "10": "no_catch"
+  }
+ },
+ "A2": {
+  "verdict": "no_catch",
+  "band": "MECHANICAL",
+  "matched": null,
+  "sweep": {
+   "1": "no_catch",
+   "5": "no_catch",
+   "10": "no_catch"
+  }
+ },
+ "B": {
+  "verdict": "no_catch",
+  "band": "MECHANICAL",
+  "matched": null,
+  "sweep": {
+   "1": "no_catch",
+   "5": "no_catch",
+   "10": "no_catch"
+  }
+ }
+}

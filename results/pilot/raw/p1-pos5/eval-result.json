@@ -1,0 +1,21 @@
+{
+ "oracle_files_reset": [
+  "__tests__/DynamicNamespaces.test.js",
+  "__tests__/I18nProvider.test.js"
+ ],
+ "apply_rcs": [
+  "AUTHORED_RC=0",
+  "TESTPATCH_RC=0"
+ ],
+ "testpatch_applied": true,
+ "parsed": 149,
+ "f2p": {
+  "DynamicNamespaces should reload namespaces when lang changes": "fail"
+ },
+ "f2p_pass": 0,
+ "f2p_fail": 1,
+ "f2p_missing": 0,
+ "p2p_regressions": [],
+ "resolved": false,
+ "verdict": "CONFIRMED DEFECTIVE"
+}

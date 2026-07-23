@@ -1,0 +1,83 @@
+I18nProvider ignores lang after upgrade from 3.0.0 to 3.0.2
+After upgrading next-translate from 3.0.0 to 3.0.2 I can no longer change my app's language. Regardless of which language I pass to I18nProvider, the app always renders using the default language. Rolling back to 3.0.0 restores expected behavior.
+
+Environment:
+next: 16.1.6 (webpack)
+react: 19.2.4
+next-translate-plugin: 2.6.2 (also tried 3.0.2)
+next-translate: 3.0.2 (next-translate-plugin peer dependecy)
+
+Reproduction:
+
+```ts
+export default function App({ Component, pageProps }: AppProps) {
+  const [lang, setLang] = useState('en')
+
+  return (
+    <I18nProvider key={lang} lang={lang}>
+      <DynamicNamespaces namespaces={['common']}>
+        <Component {...pageProps} onLanguageChange={setLang} />
+      </DynamicNamespaces>
+    </I18nProvider>
+  )
+}
+```
+
+```ts
+export default function Home({ onLanguageChange }: HomeProps) {
+  const { t, lang } = useTranslation('common')
+  return (
+    <div className="h-svh flex flex-col items-center justify-center">
+      <LanguageSelector onLanguageChange={onLanguageChange} />
+      <strong className="mt-4 text-2xl">Current Language:</strong>{' '}
+      {t('languageName')} ({lang})
+    </div>
+  )
+}
+```
+```ts
+export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
+  onLanguageChange,
+}) => {
+  const { t, lang } = useTranslation('common')
+
+  const LANGUAGES = [
+  { code: 'en', name: 'English' },
+  { code: 'es', name: 'Español' },
+  { code: 'fr', name: 'Français' },
+  { code: 'pt', name: 'Português' },
+]
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLang = e.target.value
+    if (onLanguageChange) {
+      onLanguageChange(newLang)
+    }
+  }
+
+  return (
+    <div>
+      <label htmlFor="language-select">
+        {t('selectLabel')}
+      </label>
+      <select
+        id="language-select"
+        value={lang}
+        onChange={handleLanguageChange}
+      >
+        {LANGUAGES.map((language) => (
+          <option key={language.code} value={language.code}>
+            {language.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+}
+```
+Or clone this project: https://github.com/dmg-vicente/next-language-bug (uses 3.0.0 by default)
+
+
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.

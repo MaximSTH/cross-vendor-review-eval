@@ -1,0 +1,96 @@
+diff --git a/__tests__/appWithI18n.test.js b/__tests__/appWithI18n.test.js
+new file mode 100644
+index 0000000..a43369b
+--- /dev/null
++++ b/__tests__/appWithI18n.test.js
+@@ -0,0 +1,69 @@
++import React, { useState } from 'react'
++import { render, cleanup, fireEvent } from '@testing-library/react'
++import appWithI18n from '../src/appWithI18n'
++import I18nProvider from '../src/I18nProvider'
++import useTranslation from '../src/useTranslation'
++
++const namespaces = {
++  common: {
++    en: { languageName: 'English' },
++    es: { languageName: 'Español' },
++  },
++}
++
++// Mirrors the user's _app.tsx: a reactive <I18nProvider> whose lang is driven
++// by React state, nested inside the plugin-injected appWithI18n HoC.
++function App() {
++  const [lang, setLang] = useState('en')
++  return (
++    <I18nProvider key={lang} lang={lang} namespaces={{ common: namespaces.common[lang] }}>
++      <button onClick={() => setLang('es')}>change</button>
++      <Current />
++    </I18nProvider>
++  )
++}
++
++function Current() {
++  const { t, lang } = useTranslation('common')
++  return (
++    <span>
++      {t('languageName')} ({lang})
++    </span>
++  )
++}
++
++describe('appWithI18n', () => {
++  afterEach(() => {
++    cleanup()
++    // The app-dir global must never leak out of a pages-dir render.
++    delete globalThis.__NEXT_TRANSLATE__
++  })
++  beforeEach(() => {
++    delete globalThis.__NEXT_TRANSLATE__
++    console.warn = jest.fn()
++  })
++
++  // Regression for #1256: appWithI18n (pages-dir) used to set
++  // globalThis.__NEXT_TRANSLATE__, which made useTranslation switch to the
++  // frozen app-dir path and ignore the reactive I18nProvider lang prop.
++  test('does not set the app-dir globalThis.__NEXT_TRANSLATE__', () => {
++    const AppWithI18n = appWithI18n(App, { defaultLocale: 'en' })
++    render(
++      <AppWithI18n pageProps={{ __lang: 'en', __namespaces: namespaces }} />
++    )
++    expect(globalThis.__NEXT_TRANSLATE__).toBeUndefined()
++  })
++
++  test('reactive I18nProvider lang prop is respected under appWithI18n', () => {
++    const AppWithI18n = appWithI18n(App, { defaultLocale: 'en' })
++    const { container, getByText } = render(
++      <AppWithI18n pageProps={{ __lang: 'en', __namespaces: namespaces }} />
++    )
++
++    expect(container.textContent).toContain('English (en)')
++
++    fireEvent.click(getByText('change'))
++
++    expect(container.textContent).toContain('Español (es)')
++  })
++})
+diff --git a/src/appWithI18n.tsx b/src/appWithI18n.tsx
+index 38b4317..dffec1c 100644
+--- a/src/appWithI18n.tsx
++++ b/src/appWithI18n.tsx
+@@ -38,10 +38,12 @@ export default function appWithI18n(
+     const lang = props.pageProps?.__lang || props.__lang || defaultLocale
+     const namespaces = props.pageProps?.__namespaces || props.__namespaces
+ 
+-    if (lang && namespaces) {
+-      globalThis.__NEXT_TRANSLATE__ = { lang, namespaces, config }
+-    }
+-
++    // NOTE: Do not set `globalThis.__NEXT_TRANSLATE__` here. That global is the
++    // app-dir signal (set only by AppDirI18nProvider) and is what
++    // `useTranslation` uses to switch from the reactive pages-dir React context
++    // to the frozen app-dir `createTranslation`. Setting it in this pages-dir
++    // HoC made `useTranslation` read a fixed `lang` from the global and ignore
++    // the reactive `I18nProvider` lang prop (see #1256, regression in 3.0.2).
+     return (
+       <I18nProvider lang={lang} namespaces={namespaces} config={config}>
+         <AppToTranslate {...props} />

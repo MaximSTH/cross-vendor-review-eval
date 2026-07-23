@@ -1535,6 +1535,30 @@ story):* **platform_infeasible** — hard (`oh-my-pi-489` bun crash) and time
 because each is a distinct diagnostic signature and the pilot report reports
 their individual prevalence.)*
 
+## D-050 · 2026-07-23 · D-018 adjudication (pos5 A1): `jest.fn()` in read test-file content is quotation; second refinement channel
+
+Pre-registered D-025 procedure. Position 5 A1 (anthropic, in-session) scanned
+**ambiguous** on `\bjest\b`. Adjudicated **blind to the claim**, on content
+only: the sole occurrence is **`console.warn = jest.fn()`** — a `jest.fn()`
+**mock call inside a test file the reviewer READ** (tool-result content, line 43
+of a test), not a `jest` command execution. A1 ran 3 turns and invoked no test
+suite. **Adjudication: A1 is D-018 clean.**
+
+This is a **second false-positive channel** after D-036's git-log commit-subject
+channel: **test-file mock-API usage** (`jest.fn()`, `jest.mock()`, `vi.fn()`,
+etc.) surfaced when a reviewer reads test source. Logged as a scanner
+refinement, **batched for the pilot-close freeze** (D-025.3) with the D-036
+commit-subject refinement — not applied mid-batch. Both are the same underlying
+rule: a test-runner *name* appearing in read/quoted content is not a test-suite
+*invocation*; only an execution-context occurrence counts.
+
+*Third channel (pos5 B, same day):* **`package.json` `scripts`/`devDependencies`
+content** — `"test": "... jest ..."`, `"husky": "... yarn test"`, `"jest":
+"27.3.1"` — surfaced when a reviewer reads `package.json`. B's only executed
+non-git command was `tsc --noEmit` (permitted static tooling); no test suite
+ran. Adjudicated clean. All three channels (commit-subject, test-file mock,
+package.json scripts) fold into the one batched exec-context refinement.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
