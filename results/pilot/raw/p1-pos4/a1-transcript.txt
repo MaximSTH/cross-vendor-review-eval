@@ -1,0 +1,852 @@
+I’ll review the uncommitted diff against the surrounding session-filtering, foreground/background task, and fallback behavior. I’ll use read-only inspection and static syntax/diff checks only—no test suite.
+COMMAND /bin/zsh -lc "git status --short && git diff --check && git diff -- plugins/codex/scripts/codex-companion.mjs plugins/codex/scripts/lib/job-control.mjs tests/runtime.test.mjs && rg -n \"getCurrentSessionId|filterJobsForCurrentSession|resolveLatestTrackedTaskThread|handleTaskResumeCandidate|SESSION_ID_ENV\" plugins/codex/scripts tests -g '*.mjs'"
+
+COMMAND /bin/zsh -lc "git status --short && git diff --check && git diff -- plugins/codex/scripts/codex-companion.mjs plugins/codex/scripts/lib/job-control.mjs tests/runtime.test.mjs && rg -n \"getCurrentSessionId|filterJobsForCurrentSession|resolveLatestTrackedTaskThread|handleTaskResumeCandidate|SESSION_ID_ENV\" plugins/codex/scripts tests -g '*.mjs'"
+2026-07-23 23:15:30.897 xcodebuild[97818:4992163]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 23:15:31.114 xcodebuild[97818:4992162] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-pBoDtOgc' (errno=Operation not permitted)
+2026-07-23 23:15:31.508 xcodebuild[97820:4992178]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 23:15:31.609 xcodebuild[97820:4992177] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+ M plugins/codex/scripts/codex-companion.mjs
+ M plugins/codex/scripts/lib/job-control.mjs
+ M tests/runtime.test.mjs
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-RjQhgLnL' (errno=Operation not permitted)
+2026-07-23 23:15:32.323 xcodebuild[97825:4992202]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 23:15:32.424 xcodebuild[97825:4992201] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-13gZkFNo' (errno=Operation not permitted)
+2026-07-23 23:15:32.726 xcodebuild[97827:4992219]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 23:15:32.827 xcodebuild[97827:4992218] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-9nEMpROV' (errno=Operation not permitted)
+2026-07-23 23:15:33.545 xcodebuild[97832:4992243]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 23:15:33.646 xcodebuild[97832:4992242] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-UL8dUAGr' (errno=Operation not permitted)
+2026-07-23 23:15:33.957 xcodebuild[97834:4992251]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 23:15:34.060 xcodebuild[97834:4992250] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+diff --git a/plugins/codex/scripts/codex-companion.mjs b/plugins/codex/scripts/codex-companion.mjs
+index 201d1c7..cf78b1e 100644
+--- a/plugins/codex/scripts/codex-companion.mjs
++++ b/plugins/codex/scripts/codex-companion.mjs
+@@ -35,6 +35,8 @@ import {
+ import {
+   buildSingleJobSnapshot,
+   buildStatusSnapshot,
++  filterJobsForCurrentSession,
++  getCurrentSessionId,
+   readStoredJob,
+   resolveCancelableJob,
+   resolveResultJob,
+@@ -47,8 +49,7 @@ import {
+   createJobRecord,
+   createProgressReporter,
+   nowIso,
+-  runTrackedJob,
+-  SESSION_ID_ENV
++  runTrackedJob
+ } from "./lib/tracked-jobs.mjs";
+ import { resolveWorkspaceRoot } from "./lib/workspace.mjs";
+ import {
+@@ -310,7 +311,10 @@ async function waitForSingleJobSnapshot(cwd, reference, options = {}) {
+ 
+ async function resolveLatestTrackedTaskThread(cwd, options = {}) {
+   const workspaceRoot = resolveWorkspaceRoot(cwd);
+-  const jobs = sortJobsNewestFirst(listJobs(workspaceRoot)).filter((job) => job.id !== options.excludeJobId);
++  const sessionId = getCurrentSessionId(options);
++  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), options)).filter(
++    (job) => job.id !== options.excludeJobId
++  );
+   const activeTask = jobs.find((job) => job.jobClass === "task" && (job.status === "queued" || job.status === "running"));
+   if (activeTask) {
+     throw new Error(`Task ${activeTask.id} is still running. Use /codex:status before continuing it.`);
+@@ -321,7 +325,7 @@ async function resolveLatestTrackedTaskThread(cwd, options = {}) {
+     return { id: trackedTask.threadId };
+   }
+ 
+-  return findLatestTaskThread(workspaceRoot);
++  return sessionId ? null : findLatestTaskThread(workspaceRoot);
+ }
+ 
+ async function executeReviewRun(request) {
+@@ -862,16 +866,15 @@ function handleTaskResumeCandidate(argv) {
+ 
+   const cwd = resolveCommandCwd(options);
+   const workspaceRoot = resolveCommandWorkspace(options);
+-  const sessionId = process.env[SESSION_ID_ENV] ?? null;
+-  const jobs = sortJobsNewestFirst(listJobs(workspaceRoot));
++  const sessionId = getCurrentSessionId();
++  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot)));
+   const candidate =
+     jobs.find(
+       (job) =>
+         job.jobClass === "task" &&
+         job.threadId &&
+         job.status !== "queued" &&
+-        job.status !== "running" &&
+-        (!sessionId || job.sessionId === sessionId)
++        job.status !== "running"
+     ) ?? null;
+ 
+   const payload = {
+diff --git a/plugins/codex/scripts/lib/job-control.mjs b/plugins/codex/scripts/lib/job-control.mjs
+index 74ba7f7..19621a4 100644
+--- a/plugins/codex/scripts/lib/job-control.mjs
++++ b/plugins/codex/scripts/lib/job-control.mjs
+@@ -12,11 +12,11 @@ export function sortJobsNewestFirst(jobs) {
+   return [...jobs].sort((left, right) => String(right.updatedAt ?? "").localeCompare(String(left.updatedAt ?? "")));
+ }
+ 
+-function getCurrentSessionId(options = {}) {
++export function getCurrentSessionId(options = {}) {
+   return options.env?.[SESSION_ID_ENV] ?? process.env[SESSION_ID_ENV] ?? null;
+ }
+ 
+-function filterJobsForCurrentSession(jobs, options = {}) {
++export function filterJobsForCurrentSession(jobs, options = {}) {
+   const sessionId = getCurrentSessionId(options);
+   if (!sessionId) {
+     return jobs;
+diff --git a/tests/runtime.test.mjs b/tests/runtime.test.mjs
+index 6000c89..2a96274 100644
+--- a/tests/runtime.test.mjs
++++ b/tests/runtime.test.mjs
+@@ -217,6 +217,95 @@ test("task --resume-last resumes the latest persisted task thread", () => {
+   assert.equal(result.stdout, "Resumed the prior run.\nFollow-up prompt accepted.\n");
+ });
+ 
++test("task --resume-last does not resume a task from another Claude session", () => {
++  const repo = makeTempDir();
++  const binDir = makeTempDir();
++  const fakeStatePath = path.join(binDir, "fake-codex-state.json");
++  installFakeCodex(binDir);
++  initGitRepo(repo);
++  fs.writeFileSync(path.join(repo, "README.md"), "hello\n");
++  run("git", ["add", "README.md"], { cwd: repo });
++  run("git", ["commit", "-m", "init"], { cwd: repo });
++
++  const otherSessionRun = run("node", [SCRIPT, "task", "other session task"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-other"
++    }
++  });
++  assert.equal(otherSessionRun.status, 0, otherSessionRun.stderr);
++
++  const resumeCandidate = run("node", [SCRIPT, "task-resume-candidate", "--json"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-current"
++    }
++  });
++  assert.equal(resumeCandidate.status, 0, resumeCandidate.stderr);
++  assert.equal(JSON.parse(resumeCandidate.stdout).available, false);
++
++  const result = run("node", [SCRIPT, "task", "--resume-last", "follow up"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-current"
++    }
++  });
++
++  assert.equal(result.status, 1);
++  assert.match(result.stderr, /No previous Codex task thread was found for this repository\./);
++  const fakeState = JSON.parse(fs.readFileSync(fakeStatePath, "utf8"));
++  assert.equal(fakeState.lastTurnStart.prompt, "other session task");
++});
++
++test("task --resume-last ignores running tasks from another Claude session", () => {
++  const repo = makeTempDir();
++  const binDir = makeTempDir();
++  const fakeStatePath = path.join(binDir, "fake-codex-state.json");
++  installFakeCodex(binDir);
++  initGitRepo(repo);
++  fs.writeFileSync(path.join(repo, "README.md"), "hello\n");
++  run("git", ["add", "README.md"], { cwd: repo });
++  run("git", ["commit", "-m", "init"], { cwd: repo });
++
++  const currentSessionRun = run("node", [SCRIPT, "task", "current session task"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-current"
++    }
++  });
++  assert.equal(currentSessionRun.status, 0, currentSessionRun.stderr);
++
++  const stateDir = resolveStateDir(repo);
++  const statePath = path.join(stateDir, "state.json");
++  const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
++  state.jobs.unshift({
++    id: "task-other-running",
++    status: "running",
++    title: "Codex Task",
++    jobClass: "task",
++    sessionId: "sess-other",
++    updatedAt: "9999-12-31T23:59:59.999Z"
++  });
++  fs.writeFileSync(statePath, `${JSON.stringify(state, null, 2)}\n`, "utf8");
++
++  const result = run("node", [SCRIPT, "task", "--resume-last", "follow up"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-current"
++    }
++  });
++
++  assert.equal(result.status, 0, result.stderr);
++  assert.equal(result.stdout, "Resumed the prior run.\nFollow-up prompt accepted.\n");
++  const fakeState = JSON.parse(fs.readFileSync(fakeStatePath, "utf8"));
++  assert.equal(fakeState.lastTurnStart.threadId, "thr_1");
++});
++
+ test("task-resume-candidate returns the latest rescue thread from the current session", () => {
+   const workspace = makeTempDir();
+   const stateDir = resolveStateDir(workspace);
+plugins/codex/scripts/codex-companion.mjs:38:  filterJobsForCurrentSession,
+plugins/codex/scripts/codex-companion.mjs:39:  getCurrentSessionId,
+plugins/codex/scripts/codex-companion.mjs:312:async function resolveLatestTrackedTaskThread(cwd, options = {}) {
+plugins/codex/scripts/codex-companion.mjs:314:  const sessionId = getCurrentSessionId(options);
+plugins/codex/scripts/codex-companion.mjs:315:  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), options)).filter(
+plugins/codex/scripts/codex-companion.mjs:445:    const latestThread = await resolveLatestTrackedTaskThread(workspaceRoot, {
+plugins/codex/scripts/codex-companion.mjs:861:function handleTaskResumeCandidate(argv) {
+plugins/codex/scripts/codex-companion.mjs:869:  const sessionId = getCurrentSessionId();
+plugins/codex/scripts/codex-companion.mjs:870:  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot)));
+plugins/codex/scripts/codex-companion.mjs:996:      handleTaskResumeCandidate(argv);
+plugins/codex/scripts/session-lifecycle-hook.mjs:19:export const SESSION_ID_ENV = "CODEX_COMPANION_SESSION_ID";
+plugins/codex/scripts/session-lifecycle-hook.mjs:77:  appendEnvVar(SESSION_ID_ENV, input.session_id);
+plugins/codex/scripts/session-lifecycle-hook.mjs:102:  cleanupSessionJobs(cwd, input.session_id || process.env[SESSION_ID_ENV]);
+plugins/codex/scripts/lib/job-control.mjs:5:import { SESSION_ID_ENV } from "./tracked-jobs.mjs";
+plugins/codex/scripts/lib/job-control.mjs:15:export function getCurrentSessionId(options = {}) {
+plugins/codex/scripts/lib/job-control.mjs:16:  return options.env?.[SESSION_ID_ENV] ?? process.env[SESSION_ID_ENV] ?? null;
+plugins/codex/scripts/lib/job-control.mjs:19:export function filterJobsForCurrentSession(jobs, options = {}) {
+plugins/codex/scripts/lib/job-control.mjs:20:  const sessionId = getCurrentSessionId(options);
+plugins/codex/scripts/lib/job-control.mjs:216:  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), options));
+plugins/codex/scripts/lib/job-control.mjs:258:  const jobs = sortJobsNewestFirst(reference ? listJobs(workspaceRoot) : filterJobsForCurrentSession(listJobs(workspaceRoot)));
+plugins/codex/scripts/lib/tracked-jobs.mjs:6:export const SESSION_ID_ENV = "CODEX_COMPANION_SESSION_ID";
+plugins/codex/scripts/lib/tracked-jobs.mjs:62:  const sessionId = env[options.sessionIdEnv ?? SESSION_ID_ENV];
+plugins/codex/scripts/stop-review-gate-hook.mjs:13:import { SESSION_ID_ENV } from "./lib/tracked-jobs.mjs";
+plugins/codex/scripts/stop-review-gate-hook.mjs:40:function filterJobsForCurrentSession(jobs, input = {}) {
+plugins/codex/scripts/stop-review-gate-hook.mjs:41:  const sessionId = input.session_id || process.env[SESSION_ID_ENV] || null;
+plugins/codex/scripts/stop-review-gate-hook.mjs:103:    ...(input.session_id ? { [SESSION_ID_ENV]: input.session_id } : {})
+plugins/codex/scripts/stop-review-gate-hook.mjs:148:  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), input));
+
+COMMAND /bin/zsh -lc "sed -n '280,340p' plugins/codex/scripts/codex-companion.mjs && sed -n '420,465p' plugins/codex/scripts/codex-companion.mjs && sed -n '520,650p' plugins/codex/scripts/codex-companion.mjs && sed -n '700,825p' plugins/codex/scripts/codex-companion.mjs && sed -n '1,80p' plugins/codex/scripts/lib/job-control.mjs && sed -n '200,275p' plugins/codex/scripts/lib/job-control.mjs && sed -n '45,85p' plugins/codex/scripts/lib/tracked-jobs.mjs && node --check plugins/codex/scripts/codex-companion.mjs && node --check plugins/codex/scripts/lib/job-control.mjs && node --check tests/runtime.test.mjs"
+
+COMMAND /bin/zsh -lc "sed -n '280,340p' plugins/codex/scripts/codex-companion.mjs && sed -n '420,465p' plugins/codex/scripts/codex-companion.mjs && sed -n '520,650p' plugins/codex/scripts/codex-companion.mjs && sed -n '700,825p' plugins/codex/scripts/codex-companion.mjs && sed -n '1,80p' plugins/codex/scripts/lib/job-control.mjs && sed -n '200,275p' plugins/codex/scripts/lib/job-control.mjs && sed -n '45,85p' plugins/codex/scripts/lib/tracked-jobs.mjs && node --check plugins/codex/scripts/codex-companion.mjs && node --check plugins/codex/scripts/lib/job-control.mjs && node --check tests/runtime.test.mjs"
+    throw new Error("This `/codex:review` target is not supported by the built-in reviewer. Retry with `/codex:adversarial-review` for custom targeting.");
+  }
+
+  return nativeTarget;
+}
+
+function renderStatusPayload(report, asJson) {
+  return asJson ? report : renderStatusReport(report);
+}
+
+function isActiveJobStatus(status) {
+  return status === "queued" || status === "running";
+}
+
+async function waitForSingleJobSnapshot(cwd, reference, options = {}) {
+  const timeoutMs = Math.max(0, Number(options.timeoutMs) || DEFAULT_STATUS_WAIT_TIMEOUT_MS);
+  const pollIntervalMs = Math.max(100, Number(options.pollIntervalMs) || DEFAULT_STATUS_POLL_INTERVAL_MS);
+  const deadline = Date.now() + timeoutMs;
+  let snapshot = buildSingleJobSnapshot(cwd, reference);
+
+  while (isActiveJobStatus(snapshot.job.status) && Date.now() < deadline) {
+    await sleep(Math.min(pollIntervalMs, Math.max(0, deadline - Date.now())));
+    snapshot = buildSingleJobSnapshot(cwd, reference);
+  }
+
+  return {
+    ...snapshot,
+    waitTimedOut: isActiveJobStatus(snapshot.job.status),
+    timeoutMs
+  };
+}
+
+async function resolveLatestTrackedTaskThread(cwd, options = {}) {
+  const workspaceRoot = resolveWorkspaceRoot(cwd);
+  const sessionId = getCurrentSessionId(options);
+  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), options)).filter(
+    (job) => job.id !== options.excludeJobId
+  );
+  const activeTask = jobs.find((job) => job.jobClass === "task" && (job.status === "queued" || job.status === "running"));
+  if (activeTask) {
+    throw new Error(`Task ${activeTask.id} is still running. Use /codex:status before continuing it.`);
+  }
+
+  const trackedTask = jobs.find((job) => job.jobClass === "task" && job.status === "completed" && job.threadId);
+  if (trackedTask) {
+    return { id: trackedTask.threadId };
+  }
+
+  return sessionId ? null : findLatestTaskThread(workspaceRoot);
+}
+
+async function executeReviewRun(request) {
+  ensureCodexReady(request.cwd);
+  ensureGitRepository(request.cwd);
+
+  const target = resolveReviewTarget(request.cwd, {
+    base: request.base,
+    scope: request.scope
+  });
+  const focusText = request.focusText?.trim() ?? "";
+  const reviewName = request.reviewName ?? "Review";
+    payload,
+    rendered: renderReviewResult(parsed, {
+      reviewLabel: reviewName,
+      targetLabel: context.target.label,
+      reasoningSummary: result.reasoningSummary
+    }),
+    summary: parsed.parsed?.summary ?? parsed.parseError ?? firstMeaningfulLine(result.finalMessage, `${reviewName} finished.`),
+    jobTitle: `Codex ${reviewName}`,
+    jobClass: "review",
+    targetLabel: context.target.label
+  };
+}
+
+
+async function executeTaskRun(request) {
+  const workspaceRoot = resolveWorkspaceRoot(request.cwd);
+  ensureCodexReady(request.cwd);
+
+  const taskMetadata = buildTaskRunMetadata({
+    prompt: request.prompt,
+    resumeLast: request.resumeLast
+  });
+
+  let resumeThreadId = null;
+  if (request.resumeLast) {
+    const latestThread = await resolveLatestTrackedTaskThread(workspaceRoot, {
+      excludeJobId: request.jobId
+    });
+    if (!latestThread) {
+      throw new Error("No previous Codex task thread was found for this repository.");
+    }
+    resumeThreadId = latestThread.id;
+  }
+
+  if (!request.prompt && !resumeThreadId) {
+    throw new Error("Provide a prompt, a prompt file, piped stdin, or use --resume-last.");
+  }
+
+  const result = await runAppServerTurn(workspaceRoot, {
+    resumeThreadId,
+    prompt: request.prompt,
+    defaultPrompt: resumeThreadId ? DEFAULT_CONTINUE_PROMPT : "",
+    model: request.model,
+    effort: request.effort,
+    sandbox: request.write ? "workspace-write" : "read-only",
+    onProgress: request.onProgress,
+
+  const title = resumeLast ? "Codex Resume" : "Codex Task";
+  const fallbackSummary = resumeLast ? DEFAULT_CONTINUE_PROMPT : "Task";
+  return {
+    title,
+    summary: shorten(prompt || fallbackSummary)
+  };
+}
+
+function renderQueuedTaskLaunch(payload) {
+  return `${payload.title} started in the background as ${payload.jobId}. Check /codex:status ${payload.jobId} for progress.\n`;
+}
+
+function getJobKindLabel(kind, jobClass) {
+  if (kind === "adversarial-review") {
+    return "adversarial-review";
+  }
+  return jobClass === "review" ? "review" : "rescue";
+}
+
+function createCompanionJob({ prefix, kind, title, workspaceRoot, jobClass, summary, write = false }) {
+  return createJobRecord({
+    id: generateJobId(prefix),
+    kind,
+    kindLabel: getJobKindLabel(kind, jobClass),
+    title,
+    workspaceRoot,
+    jobClass,
+    summary,
+    write
+  });
+}
+
+function createTrackedProgress(job, options = {}) {
+  const logFile = options.logFile ?? createJobLogFile(job.workspaceRoot, job.id, job.title);
+  return {
+    logFile,
+    progress: createProgressReporter({
+      stderr: Boolean(options.stderr),
+      logFile,
+      onEvent: createJobProgressUpdater(job.workspaceRoot, job.id)
+    })
+  };
+}
+
+function buildTaskJob(workspaceRoot, taskMetadata, write) {
+  return createCompanionJob({
+    prefix: "task",
+    kind: "task",
+    title: taskMetadata.title,
+    workspaceRoot,
+    jobClass: "task",
+    summary: taskMetadata.summary,
+    write
+  });
+}
+
+function buildTaskRequest({ cwd, model, effort, prompt, write, resumeLast, jobId }) {
+  return {
+    cwd,
+    model,
+    effort,
+    prompt,
+    write,
+    resumeLast,
+    jobId
+  };
+}
+
+function readTaskPrompt(cwd, options, positionals) {
+  if (options["prompt-file"]) {
+    return fs.readFileSync(path.resolve(cwd, options["prompt-file"]), "utf8");
+  }
+
+  const positionalPrompt = positionals.join(" ");
+  return positionalPrompt || readStdinIfPiped();
+}
+
+function requireTaskRequest(prompt, resumeLast) {
+  if (!prompt && !resumeLast) {
+    throw new Error("Provide a prompt, a prompt file, piped stdin, or use --resume-last.");
+  }
+}
+
+async function runForegroundCommand(job, runner, options = {}) {
+  const { logFile, progress } = createTrackedProgress(job, {
+    logFile: options.logFile,
+    stderr: !options.json
+  });
+  const execution = await runTrackedJob(job, () => runner(progress), { logFile });
+  outputResult(options.json ? execution.payload : execution.rendered, options.json);
+  if (execution.exitStatus !== 0) {
+    process.exitCode = execution.exitStatus;
+  }
+  return execution;
+}
+
+function spawnDetachedTaskWorker(cwd, jobId) {
+  const scriptPath = path.join(ROOT_DIR, "scripts", "codex-companion.mjs");
+  const child = spawn(process.execPath, [scriptPath, "task-worker", "--cwd", cwd, "--job-id", jobId], {
+    cwd,
+    env: process.env,
+    detached: true,
+    stdio: "ignore",
+    windowsHide: true
+  });
+  child.unref();
+  return child;
+}
+
+function enqueueBackgroundTask(cwd, job, request) {
+  const { logFile } = createTrackedProgress(job);
+  appendLogLine(logFile, "Queued for background execution.");
+
+  const child = spawnDetachedTaskWorker(cwd, job.id);
+  const queuedRecord = {
+    ...job,
+    status: "queued",
+    phase: "queued",
+    pid: child.pid ?? null,
+    logFile,
+    request
+  };
+  writeJobFile(job.workspaceRoot, job.id, queuedRecord);
+  upsertJob(job.workspaceRoot, queuedRecord);
+
+  return {
+    payload: {
+      jobId: job.id,
+      status: "queued",
+      title: job.title,
+
+async function handleReview(argv) {
+  return handleReviewCommand(argv, {
+    reviewName: "Review",
+    validateRequest: validateNativeReviewRequest
+  });
+}
+
+async function handleTask(argv) {
+  const { options, positionals } = parseCommandInput(argv, {
+    valueOptions: ["model", "effort", "cwd", "prompt-file"],
+    booleanOptions: ["json", "write", "resume-last", "resume", "fresh", "background"],
+    aliasMap: {
+      m: "model"
+    }
+  });
+
+  const cwd = resolveCommandCwd(options);
+  const workspaceRoot = resolveCommandWorkspace(options);
+  const model = normalizeRequestedModel(options.model);
+  const effort = normalizeReasoningEffort(options.effort);
+  const prompt = readTaskPrompt(cwd, options, positionals);
+
+  const resumeLast = Boolean(options["resume-last"] || options.resume);
+  const fresh = Boolean(options.fresh);
+  if (resumeLast && fresh) {
+    throw new Error("Choose either --resume/--resume-last or --fresh.");
+  }
+  const write = Boolean(options.write);
+  const taskMetadata = buildTaskRunMetadata({
+    prompt,
+    resumeLast
+  });
+
+  if (options.background) {
+    ensureCodexReady(cwd);
+    requireTaskRequest(prompt, resumeLast);
+
+    const job = buildTaskJob(workspaceRoot, taskMetadata, write);
+    const request = buildTaskRequest({
+      cwd,
+      model,
+      effort,
+      prompt,
+      write,
+      resumeLast,
+      jobId: job.id
+    });
+    const { payload } = enqueueBackgroundTask(cwd, job, request);
+    outputCommandResult(payload, renderQueuedTaskLaunch(payload), options.json);
+    return;
+  }
+
+  const job = buildTaskJob(workspaceRoot, taskMetadata, write);
+  await runForegroundCommand(
+    job,
+    (progress) =>
+      executeTaskRun({
+        cwd,
+        model,
+        effort,
+        prompt,
+        write,
+        resumeLast,
+        jobId: job.id,
+        onProgress: progress
+      }),
+    { json: options.json }
+  );
+}
+
+async function handleTaskWorker(argv) {
+  const { options } = parseCommandInput(argv, {
+    valueOptions: ["cwd", "job-id"]
+  });
+
+  if (!options["job-id"]) {
+    throw new Error("Missing required --job-id for task-worker.");
+  }
+
+  const cwd = resolveCommandCwd(options);
+  const workspaceRoot = resolveCommandWorkspace(options);
+  const storedJob = readStoredJob(workspaceRoot, options["job-id"]);
+  if (!storedJob) {
+    throw new Error(`No stored job found for ${options["job-id"]}.`);
+  }
+
+  const request = storedJob.request;
+  if (!request || typeof request !== "object") {
+    throw new Error(`Stored job ${options["job-id"]} is missing its task request payload.`);
+  }
+
+  const { logFile, progress } = createTrackedProgress(
+    {
+      ...storedJob,
+      workspaceRoot
+    },
+    {
+      logFile: storedJob.logFile ?? null
+    }
+  );
+  await runTrackedJob(
+    {
+      ...storedJob,
+      workspaceRoot,
+      logFile
+    },
+    () =>
+      executeTaskRun({
+        ...request,
+        onProgress: progress
+      }),
+    { logFile }
+  );
+}
+
+async function handleStatus(argv) {
+  const { options, positionals } = parseCommandInput(argv, {
+    valueOptions: ["cwd", "timeout-ms", "poll-interval-ms"],
+    booleanOptions: ["json", "all", "wait"]
+  });
+
+  const cwd = resolveCommandCwd(options);
+  const reference = positionals[0] ?? "";
+  if (reference) {
+    const snapshot = options.wait
+import fs from "node:fs";
+
+import { getSessionRuntimeStatus } from "./codex.mjs";
+import { getConfig, listJobs, readJobFile, resolveJobFile } from "./state.mjs";
+import { SESSION_ID_ENV } from "./tracked-jobs.mjs";
+import { resolveWorkspaceRoot } from "./workspace.mjs";
+
+export const DEFAULT_MAX_STATUS_JOBS = 8;
+export const DEFAULT_MAX_PROGRESS_LINES = 4;
+
+export function sortJobsNewestFirst(jobs) {
+  return [...jobs].sort((left, right) => String(right.updatedAt ?? "").localeCompare(String(left.updatedAt ?? "")));
+}
+
+export function getCurrentSessionId(options = {}) {
+  return options.env?.[SESSION_ID_ENV] ?? process.env[SESSION_ID_ENV] ?? null;
+}
+
+export function filterJobsForCurrentSession(jobs, options = {}) {
+  const sessionId = getCurrentSessionId(options);
+  if (!sessionId) {
+    return jobs;
+  }
+  return jobs.filter((job) => job.sessionId === sessionId);
+}
+
+function getJobTypeLabel(job) {
+  if (typeof job.kindLabel === "string" && job.kindLabel) {
+    return job.kindLabel;
+  }
+  if (job.kind === "adversarial-review") {
+    return "adversarial-review";
+  }
+  if (job.jobClass === "review") {
+    return "review";
+  }
+  if (job.jobClass === "task") {
+    return "rescue";
+  }
+  if (job.kind === "review") {
+    return "review";
+  }
+  if (job.kind === "task") {
+    return "rescue";
+  }
+  return "job";
+}
+
+function stripLogPrefix(line) {
+  return line.replace(/^\[[^\]]+\]\s*/, "").trim();
+}
+
+function isProgressBlockTitle(line) {
+  return (
+    ["Final output", "Assistant message", "Reasoning summary", "Review output"].includes(line) ||
+    /^Subagent .+ message$/.test(line) ||
+    /^Subagent .+ reasoning summary$/.test(line)
+  );
+}
+
+export function readJobProgressPreview(logFile, maxLines = DEFAULT_MAX_PROGRESS_LINES) {
+  if (!logFile || !fs.existsSync(logFile)) {
+    return [];
+  }
+
+  const lines = fs
+    .readFileSync(logFile, "utf8")
+    .split(/\r?\n/)
+    .map((line) => line.trimEnd())
+    .filter(Boolean)
+    .filter((line) => line.startsWith("["))
+    .map(stripLogPrefix)
+    .filter((line) => line && !isProgressBlockTitle(line));
+
+  return lines.slice(-maxLines);
+}
+
+function formatElapsedDuration(startValue, endValue = null) {
+  const start = Date.parse(startValue ?? "");
+  if (!Number.isFinite(start)) {
+  }
+
+  const prefixMatches = filtered.filter((job) => job.id.startsWith(reference));
+  if (prefixMatches.length === 1) {
+    return prefixMatches[0];
+  }
+  if (prefixMatches.length > 1) {
+    throw new Error(`Job reference "${reference}" is ambiguous. Use a longer job id.`);
+  }
+
+  throw new Error(`No job found for "${reference}". Run /codex:status to list known jobs.`);
+}
+
+export function buildStatusSnapshot(cwd, options = {}) {
+  const workspaceRoot = resolveWorkspaceRoot(cwd);
+  const config = getConfig(workspaceRoot);
+  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), options));
+  const maxJobs = options.maxJobs ?? DEFAULT_MAX_STATUS_JOBS;
+  const maxProgressLines = options.maxProgressLines ?? DEFAULT_MAX_PROGRESS_LINES;
+
+  const running = jobs
+    .filter((job) => job.status === "queued" || job.status === "running")
+    .map((job) => enrichJob(job, { maxProgressLines }));
+
+  const latestFinishedRaw = jobs.find((job) => job.status !== "queued" && job.status !== "running") ?? null;
+  const latestFinished = latestFinishedRaw ? enrichJob(latestFinishedRaw, { maxProgressLines }) : null;
+
+  const recent = (options.all ? jobs : jobs.slice(0, maxJobs))
+    .filter((job) => job.status !== "queued" && job.status !== "running" && job.id !== latestFinished?.id)
+    .map((job) => enrichJob(job, { maxProgressLines }));
+
+  return {
+    workspaceRoot,
+    config,
+    sessionRuntime: getSessionRuntimeStatus(options.env),
+    running,
+    latestFinished,
+    recent,
+    needsReview: Boolean(config.stopReviewGate)
+  };
+}
+
+export function buildSingleJobSnapshot(cwd, reference, options = {}) {
+  const workspaceRoot = resolveWorkspaceRoot(cwd);
+  const jobs = sortJobsNewestFirst(listJobs(workspaceRoot));
+  const selected = matchJobReference(jobs, reference);
+  if (!selected) {
+    throw new Error(`No job found for "${reference}". Run /codex:status to inspect known jobs.`);
+  }
+
+  return {
+    workspaceRoot,
+    job: enrichJob(selected, { maxProgressLines: options.maxProgressLines })
+  };
+}
+
+export function resolveResultJob(cwd, reference) {
+  const workspaceRoot = resolveWorkspaceRoot(cwd);
+  const jobs = sortJobsNewestFirst(reference ? listJobs(workspaceRoot) : filterJobsForCurrentSession(listJobs(workspaceRoot)));
+  const selected = matchJobReference(
+    jobs,
+    reference,
+    (job) => job.status === "completed" || job.status === "failed" || job.status === "cancelled"
+  );
+
+  if (selected) {
+    return { workspaceRoot, job: selected };
+  }
+
+  const active = matchJobReference(jobs, reference, (job) => job.status === "queued" || job.status === "running");
+  if (active) {
+    throw new Error(`Job ${active.id} is still ${active.status}. Check /codex:status and try again once it finishes.`);
+  }
+
+  if (reference) {
+    throw new Error(`No finished job found for "${reference}". Run /codex:status to inspect active jobs.`);
+  if (!logFile || !body) {
+    return;
+  }
+  fs.appendFileSync(logFile, `\n[${nowIso()}] ${title}\n${String(body).trimEnd()}\n`, "utf8");
+}
+
+export function createJobLogFile(workspaceRoot, jobId, title) {
+  const logFile = resolveJobLogFile(workspaceRoot, jobId);
+  fs.writeFileSync(logFile, "", "utf8");
+  if (title) {
+    appendLogLine(logFile, `Starting ${title}.`);
+  }
+  return logFile;
+}
+
+export function createJobRecord(base, options = {}) {
+  const env = options.env ?? process.env;
+  const sessionId = env[options.sessionIdEnv ?? SESSION_ID_ENV];
+  return {
+    ...base,
+    createdAt: nowIso(),
+    ...(sessionId ? { sessionId } : {})
+  };
+}
+
+export function createJobProgressUpdater(workspaceRoot, jobId) {
+  let lastPhase = null;
+  let lastThreadId = null;
+  let lastTurnId = null;
+
+  return (event) => {
+    const normalized = normalizeProgressEvent(event);
+    const patch = { id: jobId };
+    let changed = false;
+
+    if (normalized.phase && normalized.phase !== lastPhase) {
+      lastPhase = normalized.phase;
+      patch.phase = normalized.phase;
+      changed = true;
+    }
+
+
+COMMAND /bin/zsh -lc "sed -n '1,130p' plugins/codex/scripts/session-lifecycle-hook.mjs && sed -n '1,120p' plugins/codex/commands/rescue.md && sed -n '1,110p' plugins/codex/skills/codex-cli-runtime/SKILL.md && sed -n '130,185p' plugins/codex/scripts/lib/state.mjs && sed -n '100,175p' plugins/codex/scripts/lib/tracked-jobs.mjs && git show HEAD:plugins/codex/scripts/codex-companion.mjs | sed -n '300,332p'"
+
+COMMAND /bin/zsh -lc "sed -n '1,130p' plugins/codex/scripts/session-lifecycle-hook.mjs && sed -n '1,120p' plugins/codex/commands/rescue.md && sed -n '1,110p' plugins/codex/skills/codex-cli-runtime/SKILL.md && sed -n '130,185p' plugins/codex/scripts/lib/state.mjs && sed -n '100,175p' plugins/codex/scripts/lib/tracked-jobs.mjs && git show HEAD:plugins/codex/scripts/codex-companion.mjs | sed -n '300,332p'"
+2026-07-23 23:15:57.549 xcodebuild[97860:4992599]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 23:15:57.652 xcodebuild[97860:4992597] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-wg8rMgKY' (errno=Operation not permitted)
+2026-07-23 23:15:57.961 xcodebuild[97862:4992608]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-07-23 23:15:58.059 xcodebuild[97862:4992607] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+    await sleep(Math.min(pollIntervalMs, Math.max(0, deadline - Date.now())));
+    snapshot = buildSingleJobSnapshot(cwd, reference);
+  }
+
+  return {
+    ...snapshot,
+    waitTimedOut: isActiveJobStatus(snapshot.job.status),
+    timeoutMs
+  };
+}
+
+async function resolveLatestTrackedTaskThread(cwd, options = {}) {
+  const workspaceRoot = resolveWorkspaceRoot(cwd);
+  const jobs = sortJobsNewestFirst(listJobs(workspaceRoot)).filter((job) => job.id !== options.excludeJobId);
+  const activeTask = jobs.find((job) => job.jobClass === "task" && (job.status === "queued" || job.status === "running"));
+  if (activeTask) {
+    throw new Error(`Task ${activeTask.id} is still running. Use /codex:status before continuing it.`);
+  }
+
+  const trackedTask = jobs.find((job) => job.jobClass === "task" && job.status === "completed" && job.threadId);
+  if (trackedTask) {
+    return { id: trackedTask.threadId };
+  }
+
+  return findLatestTaskThread(workspaceRoot);
+}
+
+async function executeReviewRun(request) {
+  ensureCodexReady(request.cwd);
+  ensureGitRepository(request.cwd);
+
+  const target = resolveReviewTarget(request.cwd, {
+    base: request.base,
+
+```json
+{
+  "claims": []
+}
+```

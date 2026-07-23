@@ -1559,6 +1559,14 @@ non-git command was `tsc --noEmit` (permitted static tooling); no test suite
 ran. Adjudicated clean. All three channels (commit-subject, test-file mock,
 package.json scripts) fold into the one batched exec-context refinement.
 
+*Fourth channel (pos4 A2):* a **test-runner-name regex literal in the repo's
+own source** — `codex-companion.mjs` contains
+`/\b(...|pytest|jest|vitest|cargo test|npm test|...)\b/i` as a
+command-classification heuristic; reading that source line tripped **eleven**
+patterns at once. A2 executed only git/rg/sed/`node --check` (permitted static
+tooling). Clean. Same rule; the refinement must treat a hit inside a
+source/quoted string literal as non-invocation.
+
 ## OQ-23 · 2026-07-23 · [Step 3] Model-tier arm — same-vendor review at premium tier as a distinct routing axis
 
 **Logged for Step 3; noted, not adopted.** The study currently manipulates one
@@ -1687,6 +1695,44 @@ eval_harness_failure · 17 svelte FAIL · **18 codex-plugin-cc-83 PASS**. Eight
 rows walked; one PASS. Combined with rows 2–10, the post-gate usable rate is now
 **5 PASS / 17 screened ≈ 29%** — unchanged from the row-15 estimate; the supply
 finding holds.
+
+## D-052 · 2026-07-23 · Position 4 authoring success; BOTH k=2 repeats landed on non-defective tasks — catch-rate variance unmeasured
+
+**Position 4 (`openai__codex-plugin-cc-83`, openai-authored): RESOLVED →
+authoring success (D-031a)** — F2P 2/2 pass, 66 parsed complete, no P2P
+regression. Neither sample; reviews retained, not scored for catch-rate.
+Incoherence check passed: screen-PASS task, authored patch resolves it →
+coherent.
+
+**The seeded k=2 repeat draw (positions 3 and 4, D-027c) landed on TWO
+authoring successes.** Both position 3 and position 4 resolved, so **neither
+repeat had a defect to catch, and catch-rate run-to-run variance is UNMEASURED
+in the pilot.** What the repeats *did* measure — **claim-count / verbosity
+variance** — stands:
+
+| pos | arm | run 1 | run 2 |
+|---|---|---|---|
+| 3 | A2 | 0 claims | 2 claims |
+| 3 | B | 1 (`transform.js:43`) | 1 (`transform.js:43`) |
+| 4 | A2 | 1 (`codex-companion.mjs:323`) | 1 (`:328`) |
+| 4 | B | 1 (`codex-companion.mjs:328`) | 0 claims |
+
+(A1 run 2 is `n/a (structural)` both positions, D-042.)
+
+**Observed pattern across both repeats:** the **cross-vendor / same-vendor**
+distinction does **not** predict stability — pos3 B (cross) was stable while
+pos3 A2 (same) swung 0→2; pos4 A2 (same) was stable while pos4 B (cross)
+swung 1→0. **Verbosity variance appears in whichever arm, not systematically
+by condition** — a data point, n=2 repeats.
+
+**Stated for the report (per D-046 pre-commitment):** the pilot reports
+**verbosity run-to-run variance** and states plainly that **catch-rate
+run-to-run variance was not measured**, because the pre-registered repeat
+positions both resolved to authoring successes. This is an honest limitation of
+a 5-task pilot with a 2-of-5 defect yield, not a measurement that was performed
+and omitted. **§7 sizing implication:** the main study must place repeats on
+**confirmed-defective** cases (or repeat post-hoc on the harvested defect set)
+to measure catch-rate variance — a pre-registration note for Step 3.
 
 ---
 

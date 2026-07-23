@@ -1,0 +1,41 @@
+task --resume-last ignores current-session scoping and can resume another Claude session's task
+## Summary
+
+`task-resume-candidate --json` is scoped to the current Claude session, but `task --resume-last` is not. In a multi-session workspace, the CLI can report that there is no resumable task for the current session and then still resume a different session's persisted Codex thread.
+
+The same helper also lets an active task from another Claude session block `--resume-last`, even when `/codex:status` for the current session shows no running jobs.
+
+## Reproduction
+
+1. Start a repository with the plugin state directory available.
+2. Run one successful `task` command under Claude session `sess-other` so it persists a completed task thread.
+3. In a separate Claude session `sess-current`, run:
+   - `node scripts/codex-companion.mjs task-resume-candidate --json`
+   - `node scripts/codex-companion.mjs task --resume-last "follow up"`
+4. Observe that `task-resume-candidate` reports `available: false`, but `--resume-last` still resumes the older thread from `sess-other`.
+5. Alternatively, leave a `running` task owned by `sess-other` in state and run `task --resume-last` from `sess-current`.
+
+## Expected
+
+- Implicit resume selection should use the same current-session visibility rules as `task-resume-candidate`.
+- If `CODEX_COMPANION_SESSION_ID` is set and the current session has no resumable task, `task --resume-last` should fail with "No previous Codex task thread was found for this repository.".
+- A running task from another session should not block `--resume-last` for the current session.
+
+## Actual
+
+- `task-resume-candidate` says there is no resumable task in the current session.
+- `task --resume-last` still resumes another session's completed thread.
+- A running task from another session can also block `--resume-last` with `Task ... is still running. Use /codex:status before continuing it.` even though `/codex:status` for the current session shows no running jobs.
+
+## Suspected Cause
+
+`resolveLatestTrackedTaskThread(...)` scans all persisted task jobs in the workspace and only excludes the current job id. It does not apply current-session filtering before choosing a completed thread or before checking for active tasks.
+
+## Suggested Fix
+
+Thread the same session-aware filtering used by `task-resume-candidate` into the implicit `--resume-last` path, and only fall back to `findLatestTaskThread(...)` when there is no Claude session id in scope.
+
+
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.

@@ -1,0 +1,930 @@
+TOOL Bash{"command": "git diff --stat && echo \"---\" && git log --oneline -3", "description": "Show working tree diff stat"}
+ plugins/codex/scripts/codex-companion.mjs | 19 ++++---
+ plugins/codex/scripts/lib/job-control.mjs |  4 +-
+ tests/runtime.test.mjs                    | 89 +++++++++++++++++++++++++++++++
+ 3 files changed, 102 insertions(+), 10 deletions(-)
+---
+8e403f9 tests: reduce background task timing flakiness (#37)
+6360899 chore: bump plugin version to 1.0.2 (#74)
+65486f2 ci: add pull request workflow for tests and build (#73)
+TOOL Bash{"command": "git diff", "description": "Show full working tree diff"}
+diff --git a/plugins/codex/scripts/codex-companion.mjs b/plugins/codex/scripts/codex-companion.mjs
+index 201d1c7..cf78b1e 100644
+--- a/plugins/codex/scripts/codex-companion.mjs
++++ b/plugins/codex/scripts/codex-companion.mjs
+@@ -35,6 +35,8 @@ import {
+ import {
+   buildSingleJobSnapshot,
+   buildStatusSnapshot,
++  filterJobsForCurrentSession,
++  getCurrentSessionId,
+   readStoredJob,
+   resolveCancelableJob,
+   resolveResultJob,
+@@ -47,8 +49,7 @@ import {
+   createJobRecord,
+   createProgressReporter,
+   nowIso,
+-  runTrackedJob,
+-  SESSION_ID_ENV
++  runTrackedJob
+ } from "./lib/tracked-jobs.mjs";
+ import { resolveWorkspaceRoot } from "./lib/workspace.mjs";
+ import {
+@@ -310,7 +311,10 @@ async function waitForSingleJobSnapshot(cwd, reference, options = {}) {
+ 
+ async function resolveLatestTrackedTaskThread(cwd, options = {}) {
+   const workspaceRoot = resolveWorkspaceRoot(cwd);
+-  const jobs = sortJobsNewestFirst(listJobs(workspaceRoot)).filter((job) => job.id !== options.excludeJobId);
++  const sessionId = getCurrentSessionId(options);
++  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), options)).filter(
++    (job) => job.id !== options.excludeJobId
++  );
+   const activeTask = jobs.find((job) => job.jobClass === "task" && (job.status === "queued" || job.status === "running"));
+   if (activeTask) {
+     throw new Error(`Task ${activeTask.id} is still running. Use /codex:status before continuing it.`);
+@@ -321,7 +325,7 @@ async function resolveLatestTrackedTaskThread(cwd, options = {}) {
+     return { id: trackedTask.threadId };
+   }
+ 
+-  return findLatestTaskThread(workspaceRoot);
++  return sessionId ? null : findLatestTaskThread(workspaceRoot);
+ }
+ 
+ async function executeReviewRun(request) {
+@@ -862,16 +866,15 @@ function handleTaskResumeCandidate(argv) {
+ 
+   const cwd = resolveCommandCwd(options);
+   const workspaceRoot = resolveCommandWorkspace(options);
+-  const sessionId = process.env[SESSION_ID_ENV] ?? null;
+-  const jobs = sortJobsNewestFirst(listJobs(workspaceRoot));
++  const sessionId = getCurrentSessionId();
++  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot)));
+   const candidate =
+     jobs.find(
+       (job) =>
+         job.jobClass === "task" &&
+         job.threadId &&
+         job.status !== "queued" &&
+-        job.status !== "running" &&
+-        (!sessionId || job.sessionId === sessionId)
++        job.status !== "running"
+     ) ?? null;
+ 
+   const payload = {
+diff --git a/plugins/codex/scripts/lib/job-control.mjs b/plugins/codex/scripts/lib/job-control.mjs
+index 74ba7f7..19621a4 100644
+--- a/plugins/codex/scripts/lib/job-control.mjs
++++ b/plugins/codex/scripts/lib/job-control.mjs
+@@ -12,11 +12,11 @@ export function sortJobsNewestFirst(jobs) {
+   return [...jobs].sort((left, right) => String(right.updatedAt ?? "").localeCompare(String(left.updatedAt ?? "")));
+ }
+ 
+-function getCurrentSessionId(options = {}) {
++export function getCurrentSessionId(options = {}) {
+   return options.env?.[SESSION_ID_ENV] ?? process.env[SESSION_ID_ENV] ?? null;
+ }
+ 
+-function filterJobsForCurrentSession(jobs, options = {}) {
++export function filterJobsForCurrentSession(jobs, options = {}) {
+   const sessionId = getCurrentSessionId(options);
+   if (!sessionId) {
+     return jobs;
+diff --git a/tests/runtime.test.mjs b/tests/runtime.test.mjs
+index 6000c89..2a96274 100644
+--- a/tests/runtime.test.mjs
++++ b/tests/runtime.test.mjs
+@@ -217,6 +217,95 @@ test("task --resume-last resumes the latest persisted task thread", () => {
+   assert.equal(result.stdout, "Resumed the prior run.\nFollow-up prompt accepted.\n");
+ });
+ 
++test("task --resume-last does not resume a task from another Claude session", () => {
++  const repo = makeTempDir();
++  const binDir = makeTempDir();
++  const fakeStatePath = path.join(binDir, "fake-codex-state.json");
++  installFakeCodex(binDir);
++  initGitRepo(repo);
++  fs.writeFileSync(path.join(repo, "README.md"), "hello\n");
++  run("git", ["add", "README.md"], { cwd: repo });
++  run("git", ["commit", "-m", "init"], { cwd: repo });
++
++  const otherSessionRun = run("node", [SCRIPT, "task", "other session task"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-other"
++    }
++  });
++  assert.equal(otherSessionRun.status, 0, otherSessionRun.stderr);
++
++  const resumeCandidate = run("node", [SCRIPT, "task-resume-candidate", "--json"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-current"
++    }
++  });
++  assert.equal(resumeCandidate.status, 0, resumeCandidate.stderr);
++  assert.equal(JSON.parse(resumeCandidate.stdout).available, false);
++
++  const result = run("node", [SCRIPT, "task", "--resume-last", "follow up"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-current"
++    }
++  });
++
++  assert.equal(result.status, 1);
++  assert.match(result.stderr, /No previous Codex task thread was found for this repository\./);
++  const fakeState = JSON.parse(fs.readFileSync(fakeStatePath, "utf8"));
++  assert.equal(fakeState.lastTurnStart.prompt, "other session task");
++});
++
++test("task --resume-last ignores running tasks from another Claude session", () => {
++  const repo = makeTempDir();
++  const binDir = makeTempDir();
++  const fakeStatePath = path.join(binDir, "fake-codex-state.json");
++  installFakeCodex(binDir);
++  initGitRepo(repo);
++  fs.writeFileSync(path.join(repo, "README.md"), "hello\n");
++  run("git", ["add", "README.md"], { cwd: repo });
++  run("git", ["commit", "-m", "init"], { cwd: repo });
++
++  const currentSessionRun = run("node", [SCRIPT, "task", "current session task"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-current"
++    }
++  });
++  assert.equal(currentSessionRun.status, 0, currentSessionRun.stderr);
++
++  const stateDir = resolveStateDir(repo);
++  const statePath = path.join(stateDir, "state.json");
++  const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
++  state.jobs.unshift({
++    id: "task-other-running",
++    status: "running",
++    title: "Codex Task",
++    jobClass: "task",
++    sessionId: "sess-other",
++    updatedAt: "9999-12-31T23:59:59.999Z"
++  });
++  fs.writeFileSync(statePath, `${JSON.stringify(state, null, 2)}\n`, "utf8");
++
++  const result = run("node", [SCRIPT, "task", "--resume-last", "follow up"], {
++    cwd: repo,
++    env: {
++      ...buildEnv(binDir),
++      CODEX_COMPANION_SESSION_ID: "sess-current"
++    }
++  });
++
++  assert.equal(result.status, 0, result.stderr);
++  assert.equal(result.stdout, "Resumed the prior run.\nFollow-up prompt accepted.\n");
++  const fakeState = JSON.parse(fs.readFileSync(fakeStatePath, "utf8"));
++  assert.equal(fakeState.lastTurnStart.threadId, "thr_1");
++});
++
+ test("task-resume-candidate returns the latest rescue thread from the current session", () => {
+   const workspace = makeTempDir();
+   const stateDir = resolveStateDir(workspace);
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b/plugins/codex/scripts/lib/job-control.mjs"}
+1	import fs from "node:fs";
+2	
+3	import { getSessionRuntimeStatus } from "./codex.mjs";
+4	import { getConfig, listJobs, readJobFile, resolveJobFile } from "./state.mjs";
+5	import { SESSION_ID_ENV } from "./tracked-jobs.mjs";
+6	import { resolveWorkspaceRoot } from "./workspace.mjs";
+7	
+8	export const DEFAULT_MAX_STATUS_JOBS = 8;
+9	export const DEFAULT_MAX_PROGRESS_LINES = 4;
+10	
+11	export function sortJobsNewestFirst(jobs) {
+12	  return [...jobs].sort((left, right) => String(right.updatedAt ?? "").localeCompare(String(left.updatedAt ?? "")));
+13	}
+14	
+15	export function getCurrentSessionId(options = {}) {
+16	  return options.env?.[SESSION_ID_ENV] ?? process.env[SESSION_ID_ENV] ?? null;
+17	}
+18	
+19	export function filterJobsForCurrentSession(jobs, options = {}) {
+20	  const sessionId = getCurrentSessionId(options);
+21	  if (!sessionId) {
+22	    return jobs;
+23	  }
+24	  return jobs.filter((job) => job.sessionId === sessionId);
+25	}
+26	
+27	function getJobTypeLabel(job) {
+28	  if (typeof job.kindLabel === "string" && job.kindLabel) {
+29	    return job.kindLabel;
+30	  }
+31	  if (job.kind === "adversarial-review") {
+32	    return "adversarial-review";
+33	  }
+34	  if (job.jobClass === "review") {
+35	    return "review";
+36	  }
+37	  if (job.jobClass === "task") {
+38	    return "rescue";
+39	  }
+40	  if (job.kind === "review") {
+41	    return "review";
+42	  }
+43	  if (job.kind === "task") {
+44	    return "rescue";
+45	  }
+46	  return "job";
+47	}
+48	
+49	function stripLogPrefix(line) {
+50	  return line.replace(/^\[[^\]]+\]\s*/, "").trim();
+51	}
+52	
+53	function isProgressBlockTitle(line) {
+54	  return (
+55	    ["Final output", "Assistant message", "Reasoning summary", "Review output"].includes(line) ||
+56	    /^Subagent .+ message$/.test(line) ||
+57	    /^Subagent .+ reasoning summary$/.test(line)
+58	  );
+59	}
+60	
+61	export function readJobProgressPreview(logFile, maxLines = DEFAULT_MAX_PROGRESS_LINES) {
+62	  if (!logFile || !fs.existsSync(logFile)) {
+63	    return [];
+64	  }
+65	
+66	  const lines = fs
+67	    .readFileSync(logFile, "utf8")
+68	    .split(/\r?\n/)
+69	    .map((line) => line.trimEnd())
+70	    .filter(Boolean)
+71	    .filter((line) => line.startsWith("["))
+72	    .map(stripLogPrefix)
+73	    .filter((line) => line && !isProgressBlockTitle(line));
+74	
+75	  return lines.slice(-maxLines);
+76	}
+77	
+78	function formatElapsedDuration(startValue, endValue = null) {
+79	  const start = Date.parse(startValue ?? "");
+80	  if (!Number.isFinite(start)) {
+81	    return null;
+82	  }
+83	
+84	  const end = endValue ? Date.parse(endValue) : Date.now();
+85	  if (!Number.isFinite(end) || end < start) {
+86	    return null;
+87	  }
+88	
+89	  const totalSeconds = Math.max(0, Math.round((end - start) / 1000));
+90	  const hours = Math.floor(totalSeconds / 3600);
+91	  const minutes = Math.floor((totalSeconds % 3600) / 60);
+92	  const seconds = totalSeconds % 60;
+93	
+94	  if (hours > 0) {
+95	    return `${hours}h ${minutes}m`;
+96	  }
+97	  if (minutes > 0) {
+98	    return `${minutes}m ${seconds}s`;
+99	  }
+100	  return `${seconds}s`;
+101	}
+102	
+103	function looksLikeVerificationCommand(line) {
+104	  return /\b(test|tests|lint|build|typecheck|type-check|check|verify|validate|pytest|jest|vitest|cargo test|npm test|pnpm test|yarn test|go test|mvn test|gradle test|tsc|eslint|ruff)\b/i.test(
+105	    line
+106	  );
+107	}
+108	
+109	function inferLegacyJobPhase(job, progressPreview = []) {
+110	  switch (job.status) {
+111	    case "queued":
+112	      return "queued";
+113	    case "cancelled":
+114	      return "cancelled";
+115	    case "failed":
+116	      return "failed";
+117	    case "completed":
+118	      return "done";
+119	    default:
+120	      break;
+121	  }
+122	
+123	  for (let index = progressPreview.length - 1; index >= 0; index -= 1) {
+124	    const line = progressPreview[index].toLowerCase();
+125	    if (line.startsWith("starting codex") || line.startsWith("thread ready") || line.startsWith("turn started")) {
+126	      return "starting";
+127	    }
+128	    if (line.startsWith("reviewer started") || line.includes("review mode")) {
+129	      return "reviewing";
+130	    }
+131	    if (line.startsWith("searching:") || line.startsWith("calling ") || line.startsWith("running tool:")) {
+132	      return "investigating";
+133	    }
+134	    if (line.startsWith("starting collaboration tool:")) {
+135	      return "investigating";
+136	    }
+137	    if (line.startsWith("running command:")) {
+138	      return looksLikeVerificationCommand(line)
+139	        ? "verifying"
+140	        : job.jobClass === "review"
+141	          ? "reviewing"
+142	          : "investigating";
+143	    }
+144	    if (line.startsWith("command completed:")) {
+145	      return looksLikeVerificationCommand(line) ? "verifying" : "running";
+146	    }
+147	    if (line.startsWith("applying ") || line.startsWith("file changes ")) {
+148	      return "editing";
+149	    }
+150	    if (line.startsWith("turn completed")) {
+151	      return "finalizing";
+152	    }
+153	    if (line.startsWith("codex error:") || line.startsWith("failed:")) {
+154	      return "failed";
+155	    }
+156	  }
+157	
+158	  return job.jobClass === "review" ? "reviewing" : "running";
+159	}
+160	
+161	export function enrichJob(job, options = {}) {
+162	  const maxProgressLines = options.maxProgressLines ?? DEFAULT_MAX_PROGRESS_LINES;
+163	  const enriched = {
+164	    ...job,
+165	    kindLabel: getJobTypeLabel(job),
+166	    progressPreview:
+167	      job.status === "queued" || job.status === "running" || job.status === "failed"
+168	        ? readJobProgressPreview(job.logFile, maxProgressLines)
+169	        : [],
+170	    elapsed: formatElapsedDuration(job.startedAt ?? job.createdAt, job.completedAt ?? null),
+171	    duration:
+172	      job.status === "completed" || job.status === "failed" || job.status === "cancelled"
+173	        ? formatElapsedDuration(job.startedAt ?? job.createdAt, job.completedAt ?? job.updatedAt)
+174	        : null
+175	  };
+176	
+177	  return {
+178	    ...enriched,
+179	    phase: enriched.phase ?? inferLegacyJobPhase(enriched, enriched.progressPreview)
+180	  };
+181	}
+182	
+183	export function readStoredJob(workspaceRoot, jobId) {
+184	  const jobFile = resolveJobFile(workspaceRoot, jobId);
+185	  if (!fs.existsSync(jobFile)) {
+186	    return null;
+187	  }
+188	  return readJobFile(jobFile);
+189	}
+190	
+191	function matchJobReference(jobs, reference, predicate = () => true) {
+192	  const filtered = jobs.filter(predicate);
+193	  if (!reference) {
+194	    return filtered[0] ?? null;
+195	  }
+196	
+197	  const exact = filtered.find((job) => job.id === reference);
+198	  if (exact) {
+199	    return exact;
+200	  }
+201	
+202	  const prefixMatches = filtered.filter((job) => job.id.startsWith(reference));
+203	  if (prefixMatches.length === 1) {
+204	    return prefixMatches[0];
+205	  }
+206	  if (prefixMatches.length > 1) {
+207	    throw new Error(`Job reference "${reference}" is ambiguous. Use a longer job id.`);
+208	  }
+209	
+210	  throw new Error(`No job found for "${reference}". Run /codex:status to list known jobs.`);
+211	}
+212	
+213	export function buildStatusSnapshot(cwd, options = {}) {
+214	  const workspaceRoot = resolveWorkspaceRoot(cwd);
+215	  const config = getConfig(workspaceRoot);
+216	  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), options));
+217	  const maxJobs = options.maxJobs ?? DEFAULT_MAX_STATUS_JOBS;
+218	  const maxProgressLines = options.maxProgressLines ?? DEFAULT_MAX_PROGRESS_LINES;
+219	
+220	  const running = jobs
+221	    .filter((job) => job.status === "queued" || job.status === "running")
+222	    .map((job) => enrichJob(job, { maxProgressLines }));
+223	
+224	  const latestFinishedRaw = jobs.find((job) => job.status !== "queued" && job.status !== "running") ?? null;
+225	  const latestFinished = latestFinishedRaw ? enrichJob(latestFinishedRaw, { maxProgressLines }) : null;
+226	
+227	  const recent = (options.all ? jobs : jobs.slice(0, maxJobs))
+228	    .filter((job) => job.status !== "queued" && job.status !== "running" && job.id !== latestFinished?.id)
+229	    .map((job) => enrichJob(job, { maxProgressLines }));
+230	
+231	  return {
+232	    workspaceRoot,
+233	    config,
+234	    sessionRuntime: getSessionRuntimeStatus(options.env),
+235	    running,
+236	    latestFinished,
+237	    recent,
+238	    needsReview: Boolean(config.stopReviewGate)
+239	  };
+240	}
+241	
+242	export function buildSingleJobSnapshot(cwd, reference, options = {}) {
+243	  const workspaceRoot = resolveWorkspaceRoot(cwd);
+244	  const jobs = sortJobsNewestFirst(listJobs(workspaceRoot));
+245	  const selected = matchJobReference(jobs, reference);
+246	  if (!selected) {
+247	    throw new Error(`No job found for "${reference}". Run /codex:status to inspect known jobs.`);
+248	  }
+249	
+250	  return {
+251	    workspaceRoot,
+252	    job: enrichJob(selected, { maxProgressLines: options.maxProgressLines })
+253	  };
+254	}
+255	
+256	export function resolveResultJob(cwd, reference) {
+257	  const workspaceRoot = resolveWorkspaceRoot(cwd);
+258	  const jobs = sortJobsNewestFirst(reference ? listJobs(workspaceRoot) : filterJobsForCurrentSession(listJobs(workspaceRoot)));
+259	  const selected = matchJobReference(
+260	    jobs,
+261	    reference,
+262	    (job) => job.status === "completed" || job.status === "failed" || job.status === "cancelled"
+263	  );
+264	
+265	  if (selected) {
+266	    return { workspaceRoot, job: selected };
+267	  }
+268	
+269	  const active = matchJobReference(jobs, reference, (job) => job.status === "queued" || job.status === "running");
+270	  if (active) {
+271	    throw new Error(`Job ${active.id} is still ${active.status}. Check /codex:status and try again once it finishes.`);
+272	  }
+273	
+274	  if (reference) {
+275	    throw new Error(`No finished job found for "${reference}". Run /codex:status to inspect active jobs.`);
+276	  }
+277	
+278	  throw new Error("No finished Codex jobs found for this repository yet.");
+279	}
+280	
+281	export function resolveCancelableJob(cwd, reference) {
+282	  const workspaceRoot = resolveWorkspaceRoot(cwd);
+283	  const jobs = sortJobsNewestFirst(listJobs(workspaceRoot));
+284	  const activeJobs = jobs.filter((job) => job.status === "queued" || job.status === "running");
+285	
+286	  if (reference) {
+287	    const selected = matchJobReference(activeJobs, reference);
+288	    if (!selected) {
+289	      throw new Error(`No active job found for "${reference}".`);
+290	    }
+291	    return { workspaceRoot, job: selected };
+292	  }
+293	
+294	  if (activeJobs.length === 1) {
+295	    return { workspaceRoot, job: activeJobs[0] };
+296	  }
+297	  if (activeJobs.length > 1) {
+298	    throw new Error("Multiple Codex jobs are active. Pass a job id to /codex:cancel.");
+299	  }
+300	
+301	  throw new Error("No active Codex jobs to cancel.");
+302	}
+303	
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b/plugins/codex/scripts/codex-companion.mjs", "offset": 300, "limit": 70}
+300	  while (isActiveJobStatus(snapshot.job.status) && Date.now() < deadline) {
+301	    await sleep(Math.min(pollIntervalMs, Math.max(0, deadline - Date.now())));
+302	    snapshot = buildSingleJobSnapshot(cwd, reference);
+303	  }
+304	
+305	  return {
+306	    ...snapshot,
+307	    waitTimedOut: isActiveJobStatus(snapshot.job.status),
+308	    timeoutMs
+309	  };
+310	}
+311	
+312	async function resolveLatestTrackedTaskThread(cwd, options = {}) {
+313	  const workspaceRoot = resolveWorkspaceRoot(cwd);
+314	  const sessionId = getCurrentSessionId(options);
+315	  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), options)).filter(
+316	    (job) => job.id !== options.excludeJobId
+317	  );
+318	  const activeTask = jobs.find((job) => job.jobClass === "task" && (job.status === "queued" || job.status === "running"));
+319	  if (activeTask) {
+320	    throw new Error(`Task ${activeTask.id} is still running. Use /codex:status before continuing it.`);
+321	  }
+322	
+323	  const trackedTask = jobs.find((job) => job.jobClass === "task" && job.status === "completed" && job.threadId);
+324	  if (trackedTask) {
+325	    return { id: trackedTask.threadId };
+326	  }
+327	
+328	  return sessionId ? null : findLatestTaskThread(workspaceRoot);
+329	}
+330	
+331	async function executeReviewRun(request) {
+332	  ensureCodexReady(request.cwd);
+333	  ensureGitRepository(request.cwd);
+334	
+335	  const target = resolveReviewTarget(request.cwd, {
+336	    base: request.base,
+337	    scope: request.scope
+338	  });
+339	  const focusText = request.focusText?.trim() ?? "";
+340	  const reviewName = request.reviewName ?? "Review";
+341	  if (reviewName === "Review") {
+342	    const reviewTarget = validateNativeReviewRequest(target, focusText);
+343	    const result = await runAppServerReview(request.cwd, {
+344	      target: reviewTarget,
+345	      model: request.model,
+346	      onProgress: request.onProgress
+347	    });
+348	    const payload = {
+349	      review: reviewName,
+350	      target,
+351	      threadId: result.threadId,
+352	      sourceThreadId: result.sourceThreadId,
+353	      codex: {
+354	        status: result.status,
+355	        stderr: result.stderr,
+356	        stdout: result.reviewText,
+357	        reasoning: result.reasoningSummary
+358	      }
+359	    };
+360	    const rendered = renderNativeReviewResult(
+361	      {
+362	        status: result.status,
+363	        stdout: result.reviewText,
+364	        stderr: result.stderr
+365	      },
+366	      { reviewLabel: reviewName, targetLabel: target.label, reasoningSummary: result.reasoningSummary }
+367	    );
+368	
+369	    return {
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b\" && grep -n \"resolveLatestTrackedTaskThread\\|findLatestTaskThread\\|handleTaskResumeCandidate\\|resolveCommandCwd\\|resolveCommandWorkspace\" plugins/codex/scripts/codex-companion.mjs", "description": "Find callers"}
+13:    findLatestTaskThread,
+149:function resolveCommandCwd(options = {}) {
+153:function resolveCommandWorkspace(options = {}) {
+154:  return resolveWorkspaceRoot(resolveCommandCwd(options));
+223:  const cwd = resolveCommandCwd(options);
+224:  const workspaceRoot = resolveCommandWorkspace(options);
+312:async function resolveLatestTrackedTaskThread(cwd, options = {}) {
+328:  return sessionId ? null : findLatestTaskThread(workspaceRoot);
+445:    const latestThread = await resolveLatestTrackedTaskThread(workspaceRoot, {
+667:  const cwd = resolveCommandCwd(options);
+668:  const workspaceRoot = resolveCommandWorkspace(options);
+717:  const cwd = resolveCommandCwd(options);
+718:  const workspaceRoot = resolveCommandWorkspace(options);
+780:  const cwd = resolveCommandCwd(options);
+781:  const workspaceRoot = resolveCommandWorkspace(options);
+822:  const cwd = resolveCommandCwd(options);
+849:  const cwd = resolveCommandCwd(options);
+861:function handleTaskResumeCandidate(argv) {
+867:  const cwd = resolveCommandCwd(options);
+868:  const workspaceRoot = resolveCommandWorkspace(options);
+909:  const cwd = resolveCommandCwd(options);
+996:      handleTaskResumeCandidate(argv);
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b/plugins/codex/scripts/codex-companion.mjs", "offset": 430, "limit": 40}
+430	  };
+431	}
+432	
+433	
+434	async function executeTaskRun(request) {
+435	  const workspaceRoot = resolveWorkspaceRoot(request.cwd);
+436	  ensureCodexReady(request.cwd);
+437	
+438	  const taskMetadata = buildTaskRunMetadata({
+439	    prompt: request.prompt,
+440	    resumeLast: request.resumeLast
+441	  });
+442	
+443	  let resumeThreadId = null;
+444	  if (request.resumeLast) {
+445	    const latestThread = await resolveLatestTrackedTaskThread(workspaceRoot, {
+446	      excludeJobId: request.jobId
+447	    });
+448	    if (!latestThread) {
+449	      throw new Error("No previous Codex task thread was found for this repository.");
+450	    }
+451	    resumeThreadId = latestThread.id;
+452	  }
+453	
+454	  if (!request.prompt && !resumeThreadId) {
+455	    throw new Error("Provide a prompt, a prompt file, piped stdin, or use --resume-last.");
+456	  }
+457	
+458	  const result = await runAppServerTurn(workspaceRoot, {
+459	    resumeThreadId,
+460	    prompt: request.prompt,
+461	    defaultPrompt: resumeThreadId ? DEFAULT_CONTINUE_PROMPT : "",
+462	    model: request.model,
+463	    effort: request.effort,
+464	    sandbox: request.write ? "workspace-write" : "read-only",
+465	    onProgress: request.onProgress,
+466	    persistThread: true,
+467	    threadName: resumeThreadId ? null : buildPersistentTaskThreadName(request.prompt || DEFAULT_CONTINUE_PROMPT)
+468	  });
+469	
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b/plugins/codex/scripts/codex-companion.mjs", "offset": 861, "limit": 50}
+861	function handleTaskResumeCandidate(argv) {
+862	  const { options } = parseCommandInput(argv, {
+863	    valueOptions: ["cwd"],
+864	    booleanOptions: ["json"]
+865	  });
+866	
+867	  const cwd = resolveCommandCwd(options);
+868	  const workspaceRoot = resolveCommandWorkspace(options);
+869	  const sessionId = getCurrentSessionId();
+870	  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot)));
+871	  const candidate =
+872	    jobs.find(
+873	      (job) =>
+874	        job.jobClass === "task" &&
+875	        job.threadId &&
+876	        job.status !== "queued" &&
+877	        job.status !== "running"
+878	    ) ?? null;
+879	
+880	  const payload = {
+881	    available: Boolean(candidate),
+882	    sessionId,
+883	    candidate:
+884	      candidate == null
+885	        ? null
+886	        : {
+887	            id: candidate.id,
+888	            status: candidate.status,
+889	            title: candidate.title ?? null,
+890	            summary: candidate.summary ?? null,
+891	            threadId: candidate.threadId,
+892	            completedAt: candidate.completedAt ?? null,
+893	            updatedAt: candidate.updatedAt ?? null
+894	          }
+895	  };
+896	
+897	  const rendered = candidate
+898	    ? `Resumable task found: ${candidate.id} (${candidate.status}).\n`
+899	    : "No resumable task found for this session.\n";
+900	  outputCommandResult(payload, rendered, options.json);
+901	}
+902	
+903	async function handleCancel(argv) {
+904	  const { options, positionals } = parseCommandInput(argv, {
+905	    valueOptions: ["cwd"],
+906	    booleanOptions: ["json"]
+907	  });
+908	
+909	  const cwd = resolveCommandCwd(options);
+910	  const reference = positionals[0] ?? "";
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b\" && grep -n \"SESSION_ID_ENV\\|getCurrentSessionId\\|filterJobsForCurrentSession\" plugins/codex/scripts/codex-companion.mjs", "description": "Check SESSION_ID_ENV usage"}
+38:  filterJobsForCurrentSession,
+39:  getCurrentSessionId,
+314:  const sessionId = getCurrentSessionId(options);
+315:  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot), options)).filter(
+869:  const sessionId = getCurrentSessionId();
+870:  const jobs = sortJobsNewestFirst(filterJobsForCurrentSession(listJobs(workspaceRoot)));
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b/plugins/codex/scripts/codex-companion.mjs", "offset": 30, "limit": 30}
+30	  listJobs,
+31	  setConfig,
+32	  upsertJob,
+33	  writeJobFile
+34	} from "./lib/state.mjs";
+35	import {
+36	  buildSingleJobSnapshot,
+37	  buildStatusSnapshot,
+38	  filterJobsForCurrentSession,
+39	  getCurrentSessionId,
+40	  readStoredJob,
+41	  resolveCancelableJob,
+42	  resolveResultJob,
+43	  sortJobsNewestFirst
+44	} from "./lib/job-control.mjs";
+45	import {
+46	  appendLogLine,
+47	  createJobLogFile,
+48	  createJobProgressUpdater,
+49	  createJobRecord,
+50	  createProgressReporter,
+51	  nowIso,
+52	  runTrackedJob
+53	} from "./lib/tracked-jobs.mjs";
+54	import { resolveWorkspaceRoot } from "./lib/workspace.mjs";
+55	import {
+56	  renderNativeReviewResult,
+57	  renderReviewResult,
+58	  renderStoredJobResult,
+59	  renderCancelReport,
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b\" && grep -n \"buildEnv\\|CODEX_COMPANION_SESSION_ID\\|SESSION_ID_ENV\\|findLatestTaskThread\" tests/runtime.test.mjs plugins/codex/scripts/lib/tracked-jobs.mjs | head -40", "description": "Check buildEnv and session env"}
+plugins/codex/scripts/lib/tracked-jobs.mjs:6:export const SESSION_ID_ENV = "CODEX_COMPANION_SESSION_ID";
+plugins/codex/scripts/lib/tracked-jobs.mjs:62:  const sessionId = env[options.sessionIdEnv ?? SESSION_ID_ENV];
+tests/runtime.test.mjs:8:import { buildEnv, installFakeCodex } from "./fake-codex-fixture.mjs";
+tests/runtime.test.mjs:37:    env: buildEnv(binDir)
+tests/runtime.test.mjs:81:    env: buildEnv(binDir)
+tests/runtime.test.mjs:102:    env: buildEnv(binDir)
+tests/runtime.test.mjs:123:    env: buildEnv(binDir)
+tests/runtime.test.mjs:143:    env: buildEnv(binDir)
+tests/runtime.test.mjs:163:    env: buildEnv(binDir)
+tests/runtime.test.mjs:183:    env: buildEnv(binDir)
+tests/runtime.test.mjs:207:    env: buildEnv(binDir)
+tests/runtime.test.mjs:213:    env: buildEnv(binDir)
+tests/runtime.test.mjs:233:      ...buildEnv(binDir),
+tests/runtime.test.mjs:234:      CODEX_COMPANION_SESSION_ID: "sess-other"
+tests/runtime.test.mjs:242:      ...buildEnv(binDir),
+tests/runtime.test.mjs:243:      CODEX_COMPANION_SESSION_ID: "sess-current"
+tests/runtime.test.mjs:252:      ...buildEnv(binDir),
+tests/runtime.test.mjs:253:      CODEX_COMPANION_SESSION_ID: "sess-current"
+tests/runtime.test.mjs:276:      ...buildEnv(binDir),
+tests/runtime.test.mjs:277:      CODEX_COMPANION_SESSION_ID: "sess-current"
+tests/runtime.test.mjs:298:      ...buildEnv(binDir),
+tests/runtime.test.mjs:299:      CODEX_COMPANION_SESSION_ID: "sess-current"
+tests/runtime.test.mjs:364:      CODEX_COMPANION_SESSION_ID: "sess-current"
+tests/runtime.test.mjs:399:    `export CODEX_COMPANION_SESSION_ID='sess-current'\nexport CLAUDE_PLUGIN_DATA='${pluginDataDir}'\n`
+tests/runtime.test.mjs:414:    env: buildEnv(binDir)
+tests/runtime.test.mjs:433:    env: buildEnv(binDir)
+tests/runtime.test.mjs:439:    env: buildEnv(binDir)
+tests/runtime.test.mjs:460:    env: buildEnv(binDir)
+tests/runtime.test.mjs:480:    env: buildEnv(binDir)
+tests/runtime.test.mjs:500:    env: buildEnv(binDir)
+tests/runtime.test.mjs:524:    env: buildEnv(binDir)
+tests/runtime.test.mjs:552:    env: buildEnv(binDir)
+tests/runtime.test.mjs:570:    env: buildEnv(binDir)
+tests/runtime.test.mjs:588:    env: buildEnv(binDir)
+tests/runtime.test.mjs:605:  const env = buildEnv(binDir);
+tests/runtime.test.mjs:636:    env: buildEnv(binDir)
+tests/runtime.test.mjs:649:      env: buildEnv(binDir)
+tests/runtime.test.mjs:661:      env: buildEnv(binDir)
+tests/runtime.test.mjs:686:    env: buildEnv(binDir)
+tests/runtime.test.mjs:707:    env: buildEnv(binDir)
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b\" && sed -n '1,60p' tests/fake-codex-fixture.mjs", "description": "Read fake codex fixture buildEnv"}
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
+
+import { writeExecutable } from "./helpers.mjs";
+
+export function installFakeCodex(binDir, behavior = "review-ok") {
+  const statePath = path.join(binDir, "fake-codex-state.json");
+  const scriptPath = path.join(binDir, "codex");
+  const source = `#!/usr/bin/env node
+const fs = require("node:fs");
+const path = require("node:path");
+const readline = require("node:readline");
+
+	const STATE_PATH = ${JSON.stringify(statePath)};
+	const BEHAVIOR = ${JSON.stringify(behavior)};
+	const interruptibleTurns = new Map();
+
+	function loadState() {
+	  if (!fs.existsSync(STATE_PATH)) {
+	    return { nextThreadId: 1, nextTurnId: 1, appServerStarts: 0, threads: [], capabilities: null, lastInterrupt: null };
+	  }
+	  return JSON.parse(fs.readFileSync(STATE_PATH, "utf8"));
+	}
+
+function saveState(state) {
+  fs.writeFileSync(STATE_PATH, JSON.stringify(state, null, 2));
+}
+
+function requiresExperimental(field, message, state) {
+  if (!(field in (message.params || {}))) {
+    return false;
+  }
+  return !state.capabilities || state.capabilities.experimentalApi !== true;
+}
+
+function now() {
+  return Math.floor(Date.now() / 1000);
+}
+
+function buildThread(thread) {
+  return {
+    id: thread.id,
+    preview: thread.preview || "",
+    ephemeral: Boolean(thread.ephemeral),
+    modelProvider: "openai",
+    createdAt: thread.createdAt,
+    updatedAt: thread.updatedAt,
+    status: { type: "idle" },
+    path: null,
+    cwd: thread.cwd,
+    cliVersion: "fake-codex",
+    source: "appServer",
+    agentNickname: null,
+    agentRole: null,
+    gitInfo: null,
+    name: thread.name || null,
+    turns: []
+  };
+}
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b\" && grep -n \"export function buildEnv\" -A 15 tests/fake-codex-fixture.mjs", "description": "Read buildEnv"}
+521:export function buildEnv(binDir) {
+522-  const sep = process.platform === "win32" ? ";" : ":";
+523-  return {
+524-    ...process.env,
+525-    PATH: `${binDir}${sep}${process.env.PATH}`
+526-  };
+527-}
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b/plugins/codex/scripts/lib/tracked-jobs.mjs", "offset": 55, "limit": 40}
+55	    appendLogLine(logFile, `Starting ${title}.`);
+56	  }
+57	  return logFile;
+58	}
+59	
+60	export function createJobRecord(base, options = {}) {
+61	  const env = options.env ?? process.env;
+62	  const sessionId = env[options.sessionIdEnv ?? SESSION_ID_ENV];
+63	  return {
+64	    ...base,
+65	    createdAt: nowIso(),
+66	    ...(sessionId ? { sessionId } : {})
+67	  };
+68	}
+69	
+70	export function createJobProgressUpdater(workspaceRoot, jobId) {
+71	  let lastPhase = null;
+72	  let lastThreadId = null;
+73	  let lastTurnId = null;
+74	
+75	  return (event) => {
+76	    const normalized = normalizeProgressEvent(event);
+77	    const patch = { id: jobId };
+78	    let changed = false;
+79	
+80	    if (normalized.phase && normalized.phase !== lastPhase) {
+81	      lastPhase = normalized.phase;
+82	      patch.phase = normalized.phase;
+83	      changed = true;
+84	    }
+85	
+86	    if (normalized.threadId && normalized.threadId !== lastThreadId) {
+87	      lastThreadId = normalized.threadId;
+88	      patch.threadId = normalized.threadId;
+89	      changed = true;
+90	    }
+91	
+92	    if (normalized.turnId && normalized.turnId !== lastTurnId) {
+93	      lastTurnId = normalized.turnId;
+94	      patch.turnId = normalized.turnId;
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b\" && grep -n \"export function listJobs\\|export function resolveStateDir\\|jobs\" plugins/codex/scripts/lib/state.mjs | head", "description": "Check listJobs implementation"}
+12:const JOBS_DIR_NAME = "jobs";
+25:    jobs: []
+29:export function resolveStateDir(cwd) {
+73:      jobs: Array.isArray(parsed.jobs) ? parsed.jobs : []
+80:function pruneJobs(jobs) {
+81:  return [...jobs]
+93:  const previousJobs = loadState(cwd).jobs;
+95:  const nextJobs = pruneJobs(state.jobs ?? []);
+102:    jobs: nextJobs
+132:    const existingIndex = state.jobs.findIndex((job) => job.id === jobPatch.id);
+TOOL Bash{"command": "cd \"/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b\" && grep -n \"export function listJobs\" -A 6 plugins/codex/scripts/lib/state.mjs", "description": "Read listJobs"}
+149:export function listJobs(cwd) {
+150-  return loadState(cwd).jobs;
+151-}
+152-
+153-export function setConfig(cwd, key, value) {
+154-  return updateState(cwd, (state) => {
+155-    state.config = {
+TOOL Read{"file_path": "/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/a2d38e60-a217-4ee4-a289-d17e6d6eb038/scratchpad/p1/pos4/b/plugins/codex/scripts/lib/state.mjs", "offset": 80, "limit": 15}
+80	function pruneJobs(jobs) {
+81	  return [...jobs]
+82	    .sort((left, right) => String(right.updatedAt ?? "").localeCompare(String(left.updatedAt ?? "")))
+83	    .slice(0, MAX_JOBS);
+84	}
+85	
+86	function removeFileIfExists(filePath) {
+87	  if (filePath && fs.existsSync(filePath)) {
+88	    fs.unlinkSync(filePath);
+89	  }
+90	}
+91	
+92	export function saveState(cwd, state) {
+93	  const previousJobs = loadState(cwd).jobs;
+94	  ensureStateDir(cwd);
+I've reviewed the working-tree change thoroughly. Let me summarize what it does and my assessment.
+
+The change centralizes Claude-session scoping for Codex task resumption:
+
+1. **`job-control.mjs`**: Exports `getCurrentSessionId` and `filterJobsForCurrentSession` (previously module-private, behavior unchanged).
+
+2. **`resolveLatestTrackedTaskThread`** (`codex-companion.mjs:312`): Now filters jobs to the current session before searching, and — the key fix — returns `null` instead of falling back to the non-session-scoped `findLatestTaskThread()` when a session ID is present. This prevents `--resume-last` from leaking another Claude session's task thread.
+
+3. **`handleTaskResumeCandidate`** (`codex-companion.mjs:861`): Refactored to use the shared helpers. This is behavior-equivalent to the old inline `(!sessionId || job.sessionId === sessionId)` predicate.
+
+I verified:
+- The removed `SESSION_ID_ENV` import is no longer referenced anywhere in `codex-companion.mjs`; the two new imports resolve correctly from `job-control.mjs`.
+- `createJobRecord` stamps `sessionId` onto jobs, so the current session's own jobs are *not* filtered out (no self-resume regression within a session).
+- The no-session path (`sessionId` null) preserves the old fallback behavior, so the existing "resumes the latest persisted task thread" test still holds.
+- The new with-session behavior makes `task-resume-candidate` and `task --resume-last` consistent (both now session-scoped tracked-job lookups), which was the previous inconsistency.
+- The session-scoped `activeTask` check correctly lets a task resume while another session's task is running, matching the new test.
+
+The change is coherent and I found no real defects. The only behavioral tradeoff (in-session resume can't fall back to the disk-persisted thread if the tracked job record is pruned past `MAX_JOBS`) is the intended cost of preventing cross-session thread leakage, not a defect.
+
+```json
+{
+  "claims": []
+}
+```

@@ -1,0 +1,21 @@
+{
+ "oracle_files_reset": [
+  "tests/runtime.test.mjs"
+ ],
+ "apply_rcs": [
+  "AUTHORED_RC=0",
+  "TESTPATCH_RC=0"
+ ],
+ "testpatch_applied": true,
+ "parsed": 66,
+ "f2p": {
+  "task --resume-last ignores running tasks from other Claude sessions": "pass",
+  "task --resume-last does not resume a task from another Claude session": "pass"
+ },
+ "f2p_pass": 2,
+ "f2p_fail": 0,
+ "f2p_missing": 0,
+ "p2p_regressions": [],
+ "resolved": true,
+ "verdict": "not-confirmed-defective (authoring success)"
+}
