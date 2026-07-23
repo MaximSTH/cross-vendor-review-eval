@@ -1559,6 +1559,38 @@ non-git command was `tsc --noEmit` (permitted static tooling); no test suite
 ran. Adjudicated clean. All three channels (commit-subject, test-file mock,
 package.json scripts) fold into the one batched exec-context refinement.
 
+## OQ-23 · 2026-07-23 · [Step 3] Model-tier arm — same-vendor review at premium tier as a distinct routing axis
+
+**Logged for Step 3; noted, not adopted.** The study currently manipulates one
+routing axis: **vendor** (A2 same-vendor vs B cross-vendor, both at the shipped
+default tier). A second, orthogonal axis is **model tier within a vendor** —
+e.g. same-vendor review at a **premium tier** (Fable-class) vs the default. This
+would test whether "route to a stronger model of the same vendor" recovers some
+of the benefit currently attributed to cross-vendor, separating **tier** from
+**vendor diversity** as the active ingredient — the same way A2 was added
+(D-004) to separate fresh-context from cross-vendor.
+
+**Not adopted now:** it adds an arm (cost, and a new judge-rotation cell), and
+the pilot's job is to size the existing design. Carried as a **named follow-up
+routing axis** for the Step-3 design discussion, alongside OQ-21 (semantic-catch
+layer) and the false-alarm-sample construction question (D-031b).
+
+## Report artifact · 2026-07-23 · Models-observed table + D-012 fidelity gap on the OpenAI arm
+
+`results/pilot/models-observed.md` compiles the per-position/per-arm
+runtime-reported model IDs (D-012 requirement: "which models actually ran" is a
+reported result). Two findings surfaced and are carried into the pilot report:
+
+1. **The Anthropic reviewer is an opus+haiku stack as operated** — Claude Code
+   delegates subtasks to `claude-haiku-4-5` alongside `claude-opus-4-8[1m]`.
+   Reinforces the "vendor stack, not model" framing (§8).
+2. **D-012 fidelity gap (OpenAI arm):** `codex exec --json` emits no resolved
+   model ID, so "GPT-5.6 Sol" is **inferred from OQ-9**, not runtime-reported —
+   a real gap against D-012's per-session model-ID requirement, meaning a
+   mid-study codex-default change would be **invisible** on the OpenAI side.
+   Remediation candidate for the main study logged in the artifact (probe codex
+   session metadata, or API-pin per §7). Recorded honestly, not papered over.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
