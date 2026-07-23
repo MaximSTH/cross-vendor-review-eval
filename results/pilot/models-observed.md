@@ -40,20 +40,22 @@ main model and any **subagent model it delegated to** — both are recorded.
    opus+haiku *stack*, not a single model — exactly the "vendor stack, not
    model" framing D-012/§8 commits to. Reported, not hidden.
 
-2. **D-012 FIDELITY GAP — OpenAI arm model ID is inferred, not runtime-emitted.**
-   `codex exec --json` does **not** emit a resolved model ID in its event
-   stream, so the OpenAI arm's model ("GPT-5.6 Sol") is **inferred from the
-   OQ-9 evidence table** (the codex-cli default at pilot time), **not**
-   runtime-reported per session. This is a real gap against D-012's
-   "runtime-reported model ID + harness version logged per session"
-   requirement — recorded honestly. **Remediation candidate for the main
-   study:** probe the codex config/session for the resolved model
-   (`codex` may expose it via `--config`/session metadata) and assert a
-   non-inferred ID per session, or pin+record via API replication (§7).
-   Until then the OpenAI model ID is a documented inference, and any
-   mid-study codex-default change would be **invisible** to the per-session
-   log — the exact drift D-012 exists to catch, currently uncatchable on the
-   OpenAI side.
+2. **OpenAI arm model — resolved from config, not the `--json` stream
+   (D-012 gap, with a found remediation).** `codex exec --json` emits **no**
+   resolved model ID in its event stream. But the resolved model **is**
+   introspectable: `~/.codex/config.toml` carries
+   **`model = "gpt-5.6-sol"`** and **`model_reasoning_effort = "xhigh"`**.
+   So the OpenAI arm ran **GPT-5.6 Sol at xhigh reasoning effort** —
+   **confirmed from config**, no longer an OQ-9 inference. **Remediation
+   (applies from the main study, and retroactively documented here):**
+   snapshot `~/.codex/config.toml`'s `model` + `model_reasoning_effort` at
+   **each** codex session launch, so a mid-study default change is captured
+   rather than invisible. For P1 the config was read post-hoc (2026-07-23) and
+   was not changed during the pilot, so it applies to all P1 codex sessions.
+   **New covariate surfaced:** `model_reasoning_effort = xhigh` is part of the
+   OpenAI stack *as operated* and is now a recorded field — the reasoning-effort
+   setting is a stack parameter the write-up should report alongside the model
+   ID.
 
 3. **No within-P1 version drift observed** in the reported IDs (CLI *versions*
    drifted P0→P1 per the log; the model IDs above are stable across P1). The

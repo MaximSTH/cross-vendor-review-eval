@@ -1591,6 +1591,60 @@ reported result). Two findings surfaced and are carried into the pilot report:
    Remediation candidate for the main study logged in the artifact (probe codex
    session metadata, or API-pin per §7). Recorded honestly, not papered over.
 
+## F-001 · 2026-07-23 · CENTRAL FINDING: "diff-anchoring" — reviewers critique the presented change and miss the true defect elsewhere
+
+**The pilot's named central finding and its practitioner takeaway.** Stated for
+the report exactly as surfaced:
+
+> **When the authored fix lands in a different location than the true defect,
+> reviewers critique the change in front of them and miss the real bug
+> elsewhere.**
+
+**Name: "diff-anchoring."** It is a claim about **reviewer behavior**, not about
+the harness or the corpus: the reviewer anchors on the diff it is shown (the
+authored change) and does not hunt the actual defect when that defect lies
+**outside** the presented change. This is the behavior a practitioner routing
+review work needs to know about — a cross-vendor (or any) reviewer handed a
+wrong-location fix tends to grade the fix, not find the bug.
+
+**All three instances to date, cited:**
+
+1. **P0 (`thlorenz__doctoc-328`):** authored patch machine-confirmed defective;
+   **all three review arms returned zero claims** — unanimous miss (HANDOFF,
+   `results/pilot/p0-scoring.json`).
+2. **P1 pos2 (`NVIDIA__NemoClaw-330`):** author fixed the nvidia-nim credential
+   block; the true defect also spanned vllm/ollama blocks + `runner.py`. Both
+   mechanical "catches" (A2, B) were on the authored block and were **overturned
+   by the Band 3 audit** (P-002 coincidental localization, P-003 inverted
+   claim) → **0 audited catches.**
+3. **P1 pos5 (`aralroca__next-translate-1259`):** author fixed `appWithI18n.tsx`;
+   the true defect is in `DynamicNamespaces.tsx` / `I18nProvider.tsx`. **All
+   three arms localized to the authored file → unanimous no_catch.**
+
+**Consequence for the metric (already handled, cross-referenced):** diff-anchoring
+is *why* the mechanical-catch audit (D-039) matters — a mechanical catch can be
+the reviewer critiquing the diff at a coincidentally-correct line (P-002) rather
+than finding the defect. The audit measures how often "catch" is diff-anchoring
+rather than detection; the pilot's audited-catch count across both defective
+cases is **0**.
+
+**Scope caveat for honesty:** n is tiny (2 P1 defective cases + P0). The report
+states diff-anchoring as the **observed central pattern with n stated**, and as
+the sharpest **hypothesis for the main study to size**, not as an established
+rate. This is the design-doc §7 pre-registration hook: the main study is
+powered to estimate the diff-anchoring miss-rate per arm.
+
+## Codex model-ID gap — RESOLVED via config introspection (updates the OQ-23-companion note)
+
+The D-012 OpenAI-arm gap is **closeable and now closed**: `~/.codex/config.toml`
+resolves **`model = "gpt-5.6-sol"`, `model_reasoning_effort = "xhigh"`**.
+Remediation for the main study: **snapshot the codex config's `model` +
+`model_reasoning_effort` at each session launch** (introspection, not pinning —
+preserves the D-012 field-study framing). New recorded covariate:
+**reasoning-effort (`xhigh`)** is part of the OpenAI stack as operated.
+`results/pilot/models-observed.md` updated: the OpenAI arm ran **GPT-5.6 Sol @
+xhigh**, confirmed from config, not inferred.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
