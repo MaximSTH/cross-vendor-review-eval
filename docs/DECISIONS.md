@@ -1734,6 +1734,24 @@ and omitted. **§7 sizing implication:** the main study must place repeats on
 **confirmed-defective** cases (or repeat post-hoc on the harvested defect set)
 to measure catch-rate variance — a pre-registration note for Step 3.
 
+## D-053 · 2026-07-23 · D-018 fourth quotation channel ratified (source-code runner-name regex); config-redaction discipline logged
+
+**Ratified (supervisor):** a **source-code regex/string literal that lists
+test-runner names** (e.g. `codex-companion.mjs`'s
+`/\b(...|pytest|jest|vitest|cargo test|...)\b/i` command classifier) is
+**quotation by definition** — reading it is not invoking a test suite. Added to
+the exec-context patterns to be applied **at the pilot-close freeze**, joining
+the other three channels (commit-subject, test-file mock, package.json scripts;
+D-036/D-050). The batched freeze list of quotation channels is now **four**.
+
+**Config-redaction discipline (logged, per supervisor "good catch"):** session
+provenance captures **only** the two D-012 fields (`model`,
+`model_reasoning_effort`) from `~/.codex/config.toml`, **never the full config**
+— which carries local project paths, MCP/notify commands, and trust levels.
+Standing rule for all published session artifacts: extract the required fields,
+never ship the whole config. (No secrets are in codex config — auth is a
+separate `auth.json` — but the config is over-sharing for a public dataset.)
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
