@@ -1,0 +1,97 @@
+{
+  "gsd-build__gsd-2-3258": {
+    "verdict": "ERROR",
+    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 975,
+      "PASS_at_base": 0,
+      "not_reported": 975
+    },
+    "P2P": {
+      "n": 0,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  },
+  "sveltejs__svelte-18039": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 7518,
+    "F2P": {
+      "n": 4,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 7451,
+      "not_pass_at_base": 89,
+      "not_reported": 0
+    }
+  },
+  "openai__codex-plugin-cc-83": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 67,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 64,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  },
+  "mikro-orm__mikro-orm-7464": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 617,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 608,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  },
+  "code-yeongyu__oh-my-openagent-3013": {
+    "verdict": "ERROR",
+    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 2
+    },
+    "P2P": {
+      "n": 3410,
+      "not_pass_at_base": 0,
+      "not_reported": 3410
+    }
+  },
+  "proj4js__proj4js-560": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "Error response from daemon: pull access denied for starryzhang/sweb.eval.x86_64.proj4js_1776_proj4js-560, repository does not exist or may require 'docker login'\n"
+  },
+  "puppeteer__puppeteer-14826": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 1281,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 1223,
+      "not_pass_at_base": 0,
+      "not_reported": 0
+    }
+  }
+}

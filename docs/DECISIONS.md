@@ -1645,6 +1645,49 @@ preserves the D-012 field-study framing). New recorded covariate:
 `results/pilot/models-observed.md` updated: the OpenAI arm ran **GPT-5.6 Sol @
 xhigh**, confirmed from config, not inferred.
 
+## D-051 · 2026-07-23 · Position 4 replacement selected: row 18 `openai__codex-plugin-cc-83` (walk rows 16–18)
+
+**Walk resolved.** Rows 16–22 screened under the 8 GiB VM; first PASS in row
+order is **row 18**.
+
+| row | task | verdict | disposition |
+|---|---|---|---|
+| 16 | `gsd-build__gsd-2-3258` | **ERROR → diagnosed `eval_harness_failure`** | skip (D-030b) |
+| 17 | `sveltejs__svelte-18039` | **FAIL** (ground-truth; 89 P2P fail at base; complete, 7518 parsed) | skip |
+| **18** | **`openai__codex-plugin-cc-83`** | **PASS** (F2P 2 fail, P2P 64 pass, 67 parsed, complete) | **→ position 4** |
+| 19 | `mikro-orm__mikro-orm-7464` | PASS (not reached — 18 is first) | — |
+| 20 | `code-yeongyu__oh-my-openagent-3013` | ERROR (bun; platform_infeasible) | past selection |
+| 21 | `proj4js__proj4js-560` | ERROR image_missing (404) | past selection |
+| 22 | `puppeteer__puppeteer-14826` | FAIL (ground-truth) | past selection |
+
+**Row 16 diagnosis (why skippable, not a halt):** `npm test` runs a `pretest`
+hook (`tsc --noEmit --project tsconfig.extensions.json`) that **fails with real
+TS errors** (relative-import-extension, implicit-any) at base, so `npm test`
+never executes tests → `parsed=0`. Plus **P2P=0** (whole-suite label defect).
+Both are feed defects → **`eval_harness_failure` (D-049), diagnosed**, skip per
+D-030b. (Sixth feed-defect instance; the fifth-mode category recurs.)
+
+**Position 4 = `openai__codex-plugin-cc-83`** (js; base to be recorded at
+setup). It **inherits the position-4 assignment**: **openai-authored**
+(D-027b alternation) and the **k=2 repeat** (D-027c/D-030d).
+
+**Recorded covariate (not a disqualifier — the rule is fixed, §8):** the task's
+repo is **`openai/codex-plugin-cc`**, and position 4's author + A1/A2 arms are
+**openai (Codex)**. Repo-level familiarity between an OpenAI-stack author and an
+OpenAI-owned repo is a potential confound for this task's A2-vs-B comparison.
+The **recency gate (D-010) is the primary defense** — the task postdates the
+training cutoff, so the specific issue/fix is uncontaminated — but repo-*structure*
+familiarity cannot be excluded. Reported as a covariate, same handling as pos3
+sharing P0's repo; excluding it would be the hand-picking §8 forbids.
+
+**Skip trail across the FULL position-4 walk (rows 11–18), for the brief:**
+11 vueuse FAIL · 12 gsd-2-2643 FAIL · 13 gsd-2-2738 platform_infeasible(time) ·
+14 AionUi FAIL · 15 bruno eval_harness_failure · 16 gsd-2-3258
+eval_harness_failure · 17 svelte FAIL · **18 codex-plugin-cc-83 PASS**. Eight
+rows walked; one PASS. Combined with rows 2–10, the post-gate usable rate is now
+**5 PASS / 17 screened ≈ 29%** — unchanged from the row-15 estimate; the supply
+finding holds.
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
