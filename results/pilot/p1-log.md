@@ -206,3 +206,15 @@ sessions run** until then.
 CONFIRMED DEFECTIVE + scored, pos3 authoring-success). 18 sessions + 1
 discarded. Remaining: position 4 (replacement selection → full flow with k=2)
 and position 5.
+
+
+## Pause — lid-close 2 (rows 16-22 screen mid-run), 2026-07-23
+
+Row 16-22 screen stopped at lid-close. State:
+`results/pilot/raw/p1-gt-screen/screen-16-22-partial.json`. Row 16
+(`gsd-2-3258`, P2P=0 → expected FAIL) was in flight, **no verdict captured** →
+INTERRUPTED; rows 17-22 NOT_STARTED. **Rerun from row 16.** Orphan check done:
+no sweb container survives. VM stays at 8 GiB. Positions 1/2/3/5 complete
+(22 sessions + 1 discarded). Resume: rerun screen from row 16, then per D-049
+stop-rule — first PASS by row 22 → position 4 full flow (k=2 inherited); zero
+PASS → close P1 at n=4 with the supply finding as headline.

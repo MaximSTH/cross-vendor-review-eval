@@ -1,0 +1,37 @@
+{
+ "16": {
+  "task": "gsd-build__gsd-2-3258",
+  "verdict": "INTERRUPTED",
+  "reason": "container killed at lid-close; rerun from this row"
+ },
+ "17": {
+  "task": "sveltejs__svelte-18039",
+  "verdict": "NOT_STARTED",
+  "reason": ""
+ },
+ "18": {
+  "task": "openai__codex-plugin-cc-83",
+  "verdict": "NOT_STARTED",
+  "reason": ""
+ },
+ "19": {
+  "task": "mikro-orm__mikro-orm-7464",
+  "verdict": "NOT_STARTED",
+  "reason": ""
+ },
+ "20": {
+  "task": "code-yeongyu__oh-my-openagent-3013",
+  "verdict": "NOT_STARTED",
+  "reason": ""
+ },
+ "21": {
+  "task": "proj4js__proj4js-560",
+  "verdict": "NOT_STARTED",
+  "reason": ""
+ },
+ "22": {
+  "task": "puppeteer__puppeteer-14826",
+  "verdict": "NOT_STARTED",
+  "reason": ""
+ }
+}
