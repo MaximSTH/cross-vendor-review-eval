@@ -1,38 +1,42 @@
 ---
 name: step3-preregistration
-description: Step-3 (Sequential-B) pre-registration PACKAGE — draft for supervisor ratification. Group-sequential stopping design, corpus expansion plan with live-verified counts (2026-07-24), and the non-deferred queue items (ceiling re-declaration, repeat-on-defective, scanner freeze, problem-statement scrub, config-introspection provenance). NOTHING here executes until ratified; every design-level choice is surfaced as an open question, none resolved unilaterally.
-status: draft
-author: Maxim St-Hilaire (methodology owner) — drafted by worker for review
+description: Step-3 (Sequential-B) pre-registration PACKAGE — RATIFICATION-READY. All design choices ruled 2026-07-24 (D-054..D-058): group-sequential stopping design with LOCKED efficacy boundary constants (gsDesign-verified), corpus expansion (live-verified counts), ceiling re-declaration, repeat-on-defective, scanner freeze, problem-statement scrub, config-introspection provenance, supervisor stop protocol. HELD before session 1 for the supervisor's external statistical-review pass, then ratification + go. Semantic-catch layer DEFERRED.
+status: ratification-ready (held for external statistical review before session 1)
+author: Maxim St-Hilaire (methodology owner) — drafted by worker
 last-updated: 2026-07-24
 ---
 
 # Step-3 pre-registration package — Sequential-B
 
-**Standing state.** The supervisor has ruled (2026-07-24, HANDOFF): **Branch B,
-modified — a sequential design — plus the C+ deliverable in parallel.** This
-document is the **pre-registration to be ratified before any Step-3 session
-runs.** It is paper only. **No session, no screening, no live-repo harvesting
-happens on the strength of this draft** — the first Step-3 session waits for the
-supervisor's explicit go *after* ratification (HANDOFF mandate; standing rule).
+**Standing state (updated 2026-07-24 — all choices ruled).** The supervisor ruled
+Branch B modified (sequential) + C+ (HANDOFF), and has now **ruled every design
+choice in this package**: OQ-24/25/26 → **D-054/D-055/D-056**, the ceiling
+re-declaration → **D-057**, and a new **supervisor stop protocol → D-058**. The
+group-sequential **efficacy boundary constants are computed and LOCKED**
+(gsDesign 3.10.1, independently cross-validated; §3.3, §3.7). This document is now
+the **ratification-ready package**. **One gate remains before session 1:** the
+supervisor's **external statistical-review pass** of the sequential design, then
+ratification + explicit go. **Nothing executes until then** — no session, no
+screening, no live-repo harvesting, no identity pull.
 
-**Discipline reminder, applied throughout.** Every genuinely design-level choice
-below is presented in the house OQ form — options, worker recommendation, **no
-resolution** — and collected in §5. The worker resolves none of them. On the
-supervisor's word these become ledger entries (OQ-24…) in
-[`DECISIONS.md`](DECISIONS.md); they are held in this document for the paper-first
-review pass so the supervisor shapes their framing before anything is appended to
-the append-only ledger.
+**Discipline note.** Where this document still shows OQ-style option lists (§5),
+they are retained as the **record of what was decided over what** — each now
+carries its ruling and D-entry. The worker resolved none of them; the supervisor
+did. The single item still genuinely open is the **futility-boundary calibration**
+(β / target power and β-spending shape), which the rulings left to the
+external-review pass (§3.4) — flagged, not resolved.
 
 **What this package covers** (the Sequential-B mandate, HANDOFF "Track
 Sequential-B", items 1–6):
 
-1. Revised ceiling declaration — §4.1 (the *number* is the supervisor's to declare
-   at Step-3 start; this drafts the **measured basis** only).
-2. Corpus expansion — §2, with **live-verified counts (2026-07-24)**.
-3. Group-sequential stopping design — §3 (the core new artifact).
+1. Revised ceiling declaration — §4.1 (**RULED D-057**: 15/wk sizing, ≤30/wk
+   logged surplus, sizing never uses surplus).
+2. Corpus expansion — §2, **live-verified counts (2026-07-24)** (**RULED D-055**).
+3. Group-sequential stopping design — §3 (**RULED D-054**; efficacy constants
+   LOCKED).
 4. Repeats on confirmed-defective cases — §4.2.
 5. The queue items (scanner freeze, problem-statement scrub, config-introspection
-   provenance) — §4.3–§4.5.
+   provenance) — §4.3–§4.5; **supervisor stop protocol** §4.7 (**RULED D-058**).
 6. Semantic-catch layer — §4.6, recorded **DEFERRED**, not adopted.
 
 Everything traces to committed artifacts and the ledger; nothing restates a
@@ -195,9 +199,10 @@ carry the study.
 
 This is the mandate's item 3 — "interim looks at pre-registered n thresholds and
 corrected significance levels (alpha-spending), citing standard methodology." It
-replaces report §8's fixed-n table. **Statistical scaffolding is fully specified
-here; the design-level parameter choices are surfaced as OQ-24 and locked by the
-supervisor.**
+replaces report §8's fixed-n table. **All six parameters are RULED (D-054); the
+efficacy boundary constants are computed and LOCKED (§3.3, §3.7).** The only
+remaining open item is the futility-boundary *calibration* (§3.4), left to the
+external-review pass.
 
 ### 3.1 Estimand, endpoint, accrual unit
 
@@ -216,71 +221,73 @@ supervisor.**
   looks be scheduled on discordant pairs even though the study *plans* in
   defective-case units. This matters because at the pilot-observed magnitudes
   (both arms ≈ 0 audited catches) discordance is rare — see §3.6 (futility).
-- **Primary endpoint — OQ-24a (not resolved here).** Band-1 **mechanical** catch
-  (the D-005 primary metric, objection-proof, untouched) vs the **audited** catch
-  (D-039 reader-actionability). The pilot showed these diverge hard (0/2 audited;
-  report §6). Worker leans: **Band-1 mechanical as the pre-registered primary
-  endpoint** (it is the reviewer-objection-proof spine, D-005), with the
-  **audited-catch delta as a pre-registered co-primary/key-secondary** so
-  diff-anchoring is measured rather than assumed. See §5.
+- **Primary endpoint — RULED (D-054a).** **Band-1 mechanical catch is the
+  pre-registered primary endpoint** (the D-005 objection-proof spine). **Audited
+  catch (D-039) is the key secondary, reported alongside it at every look.** The
+  **diff-anchoring miss-rate is monitored per arm via repeated Wilson intervals**
+  (§3.5) — estimation, **no α spent** on it.
 
 ### 3.2 Max information, look schedule
 
-- **n_max (max planned confirmed-defective cases) — OQ-24b.** Proposals anchored
-  on report §8: **33** (~12 wk), **44** (~16 wk, the Branch-B figure), **55**
-  (~20 wk). Worker leans **44** (the ratified Branch-B target; ±15 pp per-arm
-  Wilson CI, powered for a >20 pp delta per report §8). **This n_max also sets the
-  corpus harvest target** (§2.3): 44 defects ≈ 380 screened rows.
-- **Number and spacing of interim looks — OQ-24c.** Proposal: **K = 4** looks at
-  information fractions **0.25 / 0.50 / 0.75 / 1.00** (n ≈ 11 / 22 / 33 / 44 at
-  n_max = 44). Lan-DeMets makes the *exact* timing flexible (looks can land at the
-  realized information at each analysis, not forced to exact fractions), which
-  suits agentic accrual that arrives in ragged batches.
+- **n_max — RULED (D-054b): 44 confirmed-defective cases** (~16 wk at 15/week;
+  ±15 pp per-arm Wilson CI, powered for a >20 pp delta per report §8). **This n_max
+  also sets the corpus harvest target** (§2.3): 44 defects ≈ 380 screened rows.
+- **Looks — RULED (D-054c): K = 4** at information fractions
+  **0.25 / 0.50 / 0.75 / 1.00** (n ≈ 11 / 22 / 33 / 44 at n_max = 44). Lan-DeMets
+  makes the *exact* timing flexible (looks land at the realized information at each
+  analysis, not forced to exact fractions), which suits agentic accrual that
+  arrives in ragged batches.
 
-### 3.3 Alpha-spending function (efficacy boundary)
+### 3.3 Alpha-spending function + LOCKED efficacy boundaries
 
 - **Framework — Lan-DeMets (1983) error-spending.** The family-wise two-sided
-  type-I error **α = 0.05** is *spent* across looks by a spending function
-  α*(t) of the information fraction t, so the actual number and timing of looks
-  need not be fixed in advance — only the spending function is pre-registered.
-  This is the standard flexible generalization of Pocock (1977) and
+  type-I error **α = 0.05** (0.025 per side for the symmetric test) is *spent*
+  across looks by a spending function α*(t) of the information fraction t, so the
+  number and timing of looks need not be fixed in advance — only the spending
+  function is pre-registered. Standard flexible generalization of Pocock (1977) and
   O'Brien-Fleming (1979).
-- **Spending shape — OQ-24d.** Two standard choices:
-  - **O'Brien-Fleming-type (worker recommendation).** Spends α *conservatively
-    early* — very hard to stop at look 1, easy only at the end — which **protects
-    the final analysis** and inflates the maximum sample size only ~**1.02×** over
-    the fixed design. Best when you want early stopping reserved for
-    *overwhelming* evidence and otherwise pay almost nothing in n_max. Illustrative
-    nominal two-sided boundaries for K=4 (O'Brien-Fleming): look 1 ≈ 0.0001,
-    look 2 ≈ 0.004, look 3 ≈ 0.019, look 4 ≈ 0.043 (these are *illustrative*; the
-    **exact** constants are locked at ratification — see §3.7).
-  - **Pocock-type.** Spends α *evenly* — a roughly constant nominal boundary
-    (≈ 0.018 at every look for K=4) — so early stopping is easier, at the cost of
-    ~**1.17–1.20×**
-    n_max inflation and a *higher* final-look bar. Preferable only if stopping-early
-    value outweighs the n_max penalty.
-  - Worker leans **O'Brien-Fleming**: under a hard throughput ceiling the n_max
-    penalty is the expensive thing, and the pilot signal (§3.6) makes a *futility*
-    stop more likely than an efficacy stop anyway — so cheap-final-look + small
-    n_max inflation is the right trade.
+- **Spending shape — RULED (D-054d): O'Brien-Fleming-type** (Lan-DeMets `sfLDOF`).
+  It spends α conservatively early (very hard to stop at look 1, easy only at the
+  end), protecting the final analysis and inflating n_max only ~1.01–1.02× over a
+  fixed design — the right trade under a hard throughput ceiling, and apt given the
+  pilot signal makes a *futility* stop (§3.4/§3.6) the more likely early exit.
 
-### 3.4 Futility boundary — OQ-24e
+**LOCKED efficacy Z-boundaries** (computed §3.7; canonical **gsDesign 3.10.1**,
+independently cross-validated to <1e-3):
 
-- **Why it is central, not optional.** At the pilot-observed magnitudes both arms
-  caught **~0** (audited); F-001 is "cross-vendor does *not* rescue diff-anchoring"
-  (report §5–§6). If that holds, the paired A2-vs-B delta is **near zero**, and the
-  scientifically honest early outcome is a **futility stop** — "the data have
-  effectively ruled out a delta ≥ the pre-registered δ, stop spending sessions." A
-  design with no futility boundary would grind all n_max sessions to conclude
-  "no difference," which is exactly the waste Sequential-B exists to avoid.
-- **Proposal (worker recommendation): non-binding beta-spending futility** (e.g.
-  a Hwang-Shih-DeCani or Lan-DeMets β-spending boundary) alongside the efficacy
-  boundary. *Non-binding* so a futility crossing is a strong recommendation to
-  stop that the supervisor may override (agentic runs are noisy; a hard binding
-  futility stop on a small discordant count is brittle). The alternative
-  (**efficacy-only**) is defensible if the supervisor wants the diff-anchoring
-  *miss-rate* (§3.5), not the paired delta, to be the thing the study is powered
-  for — in which case futility on the paired delta is less relevant.
+| look | info fraction t | Z-boundary bₖ | nominal two-sided p |
+|---:|---:|---:|---:|
+| 1 | 0.25 | **4.3326** | 1.47 × 10⁻⁵ |
+| 2 | 0.50 | **2.9631** | 3.05 × 10⁻³ |
+| 3 | 0.75 | **2.3590** | 1.83 × 10⁻² |
+| 4 | 1.00 | **2.0141** | 4.40 × 10⁻² |
+
+Cross a boundary ⇒ reject H0 for the A2-vs-B comparison at that look. The final
+bound 2.0141 sits just above the fixed-design 1.9600 — the OBF "cheap final look"
+(≈1.01–1.02× max-information inflation). These constants are the ratified efficacy
+rule; they do **not** depend on the effect size.
+
+### 3.4 Futility boundary — RULED adopted (D-054e); calibration for external review
+
+- **RULED (D-054e): a non-binding β-spending futility boundary is adopted.** A
+  crossing is a **stop *recommendation* escalated to the supervisor, never an
+  automatic stop** (this is the hook into the D-058 stop protocol). Rationale on
+  the record: at the pilot magnitudes both arms caught ~0 (audited); if
+  "cross-vendor does not rescue diff-anchoring" (F-001) holds, the paired A2-vs-B
+  delta is near zero and the honest early exit is a **futility stop** — the waste
+  an efficacy-only design would incur is exactly what Sequential-B avoids.
+- **Two calibration inputs remain OPEN — for the external-review pass**, because
+  the ruling adopted the *concept*, not the numbers: **(i)** the calibrating
+  alternative (target power / effect size the futility boundary is drawn against);
+  **(ii)** the β-spending shape (e.g. sfLDOF vs Hwang-Shih-DeCani). Unlike the
+  efficacy boundary, the futility boundary **depends on the assumed alternative**,
+  so it cannot be "locked" without these.
+- **Provisional futility Z-lower-boundaries** (illustrative, for the review to
+  confirm or revise), under **β = 0.10** and calibrating drift **θ_max =
+  z₀.₉₇₅+z₀.₉₀ = 3.2415** (90 % power at the design alternative), one-sided sfLDOF
+  β-spending: **≈ −0.94 / 0.45 / 1.22 / 1.79** at t = 0.25/0.50/0.75/1.00
+  (`boundary_constants.py`). gsDesign `test.type=6` yields a differently-calibrated
+  set; reconciling the two is a review-pass task. **These numbers are NOT locked.**
 
 ### 3.5 The diff-anchoring miss-rate as a one-sample estimand
 
@@ -290,40 +297,41 @@ authored fix is in a different location than the true defect, in what fraction d
 reviewers (per arm) miss the true defect?* This is monitorable with **repeated
 confidence intervals** across the same looks (report the Wilson interval per arm
 at each look; no additional α to spend because it is estimation, not a second
-hypothesis test) — or, if the supervisor wants it as a *primary* powered
-endpoint, it becomes its own sequential test and the paired delta demotes to
-secondary. Flagged in OQ-24a; recorded here because the pilot's real signal lives
-in this quantity.
+hypothesis test). Per D-054a the miss-rate is a **reported estimation quantity**,
+not a powered endpoint (the paired A2-vs-B delta stays the headline) — but it is
+recorded here because the pilot's real signal lives in this quantity.
 
-### 3.6 Multiplicity across the co-primary comparisons — OQ-24f
+### 3.6 Multiplicity across the co-primary comparisons — RULED (D-054f)
 
-Two headline comparisons (A2-vs-B, A1-vs-B) share the α. Options:
-(a) **Hierarchical gatekeeping (worker recommendation):** test **A2-vs-B first**
-    at full α (it is the §7-protected headline); test A1-vs-B only if A2-vs-B
-    crosses — no α split, full power on the protected comparison.
-(b) **Bonferroni split** (α/2 each) — simpler, symmetric, but halves power on the
-    protected comparison for a secondary the design already ranks below it.
-Worker leans (a): §7 explicitly protects A2-vs-B first, and gatekeeping encodes
-that ranking without spending power on it.
+Two headline comparisons (A2-vs-B, A1-vs-B) share the α. **RULED: hierarchical
+gatekeeping.** **A2-vs-B is tested first at full α** (the §7-protected headline,
+using the §3.3 locked boundaries); **A1-vs-B is formally tested only on a crossing
+of A2-vs-B**, and is otherwise **reported descriptively**. No α split — full power
+on the protected comparison.
 
-### 3.7 Estimation at stopping, and how the constants get locked
+### 3.7 Estimation at stopping; the LOCKED constants and their provenance
 
-- **Bias-corrected reporting (standard, pre-registered).** A naïve CI/point
-  estimate computed at a data-dependent stopping time is biased outward.
-  Group-sequential reporting therefore uses the **stagewise-ordering adjusted
-  confidence interval and median-unbiased estimate** (Jennison & Turnbull 2000);
-  both the naïve and adjusted numbers are reported, the adjusted one is the
-  headline. Band composition, verbosity, false-alarm-descope, and compliance
-  metrics report as in design §5 (unchanged).
-- **The exact boundary constants are LOCKED before session 1, with committed
-  provenance.** Once the supervisor rules OQ-24 (endpoint, n_max, K, spending
-  shape, futility), the exact boundaries are computed with a **named, versioned
-  tool** — R **`gsDesign`** or **`rpact`** — the script + its output committed to
-  the repo (same discipline as the seeded selection draws, D-027c, and the canary
-  provenance). No boundary is hand-typed into the analysis; §3.3's illustrative
-  numbers are placeholders for the tool's output. **This computation is not a
-  session and not screening** — it is paper/code, runnable now once OQ-24 is
-  ruled.
+- **Bias-corrected reporting (pre-registered).** A naïve CI/point estimate at a
+  data-dependent stopping time is biased outward. Reporting uses the
+  **stagewise-ordering adjusted confidence interval and median-unbiased estimate**
+  (Jennison & Turnbull 2000); both naïve and adjusted numbers are reported, the
+  adjusted one is the headline. Band composition, verbosity, false-alarm-descope,
+  and compliance metrics report as in design §5 (unchanged).
+- **Constants LOCKED with committed provenance.** The efficacy boundaries (§3.3)
+  are computed and committed under `results/step3/`:
+  - `boundary_constants.R` (+ `.R.out`) — **canonical, gsDesign 3.10.1**
+    (`sfLDOF`, `test.type=2`), the named tool the ruling required;
+  - `boundary_constants.py` (+ `boundary_constants.txt`) — an **independent**
+    from-scratch sequential numerical-integration recursion (numpy/scipy) that
+    **reproduces gsDesign to <1e-3 at every look**, as a cross-check.
+  Same provenance discipline as the seeded selection draws (D-027c) and the canary
+  runs. **Self-correction on the record:** the first computation used a
+  non-standard sfLDOF characteristic constant and disagreed with gsDesign at early
+  looks; the named-tool cross-check caught it (D-054 note). No boundary is
+  hand-typed. **This computation is not a session and not screening** — paper/code,
+  already done.
+- **The futility constants are NOT yet locked** — they await the §3.4 calibration
+  in the external-review pass.
 
 ### 3.8 What this replaces and preserves
 
@@ -340,25 +348,29 @@ that ranking without spending power on it.
 
 ## 4. The non-deferred queue items
 
-### 4.1 Revised ceiling declaration — measured basis only (item 1)
+### 4.1 Revised ceiling declaration — RULED (D-057, supersedes D-026)
 
-The old "15 sessions/week" (D-026) was a **bare declaration**; the pilot now has a
-**measured basis** to declare against. Facts to state at re-declaration (all from
-report §2, committed in `sessions.jsonl`):
+**Declared: 15 sessions/week for all sizing and look-schedule math; opportunistic
+surplus up to 30/week permitted and logged; sizing never uses the surplus.** The
+old bare "15" (D-026) now has the pilot's **measured basis** stated against it
+(report §2, `sessions.jsonl`):
 
 - **24 logged sessions**, **87 min total wall-clock**, mean **216 s**, range
   **38–551 s** (authoring 184–551 s; reviews 38–332 s).
-- **Interrupted-days caveat (binding, D-026):** pilot days were
+- **Interrupted-days caveat (D-026 principle preserved):** pilot days were
   supervisor-availability-gated, **not** dedicated; even so `observed × 7 × 0.7`
-  **exceeds 15**, so the D-021b `min()` binds and **final-n is
-  declaration-driven** — stated where n is computed, per D-026.
+  **exceeds 15**, so the D-021b `min()` binds and **final-n stays
+  declaration-driven** — stated where n is computed.
 - **JS/TS-only caveat (D-027a):** throughput was measured on the
   cheapest-to-build slice; multi-language expansion (§2) may raise per-session
   cost once Java/Go/Rust/Python toolchains enter.
 
-**The exact number is the supervisor's to declare at Step-3 start** (HANDOFF: "do
-not assume it"). This draft supplies only the basis; it declares nothing. Once
-declared, it is the n_max-to-calendar mapping input for §3.2.
+**Two numbers, one discipline:** **15/week** drives every sizing and pacing
+computation (n_max=44 → calendar horizon, §7 cut order, §3 look pacing);
+**≤30/week** governs only *actual throughput logging* (a good week may accrue
+faster, logged per-week in provenance). **Sizing never uses the surplus** — a fast
+stretch cannot inflate the plan (the D-021b/D-026 discipline, now an explicit
+split).
 
 ### 4.2 Repeats on confirmed-defective cases (item 4 / D-052)
 
@@ -454,14 +466,56 @@ judge-call volume vs the measured free-tier quota. Carried, not chosen.
 scope) and the **false-alarm construction** question (D-031b — in Branch B the
 correct sample is **force-cut**, report §8, so no construction path is built now).
 
+### 4.7 Supervisor stop protocol — RULED (D-058)
+
+A standing three-level stop procedure, **invocable by the supervisor at any time
+with a single message**. All three preserve the pilot-proven invariant:
+**interrupted work is never a verdict, and any stop leaves a pushed, resumable
+state.**
+
+1. **PAUSE** — finish the in-flight session/container, stop at the boundary, log,
+   hold for resume. The in-flight unit completes and its result stands.
+2. **HALT** — kill in-flight work now: sessions **voided per protocol (never
+   scored)**; containers `docker kill`ed with **orphan verification**; an
+   interrupted screen marked **INTERRUPTED — never a verdict**; **state committed
+   and pushed**; everything resumable.
+3. **ABORT-STUDY** — HALT **plus** a written study-termination record: sessions
+   completed, **data retained as-is (nothing discarded)**, and an **analysis of
+   whatever exists per the stopping design's administrative-termination rules**
+   (Jennison & Turnbull 2000): final analysis at the information actually accrued,
+   using the α spent through the last completed look and the stagewise-ordering
+   adjusted estimate/CI (§3.7) — a recorded, analyzable endpoint, not a discard.
+
+Full text in D-058. The futility boundary (§3.4) feeds level (1)/(2): a futility
+crossing is a **stop *recommendation* escalated to the supervisor** (D-054e), who
+may then invoke PAUSE/HALT or override.
+
 ---
 
-## 5. Open questions for ratification (worker resolves none)
+## 5. Decision record — what was ruled (2026-07-24)
 
-Collected in house OQ form. On the supervisor's word these are logged to
-[`DECISIONS.md`](DECISIONS.md) as OQ-24…OQ-26 (or reshaped as directed) and ruled
-as D-entries before any session. **The first Step-3 session waits for the go
-*after* these are ruled.**
+**Every choice in this package is now RULED** (ledger: **D-054/D-055/D-056/D-057/
+D-058**). The option lists below are retained as the **record of what was decided
+over what** — each now marked with its ruling. The worker resolved none; the
+supervisor did. **The one item still genuinely open** is the §3.4 futility
+*calibration*, held for the external-review pass. **The first Step-3 session waits
+for that review + ratification + explicit go.**
+
+| choice | ruling | ledger |
+|---|---|---|
+| Primary endpoint | Band-1 mechanical (primary); audited catch key-secondary; miss-rate via repeated Wilson CIs | D-054a |
+| n_max | 44 confirmed-defective cases | D-054b |
+| Looks | K=4 at t=0.25/0.50/0.75/1.00 | D-054c |
+| Spending shape | O'Brien-Fleming-type (sfLDOF); **efficacy constants LOCKED** (§3.3) | D-054d |
+| Futility | non-binding β-spending, escalated not automatic; **calibration → external review** | D-054e |
+| Multiplicity | hierarchical gatekeeping, A2-vs-B first | D-054f |
+| Corpus expansion | incremental language admission; external feeds first; ~10-row validation gate | D-055 |
+| Selection ordering | global `created_at` ASC, ties `instance_id`→source; language×vendor a reported secondary | D-056 |
+| Ceiling | 15/wk sizing; ≤30/wk logged surplus; sizing never uses surplus | D-057 |
+| Stop protocol | PAUSE / HALT / ABORT-STUDY | D-058 |
+
+The glossed option lists that produced these rulings follow, retained verbatim for
+the record.
 
 **OQ-24 — the sequential design parameters** (§3). *Each option carries a
 one-line plain-language gloss — what it means, what it risks — so the ruling is on
@@ -535,7 +589,9 @@ substance, not vocabulary.*
     budget; both get a formal test regardless. Risk: halves power on the headline
     A2-vs-B for a secondary the design already ranks below it.*
 
-**OQ-25 — corpus expansion scope & per-language validation** (§2.4). *Plain: JS/TS
+**OQ-25 — corpus expansion scope & per-language validation** (§2.4) — **RULED
+D-055** (incremental admission; external feeds first; ~10-row validation gate).
+*Plain: JS/TS
 alone (39 rows) cannot feed n_max=44; we need more languages and/or SWE-rebench
 Python — but the pilot's ~29%-usable rate was only measured on JS/TS, and other
 languages have unvalidated build toolchains and unknown emulation-infeasibility.*
@@ -547,7 +603,8 @@ languages have unvalidated build toolchains and unknown emulation-infeasibility.
   screening before harvesting starts)*; external feeds before own-harvest; hold
   own-harvest behind the §2.5 "demonstrated insufficiency" trigger.
 
-**OQ-26 — selection ordering over the expanded pool** (§2.4.3). *Plain: with more
+**OQ-26 — selection ordering over the expanded pool** (§2.4.3) — **RULED D-056**
+(option (a)). *Plain: with more
 than one source/language, "which task is next" needs a single fixed rule written
 before any task identity is seen — otherwise the choice of rule could be
 influenced by which tasks it yields (the exact bias §8 forbids).*
@@ -562,23 +619,27 @@ influenced by which tasks it yields (the exact bias §8 forbids).*
     filled quota.*
   - **(c) stratified by source, then language** — *keeps each feed's contribution
     legible; risk: most machinery of (b) with an added source layer.*
-- **Worker takes no lean** until OQ-25 fixes which languages are in — the ordering
-  rule depends on the pool it orders. **No identities are pulled until this is
-  ruled** (OQ-10 blindness).
-
-**Not an OQ — a declaration:** the revised sessions/week ceiling (§4.1) is the
-supervisor's to **declare** at Step-3 start, against the measured basis this draft
-supplies.
+- **Worker took no lean** — RULED (D-056): **option (a)**, global `created_at` ASC,
+  ties `instance_id`→source, restricted to admitted languages; language×vendor is a
+  reported (descriptive) secondary. **No identities are pulled until execution**
+  (OQ-10 blindness).
 
 ---
 
-## 6. Execution gate (unchanged standing rule)
+## 6. Execution gate — one item remains
 
-Nothing in this package executes until the supervisor **(a)** rules OQ-24/25/26
-and declares the §4.1 ceiling, **(b)** ratifies this package, and **(c)** gives an
-explicit go. Until then: no session, no screening, no live-repo harvesting; the
-boundary-constant computation (§3.7) and the corpus **count** queries (§2, done)
-are the only paper/code steps that proceed, because neither is a session, screening,
-or an identity pull. Design-level ambiguity that surfaces during ratification goes
-to DECISIONS.md as a fresh OQ and waits — the single most important discipline
-here (HANDOFF standing rules).
+**All package choices are ruled (D-054…D-058) and the efficacy constants are
+LOCKED.** Before session 1 there remains, in order:
+
+1. **The supervisor's external statistical-review pass** of the sequential design
+   (the held gate) — including the §3.4 **futility calibration**, the one item the
+   rulings left open.
+2. **Ratification** of this package as revised by that review.
+3. **Explicit go.**
+
+Until all three: **no session, no screening, no live-repo harvesting, no identity
+pull.** The paper/code steps already completed — the **boundary-constant
+computation** (§3.7, `results/step3/`) and the **corpus count queries** (§2) — are
+neither sessions, screening, nor identity pulls. Any design-level ambiguity that
+surfaces during the review pass goes to DECISIONS.md as a fresh OQ and waits — the
+single most important discipline here (HANDOFF standing rules).

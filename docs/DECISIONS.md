@@ -1789,8 +1789,10 @@ are ruled, the exact boundary constants are computed with a named, versioned too
 (R `gsDesign` / `rpact`), script + output committed — no boundary hand-typed. This
 is paper/code, runnable at ratification; **it is not a session and not screening.**
 
-**Status: OPEN.** No Step-3 session runs until (a)–(f) are ruled, the package
-ratified, and the supervisor's explicit go given.
+**Status: RESOLVED by D-054** (2026-07-24) — all six choices ruled; exact
+efficacy constants computed and committed (`results/step3/`), futility provisional
+pending the external-review pass. **Still held before session 1** for that review +
+ratification + go.
 
 ## OQ-25 · 2026-07-24 · [Step 3] Corpus expansion scope & per-language validation
 
@@ -1814,7 +1816,7 @@ compute, not sessions); external feeds before own-harvest; own-harvest gated beh
 a **"demonstrated insufficiency"** trigger (§2.5 — the combined post-gate pool,
 after the validation gate, cannot supply the ratified n_max within horizon), which
 is the D-028c Hanoi re-ratification and still requires the evidence table + a
-D-entry. **Status: OPEN.**
+D-entry. **Status: RESOLVED by D-055** (2026-07-24).
 
 ## OQ-26 · 2026-07-24 · [Step 3] Selection ordering over the expanded multi-source/multi-language pool
 
@@ -1831,7 +1833,181 @@ within-language `created_at` ordering — controls the language covariate + D-00
 balance directly, at the cost of extra pre-registered parameters; **(c)**
 stratified by source then language. **Worker takes NO lean** — the ordering rule
 depends on which languages OQ-25 admits. **No identities are pulled until this is
-ruled.** **Status: OPEN.**
+ruled.** **Status: RESOLVED by D-056** (2026-07-24) — option (a).
+
+## D-054 · 2026-07-24 · OQ-24 ruled: the group-sequential stopping design (all six parameters)
+
+**Ruled (supervisor), resolving OQ-24(a–f).** The Sequential-B stopping design is
+fixed as below. Full scaffolding + per-option plain-language glosses:
+[`step3-preregistration.md`](step3-preregistration.md) §3, §5. Exact boundary
+constants computed and committed (`results/step3/`, this entry's tail).
+
+- **(a) Primary endpoint:** **Band-1 mechanical catch** is the pre-registered
+  primary endpoint (the D-005 objection-proof spine). **Audited catch (D-039) is
+  the key secondary, reported alongside it at every look.** The **diff-anchoring
+  miss-rate** is **monitored per arm via repeated Wilson intervals** — estimation,
+  **no α spent** on it.
+- **(b) n_max = 44** confirmed-defective cases (also the corpus harvest target,
+  ~380 screened rows at the pilot's ~8.6-rows-per-defect rate → D-055).
+- **(c) K = 4 looks** at information fractions **0.25 / 0.50 / 0.75 / 1.00**.
+- **(d) O'Brien-Fleming-type α-spending** (Lan-DeMets sfLDOF).
+- **(e) Non-binding β-spending futility boundary adopted** — a crossing is a
+  **stop *recommendation* escalated to the supervisor, never an automatic stop**
+  (ties to the D-058 stop protocol).
+- **(f) Hierarchical gatekeeping:** **A2-vs-B at full α first**; **A1-vs-B is
+  formally tested only on a crossing**, otherwise **reported descriptively**.
+
+**Standard methodology cited** (pre-registration §3.3): Lan & DeMets (1983)
+error-spending; O'Brien & Fleming (1979); Pocock (1977); Jennison & Turnbull
+(2000) for group-sequential theory, bias-corrected (stagewise-ordering) estimation
+at a data-dependent stop, and administrative termination (→ D-058 ABORT-STUDY).
+
+**Exact boundary constants — LOCKED (efficacy) / PROVISIONAL (futility).**
+**Canonical source: gsDesign 3.10.1** (`sfLDOF`, `test.type=2`, α=0.025 one-sided
+= 0.05 two-sided) — `results/step3/boundary_constants.R` (+ `.R.out`);
+**independently cross-validated** by a from-scratch sequential
+numerical-integration recursion (`boundary_constants.py`, numpy/scipy) that
+reproduces gsDesign to **<1e-3 at every look**. Output frozen at
+`boundary_constants.txt`.
+
+- **Efficacy Z-boundaries (LOCKED — delta-free):** look 1 **4.3326**, look 2
+  **2.9631**, look 3 **2.3590**, look 4 **2.0141**; nominal two-sided p ≈
+  **1.47e-05 / 3.05e-03 / 1.83e-02 / 4.40e-02**. Validation: cumulative one-sided
+  α = 0.025 (two-sided FWER 0.05); Python↔gsDesign agree <1e-3 at every look;
+  max-information inflation vs fixed-n ≈ **1.01–1.02×** (final bound 2.014 vs
+  1.960) — the OBF-type "cheap final look" the ruling wanted.
+- **Futility Z-lower-boundaries (PROVISIONAL — for the external-review pass):**
+  ≈ −0.94 / 0.45 / 1.22 / 1.79 (numpy recursion), under the **stated, un-ruled**
+  assumptions β = 0.10 and calibrating drift θ_max = z₀.₉₇₅+z₀.₉₀ = 3.2415 (90 %
+  power at the design alternative), one-sided sfLDOF β-spending. **These two
+  inputs (β/target power and the β-spending shape) are review items, not ruled
+  constants** — the rulings adopted the *concept* of a non-binding β-spending
+  futility boundary (e), not its calibration; gsDesign `test.type=6` gives a
+  differently-calibrated futility set, deferred to the review pass.
+
+*Self-correction logged (per the project's incoherence/cross-check discipline —
+the incident that earns the check is kept with it).* The **first** boundary
+computation used the two-sided critical value z₀.₉₇₅ as the sfLDOF characteristic
+constant and matched a two-sided exit — a **non-standard sfLDOF variant** — giving
+wrong early-look bounds (3.92/2.77/2.30/2.04). The **gsDesign named-tool
+cross-check surfaced the discrepancy**; the reference sfLDOF uses the per-side
+z₀.₉₈₇₅ and matches the upper-tail crossing. This is exactly why the ruling
+required the named tool, not a hand-rolled number. The corrected Python now
+reproduces gsDesign; both are committed.
+
+**HELD before session 1 (supervisor directive):** the statistical design goes
+through **one external review pass (supervisor's side)** before ratification and
+go. Nothing executes until then. The boundary computation is paper/code, not a
+session or screening.
+
+**Status: OQ-24 RESOLVED by this entry.**
+
+## D-055 · 2026-07-24 · OQ-25 ruled: incremental language admission; external feeds first; per-language validation gate
+
+**Ruled (supervisor), resolving OQ-25.** Corpus expansion for Sequential-B:
+
+- **External feeds only at start** — **SWE-rebench (Python, 110 post-gate)** and
+  the **MultiLang non-JS/TS languages** (post-gate: cpp 53, cs 58, go 66, java 52,
+  rust 48, c 6; JS/TS 39 already in hand). Live-verified counts 2026-07-24, counts
+  only, no identities (D-056 blindness); source table in
+  [`step3-preregistration.md`](step3-preregistration.md) §2.
+- **Per-language admission gate:** a language is **admitted only after a
+  pre-registered validation sample of ~10 rows passes the D-028 ground-truth
+  screen and a toolchain check** — **container work, not sessions** (so it does
+  not touch the throughput/ceiling accounting, D-028 cost note). A language whose
+  validation sample fails/infeasibles is **recorded and set aside**, the way `bun`
+  was (D-030), never silently dropped.
+- **Own-harvest stays gated behind the §2.5 "demonstrated-insufficiency"
+  trigger** as drafted — the combined post-gate pool, after the validation gate
+  and the D-028/D-038 screen, cannot supply the ratified n_max=44 within horizon.
+  That trigger is the D-028c Hanoi re-ratification and **still requires the
+  evidence table + a D-entry** before any own-harvest begins. External provenance
+  beats self-collection (OQ-9 pre-commitment) until then.
+
+**Rationale on the record:** the pilot's ~29 %-usable and ~40 %-yield rates are
+**JS/TS + subscription-stack measurements**; other languages carry unvalidated
+build toolchains (RepoLaunch was validated on JS only, D-023c/D-027a),
+language-specific `platform_infeasible` profiles under amd64 emulation
+(D-030/D-048), and unmeasured label-integrity rates — so per-language usable rate
+is a thing to **measure cheaply before betting the study on it**, not to assume.
+
+**Status: OQ-25 RESOLVED by this entry.**
+
+## D-056 · 2026-07-24 · OQ-26 ruled: single global created_at ordering over admitted sources/languages; language×vendor as a reported secondary
+
+**Ruled (supervisor), resolving OQ-26: option (a).** The selection ordering over
+the expanded pool is a **single global `created_at` ASC** across all admitted
+sources/languages, **ties broken by `instance_id` then source**, **restricted to
+admitted languages** (D-055 gate). This preserves §8's "fixed, documented rule
+before any review runs" and the OQ-10 blindness discipline — **no task identities
+are pulled until this rule is in force.**
+
+- **Language and source recorded as covariates** (per D-012 covariate discipline).
+- **Per-language arm-comparison breakdowns are pre-registered as a *reported*
+  (descriptive) analysis** — the **vendor-by-language interaction is a stated
+  secondary question**, not a powered one (the study is powered for the pooled
+  A2-vs-B headline, D-054f; per-language cells will be small and are read
+  descriptively, with CIs, never as powered claims).
+
+**Status: OQ-26 RESOLVED by this entry.**
+
+## D-057 · 2026-07-24 · Ceiling re-declaration — supersedes D-026's 15/week (sizing basis + logged opportunistic surplus)
+
+**Declared (supervisor), superseding the D-026 bare 15/week declaration** with the
+pilot's measured basis now stated (pre-registration §4.1):
+
+- **15 sessions/week is used for all sizing and look-schedule math** — n_max=44 →
+  calendar horizon, the §7 cut order, and the D-054 look pacing all compute
+  against **15/week**. Basis stated per §4.1: 24 logged sessions, 87 min total,
+  mean 216 s (range 38–551 s), on **interrupted, non-dedicated** pilot days whose
+  `observed × 7 × 0.7` still exceeds 15, so the D-021b `min()` binds and
+  **final-n stays declaration-driven** (D-026 principle preserved); JS/TS-only
+  throughput caveat carries (multi-language may raise per-session cost).
+- **Opportunistic surplus up to 30 sessions/week is permitted**, **logged
+  per-week in provenance** — so a good week can accrue faster.
+- **Sizing NEVER uses the surplus.** The 30/week ceiling governs only *actual
+  throughput logging*; every sizing/pacing computation uses **15**. This prevents
+  a fast stretch from inflating the plan — the same discipline D-021b/D-026 exist
+  to enforce, now with an explicit two-number split (15 for math, ≤30 for logged
+  reality).
+
+**Status: standing declaration; the sizing input for D-054/§3.**
+
+## D-058 · 2026-07-24 · Supervisor stop protocol — PAUSE / HALT / ABORT-STUDY as a standing procedure
+
+**Ruled (supervisor): formalize the pilot's stop discipline as a standing,
+three-level procedure, invocable by the supervisor at any time with a single
+message.** All three levels preserve the **invariant proven repeatedly in the
+pilot: interrupted work is NEVER a verdict, and any stop leaves a pushed,
+resumable state** (HANDOFF orphan/lid discipline; D-030/D-045
+INTERRUPTED-never-a-verdict).
+
+1. **PAUSE** — **finish the in-flight session/container, stop cleanly at the
+   boundary, log, hold for resume.** No work discarded; the in-flight unit
+   completes normally and its result stands.
+2. **HALT** — **kill in-flight work now.** Sessions in flight are **voided per
+   protocol (never scored)** (D-021/D-041 discarded-session accounting); running
+   **containers are `docker kill`ed with orphan verification** (`docker ps` →
+   confirm no `sweb` survivor); an interrupted screen is marked
+   **INTERRUPTED — never a verdict** (D-030/D-045); **state is committed and
+   pushed.** Everything is **resumable**.
+3. **ABORT-STUDY** — **HALT, plus a written study-termination record:** sessions
+   completed, **data retained as-is (no data discarded)**, and an **analysis of
+   whatever exists computed per the stopping design's rules for *administrative
+   termination*** — the standard group-sequential treatment (**Jennison & Turnbull
+   2000, ch. on stopping in practice / administrative termination**): the final
+   analysis is performed at the information actually accrued, using the α actually
+   spent through the last completed look and the stagewise-ordering adjusted
+   estimate/CI (D-054), rather than the planned n_max. Termination is a recorded,
+   analyzable endpoint, **not** a discard.
+
+**Standing consequences.** The three levels are a **standing procedure**, not a
+one-off. Any of them can fire mid-batch on a single supervisor message. HALT and
+ABORT-STUDY both end on a **pushed, resumable** repo state; PAUSE ends on a
+**held** state at a clean boundary. The invariant is load-bearing and unconditional
+across all three: **no interrupted or voided unit ever becomes a scored verdict.**
+
+**Status: standing procedure, effective immediately (applies through Step 3).**
 
 ---
 
