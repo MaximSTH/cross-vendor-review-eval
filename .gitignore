@@ -29,3 +29,6 @@ venv/
 data/cache/
 results/runs/
 *.log
+
+# generated doc exports (regenerate via tools/render-doc.sh)
+exports/
