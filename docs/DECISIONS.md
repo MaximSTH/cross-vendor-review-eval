@@ -1752,6 +1752,87 @@ Standing rule for all published session artifacts: extract the required fields,
 never ship the whole config. (No secrets are in codex config — auth is a
 separate `auth.json` — but the config is over-sharing for a public dataset.)
 
+## OQ-24 · 2026-07-24 · [Step 3] Group-sequential stopping design — six parameter choices
+
+**Surfaced by the Step-3 pre-registration package**
+([`step3-preregistration.md`](step3-preregistration.md) §3, §5), **logged to the
+ledger per the supervisor's procedural ruling 2026-07-24** (worker-leans recorded;
+nothing resolved). Full statistical scaffolding and per-option plain-language
+glosses live in the package; this entry is the SSOT stub. The design replaces the
+pilot report's fixed-n framing (report §8) with Lan-DeMets alpha-spending
+(O'Brien-Fleming / Pocock family) and interim looks — the "sequential" in
+Sequential-B. **Motivation:** throughput is the binding constraint (D-026), so a
+design that can stop early — especially for **futility**, given F-001's 0/2
+audited-catch signal — spends the fewest scarce sessions.
+
+Six choices for the supervisor, worker-leans marked:
+
+- **(a) Primary endpoint** — Band-1 **mechanical** catch (D-005) **[worker-lean]**
+  vs **audited** catch (D-039) as co-primary; and whether the **diff-anchoring
+  miss-rate** is a *reported* one-sample quantity with repeated CIs
+  **[worker-lean]** or a *primary powered* endpoint that demotes the paired
+  A2-vs-B delta.
+- **(b) n_max** — 33 / **44 [worker-lean]** / 55 confirmed-defective cases (report
+  §8 windows; 44 also sets the corpus harvest target, ~380 rows → OQ-25).
+- **(c) Looks** — K and spacing; **K=4 at 0.25/0.50/0.75/1.00 [worker-lean]**.
+- **(d) Spending shape** — **O'Brien-Fleming-type [worker-lean]** (protects the
+  final look, ~+2% n_max) vs Pocock-type (easier early stop, ~+17–20% n_max).
+- **(e) Futility** — **non-binding β-spending futility [worker-lean]** vs
+  efficacy-only. Non-optional in spirit: the pilot's likely early exit is a
+  futility stop, and efficacy-only would grind all n_max sessions to conclude "no
+  difference."
+- **(f) Multiplicity** — **hierarchical gatekeeping, A2-vs-B first [worker-lean]**
+  (protects the §7 headline at full power) vs Bonferroni split (α/2 each).
+
+**Locked-before-session-1 discipline (not an OQ, recorded here):** once (a)–(f)
+are ruled, the exact boundary constants are computed with a named, versioned tool
+(R `gsDesign` / `rpact`), script + output committed — no boundary hand-typed. This
+is paper/code, runnable at ratification; **it is not a session and not screening.**
+
+**Status: OPEN.** No Step-3 session runs until (a)–(f) are ruled, the package
+ratified, and the supervisor's explicit go given.
+
+## OQ-25 · 2026-07-24 · [Step 3] Corpus expansion scope & per-language validation
+
+**Surfaced by the pre-registration package** (§2, §5; logged per the 2026-07-24
+procedural ruling). **Live-verified post-gate counts (2026-07-24, counts only, no
+identities — OQ-10 blindness):** SWE-bench-Live/MultiLang **322/743** (identical to
+OQ-9; csharp now countable at 58; non-JS/TS = 283); nebius/SWE-rebench-leaderboard
+**exactly 110** Python (the OQ-9 deferred re-query, now resolved — the whole
+`2026_03` split, `test` split = union of monthlies). JS/TS alone (39) cannot feed
+n_max=44 (§2.3 arithmetic: ~8.6 screened rows per defect).
+
+**The question:** which languages/sources enter, and the **per-language
+validation-sample size** before a language is admitted. **Why it is design-level,
+not mechanical:** the pilot's ~29%-usable and ~40%-yield rates were measured on
+**JS/TS under the subscription stacks only**; other languages carry (i)
+build toolchains validated on JS only (D-023c/D-027a), (ii) language-specific
+`platform_infeasible` profiles under amd64 emulation (D-030/D-048), (iii) unmeasured
+label-integrity rates. **Worker-lean:** admit languages incrementally, each
+validated first on a small pre-registered screening sample (cheap container
+compute, not sessions); external feeds before own-harvest; own-harvest gated behind
+a **"demonstrated insufficiency"** trigger (§2.5 — the combined post-gate pool,
+after the validation gate, cannot supply the ratified n_max within horizon), which
+is the D-028c Hanoi re-ratification and still requires the evidence table + a
+D-entry. **Status: OPEN.**
+
+## OQ-26 · 2026-07-24 · [Step 3] Selection ordering over the expanded multi-source/multi-language pool
+
+**Surfaced by the pre-registration package** (§2.4.3, §5; logged per the 2026-07-24
+procedural ruling). The §8 selection rule (`created_at` ASC, ties by
+`instance_id`) was written for a **single** pool. A multi-source, multi-language
+pool needs its interleaving rule **fixed before any task identity is retrieved** —
+otherwise the ordering rule could be chosen with knowledge of which tasks each
+reading yields, the exact researcher degree of freedom §8 and the OQ-10 blindness
+note exist to remove. Options: **(a)** single global `created_at` ASC across all
+sources (ties by `instance_id`, source as further tiebreak) — simplest, but
+language/direction mix falls where dates land; **(b)** per-language quota with
+within-language `created_at` ordering — controls the language covariate + D-006
+balance directly, at the cost of extra pre-registered parameters; **(c)**
+stratified by source then language. **Worker takes NO lean** — the ordering rule
+depends on which languages OQ-25 admits. **No identities are pulled until this is
+ruled.** **Status: OPEN.**
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
