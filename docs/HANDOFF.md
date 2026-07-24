@@ -23,8 +23,65 @@ diff-anchoring** (reviewers grade the diff and miss defects located elsewhere;
 all 3 defective cases) and the **corpus-integrity taxonomy** (~29% usable feed,
 5 failure modes, 4 feed-attributable). The catch-audit came back **0/2** (both
 mechanical catches were diff-anchoring artifacts). Everything is committed and
-pushed to the public repo. **Nothing runs until the supervisor rules on the
-report** — the go/no-go across three branches is theirs, on their schedule.
+pushed to the public repo. **The supervisor has RULED (2026-07-24): Branch B
+modified — a sequential design — plus the C+ deliverable in parallel.** The
+mandate (next section) is to **pre-register and draft**, not execute; **no
+Step-3 session runs until the supervisor's go after ratification.**
+
+## ⇒ SUPERVISOR RULING — the successor's mandate (2026-07-24)
+
+**The go/no-go is decided.** The three-branch question in the report (§11) is
+resolved: **Branch B, modified — a sequential design — PLUS the Branch-C
+deliverable in parallel ("C+").** The "open decision" section further below is
+retained only for the reasoning; **this ruling governs.** Everything here is a
+**mandate to pre-register and draft — not to execute.** No Step-3 session runs
+until the supervisor's explicit go **after** the pre-registration below is
+ratified.
+
+### Track C+ — publish now, no new sessions
+
+1. **Practitioner write-up → publication.** `results/pilot/practitioner-writeup.md`
+   proceeds to publication as-is (D-022 clean; render via `tools/render-doc.sh`).
+2. **arXiv methods-and-findings note** — draft as a **separate deliverable**:
+   the **corpus-integrity taxonomy**, the **catch-audit metric-validity result**
+   (localization catch-rate is an upper bound; audit it), and **F-001
+   diff-anchoring as a documented phenomenon with n stated** (2 P1 defective
+   cases + P0; never as an established rate). **No new sessions required.**
+
+### Track Sequential-B — ALL items pre-registered BEFORE any session
+
+Draft each for supervisor ratification; none is self-approving.
+
+1. **Revised ceiling declaration** — re-declare sustainable sessions/week **with
+   the pilot's measured basis stated** (the 87-min/24-session wall-clock and the
+   interrupted-days caveat; the old 15 was a bare declaration). **Exact number
+   is declared by the supervisor at Step-3 start** — do not assume it.
+2. **Corpus expansion — existing feeds first.** (a) **SWE-rebench**: run the
+   exact post-gate-count re-query deferred at OQ-9. (b) **Full MultiLang pool**
+   beyond JS/TS (the pilot's ~29% usable rate was measured on JS/TS only).
+   **Own-harvest only on *demonstrated* insufficiency** of the existing feeds —
+   not by default. Re-ratification is the D-028c Hanoi decision, now authorized
+   *in principle* but still requiring the evidence table + a D-entry.
+3. **Group-sequential stopping design** — draft a design with **interim looks at
+   pre-registered n thresholds** and **corrected significance levels**
+   (alpha-spending), **citing standard methodology** (e.g. O'Brien-Fleming /
+   Pocock / Lan-DeMets). For supervisor ratification before any session. This
+   replaces the pilot's fixed-n framing and is what makes "Sequential-B" a
+   sequential study.
+4. **Repeats on confirmed-defective cases** (D-052) — so catch-rate run-to-run
+   variance is actually measured this time; do not let repeats land on authoring
+   successes.
+5. **Apply the Step-3 pre-registration queue** (report appendix): **scanner
+   freeze** (the four D-018 quotation channels, below), **problem-statement
+   scrubbing** (D-035b), **config-introspection provenance** (D-053).
+6. **Semantic-catch layer DEFERRED** — the OQ-21 decision waits until the
+   **quota question is measurable** (i.e. until Band 2 actually generates judge
+   volume). Do not adopt it pre-emptively; the pilot never exercised Band 2.
+
+**Standing bound unchanged:** design-level ambiguity → DECISIONS.md OQ → wait
+for the supervisor. The mandate authorizes *drafting and pre-registration*, not
+execution; the first Step-3 session waits for the supervisor's go after
+ratification.
 
 ## What is done (do not redo)
 
@@ -40,10 +97,11 @@ report** — the go/no-go across three branches is theirs, on their schedule.
   **ruled by the supervisor** (both no_catch, `band3-rulings.json`). No cards
   pending.
 
-## The decision that is open — Step 3 go/no-go (report §11)
+## The decision (NOW RULED — see the mandate above) — Step 3 go/no-go (report §11)
 
-The supervisor rules across **three branches** (all laid out neutrally in the
-report; the worker takes no position):
+*Resolved 2026-07-24: Branch B modified (sequential) + C+. Retained below for
+the reasoning that fed the ruling.* The three branches the supervisor chose
+across:
 
 - **A — Full study** (~900 sessions, ~60 wk at 15/wk → effectively needs the
   §7 **API-replication budget $1.5–4k** to be feasible; also fixes the D-012
@@ -170,7 +228,9 @@ Each must be pre-registered as a D-entry **before** any Step-3 execution:
 
 ## The one-sentence version
 
-The pilot is done and its report is on the table; the pipeline is proven and
-hardened, diff-anchoring and the corpus-integrity taxonomy are the findings, and
-the only thing moving is the supervisor's pending three-branch ruling — until
-which **nothing runs.**
+The pilot is done, the report is ruled — **Sequential-B + C+** — and the
+successor's job is to **draft and pre-register** the sequential study (revised
+ceiling, corpus expansion, group-sequential stopping design, repeats-on-defective,
+the freeze/scrub/provenance queue; semantic-catch deferred) and to **ship the C+
+deliverables** (practitioner write-up + arXiv note), while **no Step-3 session
+runs until the supervisor's go after ratification.**
