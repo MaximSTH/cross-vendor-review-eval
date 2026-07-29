@@ -17,10 +17,26 @@ Two dataset schemas:
     parse_log_pytest on every sampled row).
 
 Verdicts: PASS / FAIL (label integrity, D-049) / ERROR (harness, never a
-ground-truth verdict) / INFEASIBLE (platform_infeasible(time), D-048/D-030 —
-per-row wall-clock caps below; an interrupted or timed-out row is never a
-label verdict). Declared caps: image pull <= 60 min, container run <= 60 min
-per row. Images are removed after each row (docker rmi) to bound VM disk.
+ground-truth verdict) / INFEASIBLE (platform_infeasible, D-048/D-030 — either
+(time): the per-row wall-clock caps below, or (crash): the test command dies
+with a core dump / illegal instruction under amd64 emulation, the bun
+precedent — rig-relative, never a label verdict). Declared caps: image pull
+<= 60 min, container run <= 60 min per row. Images are removed after each row
+(docker rmi) to bound VM disk.
+
+Harness fixes logged mid-screen (incoherence discipline — the first pass
+surfaced them; settled PASS/FAIL/INFEASIBLE verdicts were produced by
+unaffected code paths and stand; ERROR rows re-run under the fixed harness):
+  1. PATH: `bash -l` sources the image profile, which RESETS PATH and
+     clobbers the Docker ENV PATH (go toolchain lives there -> every go row
+     ERRORed with "go: command not found"; bun conversely needs the login
+     profile). Fix: read the image's ENV PATH via docker inspect and export
+     ENV_PATH:$PATH inside the script — both sources on PATH.
+  2. Crash classification: "core dumped"/"Illegal instruction" in stderr with
+     zero parsed tests is platform_infeasible(crash) (keras/TF needs AVX,
+     absent under emulation), not ERROR.
+  3. Diagnosability: the MultiLang build/test log tail is emitted to stderr
+     (captured per-row) so an empty canonical log is explainable post-hoc.
 
 Usable rate per language = PASS / screened; full breakdown reported. Pilot
 comparator (JS/TS): 5 PASS / 17 screened ~= 29% (report §4/§8).
@@ -97,13 +113,18 @@ def run_row(lang, iid, results):
         return {"verdict": "INFEASIBLE", "reason": f"platform_infeasible(time): pull > {PULL_CAP}s (D-048)"}
     if pull.returncode != 0:
         return {"verdict": "ERROR", "reason": "image pull failed", "stderr": pull.stderr[-500:]}
+    insp = subprocess.run(["docker", "inspect", "-f",
+                           "{{range .Config.Env}}{{println .}}{{end}}", img],
+                          capture_output=True, text=True)
+    env_path = next((l[5:] for l in insp.stdout.splitlines() if l.startswith("PATH=")), "")
+    path_line = f'export PATH="{env_path}:$PATH"' if env_path else "true"
     patch_b64 = base64.b64encode(r["test_patch"].encode()).decode()
     if lang == "python":
         ic = r["install_config"]
         ic = json.loads(ic) if isinstance(ic, str) else ic
         assert ic.get("log_parser") == "parse_log_pytest", f"unexpected parser {ic.get('log_parser')}"
         script = "\n".join([
-            "set +e", "cd /testbed",
+            "set +e", "cd /testbed", path_line,
             f"printf '%s' '{patch_b64}' | base64 -d | git apply -",
             ic["test_cmd"],
         ])
@@ -113,13 +134,14 @@ def run_row(lang, iid, results):
         # noise via exec redirect, login shell for image PATH, print_cmds as
         # the canonical log emitter (never infer the output path).
         script = "\n".join([
-            "set +e", "cd /testbed",
+            "set +e", "cd /testbed", path_line,
             f"printf '%s' '{patch_b64}' | base64 -d | git apply -",
             "exec 3>&1 4>&2 1>/tmp/screen-build.log 2>&1",
             *lst(r.get("rebuild_cmds")),
             *lst(r.get("test_cmds")),
             "exec 1>&3 2>&4",
             *lst(r.get("print_cmds")),
+            "tail -c 3000 /tmp/screen-build.log 1>&2",
         ])
         ns = {}
         exec(r["log_parser"], ns)
@@ -141,7 +163,12 @@ def run_row(lang, iid, results):
     f2p_pass = [t for t in f2p if parsed.get(t) == "pass"]
     f2p_miss = [t for t in f2p if t not in parsed]
     p2p_bad = [t for t in p2p if t in parsed and parsed[t] != "pass"]
-    if not parsed:
+    crashed = any(sig in proc.stderr for sig in
+                  ("core dumped", "Illegal instruction", "Segmentation fault"))
+    if not parsed and crashed:
+        verdict, reason = "INFEASIBLE", ("platform_infeasible(crash): test command died under "
+                                         "amd64 emulation (D-048/D-030 bun precedent)")
+    elif not parsed:
         verdict, reason = "ERROR", "parser returned no tests (harness/emit problem, not ground truth)"
     elif f2p and not f2p_pass and not f2p_miss and len(p2p) > 0 and not p2p_bad:
         verdict, reason = "PASS", ""

@@ -66,6 +66,20 @@ make room; an unrelated project's containers on the shared VM were untouched.
 **Status:** RUNNING (launched 2026-07-29, background; order python → go → cs
 → cpp → java → rust). Per-language usable-rate table lands here when complete.
 
+**Harness fixes logged mid-screen (2026-07-29, first pass; incoherence
+discipline).** The first pass surfaced two rig/harness issues, fixed in
+`screen-runner.py` and pushed before the resume: **(1) PATH clobbering** —
+`bash -l` sources the image profile, which resets PATH over the Docker ENV
+PATH; the go toolchain lives in ENV PATH, so **all 9 go ERRORs were
+`go: command not found`**, a harness artifact, never a label verdict (fix:
+inject the image's ENV PATH from `docker inspect`; the login profile is still
+sourced — the bun/JS case — so both PATH sources apply). **(2) Emulation
+crashes** — keras/TF rows core-dump under amd64 emulation (AVX absent): now
+classified **INFEASIBLE `platform_infeasible(crash)`** (the D-030 bun
+precedent), not ERROR. Settled PASS/FAIL/INFEASIBLE verdicts from the first
+pass were produced by unaffected code paths and stand; **ERROR rows re-run
+under the fixed harness** (the runner caches only settled verdicts).
+
 ## 3. Pool fix + selection ordering (D-056) — execution step 2
 
 PENDING step-1 admissions. Will record: admitted languages, the frozen pool
