@@ -1,0 +1,254 @@
+{
+ "go": [
+  {
+   "instance_id": "go-task__task-2716",
+   "created_at": "2026-03-05T01:56:55Z"
+  },
+  {
+   "instance_id": "kyverno__kyverno-15561",
+   "created_at": "2026-03-13T00:10:56Z"
+  },
+  {
+   "instance_id": "caddyserver__caddy-7567",
+   "created_at": "2026-03-13T00:23:10Z"
+  },
+  {
+   "instance_id": "envoyproxy__gateway-8521",
+   "created_at": "2026-03-13T12:07:26Z"
+  },
+  {
+   "instance_id": "kubernetes-sigs__kueue-9866",
+   "created_at": "2026-03-13T13:37:01Z"
+  },
+  {
+   "instance_id": "Gentleman-Programming__gentle-ai-50",
+   "created_at": "2026-03-14T02:05:29Z"
+  },
+  {
+   "instance_id": "oauth2-proxy__oauth2-proxy-3374",
+   "created_at": "2026-03-14T22:41:24Z"
+  },
+  {
+   "instance_id": "magefile__mage-544",
+   "created_at": "2026-03-15T13:51:21Z"
+  },
+  {
+   "instance_id": "0xERR0R__blocky-2016",
+   "created_at": "2026-03-15T18:41:56Z"
+  },
+  {
+   "instance_id": "mgechev__revive-1686",
+   "created_at": "2026-03-16T12:02:49Z"
+  }
+ ],
+ "cs": [
+  {
+   "instance_id": "MudBlazor__MudBlazor-12775",
+   "created_at": "2026-03-01T19:22:12Z"
+  },
+  {
+   "instance_id": "MudBlazor__MudBlazor-12817",
+   "created_at": "2026-03-05T01:01:34Z"
+  },
+  {
+   "instance_id": "dotnet__command-line-api-2781",
+   "created_at": "2026-03-10T20:14:05Z"
+  },
+  {
+   "instance_id": "dotnet-state-machine__stateless-644",
+   "created_at": "2026-03-11T10:23:54Z"
+  },
+  {
+   "instance_id": "Kareadita__Kavita-4552",
+   "created_at": "2026-03-20T18:01:27Z"
+  },
+  {
+   "instance_id": "gui-cs__Terminal.Gui-4841",
+   "created_at": "2026-03-21T12:05:22Z"
+  },
+  {
+   "instance_id": "AvaloniaUI__Avalonia-20964",
+   "created_at": "2026-03-22T21:50:20Z"
+  },
+  {
+   "instance_id": "SubtitleEdit__subtitleedit-10411",
+   "created_at": "2026-03-24T20:55:01Z"
+  },
+  {
+   "instance_id": "AvaloniaUI__Avalonia-20978",
+   "created_at": "2026-03-25T02:06:34Z"
+  },
+  {
+   "instance_id": "SubtitleEdit__subtitleedit-10419",
+   "created_at": "2026-03-25T09:59:41Z"
+  }
+ ],
+ "cpp": [
+  {
+   "instance_id": "kokkos__kokkos-8967",
+   "created_at": "2026-03-12T22:53:04Z"
+  },
+  {
+   "instance_id": "organicmaps__organicmaps-12396",
+   "created_at": "2026-03-20T10:46:24Z"
+  },
+  {
+   "instance_id": "microsoft__DirectXShaderCompiler-8286",
+   "created_at": "2026-03-21T00:30:03Z"
+  },
+  {
+   "instance_id": "esphome__esphome-15048",
+   "created_at": "2026-03-21T07:46:36Z"
+  },
+  {
+   "instance_id": "actor-framework__actor-framework-2300",
+   "created_at": "2026-03-21T09:22:42Z"
+  },
+  {
+   "instance_id": "esphome__esphome-15060",
+   "created_at": "2026-03-21T18:15:14Z"
+  },
+  {
+   "instance_id": "ninja-build__ninja-2749",
+   "created_at": "2026-03-22T18:26:46Z"
+  },
+  {
+   "instance_id": "TrenchBroom__TrenchBroom-5133",
+   "created_at": "2026-03-22T19:27:31Z"
+  },
+  {
+   "instance_id": "ClickHouse__ClickHouse-100579",
+   "created_at": "2026-03-24T12:42:25Z"
+  },
+  {
+   "instance_id": "pocoproject__poco-5265",
+   "created_at": "2026-03-25T11:59:00Z"
+  }
+ ],
+ "java": [
+  {
+   "instance_id": "jetty__jetty.project-14652",
+   "created_at": "2026-03-11T19:05:47Z"
+  },
+  {
+   "instance_id": "mc1arke__sonarqube-community-branch-plugin-1221",
+   "created_at": "2026-03-12T08:07:04Z"
+  },
+  {
+   "instance_id": "magefree__mage-14628",
+   "created_at": "2026-03-16T16:04:25Z"
+  },
+  {
+   "instance_id": "langchain4j__langchain4j-4734",
+   "created_at": "2026-03-18T12:37:14Z"
+  },
+  {
+   "instance_id": "open-telemetry__opentelemetry-java-instrumentation-16697",
+   "created_at": "2026-03-18T18:27:07Z"
+  },
+  {
+   "instance_id": "spring-projects__spring-security-18938",
+   "created_at": "2026-03-19T11:09:13Z"
+  },
+  {
+   "instance_id": "helidon-io__helidon-11386",
+   "created_at": "2026-03-20T13:12:34Z"
+  },
+  {
+   "instance_id": "floci-io__floci-26",
+   "created_at": "2026-03-24T06:47:04Z"
+  },
+  {
+   "instance_id": "helidon-io__helidon-11407",
+   "created_at": "2026-03-24T14:54:41Z"
+  },
+  {
+   "instance_id": "floci-io__floci-54",
+   "created_at": "2026-03-24T21:05:44Z"
+  }
+ ],
+ "rust": [
+  {
+   "instance_id": "ruffle-rs__ruffle-23197",
+   "created_at": "2026-03-07T16:34:13Z"
+  },
+  {
+   "instance_id": "DioxusLabs__dioxus-5384",
+   "created_at": "2026-03-17T23:24:32Z"
+  },
+  {
+   "instance_id": "Automattic__harper-2962",
+   "created_at": "2026-03-18T23:05:55Z"
+  },
+  {
+   "instance_id": "J-F-Liu__lopdf-481",
+   "created_at": "2026-03-19T07:13:45Z"
+  },
+  {
+   "instance_id": "gleam-lang__gleam-5482",
+   "created_at": "2026-03-19T12:31:50Z"
+  },
+  {
+   "instance_id": "Automattic__harper-2973",
+   "created_at": "2026-03-19T12:43:35Z"
+  },
+  {
+   "instance_id": "Automattic__harper-2976",
+   "created_at": "2026-03-19T16:15:12Z"
+  },
+  {
+   "instance_id": "modelcontextprotocol__rust-sdk-760",
+   "created_at": "2026-03-19T18:39:32Z"
+  },
+  {
+   "instance_id": "GitoxideLabs__gitoxide-2476",
+   "created_at": "2026-03-20T10:33:51Z"
+  },
+  {
+   "instance_id": "gleam-lang__gleam-5493",
+   "created_at": "2026-03-21T18:03:21Z"
+  }
+ ],
+ "python": [
+  {
+   "instance_id": "keras-team__keras-22316",
+   "created_at": "2026-03-01 00:54:12"
+  },
+  {
+   "instance_id": "pallets__click-3239",
+   "created_at": "2026-03-02 07:53:49"
+  },
+  {
+   "instance_id": "tobymao__sqlglot-7187",
+   "created_at": "2026-03-02 15:56:17"
+  },
+  {
+   "instance_id": "keras-team__keras-22330",
+   "created_at": "2026-03-02 18:17:38"
+  },
+  {
+   "instance_id": "tox-dev__tox-3846",
+   "created_at": "2026-03-03 15:34:23"
+  },
+  {
+   "instance_id": "containers__ramalama-2487",
+   "created_at": "2026-03-05 10:57:45"
+  },
+  {
+   "instance_id": "astronomy-commons__hats-648",
+   "created_at": "2026-03-06 10:12:00"
+  },
+  {
+   "instance_id": "hiero-ledger__hiero-sdk-python-1914_interface",
+   "created_at": "2026-03-06 14:12:44"
+  },
+  {
+   "instance_id": "zauberzeug__nicegui-5858",
+   "created_at": "2026-03-09 16:34:24"
+  },
+  {
+   "instance_id": "getmoto__moto-9841",
+   "created_at": "2026-03-09 23:11:49"
+  }
+ ]
+}

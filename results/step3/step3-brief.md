@@ -49,7 +49,22 @@ validation sample), from the same queries recorded in prereg §2's footnote.
 Validation is **container work, not sessions** (D-055); rows pulled here are
 identities *for validation only* — the study pool is fixed at step 2.
 
-**Status:** IN PROGRESS. Per-language usable-rate table lands here.
+**Sample drawn 2026-07-29** (`validation/sample-selection.json`): 10 rows per
+language, post-gate totals at draw time matching the prereg §2 live-verified
+counts exactly (go 66, cs 58, cpp 53, java 52, rust 48, SWE-rebench 110).
+
+**Runner** (`validation/screen-runner.py`): the pilot's D-028 screen flow
+verbatim for MultiLang; SWE-rebench path via per-instance eval images +
+`install_config.test_cmd` + the standard pytest parser. **Declared operational
+caps (D-048):** per-row image pull ≤ 60 min, container run ≤ 60 min; a timeout
+is recorded **INFEASIBLE — `platform_infeasible(time)`, never a label
+verdict** (D-030/D-048). Verdicts: PASS / FAIL (label integrity) / ERROR
+(harness) / INFEASIBLE. Images dropped after each row (re-pullable; VM disk
+bound). Rig note: pilot-era `sweb.eval` image caches (~95 GB) were pruned to
+make room; an unrelated project's containers on the shared VM were untouched.
+
+**Status:** RUNNING (launched 2026-07-29, background; order python → go → cs
+→ cpp → java → rust). Per-language usable-rate table lands here when complete.
 
 ## 3. Pool fix + selection ordering (D-056) — execution step 2
 
