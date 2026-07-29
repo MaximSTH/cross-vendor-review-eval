@@ -2009,6 +2009,167 @@ across all three: **no interrupted or voided unit ever becomes a scored verdict.
 
 **Status: standing procedure, effective immediately (applies through Step 3).**
 
+## D-059 · 2026-07-29 · External statistical review received; findings 1–7 adopted — information basis redefined, power claim struck, futility recomputed, precedence/gatekeeping/estimation fixed
+
+**Ruled (supervisor).** The held external statistical-review pass (D-054 tail,
+prereg §6.1) is **complete**: fresh-context, read-only reviewer (Claude Fable 5,
+agent `ab5e2f4fe5cd02f8d`, 2026-07-29), adversarial brief. Full report committed
+**verbatim**: [`reviews/2026-07-29-step3-external-statistical-review.md`](reviews/2026-07-29-step3-external-statistical-review.md).
+**Verification headline: the LOCKED efficacy constants are correct** (gsDesign
+invocation verified; bounds match published Lan-DeMets sfLDOF values; the
+independent recursion agrees <1e-3). The review returned 2 blocking findings,
+5 should-fix, 5 notes. **Findings 1–7 are adopted in full**, as follows:
+
+- **(a) Finding 1 (blocking) — information basis redefined.** For the paired
+  McNemar-style endpoint at plausible (near-zero) event rates, case-count
+  monitoring degenerates: the statistic lives on discordant pairs. Therefore:
+  **I_max is defined in discordant pairs (m_max = 16, the expected count at
+  n_max under the D-060 nuisance model); n_max = 44 becomes an administrative
+  accrual cap**; monitoring is the **exact conditional sign test** (b of m,
+  b ~ Bin(m, ½) under H0), with the sfLDOF spend implemented via **exact tail
+  probabilities ≤ the nominal spend** at each look (conservative, standard for
+  discrete outcomes); looks are scheduled at **t = m/m_max**; **under-running**
+  (n = 44 exhausted with m < m_max) is handled by the standard Lan-DeMets
+  over/under-running rule — all remaining α spent at the final analysis at the
+  realized t. **The locked efficacy Z-constants stand as spending targets**;
+  what changes is the statistic compared against them and the definition of t.
+- **(b) Finding 2 (blocking) — the ">20 pp delta" power claim is struck.** It
+  was a per-arm Wilson half-width statement, not a paired power computation.
+  Replaced by the **paired-exact power table under the pre-registered nuisance
+  model** (`results/step3/power_table.py` + `.txt`): ~90 % power requires
+  **δ ≈ 0.30 with a near-zero same-vendor arm** (p_A2=0.05, p_B=0.35 → 0.933);
+  at δ = 0.20 exact power is **~47–67 %** depending on nuisance rates.
+  **Sub-30 pp effects are addressed by estimation** (adjusted CI at stopping),
+  stated plainly in the prereg — never implied to be powered.
+- **(c) Finding 3 — futility recomputed canonically with `test.type=4`**
+  (non-binding β-spending, the D-054e ruled concept). The earlier `test.type=6`
+  run computed an **H0-spent (astar) lower bound — a different boundary
+  concept, not a calibration variant** — and is **superseded**; its printed
+  "max information inflation 3.7934" was an artifact of that mislabeled design
+  and is **quarantined — it must appear nowhere** (true test.type=4 inflation:
+  **1.083**). Efficacy bounds under test.type=4 **reproduce the LOCKED
+  constants unchanged** (asserted in-script, `stopifnot` <1e-6).
+- **(d) Finding 4 — directional precedence pre-registered.** The efficacy
+  design is two-sided symmetric; the futility bound is one-sided. The futility
+  **recommendation zone is Z ∈ (−b_k, a_k]; Z ≤ −b_k is a reverse-direction
+  efficacy crossing and takes precedence** (a strong "same-vendor better"
+  trend is a finding, never "futility"). The recursion's continuation mask now
+  applies both efficacy bounds (`boundary_constants.py`).
+- **(e) Finding 5 — gatekeeping made group-sequential-correct.** Testing
+  A1-vs-B at unadjusted full α at the interim look where A2-vs-B crossed
+  inflates its type-I error (Hung, Wang & O'Neill 2007; Tamhane, Mehta & Liu
+  2010). **A1-vs-B, once unlocked by the gatekeeper, is tested against its own
+  sfLDOF boundary at the realized information at the stopping look**; otherwise
+  descriptive as before (D-054f otherwise unchanged).
+- **(f) Finding 6 — audited-catch dilution layer.** Coincidental mechanical
+  catches (pilot: 2-of-2 overturned) generate ~50:50 discordant noise that
+  dilutes the paired odds ratio. Pre-registered: the **audited-catch discordant
+  table is reported at every look beside the mechanical one**; the
+  **audit-overturn rate is a measured dilution parameter**; a **sensitivity
+  analysis of the primary excluding audit-overturned catches** is
+  pre-registered. Endpoint choice (D-054a) unchanged.
+- **(g) Finding 7 — estimation at stopping on the exact sample space.**
+  Stagewise-ordering adjusted CI and median-unbiased estimate computed on the
+  **exact binomial sample space** (not the Brownian approximation) at the
+  realized m; the adjusted estimate is stated on the **conditional
+  (discordant-pair probability / odds-ratio) scale**, with the marginal risk
+  difference reported **descriptively** from the full table; **inference is
+  computed under the boundary actually followed**, and any supervisor override
+  of a futility recommendation is **logged as part of the inferential record**.
+
+**Status: review-pass complete; findings 1–7 adopted. Constants re-locked →
+D-060; cuts → D-061; notes → D-062.**
+
+## D-060 · 2026-07-29 · Futility calibration RATIFIED verbatim as proposed; futility constants LOCKED (test.type=4, cross-validated)
+
+**Ruled (supervisor), closing the one item D-054e left open.** The reviewer's
+§3.4 calibration proposal is **ratified verbatim** (full text in the review
+artifact and prereg §3.4):
+
+- **Calibrating alternative δ\* = 0.30** paired difference in Band-1 catch rate
+  (A2 vs B), under the **pre-registered nuisance model p_A2 = 0.05,
+  p_B = 0.35**, cross-arm independence (π_D ≈ 0.365, E[m] at n = 44 ≈ 16,
+  π\* ≈ 0.91) — the alternative the design can actually detect (D-059b), and
+  precisely the pilot's diff-anchoring regime.
+- **β = 0.10** (90 % power at δ\*) — under a hard session ceiling, wrongly
+  abandoning a real δ\*-sized effect wastes the whole study, so the error is
+  held to 10 %, not the conventional 20 %; non-binding escalation makes
+  realized power loss strictly less than nominal β.
+- **One-sided sfLDOF β-spending on the shared timing grid**, with a
+  **minimum-information gate: no futility evaluation at any look with fewer
+  than 8 observed discordant pairs** (unspent β carries forward). Look 1 is
+  thereby effectively closed to futility (expected m there is 2–4 — noise).
+- **Non-binding stays non-binding** (D-054e/D-058): a crossing is a written
+  stop **recommendation escalated to the supervisor**, never automatic; any
+  override is logged with rationale as part of the inferential record (D-059g).
+
+**Futility Z-lower-bounds LOCKED** (canonical gsDesign 3.10.1 `test.type=4`,
+`alpha=0.025, beta=0.10, sfu=sfLDOF, sfl=sfLDOF, timing=c(.25,.5,.75,1)`;
+committed `results/step3/boundary_constants.R` + `.R.out`):
+**−1.4027 / 0.3249 / 1.2911 / 2.0141** at t = 0.25/0.50/0.75/1.00; max-info
+inflation **1.083**; efficacy bounds reproduced unchanged (in-script assert).
+**Independently cross-validated** by the from-scratch recursion
+(`boundary_constants.py`, output `boundary_constants.txt`): every bound <1e-3,
+solved inflation 1.0832. The provisional set (−0.94/0.45/1.22/1.79) and the
+test.type=6 set are both **superseded**. At analysis time the a_k are spending
+targets implemented via exact conditional tail probabilities (D-059a).
+
+**Status: futility calibration RESOLVED; all boundary constants LOCKED.**
+
+## D-061 · 2026-07-29 · Session cuts adopted — repeats become CONDITIONAL (supersedes the D-052 unconditional fix); A1 on a 50 % seeded subsample from look 2
+
+**Ruled (supervisor), on the reviewer's add/cut analysis (sessions are the
+scarce resource, D-057).**
+
+- **Repeats (§4.2) — superseding amendment to the D-052 fix.** The k=2
+  repeat-on-confirmed-defective draw **runs only if the look-1 mechanical
+  catch rate is ≥ 20 %**. Reviewer's rationale, adopted on the record: below
+  that rate, k=2 repeats cannot measure catch-rate run-to-run variance — "they
+  measure zeros" (expected catch events in the repeat set ~0–2, the same
+  failure D-052 logged, at higher cost — ~18 sessions, more than a week of the
+  ceiling). If the condition fails, the **~18 sessions reallocate to primary
+  accrual** (~3 additional primary cases). The D-052 *mechanism* (seeded draw
+  from the confirmed-defective set, review-arms-only, A1 n/a-structural) is
+  unchanged when the condition fires.
+- **A1 subsampling.** From **look 2 onward, A1 runs on a 50 % random subsample**
+  of accruing cases — seeded draw, seed recorded before use (**D-027c
+  discipline**). Saves ~1 session per affected case (5.5 → 4.5), ≈ 2 extra
+  weeks of primary accrual over the horizon. A1-vs-B is gated-secondary and
+  structurally conservative (D-031e); it keeps its D-059e boundary when
+  unlocked, computed at its (halved) realized information.
+
+**Status: standing amendments to §4.2 / the session budget.**
+
+## D-062 · 2026-07-29 · Review notes adopted — alternation rule pre-registered; stack-change sensitivity; per-look data-freeze manifest; supply framing corrected
+
+**Ruled (supervisor), adopting review notes 8–11 (finding 12 → D-061):**
+
+- **Authoring-direction alternation (note 10).** The pilot's alternation
+  practice is now **pre-registered explicitly in §3**: authoring direction
+  alternates deterministically down the D-056 `created_at`-ASC selection order,
+  so direction balance cannot fall "where the dates land". The **per-direction
+  breakdown is mandatory at every look**.
+- **Model-drift sensitivity (note 11).** Any observed vendor-stack change
+  (captured by the §4.5 config snapshot / models-observed discipline) triggers
+  a **pre/post-change look-stratified sensitivity analysis** — snapshotting
+  records a change; this analyzes it.
+- **Per-look data-freeze manifest.** Each look freezes a committed manifest —
+  case IDs, m, b, per-arm tables, stack snapshots — so every look is
+  independently reconstructible (new §4.8).
+- **Supply framing corrected (notes 8 + D-059a).** §2.3 now states plainly:
+  reaching n = 44 requires screening ~88 % of the combined 432-row post-gate
+  pool *if* JS/TS rates transfer (unmeasured); with information redefined in
+  discordant pairs, **under-running at n = 44 is the expected ending** (the
+  administrative-cap rule is the norm, not the exception) and **own-harvest is
+  the likely path, not the contingency** — the §2.5 trigger discipline
+  (evidence table + D-entry) is unchanged.
+- **Concurrence recorded:** the **semantic-catch layer stays DEFERRED** and
+  **no new arm** (OQ-23 model-tier) is added — every session belongs to
+  primary accrual.
+
+**Status: all review findings dispositioned (D-059/D-060/D-061/D-062). The
+package awaits ratification + explicit go (prereg §6).**
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
