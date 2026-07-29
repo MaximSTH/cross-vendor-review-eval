@@ -2170,6 +2170,47 @@ scarce resource, D-057).**
 **Status: all review findings dispositioned (D-059/D-060/D-061/D-062). The
 package awaits ratification + explicit go (prereg §6).**
 
+## D-063 · 2026-07-29 · Step-3 pre-registration RATIFIED (as amended through 34488d0); alternation phase by recorded coin flip; GO issued — execution begins
+
+**Ruled (supervisor).** The Step-3 (Sequential-B) pre-registration package is
+**RATIFIED as amended through commit `34488d0`**, explicitly including
+**m_max = 16 with looks at m = 4/8/12/16** — whose composition with the D-060
+≥8-discordant-pair gate leaves **look 1 structurally closed to futility** (not
+merely expected-closed; noted in prereg §3.4). **One ratification amendment:**
+the **alternation phase is set by one recorded coin flip** (the D-027
+precedent — pilot `coin_flip_position1`), never fixed by hand — flip recorded
+in the Step-3 brief, alternation deterministic down the D-056 order thereafter.
+
+**Flip executed and recorded** (`results/step3/step3-brief.md` §1): procedure
+and mapping declared before the draw (OS-entropy 32-bit seed; 0 → anthropic,
+1 → openai authors position 1); **seed 2649229146 → bit 1 → position 1 is
+authored Codex-side (openai)**; phase is a function of position index, so
+skips never shift it.
+
+**Push-before-execution discipline (ruled):** all commits — the review
+artifact, the locked constants, the ratified pre-registration, this entry —
+are **pushed before the first execution step**; the public timestamped trail
+preceding execution **is the pre-registration's proof**.
+
+**GO — execution order:**
+
+1. **Per-language validation samples per D-055** (~10 rows per candidate:
+   SWE-rebench Python + MultiLang go/cs/cpp/java/rust; container work, no
+   sessions); per-language usable-rate table reported; passers admitted.
+2. **On admission:** fix the pool; execute the D-056 selection ordering; pull
+   identities; write the Step-3 brief (ordering, phase flip, seeds, admitted
+   languages, skip trail as it accrues).
+3. **Sessions per the ratified design:** 15/week sizing, surplus ≤30 logged
+   (D-057), alternation per the flip, D-058 stop protocol standing.
+   **Checkpoints:** validation table → brief → worker's judgment at natural
+   boundaries, with a **mandatory data-freeze checkpoint at every look
+   (m = 4/8/12/16) per prereg §4.8**. Escalations and audit cards queue as
+   always; **futility crossings escalate to the supervisor per D-060 — never
+   an automatic stop**.
+
+**Status: RATIFIED + GO. Execution in progress; the execution record lives in
+`results/step3/step3-brief.md`.**
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)

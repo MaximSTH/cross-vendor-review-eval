@@ -1,7 +1,7 @@
 ---
 name: step3-preregistration
-description: Step-3 (Sequential-B) pre-registration PACKAGE — EXTERNAL REVIEW COMPLETE, ALL AMENDMENTS APPLIED, AWAITING RATIFICATION + GO. Design choices ruled 2026-07-24 (D-054..D-058); external statistical review 2026-07-29 (docs/reviews/), findings adopted D-059..D-062: exact-conditional monitoring on discordant pairs (m_max=16, n_max=44 an administrative cap), honest paired-exact power table, futility calibration RATIFIED + constants LOCKED (test.type=4, cross-validated), directional precedence, GS-correct gatekeeping, audited-catch dilution layer, exact-sample-space estimation, conditional repeats, A1 subsample, alternation rule, data-freeze manifests. Semantic-catch layer DEFERRED.
-status: amended per external review (D-059..D-062) — awaiting ratification + explicit go
+description: Step-3 (Sequential-B) pre-registration PACKAGE — RATIFIED 2026-07-29 (D-063), GO ISSUED, EXECUTION IN PROGRESS. Design ruled D-054..D-058; external statistical review 2026-07-29 (docs/reviews/), findings adopted D-059..D-062; ratified as amended through 34488d0 with one further amendment (alternation phase by recorded coin flip, D-027 precedent). Exact-conditional monitoring on discordant pairs (m_max=16, looks m=4/8/12/16, look 1 structurally closed to futility), n_max=44 administrative cap, all boundary constants LOCKED + cross-validated, honest paired-exact power table. Execution order: per-language validation (D-055) → pool fix + D-056 ordering + Step-3 brief → sessions at 15/wk. Semantic-catch layer DEFERRED.
+status: RATIFIED + GO (2026-07-29, D-063) — execution in progress; pushed trail precedes every execution step
 author: Maxim St-Hilaire (methodology owner) — drafted by worker
 last-updated: 2026-07-29
 ---
@@ -233,10 +233,14 @@ LOCKED** — efficacy §3.3 (verified correct by the review), futility §3.4
   same-vendor vs cross-vendor. Secondary: **A1 vs B**. Both averaged over the two
   authoring directions (D-006 symmetry). **Authoring direction alternates
   deterministically down the D-056 selection order** (`created_at` ASC, ties
-  `instance_id`→source): odd-indexed admitted cases are authored Claude-side,
-  even-indexed Codex-side — the pilot's alternation practice, now pre-registered
+  `instance_id`→source) — the pilot's alternation practice, now pre-registered
   so direction balance cannot fall "where the dates land" (D-062; review
-  note 10). The **per-direction breakdown is mandatory at every look**.
+  note 10). **The alternation PHASE (which vendor authors position 1) is set by
+  one recorded coin flip** — the D-027 precedent (pilot `coin_flip_position1`),
+  not fixed by hand (D-063 ratification amendment): OS-entropy draw, procedure
+  and mapping declared before the draw, outcome recorded in the **Step-3 brief**
+  (`results/step3/step3-brief.md`); alternation is deterministic thereafter.
+  The **per-direction breakdown is mandatory at every look**.
 - **Accrual unit.** The **confirmed-defective case** (one per ~8.6 screened rows;
   each unit = ~5.5 sessions: ~2.5 authoring + 3 review, report §3/§8).
 - **Statistical information — REDEFINED (D-059a, adopting review finding 1 in
@@ -381,10 +385,18 @@ gsDesign 1.083):
 
 | look | t | Z-lower aₖ | cumulative β spent at δ\* |
 |---:|---:|---:|---:|
-| 1 | 0.25 | **−1.4027** | 0.0010 — *and closed by the ≥8-discordant-pair gate* |
+| 1 | 0.25 | **−1.4027** | 0.0010 — *structurally closed; see below* |
 | 2 | 0.50 | **0.3249** | 0.0200 |
 | 3 | 0.75 | **1.2911** | 0.0575 |
 | 4 | 1.00 | **2.0141** | 0.1000 — *meets the efficacy bound* |
+
+**Composition note (ratification record, D-063).** With the ratified
+information grid m_max = 16 and looks at **m = 4/8/12/16** (§3.2), look 1 sits
+at m = 4 — **below the ≥8-discordant-pair minimum-information gate by
+construction**. Look 1 is therefore **structurally closed to futility** (not
+merely expected-closed): the first futility evaluation can occur no earlier
+than look 2, and look-1 β (0.0010) always carries forward under the spending
+framework.
 
 The efficacy bounds under `test.type=4` **reproduce the §3.3 LOCKED constants
 unchanged** (asserted in-script, <1e-6). The earlier `test.type=6` run and the
@@ -674,8 +686,8 @@ D-058**, amended by the external-review rulings **D-059/D-060/D-061/D-062**,
 2026-07-29). The option lists below are retained as the **record of what was
 decided over what** — each now marked with its ruling. The worker resolved none;
 the supervisor did. The §3.4 futility calibration — formerly the one open item —
-is **RESOLVED (D-060)**. **The first Step-3 session waits for ratification of
-this amended package + explicit go.**
+is **RESOLVED (D-060)**. **The package is RATIFIED and GO is issued (D-063,
+2026-07-29); execution proceeds in the §6 order.**
 
 | choice | ruling | ledger |
 |---|---|---|
@@ -809,22 +821,32 @@ influenced by which tasks it yields (the exact bias §8 forbids).*
 
 ---
 
-## 6. Execution gate — ratification + go remain
+## 6. Execution gate — CLEARED (RATIFIED + GO, 2026-07-29, D-063)
 
-**All package choices are ruled (D-054…D-058), the external statistical-review
-pass is COMPLETE (2026-07-29 — report committed verbatim under `docs/reviews/`;
-rulings D-059…D-062 applied throughout this text), and ALL boundary constants
-are LOCKED** (efficacy §3.3 — verified correct by the review; futility §3.4 —
-calibration ratified D-060, recomputed test.type=4, cross-validated). Before
-session 1 there remains, in order:
+**This package is RATIFIED as amended through commit `34488d0`** — including
+m_max = 16 with looks at m = 4/8/12/16 (look 1 structurally closed to futility
+by the ≥8-pair gate; composition note §3.4) — **with one ratification
+amendment: the alternation phase is set by one recorded coin flip** (D-027
+precedent; §3.1), recorded in the Step-3 brief. **GO is issued.** The
+pre-registration discipline in force: **the pushed, public, timestamped trail
+precedes every execution step** — that ordering is the pre-registration's
+proof.
 
-1. **Ratification** of this amended package.
-2. **Explicit go.**
+**Execution order (D-063):**
 
-Until both: **no session, no screening, no live-repo harvesting, no identity
-pull.** The paper/code steps already completed — the **boundary-constant
-computations and the exact power table** (§3.7, `results/step3/`) and the
-**corpus count queries** (§2) — are neither sessions, screening, nor identity
-pulls. Any design-level ambiguity that surfaces before go goes to DECISIONS.md
+1. **Per-language validation samples (D-055):** ~10 rows per candidate language
+   — SWE-rebench Python + MultiLang go/cs/cpp/java/rust — container work, no
+   sessions; per-language usable-rate table reported; languages passing the
+   gate are admitted.
+2. **On admission:** fix the pool; execute the D-056 selection ordering; pull
+   identities; write the **Step-3 brief** (`results/step3/step3-brief.md`:
+   ordering, phase flip, seeds, admitted languages, skip trail as it accrues).
+3. **Sessions begin per the ratified design** — 15/week sizing (surplus to 30
+   logged, D-057), alternation per the recorded flip, D-058 stop protocol
+   standing. **Mandatory data-freeze checkpoint at every look (m = 4/8/12/16)
+   per §4.8.** Futility crossings **escalate to the supervisor per D-060 —
+   never an automatic stop**.
+
+Any design-level ambiguity that surfaces during execution goes to DECISIONS.md
 as a fresh OQ and waits — the single most important discipline here (HANDOFF
 standing rules).
