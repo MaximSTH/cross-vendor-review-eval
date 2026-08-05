@@ -219,8 +219,20 @@ PENDING. Sessions per the ratified design: 15/week sizing, surplus ≤30 logged
 checkpoint at every look (m = 4/8/12/16) per prereg §4.8; manifests will be
 committed under `results/step3/looks/`.
 
+## 4a. Position log (accrual)
+
+| pos | case | direction | outcome | sessions |
+|---:|---|---|---|---:|
+| 2 | pallets__click-3239 | anthropic | **authoring success** — 4/4 F2P pass, 740 parsed, no P2P regressions → not defective, no reviews | 1 |
+| 3 | tobymao__sqlglot-7187 | openai | **authoring success** — 1/1 F2P pass, 39 parsed → not defective, no reviews | 1 |
+
 ## 5. Skip trail
 
 Accrues from step 2 onward: every skipped/replaced/infeasible case with its
 D-049 classification, in order, so the realized pool is reconstructible against
 the declared ordering.
+
+| pos | case | reason | verdict source |
+|---:|---|---|---|
+| 1 | keras-team__keras-22316 | platform_infeasible(crash) — TF/AVX under emulation | step-1 validation (carries per D-066.1) |
+| 4 | keras-team__keras-22330 | platform_infeasible(crash) — same mode | step-1 validation (carries per D-066.1) |

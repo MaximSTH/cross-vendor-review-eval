@@ -1,0 +1,68 @@
+diff --git a/sqlglot/dialects/duckdb.py b/sqlglot/dialects/duckdb.py
+index 4edff0b6..d65c25be 100644
+--- a/sqlglot/dialects/duckdb.py
++++ b/sqlglot/dialects/duckdb.py
+@@ -1719,7 +1719,7 @@ class DuckDB(Dialect):
+         def _parse_lambda(self, alias: bool = False) -> t.Optional[exp.Expr]:
+             index = self._index
+             if not self._match_text_seq("LAMBDA"):
+-                return super()._parse_lambda(alias=alias)
++                return self._parse_respect_or_ignore_nulls(super()._parse_lambda(alias=alias))
+ 
+             expressions = self._parse_csv(self._parse_lambda_arg)
+             if not self._match(TokenType.COLON):
+@@ -3760,13 +3760,22 @@ class DuckDB(Dialect):
+ 
+             return super().unnest_sql(expression)
+ 
+-        def ignorenulls_sql(self, expression: exp.IgnoreNulls) -> str:
++        def _window_null_treatment_sql(
++            self, expression: exp.IgnoreNulls | exp.RespectNulls, null_treatment: str
++        ) -> t.Optional[str]:
+             this = expression.this
+ 
+             if isinstance(this, self.IGNORE_RESPECT_NULLS_WINDOW_FUNCTIONS):
+-                # DuckDB should render IGNORE NULLS only for the general-purpose
+-                # window functions that accept it e.g. FIRST_VALUE(... IGNORE NULLS) OVER (...)
+-                return super().ignorenulls_sql(expression)
++                function_sql = self.sql(this, comment=False)[:-1] + f" {null_treatment})"
++                return self.maybe_comment(function_sql, comments=this.comments)
++
++            return None
++
++        def ignorenulls_sql(self, expression: exp.IgnoreNulls) -> str:
++            this = expression.this
++            window_sql = self._window_null_treatment_sql(expression, "IGNORE NULLS")
++            if window_sql is not None:
++                return window_sql
+ 
+             if isinstance(this, exp.First):
+                 this = exp.AnyValue(this=this.this)
+@@ -3777,10 +3786,9 @@ class DuckDB(Dialect):
+             return self.sql(this)
+ 
+         def respectnulls_sql(self, expression: exp.RespectNulls) -> str:
+-            if isinstance(expression.this, self.IGNORE_RESPECT_NULLS_WINDOW_FUNCTIONS):
+-                # DuckDB should render RESPECT NULLS only for the general-purpose
+-                # window functions that accept it e.g. FIRST_VALUE(... RESPECT NULLS) OVER (...)
+-                return super().respectnulls_sql(expression)
++            window_sql = self._window_null_treatment_sql(expression, "RESPECT NULLS")
++            if window_sql is not None:
++                return window_sql
+ 
+             self.unsupported("RESPECT NULLS is not supported for non-window functions.")
+             return self.sql(expression, "this")
+diff --git a/tests/dialects/test_duckdb.py b/tests/dialects/test_duckdb.py
+index 365a7590..89d160e6 100644
+--- a/tests/dialects/test_duckdb.py
++++ b/tests/dialects/test_duckdb.py
+@@ -81,6 +81,9 @@ class TestDuckDB(Validator):
+                 "postgres": UnsupportedError,
+             },
+         )
++        self.validate_identity(
++            "SELECT LAST_VALUE(value ORDER BY idx IGNORE NULLS) OVER (ORDER BY idx ROWS BETWEEN UNBOUNDED PRECEDING AND 0 FOLLOWING) AS last_value"
++        )
+         self.validate_all(
+             "CAST(x AS UUID)",
+             write={

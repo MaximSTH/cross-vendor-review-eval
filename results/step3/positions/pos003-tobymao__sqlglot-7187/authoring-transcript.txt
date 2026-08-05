@@ -1,0 +1,12 @@
+Implemented and left uncommitted.
+
+- Updated DuckDB parsing to accept `ORDER BY … IGNORE/RESPECT NULLS`, matching [DuckDB’s documented grammar](https://duckdb.org/docs/current/sql/functions/window_functions.html).
+- Corrected generation so null treatment remains after the function-local ordering.
+- Added regression coverage for the reported window frame.
+
+Files changed:
+
+- [duckdb.py](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos003/authoring/sqlglot/dialects/duckdb.py:1719)
+- [test_duckdb.py](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos003/authoring/tests/dialects/test_duckdb.py:84)
+
+Validation: 301 focused and adjacent tests passed. The broader suite encountered five environment errors from missing `pytz`, `duckdb`, and a `python` executable alias. No commit was created.

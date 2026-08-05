@@ -1,0 +1,6 @@
+{
+ "task": "tox-dev__tox-3846",
+ "rule": "prereg 4.4 (D-035b)",
+ "removed": [],
+ "note": "pointer scan: [] \u2014 review below"
+}

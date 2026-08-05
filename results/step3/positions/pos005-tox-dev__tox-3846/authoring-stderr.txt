@@ -1,0 +1,288 @@
+2026-08-05T20:42:40.448847Z ERROR codex_models_manager::cache: failed to load models cache: missing field `supports_reasoning_summaries` at line 86 column 5
+OpenAI Codex v0.144.5
+--------
+workdir: /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos005/authoring
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019fd3a9-fe52-7080-9e4e-35bfa2a9addf
+--------
+user
+New-style versions with factor (3.14-tests) don't set the version
+## Issue
+
+As a first step to toml (yes, yes), I've started to use new-style version numbers (3.14) instead of old-school (py314) and it appears that they do not set the base version anymore.
+
+## Environment
+
+Happens macOS Tahoe, tox 4.47.0
+
+## Output of running tox
+
+You can see it happening in my svcs. It [does work in CI](https://github.com/hynek/svcs/actions/runs/22610666228/job/65512279513), because setup-python makes the respective Python version the main one. But locally, all environments run with the main Python version, in my case 3.14. For example:
+
+```
+uvx --with tox-uv tox -e 3.10-tests
+.pkg: _optional_hooks> python /Users/hynek/.cache/uv/archive-v0/4of8YRQ_SUZz60A1xTkm8/lib/python3.14/site-packages/pyproject_api/_backend.py True hatchling.build
+.pkg: get_requires_for_build_wheel> python /Users/hynek/.cache/uv/archive-v0/4of8YRQ_SUZz60A1xTkm8/lib/python3.14/site-packages/pyproject_api/_backend.py True hatchling.build
+.pkg: get_requires_for_build_editable> python /Users/hynek/.cache/uv/archive-v0/4of8YRQ_SUZz60A1xTkm8/lib/python3.14/site-packages/pyproject_api/_backend.py True hatchling.build
+.pkg: build_wheel> python /Users/hynek/.cache/uv/archive-v0/4of8YRQ_SUZz60A1xTkm8/lib/python3.14/site-packages/pyproject_api/_backend.py True hatchling.build
+3.10-tests: install_package> /Users/hynek/.cache/uv/archive-v0/4of8YRQ_SUZz60A1xTkm8/bin/uv pip install --reinstall --no-deps svcs@/Users/hynek/FOSS/svcs/.tox/.tmp/package/16/svcs-25.1.1.dev78-py3-none-any.whl
+3.10-tests: commands[0]> coverage run -m pytest
+=========================================================================================================================================== test session starts ===========================================================================================================================================
+platform darwin -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0
+                   =============
+```
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.
+codex
+I’ll trace how tox derives `base_python` from factor-style environment names, add a focused regression test for names like `3.10-tests`, then implement and run the narrowest relevant test suite. I’ll leave the working tree uncommitted.
+exec
+/bin/zsh -lc "pwd && rg --files -g 'AGENTS.md' -g '"'!**/.git/**'"' | sed -n '1,20p' && git status --short && rg -n \"base[_ -]?python|basepython|factor|env_name|envname\" src tests 2>/dev/null | sed -n '1,240p'" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos005/authoring
+ succeeded in 0ms:
+/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos005/authoring
+src/tox/session/env_select.py:14:from tox.config.loader.ini.factor import extend_factors
+src/tox/session/env_select.py:62:                value = list(extend_factors(raw)) or None
+src/tox/session/env_select.py:154:            "factors to evaluate (passing multiple factors means 'AND', passing this option multiple times means 'OR')"
+src/tox/session/env_select.py:158:            dest="factors",
+src/tox/session/env_select.py:159:            metavar="factor",
+src/tox/session/env_select.py:271:    def _combinable_factors(self) -> tuple[set[str], set[str], set[str]]:
+src/tox/session/env_select.py:274:        # factors that can be freely combined: from env_list entries and known env names themselves
+src/tox/session/env_select.py:278:        # section header env names are valid only as whole identifiers (not split into factors)
+src/tox/session/env_select.py:284:        # env names from factor conditionals: their individual factors are freely combinable
+src/tox/session/env_select.py:286:        # broader pool for suggestions includes factors from all known env names
+src/tox/session/env_select.py:287:        all_factors = set(chain.from_iterable(env.split("-") for env in known_envs))
+src/tox/session/env_select.py:288:        all_factors.update(combinable)
+src/tox/session/env_select.py:289:        return known_envs, combinable, all_factors
+src/tox/session/env_select.py:292:        known_envs, combinable, all_factors = self._combinable_factors()
+src/tox/session/env_select.py:297:            factors: dict[str, str | None] = dict.fromkeys(env.split("-"))
+src/tox/session/env_select.py:298:            found_factors: set[str] = set()
+src/tox/session/env_select.py:299:            for factor in factors:
+src/tox/session/env_select.py:301:                    _DYNAMIC_ENV_FACTORS.fullmatch(factor)
+src/tox/session/env_select.py:302:                    or _PY_PRE_RELEASE_FACTOR.fullmatch(factor)
+src/tox/session/env_select.py:303:                    or factor in combinable
+src/tox/session/env_select.py:305:                    found_factors.add(factor)
+src/tox/session/env_select.py:307:                    closest = get_close_matches(factor, all_factors, n=1)
+src/tox/session/env_select.py:309:                    factors[factor] = None if suggestion == factor else suggestion
+src/tox/session/env_select.py:310:            if set(factors) - found_factors:
+src/tox/session/env_select.py:313:                    if any(i is None for i in factors.values())
+src/tox/session/env_select.py:314:                    else "-".join(cast("Iterable[str]", factors.values()))
+src/tox/session/env_select.py:328:    def _env_name_to_active(self) -> dict[str, bool]:
+src/tox/session/env_select.py:329:        env_name_to_active_map = {}
+src/tox/session/env_select.py:332:                if name not in env_name_to_active_map:
+src/tox/session/env_select.py:333:                    env_name_to_active_map[name] = is_active
+src/tox/session/env_select.py:334:        # for factor/label selection update the active flag
+src/tox/session/env_select.py:336:            not (getattr(self._state.conf.options, "labels", []) or getattr(self._state.conf.options, "factors", []))
+src/tox/session/env_select.py:339:            and not any(env_name_to_active_map.values())
+src/tox/session/env_select.py:341:            env_name_to_active_map["py"] = True
+src/tox/session/env_select.py:342:        return env_name_to_active_map
+src/tox/session/env_select.py:359:            env_name_to_active = self._env_name_to_active()
+src/tox/session/env_select.py:360:            for name, is_active in env_name_to_active.items():
+src/tox/session/env_select.py:386:                        run_env.package_env = self._build_pkg_env(pkg_name_type, name, env_name_to_active)
+src/tox/session/env_select.py:415:            order = chain(env_name_to_active, (i for i in self._defined_envs_ if i not in env_name_to_active))
+src/tox/session/env_select.py:459:    def _build_pkg_env(self, name_type: tuple[str, str], run_env_name: str, active: dict[str, bool]) -> PackageToxEnv:
+src/tox/session/env_select.py:462:            if run_env_name == name:
+src/tox/session/env_select.py:463:                msg = f"{run_env_name} cannot self-package"
+src/tox/session/env_select.py:470:                run_env = cast("RunToxEnv", self._defined_envs_[run_env_name].env)
+src/tox/session/env_select.py:475:                        child_pkg_env = self._build_pkg_env(name_type, run_env_name, active)
+src/tox/session/env_select.py:482:                self._defined_envs_[run_env_name].package_skip = (name_type[0], exception)
+src/tox/session/env_select.py:505:    def _parse_factors(self) -> tuple[set[str], ...]:
+src/tox/session/env_select.py:506:        # factors is a list of lists, from the combination of nargs="+" and action="append"
+src/tox/session/env_select.py:507:        # also parse hyphenated factors into lists of factors
+src/tox/session/env_select.py:509:        raw_factors = getattr(self._state.conf.options, "factors", [])
+src/tox/session/env_select.py:510:        return tuple({f for factor in factor_list for f in factor.split("-")} for factor_list in raw_factors)
+src/tox/session/env_select.py:514:        factors = self._parse_factors()
+src/tox/session/env_select.py:517:        if labels or factors:
+src/tox/session/env_select.py:523:                    for env_name in self._state.conf.core["labels"].get(label, []):
+src/tox/session/env_select.py:524:                        self._defined_envs_[env_name].is_active = True
+src/tox/session/env_select.py:528:            if factors:  # if matches mark it active
+src/tox/session/env_select.py:530:                    for factor_set in factors:
+src/tox/session/env_select.py:531:                        if factor_set.issubset(set(name.split("-"))):
+src/tox/session/env_select.py:581:        envs, active = self._defined_envs, self._env_name_to_active()
+tests/session/test_env_select.py:20:    ("user_input", "env_names", "is_all", "is_default"),
+tests/session/test_env_select.py:27:        #   If the user gives "ALL" as any envname, this becomes an "is_all" and other envnames are ignored.
+tests/session/test_env_select.py:30:        #   Zero-length envnames are ignored as being not present. This is not intentional.
+tests/session/test_env_select.py:35:        #   Brace expansion produces the cartesian product of factors.
+tests/session/test_env_select.py:45:def test_clienv(user_input: str, env_names: tuple[str], is_all: bool, is_default: bool) -> None:
+tests/session/test_env_select.py:47:    assert (ce.is_all, ce.is_default_list, tuple(ce)) == (is_all, is_default, tuple(env_names))
+tests/session/test_env_select.py:166:def test_factor_select(
+tests/session/test_env_select.py:201:def test_factor_select_via_env_var(
+tests/session/test_env_select.py:244:    outcome = proj.run("c", "-e", "a", "-e", "b", "-k", "env_name")
+tests/session/test_env_select.py:267:@pytest.mark.parametrize("env_name", ["py", CURRENT_PY_ENV, ".pkg"])
+tests/session/test_env_select.py:268:def test_allowed_implicit_cli_envs(env_name: str, tox_project: ToxProjectCreator) -> None:
+tests/session/test_env_select.py:270:    outcome = proj.run("r", "-e", env_name)
+tests/session/test_env_select.py:272:    assert env_name in outcome.out
+tests/session/test_env_select.py:276:@pytest.mark.parametrize("env_name", ["a", "b", "a-b", "b-a"])
+tests/session/test_env_select.py:277:def test_matches_hyphenated_env(env_name: str, tox_project: ToxProjectCreator) -> None:
+tests/session/test_env_select.py:289:    outcome = proj.run("r", "-e", env_name)
+tests/session/test_env_select.py:291:    assert env_name in outcome.out
+tests/session/test_env_select.py:299:    "env_name",
+tests/session/test_env_select.py:310:def test_matches_combined_env(env_name: str, tox_project: ToxProjectCreator) -> None:
+tests/session/test_env_select.py:319:    outcome = proj.run("r", "-e", env_name)
+tests/session/test_env_select.py:321:    assert env_name in outcome.out
+tests/session/test_env_select.py:346:def test_dynamic_env_factors_match(env: str) -> None:
+tests/session/test_env_select.py:358:def test_dynamic_env_factors_not_match(env: str) -> None:
+tests/session/test_env_select.py:362:@pytest.mark.parametrize("env_name", ["functional-py312", "functional"])
+tests/session/test_env_select.py:363:def test_partial_section_match_rejected(env_name: str, tox_project: ToxProjectCreator) -> None:
+tests/session/test_env_select.py:366:    outcome = proj.run("r", "-e", env_name)
+tests/session/test_env_select.py:371:def test_factor_conditional_compound_accepted(tox_project: ToxProjectCreator) -> None:
+src/tox/session/cmd/schema.py:40:    env_name = next(state.envs.iter(only_active=False), "py")
+src/tox/session/cmd/schema.py:41:    env_properties = _get_schema(state.envs[env_name].conf, path="#/properties/env_run_base/properties")
+src/tox/session/cmd/schema.py:211:                                "description": "factor groups for cartesian product expansion",
+tests/session/cmd/test_show_config.py:70:    outcome = project.run("c", "-e", "py", "-k", "no_package", "env_name", "--core")
+tests/session/cmd/test_show_config.py:72:    outcome.assert_out_err("[testenv:py]\nenv_name = py\n\n[tox]\nno_package = False\n", "")
+tests/session/cmd/test_show_config.py:96:        base_python = missing-python
+tests/session/cmd/test_show_config.py:157:        base_python = py47
+tests/session/cmd/test_show_config.py:392:def test_factor_conditional_falls_back_to_default(tox_project: ToxProjectCreator) -> None:
+tests/session/cmd/test_show_config.py:399:    base_python =
+tests/session/cmd/test_show_config.py:402:    outcome = tox_project({"tox.ini": ini}).run("c", "-e", f"py{py_ver}-a,py{py_ver}-b", "-k", "base_python")
+tests/session/cmd/test_show_config.py:406:    assert parser.get(f"testenv:py{py_ver}-a", "base_python") == f"python{py_ver}"
+tests/session/cmd/test_show_config.py:407:    assert parser.get(f"testenv:py{py_ver}-b", "base_python") == f"py{py_ver}"
+tests/session/cmd/test_show_config.py:410:def test_cross_section_factor_conditional_resolves_to_empty(tox_project: ToxProjectCreator) -> None:
+tests/session/cmd/test_show_config.py:411:    """Cross-section substitution resolves to empty when no factors match.
+tests/session/cmd/test_show_config.py:413:    Regression test for gh-3809: {[section]key} where key contains factor-conditional values should resolve to empty
+tests/session/cmd/test_show_config.py:414:    string when no factors match, not remain unresolved.
+src/tox/session/cmd/run/common.py:256:            ToxEnvRunResult(name=env_name, skipped=False, code=0, outcomes=[], duration=MISS_DURATION, unavailable=True)
+src/tox/session/cmd/run/common.py:257:            for env_name in state.envs.unavailable_envs()
+src/tox/session/cmd/run/common.py:258:            if env_name not in name_to_run
+tests/session/cmd/test_parallel.py:68:    commands=python -c 'print("run {env_name}")'
+tests/session/cmd/test_parallel.py:72:    base_python = missing_skip
+tests/session/cmd/test_parallel.py:74:    commands=python -c 'import sys; print("run {env_name}"); sys.exit(1)'
+tests/session/cmd/test_parallel.py:109:    commands=python -c 'print("run {env_name}")'
+tests/session/cmd/test_parallel.py:120:    ini = "[testenv]\nparallel_show_output=True\ncommands=python -c 'print(\"r {env_name}\")'"
+tests/session/cmd/test_sequential.py:292:    ini = "[tox]\nskip_missing_interpreters=true\n[testenv]\npackage=skip\nbase_python=missing-interpreter"
+tests/session/cmd/test_sequential.py:302:    ini = "[tox]\nskip_missing_interpreters=false\n[testenv]\npackage=skip\nbase_python=missing-interpreter"
+tests/session/cmd/test_sequential.py:322:base_python = missing-interpreter
+tests/session/cmd/test_sequential.py:343:base_python = ["missing-interpreter"]
+tests/session/cmd/test_sequential.py:363:def test_env_name_change_recreate(tox_project: ToxProjectCreator) -> None:
+tests/session/cmd/test_sequential.py:514:def test_machine_factor_run_env(tox_project: ToxProjectCreator) -> None:
+tests/session/cmd/test_sequential.py:535:def test_machine_factor_unavailable(tox_project: ToxProjectCreator) -> None:
+tests/session/cmd/test_sequential.py:536:    ini = "[testenv]\npackage=skip\nbase_python=cpython3-64-fakearch999"
+src/tox/session/cmd/list_env.py:27:    has_group_select = bool(option.factors or option.labels)
+src/tox/report.py:189:        fmt = f"{_c(Style.BRIGHT)}{_c(Fore.MAGENTA)}%(env_name)s:{_c(Style.RESET_ALL)}" + fmt
+src/tox/report.py:194:        record.env_name = "root" if self._local.name is None else self._local.name
+tests/session/cmd/test_list_envs.py:19:    description = with {basepython}
+tests/session/cmd/test_list_envs.py:22:    basepython=py32,py31
+tests/type_check/add_config_container_factory.py:1:"""check that factory for a container works"""
+tests/type_check/add_config_container_factory.py:10:        def factory(container_name: object) -> str:
+tests/type_check/add_config_container_factory.py:18:            factory=factory,
+src/tox/provision.py:170:            msg = f"cannot provision tox environment {tox_env.conf['env_name']} because {exception}"
+src/tox/tox.schema.json:74:                "description": "factor groups for cartesian product expansion"
+src/tox/tox.schema.json:163:                  "description": "factor groups for cartesian product expansion"
+src/tox/tox.schema.json:180:    "ignore_base_python_conflict": {
+src/tox/tox.schema.json:182:      "description": "do not raise error if the environment name conflicts with base python"
+src/tox/tox.schema.json:184:    "ignore_basepython_conflict": {
+src/tox/tox.schema.json:185:      "$ref": "#/properties/ignore_base_python_conflict",
+src/tox/tox.schema.json:186:      "description": "Deprecated: use 'ignore_base_python_conflict' instead",
+src/tox/tox.schema.json:295:                    "description": "factor groups for cartesian product expansion"
+src/tox/tox.schema.json:495:        "default_base_python": {
+src/tox/tox.schema.json:507:          "description": "fallback python interpreter used when no factor or explicit base_python is defined"
+src/tox/tox.schema.json:509:        "base_python": {
+src/tox/tox.schema.json:523:        "basepython": {
+src/tox/tox.schema.json:524:          "$ref": "#/properties/env_run_base/properties/base_python",
+src/tox/tox.schema.json:525:          "description": "Deprecated: use 'base_python' instead",
+tests/plugin/test_inline.py:50:        env_name = "sentinel-env-name"
+tests/plugin/test_inline.py:54:            return (env_name,)
+tests/plugin/test_inline.py:63:            state.conf.memory_seed_loaders[env_name].append(
+src/tox/pytest.py:484:def pypi_server(tmp_path_factory: pytest.TempPathFactory) -> Iterator[IndexServer]:
+src/tox/pytest.py:486:    path = tmp_path_factory.mktemp("pypi")
+src/tox/config/sets.py:28:    def __init__(self, conf: Config, section: Section, env_name: str | None) -> None:
+src/tox/config/sets.py:30:        self._env_name = env_name
+src/tox/config/sets.py:60:        factory: Factory[Any] | None = None,
+src/tox/config/sets.py:71:        factory: Factory[Any] | None = None,
+src/tox/config/sets.py:81:        factory: Factory[Any] | None = None,
+src/tox/config/sets.py:90:        :param factory: factory method used to build contained objects (if ``of_type`` is a container type it should
+src/tox/config/sets.py:100:        definition = ConfigDynamicDefinition(keys_, desc, of_type, default, post_process, factory)
+src/tox/config/sets.py:162:        return config_definition.__call__(self._conf, self.loaders, ConfigLoadArgs(chain, self.name, self.env_name))  # noqa: PLC2801
+src/tox/config/sets.py:207:    def env_name(self) -> str | None:
+src/tox/config/sets.py:208:        return self._env_name
+src/tox/config/sets.py:217:        super().__init__(conf, section=section, env_name=None)
+src/tox/config/sets.py:221:    def _default_work_dir(self, conf: Config, env_name: str | None) -> Path:  # noqa: ARG002
+src/tox/config/sets.py:224:    def _default_temp_dir(self, conf: Config, env_name: str | None) -> Path:  # noqa: ARG002
+src/tox/config/sets.py:261:    def __init__(self, conf: Config, section: Section, env_name: str) -> None:
+src/tox/config/sets.py:262:        super().__init__(conf, section, env_name)
+src/tox/config/sets.py:271:        def set_env_factory(raw: object) -> SetEnv:
+src/tox/config/sets.py:294:            return SetEnv(cast("SetEnvRaw", raw), self.name, self.env_name, root)
+src/tox/config/sets.py:300:            factory=set_env_factory,
+src/tox/config/sets.py:301:            default=SetEnv("", self.name, self.env_name, root),
+src/tox/config/sets.py:307:        return f"{self.__class__.__name__}(name={self._env_name!r}, loaders={self.loaders!r})"
+tests/plugin/test_plugin_custom_config_set.py:29:        def factory(for_env: str, raw: object) -> DockerConfigSet:
+tests/plugin/test_plugin_custom_config_set.py:39:            factory=partial(factory, env_conf.name),
+tests/plugin/test_plugin_custom_config_set.py:46:        logging.warning("Name=%s env=%s A=%d", docker.name, docker.env_name, docker["A"])
+tests/plugin/test_plugin_custom_config_set.py:86:def test_define_custom_config_factor_filter(tox_project: ToxProjectCreator) -> None:
+tests/test_provision.py:43:    tmp_path_factory: TempPathFactory,
+tests/test_provision.py:48:        return _make_tox_wheel(tmp_path_factory, pkg_builder)  # pragma: no cover
+tests/test_provision.py:50:    root_tmp_dir = tmp_path_factory.getbasetemp().parent
+tests/test_provision.py:56:            data = _make_tox_wheel(tmp_path_factory, pkg_builder)
+tests/test_provision.py:62:    tmp_path_factory: TempPathFactory,
+tests/test_provision.py:66:        into = tmp_path_factory.mktemp("dist")  # pragma: no cover
+tests/test_provision.py:81:def tox_wheels(tox_wheel: Path, tmp_path_factory: TempPathFactory) -> list[Path]:
+tests/test_provision.py:84:        info = tmp_path_factory.mktemp("info")
+tests/test_provision.py:364:    tmp_path_factory: TempPathFactory,
+tests/test_provision.py:368:    example = tmp_path_factory.mktemp("example")
+tests/conftest.py:90:        def get_python(self: VirtualEnv, base_python: list[str]) -> PythonInfo | None:  # noqa: ARG001
+tests/conftest.py:91:            if base_python[0] == "py31" or (base_python[0] == prev_py and not has_prev):
+tests/conftest.py:94:            if base_python[0] == prev_py:
+tests/conftest.py:115:def _do_not_share_virtualenv_for_parallel_runs(tmp_path_factory: pytest.TempPathFactory, worker_id: str) -> None:
+tests/conftest.py:118:        temp_app_data = str(tmp_path_factory.mktemp(f"virtualenv-app-{worker_id}"))  # pragma: no cover
+tests/conftest.py:120:        seed_env_folder = str(tmp_path_factory.mktemp(f"seed-cache-{worker_id}"))  # pragma: no cover
+tests/conftest.py:126:def fake_exe_on_path(tmp_path_factory: pytest.TempPathFactory) -> Iterator[Path]:
+tests/conftest.py:127:    tmp_path = Path(tmp_path_factory.mktemp("a"))
+tests/conftest.py:138:def demo_pkg_inline_wheel(tmp_path_factory: pytest.TempPathFactory, demo_pkg_inline: Path) -> Path:
+tests/conftest.py:139:    return build_pkg(tmp_path_factory.mktemp("dist"), demo_pkg_inline, ["wheel"])
+tests/plugin/test_plugin.py:199:    assert "raise TypeError(_factory_type_error" in result.out
+src/tox/config/of_type.py:86:        factory: Factory[T] | None = None,
+src/tox/config/of_type.py:92:        self.factory = factory
+src/tox/config/of_type.py:113:                    value = loader.load(primary_key, self.of_type, self.factory, conf, args, all_keys=alias_keys)
+src/tox/config/of_type.py:121:                value = self.default(conf, args.env_name) if callable(self.default) else self.default  # ty: ignore[call-top-callable]
+src/tox/plugin/manager.py:98:        additional_env_names_hook_value = self.manager.hook.tox_extend_envs()
+src/tox/plugin/manager.py:100:        assert isinstance(additional_env_names_hook_value, list)  # noqa: S101
+src/tox/plugin/manager.py:101:        return additional_env_names_hook_value
+tests/config/test_main.py:171:        factory=partial(PythonDeps.factory, tmp_path),
+tests/config/test_main.py:188:        factory=partial(PythonDeps.factory, tmp_path),
+tests/config/test_main.py:203:        factory=partial(PythonDeps.factory, tmp_path),
+tests/config/cli/test_cli_env_var.py:72:        "factors": [],
+tests/config/cli/test_cli_env_var.py:136:        "factors": [],
+src/tox/config/loader/replacer.py:234:        #     NOTE: can't raise because the content may be a factorial expression where we don't
+src/tox/config/loader/replacer.py:247:    if conf_args.env_name is not None:  # pragma: no branch
+src/tox/config/loader/replacer.py:248:        env_conf = conf.get_env(conf_args.env_name)
+src/tox/config/loader/replacer.py:268:    if conf is not None and conf_args.env_name is not None:  # on core no set env support # pragma: no branch
+src/tox/config/loader/replacer.py:271:            env_conf = conf.get_env(conf_args.env_name)
+tests/config/loader/test_memory_loader.py:23:    loaded = loader.load("a", of_type=int, conf=None, factory=None, args=args)
+tests/config/loader/test_memory_loader.py:63:    loaded = loader.load("a", of_type=of_type, conf=None, factory=None, args=args)
+tests/config/loader/test_memory_loader.py:84:        loader.load("a", of_type=of_type, conf=None, factory=None, args=args)
+tests/tox_env/python/test_python_api.py:41:def test_conflicting_base_python_factor() -> None:
+tests/tox_env/python/test_python_api.py:44:    with pytest.raises(ValueError, match=f"conflicting factors py{major}{minor}, py{major}{minor - 1} in {name}"):
+tests/tox_env/python/test_python_api.py:45:        Python.extract_base_python(name)
+tests/tox_env/python/test_python_api.py:92:    ("env", "base_python"),
+tests/tox_env/python/test_python_api.py:148:def test_extract_base_python(env: str, base_python: str | None) -> None:
+tests/tox_env/python/test_python_api.py:149:    result = Python.extract_base_python(env)
+tests/tox_env/python/test_python_api.py:150:    assert result == base_python
+tests/tox_env/python/test_python_api.py:155:    ("env", "base_python"),
+tests/tox_env/python/test_python_api.py:162:def test_base_python_env_no_conflict(env: str, base_python: list[str], ignore_conflict: bool) -> None:
+tests/tox_env/python/test_python_api.py:163:    result = Python._validate_base_python(env, base_python, ignore_conflict)  # noqa: SLF001
+tests/tox_env/python/test_python_api.py:164:    assert result is base_python
+tests/tox_env/python/test_python_api.py:169:    ("env", "base_python", "expected", "conflict"),
+tests/tox_env/python/test_python_api.py:183:def test_base_python_env_conflict(
+tests/tox_env/python/test_python_api.py:185:    base_python: list[str],
+tests/tox_env/python/test_python_api.py:191:        result = Python._validate_base_python(env, base_python, ignore_conflict)  # noqa: SLF001
+tests/tox_env/python/test_python_api.py:194:        msg = f"env name {env} conflicting with base python {conflict[0]}"
+tests/tox_env/python/test_python_api.py:196:            Python._validate_base_python(env, base_python, ignore_conflict)  # noqa: SLF001
+tests/tox_env/python/test_python_api.py:200:def test_base_python_env_conflict_show_conf(tox_project: ToxProjectCreator, ignore_conflict: bool) -> None:
+tests/tox_env/python/test_python_api.py:203:    ini = f"[testenv]\npackage=skip\nbase_python=py{py_ver_next}"
+tests/tox_env/python/test_python_api.py:205:        ini += f"\n[tox]\nignore_base_python_conflict={ignore_conflict}"
+tests/tox_env/python/test_python_api.py:207:    result = project.run("c", "-e", f"py{py_ver}", "-k", "base_python", raise_on_config_fail=False)
+tests/tox_env/python/test_python_api.py:213:        out = f"[testenv:py{py_ver}]\nbase_python = py{py_ver}\n"
+tests/tox_env/python/test_python_api.py:217:            f"[testenv:py{py_ver}]\nbase_python = # Exception: Fail('env name py{py_ver} conflicting with"
+tests/tox_env/python/test_python_api.py:218:            f" base python py{py_ver_next}'{',' if comma_in_exc else ''})\n"
+tests/tox_env/python/test_python_api.py:343:def test_usedevelop_with_nonexistent_basepython(tox_project: ToxProjectCreator) -> None:
+tests/tox_env/python/test_python_api.py:344:    ini = "[testenv]\nusedevelop = true\n[testenv:unused]\nbasepython = /nonexistent/bin/python"
+tests/tox_env/python/test_python_api.py:350:def test_default_base_python_used_when_no_factor(tox_project: ToxProjectCreator) -> None:
+tests/tox_env/python/test_python_api.py:357:default_base_python = ["python{py_ver}"]
+tests/tox_env/python/test_python_api.py:360:    result = tox_project({"tox.toml": toml}).run("c", "-e", "lint", "-k", "base_python")
+tests/tox_env/python/test_python_api.py:365:def test_default_base_python_ignored_when_factor_present(tox_project: ToxProjectCreator) -> None:
+
