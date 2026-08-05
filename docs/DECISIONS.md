@@ -2211,6 +2211,38 @@ preceding execution **is the pre-registration's proof**.
 **Status: RATIFIED + GO. Execution in progress; the execution record lives in
 `results/step3/step3-brief.md`.**
 
+## D-064 · 2026-08-05 · Interim validation rulings: two cpp rows adjudicated eval_harness_failure; envoy-gateway classification held for one rerun under a fixed capture window
+
+**Ruled (supervisor), on the step-1 validation screen's flagged rows (brief §2;
+evidence committed under `results/step3/validation/`):**
+
+1. **`cpp:microsoft__DirectXShaderCompiler-8286` and `cpp:esphome__esphome-15060`
+   are adjudicated `eval_harness_failure` (feed-side; D-049 category).**
+   Reproduction evidence, both reproduced across two independent passes:
+   DirectXShaderCompiler's suite **demonstrably runs** (lit summary in the
+   captured build log: 4470 expected passes / 17 unexpected failures,
+   `DirectXShaderCompiler-8286.stderr.txt`) while the record's canonical
+   print/parse path emits nothing (`.raw.txt` empty, parser returns no tests —
+   passes 2 and 3, walls 627s/574s); esphome-15060 dies at pytest **collection**
+   on an import of the repo's own module (`components/light/__init__.py`),
+   passes 2 and 3 (115s/96s). Machine verdicts stay ERROR in `screen.json`
+   (the runner is not edited to special-case rows); this adjudication overlays
+   them for the usable-rate table: both rows count **non-usable, feed-defect**.
+2. **`go:envoyproxy__gateway-8521` is NOT yet classified.** The two committed
+   Go-runtime stack dumps (pass 2: GC worker, `runtime/mgc.go`; pass 3:
+   `cmd/go` package loading) are crash-consistent, but the build-log capture
+   window (tail-only, 3000 chars) truncated the `fatal error:` header both
+   times. **Ruled: fix the capture first** — the runner now emits build-log
+   **head (4 KB) + tail (8 KB)** — then classify from **one rerun under the
+   fixed capture**, not from a truncated log.
+3. **Checkpoint composition ruled:** when pass 3 lands, one checkpoint delivers
+   the final per-language table, the D-055 admission proposal, and the §2.5
+   supply picture — with the own-harvest evidence table if the numbers warrant
+   it.
+
+**Status: adjudications 1 logged and applied to the table; 2 pending one
+rerun; 3 pending pass-3 completion.**
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)

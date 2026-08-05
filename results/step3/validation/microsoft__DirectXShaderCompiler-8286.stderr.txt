@@ -23,7 +23,7 @@ PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/ValueMapperTest.MapMetadataUnreso
 PASS: LLVM-Unit :: ADT/ADTTests/TripleTest.Normalization (4531 of 4531)
 
 2 warning(s) in tests.
-Testing Time: 542.40s
+Testing Time: 544.19s
 ********************
 Failing Tests (17):
     Clang :: CodeGenDXIL/hlsl/linalg/builtins/matrixaccumulatetodescriptor/nominal.hlsl

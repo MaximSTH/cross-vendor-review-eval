@@ -37,5 +37,5 @@ E   ImportError: cannot import name 'generate_gamma_table' from 'esphome.compone
 =========================== short test summary info ============================
 ERROR tests/unit_tests/components/light/test_gamma_table.py
 !!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-============================== 1 error in 27.28s ===============================
+============================== 1 error in 28.72s ===============================
 Activated virtual environment: /testbed/venv

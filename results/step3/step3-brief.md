@@ -89,12 +89,16 @@ failures**, void. Fixed by removing the stuck images (~93 GB reclaimed; no
 sweb containers were running — D-058 orphan check clean). Also added: a
 narrow Go-runtime-fatal signature (`fatal error:` + `runtime/mgc.go`, only
 with zero parsed tests) classifies as platform_infeasible(crash) — the
-envoy-gateway go row is a Go GC-worker crash under emulation. Two rows are
-flagged for **human adjudication as candidate D-049 `eval_harness_failure`**
+envoy-gateway go row is a Go GC-worker crash under emulation. Two rows were
+flagged for human adjudication as candidate D-049 `eval_harness_failure`
 (feed-side, not our harness): cpp DirectXShaderCompiler (its suite ran —
 4470 passes visible in the build log — but the record's canonical print/parse
 path yields nothing) and cpp esphome-15060 (pytest dies at collection on the
-repo's own module).
+repo's own module). **ADJUDICATED (D-064.1, 2026-08-05): both are
+`eval_harness_failure` — reproduced on passes 2 and 3; they count non-usable
+(feed defect) in the table; machine verdicts in `screen.json` stay ERROR with
+this adjudication as the overlay.** envoy-gateway's classification is held
+pending one rerun under the D-064.2 capture fix (build-log head+tail).
 
 **Harness fixes logged mid-screen (2026-07-29, first pass; incoherence
 discipline).** The first pass surfaced two rig/harness issues, fixed in

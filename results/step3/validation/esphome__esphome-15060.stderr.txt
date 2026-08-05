@@ -1,14 +1,14 @@
 ing under QEMU)
 Using Python 3.12.3 environment at: venv
-Checked 2 packages in 291ms
+Checked 2 packages in 311ms
 <jemalloc>: MADV_DONTNEED does not work (memset will be used instead)
 <jemalloc>: (This is the expected behaviour if you are running under QEMU)
 Using Python 3.12.3 environment at: venv
-Resolved 113 packages in 14.75s
+Resolved 113 packages in 15.15s
    Building esphome @ file:///testbed
       Built esphome @ file:///testbed
-Prepared 1 package in 7.92s
-Uninstalled 1 package in 4ms
+Prepared 1 package in 8.72s
+Uninstalled 1 package in 5ms
 Installed 1 package in 2ms
  ~ esphome==2026.4.0.dev0 (from file:///testbed)
 pre-commit installed at .git/hooks/pre-commit
@@ -54,5 +54,5 @@ E   ImportError: cannot import name 'generate_gamma_table' from 'esphome.compone
 =========================== short test summary info ============================
 ERROR tests/unit_tests/components/light/test_gamma_table.py
 !!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-============================== 1 error in 27.28s ===============================
+============================== 1 error in 28.72s ===============================
 Activated virtual environment: /testbed/venv

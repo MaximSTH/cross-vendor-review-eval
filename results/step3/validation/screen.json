@@ -197,7 +197,7 @@
       "n": 3068,
       "not_pass_at_base": 0
     },
-    "wall_s": 561
+    "wall_s": 94
   },
   "go:kubernetes-sigs__kueue-9866": {
     "verdict": "FAIL",
@@ -230,19 +230,19 @@
     "wall_s": 119
   },
   "go:oauth2-proxy__oauth2-proxy-3374": {
-    "verdict": "ERROR",
-    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
-    "parsed_tests": 0,
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 764,
     "F2P": {
       "n": 1,
       "PASS_at_base": 0,
-      "not_reported": 1
+      "not_reported": 0
     },
     "P2P": {
       "n": 763,
       "not_pass_at_base": 0
     },
-    "wall_s": 161
+    "wall_s": 274
   },
   "go:magefile__mage-544": {
     "verdict": "FAIL",
@@ -462,7 +462,7 @@
       "n": 0,
       "not_pass_at_base": 0
     },
-    "wall_s": 627
+    "wall_s": 574
   },
   "cpp:esphome__esphome-15048": {
     "verdict": "INFEASIBLE",
@@ -497,7 +497,7 @@
       "n": 0,
       "not_pass_at_base": 0
     },
-    "wall_s": 115
+    "wall_s": 96
   },
   "cpp:ninja-build__ninja-2749": {
     "verdict": "PASS",

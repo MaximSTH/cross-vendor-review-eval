@@ -1,0 +1,1 @@
+github.com/oauth2-proxy/oauth2-proxy/v7: /usr/local/go/pkg/tool/linux_amd64/link: signal: segmentation fault (core dumped)

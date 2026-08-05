@@ -141,7 +141,11 @@ def run_row(lang, iid, results):
             *lst(r.get("test_cmds")),
             "exec 1>&3 2>&4",
             *lst(r.get("print_cmds")),
-            "tail -c 3000 /tmp/screen-build.log 1>&2",
+            # head+tail so crash HEADERS (fatal error:/panic:) land in the
+            # window, not just the stack tail (D-064.2 capture fix)
+            "head -c 4000 /tmp/screen-build.log 1>&2",
+            "echo '...[build-log truncated]...' 1>&2",
+            "tail -c 8000 /tmp/screen-build.log 1>&2",
         ])
         ns = {}
         exec(r["log_parser"], ns)
