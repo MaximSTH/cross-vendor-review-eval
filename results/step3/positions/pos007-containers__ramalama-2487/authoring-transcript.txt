@@ -1,0 +1,16 @@
+Implemented and left uncommitted.
+
+Changes:
+
+- Loads all `.yaml`, `.yml`, and `.json` CDI files across configured directories.
+- Uses deterministic alphabetical traversal while preserving directory precedence.
+- Merges devices and keeps the first device encountered for duplicate names.
+- Added regression tests covering multi-directory merging, later-file `all`, and duplicate handling.
+
+Validation:
+
+- CDI-focused tests: 15 passed.
+- Remaining `test_common` tests: 43 passed; 10 unrelated tests require writing outside the sandbox.
+- Python compilation and `git diff --check` passed.
+
+Modified: [common.py](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos007/authoring/ramalama/common.py:314) and [test_common.py](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos007/authoring/test/unit/test_common.py:379).

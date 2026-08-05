@@ -1,0 +1,34 @@
+{
+ "oracle_files_reset": [
+  "test/unit/test_common.py"
+ ],
+ "apply_rcs": [
+  "AUTHORED_RC=0",
+  "TESTPATCH_RC=0"
+ ],
+ "authored_applied": true,
+ "testpatch_applied": true,
+ "parsed": 52,
+ "f2p": {
+  "test/unit/test_common.py::test_load_cdi_config_merges_multiple_files": "fail"
+ },
+ "f2p_pass": 0,
+ "f2p_fail": 1,
+ "f2p_missing": 0,
+ "p2p_regressions": [
+  "test/unit/test_common.py::test_load_cdi_config[YAML-all]",
+  "test/unit/test_common.py::test_load_cdi_config[YAML-0-UUID-all]",
+  "test/unit/test_common.py::test_load_cdi_config[JSON-all]",
+  "test/unit/test_common.py::test_load_cdi_config[JSON-0-UUID-all]",
+  "test/unit/test_common.py::test_find_in_cdi[visible0-conf0-unconf0]",
+  "test/unit/test_common.py::test_find_in_cdi[visible1-conf1-unconf1]",
+  "test/unit/test_common.py::test_find_in_cdi[visible2-conf2-unconf2]",
+  "test/unit/test_common.py::test_find_in_cdi[visible3-conf3-unconf3]",
+  "test/unit/test_common.py::test_find_in_cdi[visible4-conf4-unconf4]",
+  "test/unit/test_common.py::test_find_in_cdi_broken[visible0-conf0-unconf0]",
+  "test/unit/test_common.py::test_find_in_cdi_broken[visible1-conf1-unconf1]",
+  "test/unit/test_common.py::test_find_in_cdi_broken[visible2-conf2-unconf2]"
+ ],
+ "resolved": false,
+ "verdict": "CONFIRMED DEFECTIVE"
+}

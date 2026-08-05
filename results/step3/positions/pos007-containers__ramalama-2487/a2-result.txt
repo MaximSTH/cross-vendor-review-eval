@@ -1,0 +1,23 @@
+The CDI model uses `kind` to disambiguate vendors and rejects conflicting qualified devices. [CDI specification](https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md), [reference cache](https://github.com/cncf-tags/container-device-interface/blob/main/pkg/cdi/cache.go).
+
+```json
+{
+  "claims": [
+    {
+      "file": "ramalama/common.py",
+      "line": 345,
+      "description": "Collecting every file's devices while discarding its top-level kind lets an unrelated CDI entry such as amd.com/gpu=all satisfy the NVIDIA check, causing CUDA selection before Podman fails to resolve nvidia.com/gpu=all."
+    },
+    {
+      "file": "ramalama/common.py",
+      "line": 348,
+      "description": "Choosing the alphabetically first duplicate disagrees with CDI conflict handling, so duplicate definitions of the same qualified device within one directory are reported as configured even though the runtime removes the conflicting device."
+    },
+    {
+      "file": "ramalama/common.py",
+      "line": 349,
+      "description": "Devices are appended before the entire file is processed, so a malformed later entry leaves earlier entries active and can make find_in_cdi accept a CDI specification that the runtime rejects."
+    }
+  ]
+}
+```

@@ -1,0 +1,126 @@
+diff --git a/ramalama/common.py b/ramalama/common.py
+index 70581dbe..44bfa856 100644
+--- a/ramalama/common.py
++++ b/ramalama/common.py
+@@ -312,29 +312,46 @@ class CDI_RETURN_TYPE(TypedDict):
+ 
+ 
+ def load_cdi_config(spec_dirs: list[str]) -> CDI_RETURN_TYPE | None:
+-    # Loads the first YAML or JSON CDI configuration file found in the
+-    # given directories."""
++    # Load and merge devices from all YAML and JSON CDI configuration files.
++    # The directory order supplied by the caller takes precedence, followed by
++    # alphabetical traversal within each directory.
++    devices: list[CDI_DEVICE] = []
++    device_names: set[str] = set()
+ 
+     for spec_dir in spec_dirs:
+-        for root, _, files in os.walk(spec_dir):
+-            for file in files:
++        for root, dirs, files in os.walk(spec_dir):
++            dirs.sort()
++            for file in sorted(files):
+                 _, ext = os.path.splitext(file)
+                 file_path = os.path.join(root, file)
+                 if ext in [".yaml", ".yml"]:
+                     try:
+                         with open(file_path, "r") as stream:
+-                            return yaml.safe_load(stream)
++                            cdi = yaml.safe_load(stream)
+                     except (OSError, yaml.YAMLError) as e:
+                         logger.warning(f"Failed to load YAML file {file_path}: {e}")
+                         continue
+                 elif ext == ".json":
+                     try:
+                         with open(file_path, "r") as stream:
+-                            return json.load(stream)
++                            cdi = json.load(stream)
+                     except (OSError, json.JSONDecodeError, UnicodeDecodeError) as e:
+                         logger.warning(f"Failed to load JSON file {file_path}: {e}")
+                         continue
+-    return None
++                else:
++                    continue
++
++                try:
++                    cdi_devices = cdi.get("devices", [])
++                    for device in cdi_devices:
++                        name = device["name"]
++                        if name not in device_names:
++                            devices.append(device)
++                            device_names.add(name)
++                except (AttributeError, KeyError, TypeError) as e:
++                    logger.warning(f"Unable to process CDI configuration {file_path}: {e}")
++
++    return {"devices": devices} if devices else None
+ 
+ 
+ def get_podman_machine_cdi_config() -> CDI_RETURN_TYPE | None:
+diff --git a/test/unit/test_common.py b/test/unit/test_common.py
+index 1a867c5b..2268a33b 100644
+--- a/test/unit/test_common.py
++++ b/test/unit/test_common.py
+@@ -366,7 +366,7 @@ CDI_JSON_2 = '''
+     ],
+ )
+ def test_load_cdi_config(filename, source, expected):
+-    with patch("os.walk", return_value=(("/etc/cdi", None, (filename,)),)):
++    with patch("os.walk", return_value=(("/etc/cdi", [], (filename,)),)):
+         with patch("builtins.open", mock_open(read_data=source)):
+             cdi = load_cdi_config(["/var/run/cdi", "/etc/cdi"])
+             assert cdi
+@@ -376,6 +376,36 @@ def test_load_cdi_config(filename, source, expected):
+             assert set(expected) == set(names)
+ 
+ 
++def test_load_cdi_config_merges_all_files_and_directories(tmp_path):
++    run_dir = tmp_path / "run"
++    etc_dir = tmp_path / "etc"
++    run_dir.mkdir()
++    etc_dir.mkdir()
++    (run_dir / "k8s.json").write_text('{"devices": [{"name": "GPU-123"}]}')
++    (run_dir / "management.yaml").write_text("devices:\n- name: managed\n")
++    (etc_dir / "nvidia.yml").write_text("devices:\n- name: all\n")
++
++    cdi = load_cdi_config([str(run_dir), str(etc_dir)])
++
++    assert cdi is not None
++    assert [device["name"] for device in cdi["devices"]] == ["GPU-123", "managed", "all"]
++
++
++def test_load_cdi_config_keeps_first_duplicate_in_deterministic_order(tmp_path):
++    first_dir = tmp_path / "first"
++    second_dir = tmp_path / "second"
++    first_dir.mkdir()
++    second_dir.mkdir()
++    (first_dir / "z-last.yaml").write_text("devices:\n- name: duplicate\n  source: z-last\n")
++    (first_dir / "a-first.yaml").write_text("devices:\n- name: duplicate\n  source: a-first\n")
++    (second_dir / "a-other.yaml").write_text("devices:\n- name: duplicate\n  source: second-directory\n")
++
++    cdi = load_cdi_config([str(first_dir), str(second_dir)])
++
++    assert cdi is not None
++    assert cdi["devices"] == [{"name": "duplicate", "source": "a-first"}]
++
++
+ @pytest.mark.parametrize(
+     "visible,conf,unconf",
+     [
+@@ -387,7 +417,7 @@ def test_load_cdi_config(filename, source, expected):
+     ],
+ )
+ @patch("builtins.open", mock_open(read_data=CDI_YAML_2))
+-@patch("os.walk", return_value=(("/etc/cdi", None, ("nvidia.yaml",)),))
++@patch("os.walk", return_value=(("/etc/cdi", [], ("nvidia.yaml",)),))
+ def test_find_in_cdi(mock_walk, visible, conf, unconf):
+     assert find_in_cdi(visible) == (conf, unconf)
+ 
+@@ -401,7 +431,7 @@ def test_find_in_cdi(mock_walk, visible, conf, unconf):
+     ],
+ )
+ @patch("builtins.open", mock_open(read_data="asdf\n- ghjk\n"))
+-@patch("os.walk", return_value=(("/etc/cdi", None, ("nvidia.yaml",)),))
++@patch("os.walk", return_value=(("/etc/cdi", [], ("nvidia.yaml",)),))
+ def test_find_in_cdi_broken(mock_walk, visible, conf, unconf):
+     assert find_in_cdi(visible) == (conf, unconf)
+ 

@@ -1,0 +1,11 @@
+```json
+{
+  "claims": [
+    {
+      "file": "ramalama/common.py",
+      "line": 331,
+      "description": "YAML loading does not catch UnicodeDecodeError, so a later non-UTF-8 .yaml/.yml file can abort detection even after valid CDI devices were loaded, instead of being skipped like an unreadable JSON file."
+    }
+  ]
+}
+```

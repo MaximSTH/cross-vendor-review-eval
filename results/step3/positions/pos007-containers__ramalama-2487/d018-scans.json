@@ -1,0 +1,27 @@
+{
+ "a1": {
+  "classification": "ambiguous",
+  "evidence": [
+   "\\bpytest\\b"
+  ],
+  "transcript_bytes": 30169,
+  "source": "results/step3/positions/pos007-containers__ramalama-2487/a1-stderr.txt"
+ },
+ "a2": {
+  "classification": "ambiguous",
+  "evidence": [
+   "\\bpytest\\b",
+   "\\btox\\b"
+  ],
+  "transcript_bytes": 80807,
+  "source": "results/step3/positions/pos007-containers__ramalama-2487/a2-stderr.txt"
+ },
+ "b": {
+  "classification": "clean",
+  "evidence": [
+   "quotation:source-literal"
+  ],
+  "transcript_bytes": 164009,
+  "source": "/Users/maximst-hilaire/.claude/projects/-private-tmp-claude-501--Users-maximst-hilaire-Projects-cross-vendor-review-eval-53b4a7e3-7561-49a7-b878-c5384e98d6df-scratchpad-step3-pos007-b/e5028bba-a5c1-4836-ba1f-cad02bf85b72.jsonl"
+ }
+}

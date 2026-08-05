@@ -1,0 +1,85 @@
+D-018/D-025 ADJUDICATION EXCERPTS — pos007 A1/A2 (codex event streams)
+Blind to claims: hit lines ±2 context only. Question per D-025: is each
+occurrence an EXECUTION of the test suite, or read/quoted content?
+
+=== A1 ===
+    174: +
+    175: +
+    176:  @pytest.mark.parametrize(
+    177:      "visible,conf,unconf",
+    178:      [
+  -----
+    282:             id="JSON-all",
+    283:         ),
+    284:         pytest.param(
+    285:             "nvidia.json",
+    286:             CDI_JSON_2,
+  -----
+    335: 
+    336: 
+    337: @pytest.mark.parametrize(
+    338:     "visible,conf,unconf",
+    339:     [
+  -----
+    351: 
+    352: 
+    353: @pytest.mark.parametrize(
+    354:     "visible,conf,unconf",
+    355:     [
+  -----
+    373:     """Test the populate_volume_from_image function for Docker volume creation"""
+    374: 
+    375:     @pytest.fixture
+    376:     def mock_model(self):
+    377:         """Create a mock model with required attributes"""
+  -----
+
+=== A2 ===
+    188: +
+    189: +
+    190:  @pytest.mark.parametrize(
+    191:      "visible,conf,unconf",
+    192:      [
+  -----
+    477: from unittest.mock import MagicMock, Mock, mock_open, patch
+    478: 
+    479: import pytest
+    480: 
+    481: from ramalama.cli import configure_subcommands, create_argument_parser, default_image, default_rag_image
+  -----
+    494: 
+    495: 
+    496: @pytest.mark.parametrize(
+    497:     "input,rm_until,expected",
+    498:     [
+  -----
+    535: 
+    536: 
+    537: @pytest.mark.parametrize(
+    538:     "input_file_name,content,expected_error,expected_result",
+    539:     [
+  -----
+    564:             return
+    565: 
+    566:         with pytest.raises(expected_error):
+    567:             verify_checksum(file_path)
+    568:     finally:
+  -----
+    575: 
+    576: 
+    577: @pytest.mark.parametrize(
+    578:     "accel_env,env_override,config_override,expected_result",
+    579:     [
+  -----
+    676:         get_accel.cache_clear()
+    677: 
+    678:     @pytest.mark.parametrize("accel,expected", accels)
+    679:     def test_get_accel(self, accel, expected):  # sourcery skip: no-loop-in-tests
+    680:         with ExitStack() as stack:
+  -----
+    845: The change is narrowly scoped to CDI discovery. I’m checking it against the CDI data model and every caller, especially how duplicate names and malformed specs affect GPU detection.
+    846: exec
+    847: /bin/zsh -lc "rg -n \"CDI|cdi|NVIDIA_VISIBLE_DEVICES|find_in_cdi\" README.md docs ramalama test pyproject.toml .github -g '"'!test/unit/test_common.py'"' | head -300 && sed -n '410,465p' ramalama/comm
+    848:  succeeded in 0ms:
+    849: docs/ramalama-cuda.7.md:51:   For additional information see:  [Support for Container Device Interface](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html)
+  -----

@@ -1,0 +1,577 @@
+OpenAI Codex v0.144.5
+--------
+workdir: /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos007/authoring
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019fd3c7-0b5f-7133-aea0-7b98651fca7f
+--------
+user
+
+Review the code change in this repository's working tree for defects.
+
+You may explore the repository, read any files, and run static tooling, but do
+NOT run the test suite.
+
+When you are done, output your findings as a fenced JSON block in exactly this
+format, as the last thing in your response:
+
+```json
+{
+  "claims": [
+    {
+      "file": "path/relative/to/repo/root.py",
+      "line": 123,
+      "description": "One-sentence statement of the defect and why it is wrong."
+    }
+  ]
+}
+```
+
+Rules:
+- Report only defects you believe are real. An empty list (`"claims": []`) is a
+  valid and correct answer for a clean change.
+- Report at most 5 claims, ranked most-confident first. Claims beyond the
+  fifth are discarded unread.
+- Give `file` and `line` whenever you can localize the defect. Use `null` only
+  when you genuinely cannot.
+- One claim per distinct defect. Do not pad.
+
+codex
+I’ll inspect the working-tree diff and surrounding CDI behavior, then use only static checks—no test-suite execution.
+exec
+/bin/zsh -lc "git status --short && git diff --check && git diff -- ramalama/common.py test/unit/test_common.py && sed -n '300,380p' ramalama/common.py && sed -n '350,455p' test/unit/test_common.py" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos007/authoring
+ succeeded in 4313ms:
+2026-08-05 17:21:21.286 xcodebuild[75899:7172371]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-08-05 17:21:21.516 xcodebuild[75899:7172370] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-v2jCcPWP' (errno=Operation not permitted)
+2026-08-05 17:21:21.916 xcodebuild[75901:7172386]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-08-05 17:21:22.018 xcodebuild[75901:7172385] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+ M ramalama/common.py
+ M test/unit/test_common.py
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-68zFQLZe' (errno=Operation not permitted)
+2026-08-05 17:21:22.736 xcodebuild[75906:7172414]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-08-05 17:21:22.833 xcodebuild[75906:7172413] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-TEDtYrku' (errno=Operation not permitted)
+2026-08-05 17:21:23.136 xcodebuild[75909:7172465]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-08-05 17:21:23.237 xcodebuild[75909:7172463] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-1vPbZexg' (errno=Operation not permitted)
+2026-08-05 17:21:23.953 xcodebuild[75916:7172681]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-08-05 17:21:24.053 xcodebuild[75916:7172677] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+git: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead
+git: error: couldn't create cache file '/tmp/xcrun_db-KXsIwCuZ' (errno=Operation not permitted)
+2026-08-05 17:21:24.385 xcodebuild[75920:7172735]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-08-05 17:21:24.489 xcodebuild[75920:7172734] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+diff --git a/ramalama/common.py b/ramalama/common.py
+index 70581dbe..44bfa856 100644
+--- a/ramalama/common.py
++++ b/ramalama/common.py
+@@ -312,29 +312,46 @@ class CDI_RETURN_TYPE(TypedDict):
+ 
+ 
+ def load_cdi_config(spec_dirs: list[str]) -> CDI_RETURN_TYPE | None:
+-    # Loads the first YAML or JSON CDI configuration file found in the
+-    # given directories."""
++    # Load and merge devices from all YAML and JSON CDI configuration files.
++    # The directory order supplied by the caller takes precedence, followed by
++    # alphabetical traversal within each directory.
++    devices: list[CDI_DEVICE] = []
++    device_names: set[str] = set()
+ 
+     for spec_dir in spec_dirs:
+-        for root, _, files in os.walk(spec_dir):
+-            for file in files:
++        for root, dirs, files in os.walk(spec_dir):
++            dirs.sort()
++            for file in sorted(files):
+                 _, ext = os.path.splitext(file)
+                 file_path = os.path.join(root, file)
+                 if ext in [".yaml", ".yml"]:
+                     try:
+                         with open(file_path, "r") as stream:
+-                            return yaml.safe_load(stream)
++                            cdi = yaml.safe_load(stream)
+                     except (OSError, yaml.YAMLError) as e:
+                         logger.warning(f"Failed to load YAML file {file_path}: {e}")
+                         continue
+                 elif ext == ".json":
+                     try:
+                         with open(file_path, "r") as stream:
+-                            return json.load(stream)
++                            cdi = json.load(stream)
+                     except (OSError, json.JSONDecodeError, UnicodeDecodeError) as e:
+                         logger.warning(f"Failed to load JSON file {file_path}: {e}")
+                         continue
+-    return None
++                else:
++                    continue
++
++                try:
++                    cdi_devices = cdi.get("devices", [])
++                    for device in cdi_devices:
++                        name = device["name"]
++                        if name not in device_names:
++                            devices.append(device)
++                            device_names.add(name)
++                except (AttributeError, KeyError, TypeError) as e:
++                    logger.warning(f"Unable to process CDI configuration {file_path}: {e}")
++
++    return {"devices": devices} if devices else None
+ 
+ 
+ def get_podman_machine_cdi_config() -> CDI_RETURN_TYPE | None:
+diff --git a/test/unit/test_common.py b/test/unit/test_common.py
+index 1a867c5b..2268a33b 100644
+--- a/test/unit/test_common.py
++++ b/test/unit/test_common.py
+@@ -366,7 +366,7 @@ CDI_JSON_2 = '''
+     ],
+ )
+ def test_load_cdi_config(filename, source, expected):
+-    with patch("os.walk", return_value=(("/etc/cdi", None, (filename,)),)):
++    with patch("os.walk", return_value=(("/etc/cdi", [], (filename,)),)):
+         with patch("builtins.open", mock_open(read_data=source)):
+             cdi = load_cdi_config(["/var/run/cdi", "/etc/cdi"])
+             assert cdi
+@@ -376,6 +376,36 @@ def test_load_cdi_config(filename, source, expected):
+             assert set(expected) == set(names)
+ 
+ 
++def test_load_cdi_config_merges_all_files_and_directories(tmp_path):
++    run_dir = tmp_path / "run"
++    etc_dir = tmp_path / "etc"
++    run_dir.mkdir()
++    etc_dir.mkdir()
++    (run_dir / "k8s.json").write_text('{"devices": [{"name": "GPU-123"}]}')
++    (run_dir / "management.yaml").write_text("devices:\n- name: managed\n")
++    (etc_dir / "nvidia.yml").write_text("devices:\n- name: all\n")
++
++    cdi = load_cdi_config([str(run_dir), str(etc_dir)])
++
++    assert cdi is not None
++    assert [device["name"] for device in cdi["devices"]] == ["GPU-123", "managed", "all"]
++
++
++def test_load_cdi_config_keeps_first_duplicate_in_deterministic_order(tmp_path):
++    first_dir = tmp_path / "first"
++    second_dir = tmp_path / "second"
++    first_dir.mkdir()
++    second_dir.mkdir()
++    (first_dir / "z-last.yaml").write_text("devices:\n- name: duplicate\n  source: z-last\n")
++    (first_dir / "a-first.yaml").write_text("devices:\n- name: duplicate\n  source: a-first\n")
++    (second_dir / "a-other.yaml").write_text("devices:\n- name: duplicate\n  source: second-directory\n")
++
++    cdi = load_cdi_config([str(first_dir), str(second_dir)])
++
++    assert cdi is not None
++    assert cdi["devices"] == [{"name": "duplicate", "source": "a-first"}]
++
++
+ @pytest.mark.parametrize(
+     "visible,conf,unconf",
+     [
+@@ -387,7 +417,7 @@ def test_load_cdi_config(filename, source, expected):
+     ],
+ )
+ @patch("builtins.open", mock_open(read_data=CDI_YAML_2))
+-@patch("os.walk", return_value=(("/etc/cdi", None, ("nvidia.yaml",)),))
++@patch("os.walk", return_value=(("/etc/cdi", [], ("nvidia.yaml",)),))
+ def test_find_in_cdi(mock_walk, visible, conf, unconf):
+     assert find_in_cdi(visible) == (conf, unconf)
+ 
+@@ -401,7 +431,7 @@ def test_find_in_cdi(mock_walk, visible, conf, unconf):
+     ],
+ )
+ @patch("builtins.open", mock_open(read_data="asdf\n- ghjk\n"))
+-@patch("os.walk", return_value=(("/etc/cdi", None, ("nvidia.yaml",)),))
++@patch("os.walk", return_value=(("/etc/cdi", [], ("nvidia.yaml",)),))
+ def test_find_in_cdi_broken(mock_walk, visible, conf, unconf):
+     assert find_in_cdi(visible) == (conf, unconf)
+ 
+def engine_version(engine: SUPPORTED_ENGINES | Path | str) -> SemVer:
+    # Create manifest list for target with imageid
+    cmd_args = [str(engine), "version", "--format", "{{ .Client.Version }}"]
+    return SemVer.parse(run_cmd(cmd_args, encoding="utf-8").stdout.strip())
+
+
+class CDI_DEVICE(TypedDict):
+    name: str
+
+
+class CDI_RETURN_TYPE(TypedDict):
+    devices: list[CDI_DEVICE]
+
+
+def load_cdi_config(spec_dirs: list[str]) -> CDI_RETURN_TYPE | None:
+    # Load and merge devices from all YAML and JSON CDI configuration files.
+    # The directory order supplied by the caller takes precedence, followed by
+    # alphabetical traversal within each directory.
+    devices: list[CDI_DEVICE] = []
+    device_names: set[str] = set()
+
+    for spec_dir in spec_dirs:
+        for root, dirs, files in os.walk(spec_dir):
+            dirs.sort()
+            for file in sorted(files):
+                _, ext = os.path.splitext(file)
+                file_path = os.path.join(root, file)
+                if ext in [".yaml", ".yml"]:
+                    try:
+                        with open(file_path, "r") as stream:
+                            cdi = yaml.safe_load(stream)
+                    except (OSError, yaml.YAMLError) as e:
+                        logger.warning(f"Failed to load YAML file {file_path}: {e}")
+                        continue
+                elif ext == ".json":
+                    try:
+                        with open(file_path, "r") as stream:
+                            cdi = json.load(stream)
+                    except (OSError, json.JSONDecodeError, UnicodeDecodeError) as e:
+                        logger.warning(f"Failed to load JSON file {file_path}: {e}")
+                        continue
+                else:
+                    continue
+
+                try:
+                    cdi_devices = cdi.get("devices", [])
+                    for device in cdi_devices:
+                        name = device["name"]
+                        if name not in device_names:
+                            devices.append(device)
+                            device_names.add(name)
+                except (AttributeError, KeyError, TypeError) as e:
+                    logger.warning(f"Unable to process CDI configuration {file_path}: {e}")
+
+    return {"devices": devices} if devices else None
+
+
+def get_podman_machine_cdi_config() -> CDI_RETURN_TYPE | None:
+    cdi_config = run_cmd(["podman", "machine", "ssh", "cat", "/etc/cdi/nvidia.yaml"], encoding="utf-8").stdout.strip()
+    if cdi_config:
+        return yaml.safe_load(cdi_config)
+    return None
+
+
+def find_in_cdi(devices: list[str]) -> tuple[list[str], list[str]]:
+    # Attempts to find a CDI configuration for each device in devices
+    # and returns a list of configured devices and a list of
+    # unconfigured devices.
+    if platform.system() == "Windows":
+        cdi = get_podman_machine_cdi_config()
+    else:
+        cdi = load_cdi_config(['/var/run/cdi', '/etc/cdi'])
+    try:
+        cdi_devices = cdi.get("devices", []) if cdi else []
+        cdi_device_names = [name for cdi_device in cdi_devices if (name := cdi_device.get("name"))]
+    except (AttributeError, KeyError, TypeError) as e:
+        # Malformed YAML or JSON. Treat everything as unconfigured but warn.
+        logger.warning(f"Unable to process CDI configuration: {e}")
+        return ([], devices)
+
+    configured = []
+            CDI_JSON_1,
+            [
+                "all",
+            ],
+            id="JSON-all",
+        ),
+        pytest.param(
+            "nvidia.json",
+            CDI_JSON_2,
+            [
+                "0",
+                CDI_GPU_UUID,
+                "all",
+            ],
+            id="JSON-0-UUID-all",
+        ),
+    ],
+)
+def test_load_cdi_config(filename, source, expected):
+    with patch("os.walk", return_value=(("/etc/cdi", [], (filename,)),)):
+        with patch("builtins.open", mock_open(read_data=source)):
+            cdi = load_cdi_config(["/var/run/cdi", "/etc/cdi"])
+            assert cdi
+            assert "devices" in cdi
+            devices = cdi["devices"]
+            names = [device["name"] for device in devices]
+            assert set(expected) == set(names)
+
+
+def test_load_cdi_config_merges_all_files_and_directories(tmp_path):
+    run_dir = tmp_path / "run"
+    etc_dir = tmp_path / "etc"
+    run_dir.mkdir()
+    etc_dir.mkdir()
+    (run_dir / "k8s.json").write_text('{"devices": [{"name": "GPU-123"}]}')
+    (run_dir / "management.yaml").write_text("devices:\n- name: managed\n")
+    (etc_dir / "nvidia.yml").write_text("devices:\n- name: all\n")
+
+    cdi = load_cdi_config([str(run_dir), str(etc_dir)])
+
+    assert cdi is not None
+    assert [device["name"] for device in cdi["devices"]] == ["GPU-123", "managed", "all"]
+
+
+def test_load_cdi_config_keeps_first_duplicate_in_deterministic_order(tmp_path):
+    first_dir = tmp_path / "first"
+    second_dir = tmp_path / "second"
+    first_dir.mkdir()
+    second_dir.mkdir()
+    (first_dir / "z-last.yaml").write_text("devices:\n- name: duplicate\n  source: z-last\n")
+    (first_dir / "a-first.yaml").write_text("devices:\n- name: duplicate\n  source: a-first\n")
+    (second_dir / "a-other.yaml").write_text("devices:\n- name: duplicate\n  source: second-directory\n")
+
+    cdi = load_cdi_config([str(first_dir), str(second_dir)])
+
+    assert cdi is not None
+    assert cdi["devices"] == [{"name": "duplicate", "source": "a-first"}]
+
+
+@pytest.mark.parametrize(
+    "visible,conf,unconf",
+    [
+        (["all"], ["all"], []),
+        (["0", "all"], ["0", "all"], []),
+        ([CDI_GPU_UUID, "all"], [CDI_GPU_UUID, "all"], []),
+        (["1", "all"], ["all"], ["1"]),
+        (["dummy", "all"], ["all"], ["dummy"]),
+    ],
+)
+@patch("builtins.open", mock_open(read_data=CDI_YAML_2))
+@patch("os.walk", return_value=(("/etc/cdi", [], ("nvidia.yaml",)),))
+def test_find_in_cdi(mock_walk, visible, conf, unconf):
+    assert find_in_cdi(visible) == (conf, unconf)
+
+
+@pytest.mark.parametrize(
+    "visible,conf,unconf",
+    [
+        (["all"], [], ["all"]),
+        (["0", "all"], [], ["0", "all"]),
+        ([CDI_GPU_UUID, "all"], [], [CDI_GPU_UUID, "all"]),
+    ],
+)
+@patch("builtins.open", mock_open(read_data="asdf\n- ghjk\n"))
+@patch("os.walk", return_value=(("/etc/cdi", [], ("nvidia.yaml",)),))
+def test_find_in_cdi_broken(mock_walk, visible, conf, unconf):
+    assert find_in_cdi(visible) == (conf, unconf)
+
+
+@patch("ramalama.common.load_cdi_config", return_value=None)
+def test_find_in_cdi_no_config(mock_load_cdi_config):
+    assert find_in_cdi(["all"]) == ([], ["all"])
+
+
+class TestPopulateVolumeFromImage:
+    """Test the populate_volume_from_image function for Docker volume creation"""
+
+    @pytest.fixture
+    def mock_model(self):
+        """Create a mock model with required attributes"""
+        model = Mock()
+        model.model = "test-registry.io/test-model:latest"
+        model.conman = "docker"
+        return model
+
+    @patch('subprocess.Popen')
+
+exec
+/bin/zsh -lc "sed -n '390,455p' ramalama/common.py && rg -n \"nvidia.com/gpu|configured_devices|visible_devices|find_in_cdi\" ramalama test | head -160 && rg -n \"CDI\" docs ramalama | head -160" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos007/authoring
+ succeeded in 0ms:
+            unconfigured.append(device)
+
+    return configured, unconfigured
+
+
+def check_asahi() -> Literal["asahi"] | None:
+    if os.path.exists('/proc/device-tree/compatible'):
+        try:
+            with open('/proc/device-tree/compatible', 'rb') as f:
+                content = f.read().split(b"\0")
+                if b"apple,arm-platform" in content:
+                    os.environ["ASAHI_VISIBLE_DEVICES"] = "1"
+                    return "asahi"
+        except OSError:
+            pass
+
+    return None
+
+
+def check_metal(args: ContainerArgType) -> bool:
+    if args.container:
+        return False
+    return platform.system() == "Darwin"
+
+
+@lru_cache(maxsize=1)
+def check_nvidia() -> Literal["cuda"] | None:
+    try:
+        command = ['nvidia-smi', '--query-gpu=index,uuid', '--format=csv,noheader']
+        result = run_cmd(command, encoding="utf-8")
+    except (OSError, subprocess.CalledProcessError):
+        return None
+
+    smi_lines = result.stdout.splitlines()
+    parsed_lines: list[list[str]] = [[item.strip() for item in line.split(',')] for line in smi_lines if line]
+
+    if not parsed_lines:
+        return None
+
+    indices, uuids = map(list, zip(*parsed_lines))
+    # Get the list of devices specified by CUDA_VISIBLE_DEVICES, if any
+    cuda_visible_devices = os.environ.get("CUDA_VISIBLE_DEVICES", "")
+    visible_devices = cuda_visible_devices.split(',') if cuda_visible_devices else []
+    for device in visible_devices:
+        if device not in indices and not any(uuid.startswith(device) for uuid in uuids):
+            perror(f"{device} not found")
+            return None
+
+    configured, unconfigured = find_in_cdi(visible_devices + ["all"])
+
+    configured_has_all = "all" in configured
+    if unconfigured and not configured_has_all:
+        perror(f"No CDI configuration found for {','.join(unconfigured)}")
+        perror("You can use the \"nvidia-ctk cdi generate\" command from the ")
+        perror("nvidia-container-toolkit to generate a CDI configuration.")
+        perror("See ramalama-cuda(7).")
+        return None
+    elif configured:
+        if configured_has_all:
+            configured.remove("all")
+            if not configured:
+                configured = indices
+
+        os.environ["CUDA_VISIBLE_DEVICES"] = ','.join(configured)
+        return "cuda"
+
+ramalama/quadlet.py:66:            quadlet_file.add("Container", "AddDevice", "nvidia.com/gpu=all")
+ramalama/engine.py:109:                    self.exec_args += ["--device", "nvidia.com/gpu=all"]
+ramalama/stack.py:41:             'nvidia.com/gpu=all': 1"""
+ramalama/common.py:364:def find_in_cdi(devices: list[str]) -> tuple[list[str], list[str]]:
+ramalama/common.py:431:    cuda_visible_devices = os.environ.get("CUDA_VISIBLE_DEVICES", "")
+ramalama/common.py:432:    visible_devices = cuda_visible_devices.split(',') if cuda_visible_devices else []
+ramalama/common.py:433:    for device in visible_devices:
+ramalama/common.py:438:    configured, unconfigured = find_in_cdi(visible_devices + ["all"])
+test/unit/data/test_quadlet/oci_port/oci-model-port.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/data/test_quadlet/modelfromstore_ct/modelfromstore_ct.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/test_common.py:15:    find_in_cdi,
+test/unit/test_common.py:177:    @patch("ramalama.common.find_in_cdi")
+test/unit/test_common.py:179:    def test_check_nvidia_smi_success(self, mock_run_cmd, mock_find_in_cdi):
+test/unit/test_common.py:180:        mock_find_in_cdi.return_value = (["all"], [])
+test/unit/test_common.py:247:kind: nvidia.com/gpu
+test/unit/test_common.py:326:kind: nvidia.com/gpu
+test/unit/test_common.py:330:{"cdiVersion":"0.3.0","kind":"nvidia.com/gpu","devices":[{"name":"all","containerEdits":{"deviceNodes":[{"path":"/dev/dxg"}]}}],"containerEdits":{"env":["NVIDIA_VISIBLE_DEVICES=void"]}}
+test/unit/test_common.py:333:{"cdiVersion":"0.5.0","kind":"nvidia.com/gpu","devices":[{"name":"0","containerEdits":{"deviceNodes":[{"path":"/dev/nvidia0"},{"path":"/dev/dri/card1"},{"path":"/dev/dri/renderD128"}],"hooks":[{"hookName":"createContainer","path":"/usr/bin/nvidia-cdi-hook","args":["nvidia-cdi-hook","create-symlinks","--link","../card1::/dev/dri/by-path/pci-0000:52:00.0-card","--link","../renderD128::/dev/dri/by-path/pci-0000:52:00.0-render"]},{"hookName":"createContainer","path":"/usr/bin/nvidia-cdi-hook","args":["nvidia-cdi-hook","chmod","--mode","755","--path","/dev/dri"]}]}},{"name":"GPU-08b3c2e8-cb7b-ea3f-7711-a042c580b3e8","containerEdits":{"deviceNodes":[{"path":"/dev/nvidia0"},{"path":"/dev/dri/card1"},{"path":"/dev/dri/renderD128"}],"hooks":[{"hookName":"createContainer","path":"/usr/bin/nvidia-cdi-hook","args":["nvidia-cdi-hook","create-symlinks","--link","../card1::/dev/dri/by-path/pci-0000:52:00.0-card","--link","../renderD128::/dev/dri/by-path/pci-0000:52:00.0-render"]},{"hookName":"createContainer","path":"/usr/bin/nvidia-cdi-hook","args":["nvidia-cdi-hook","chmod","--mode","755","--path","/dev/dri"]}]}},{"name":"all","containerEdits":{"deviceNodes":[{"path":"/dev/nvidia0"},{"path":"/dev/dri/card1"},{"path":"/dev/dri/renderD128"}],"hooks":[{"hookName":"createContainer","path":"/usr/bin/nvidia-cdi-hook","args":["nvidia-cdi-hook","create-symlinks","--link","../card1::/dev/dri/by-path/pci-0000:52:00.0-card","--link","../renderD128::/dev/dri/by-path/pci-0000:52:00.0-render"]},{"hookName":"createContainer","path":"/usr/bin/nvidia-cdi-hook","args":["nvidia-cdi-hook","chmod","--mode","755","--path","/dev/dri"]}]}}],"containerEdits":{"env":["NVIDIA_VISIBLE_DEVICES=void"]}}'''  # noqa: E501
+test/unit/test_common.py:421:def test_find_in_cdi(mock_walk, visible, conf, unconf):
+test/unit/test_common.py:422:    assert find_in_cdi(visible) == (conf, unconf)
+test/unit/test_common.py:435:def test_find_in_cdi_broken(mock_walk, visible, conf, unconf):
+test/unit/test_common.py:436:    assert find_in_cdi(visible) == (conf, unconf)
+test/unit/test_common.py:440:def test_find_in_cdi_no_config(mock_load_cdi_config):
+test/unit/test_common.py:441:    assert find_in_cdi(["all"]) == ([], ["all"])
+test/unit/data/test_quadlet/oci_basic/oci-model.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/data/test_quadlet/modelfromstore_mmproj/modelfromstore_mmproj.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/data/test_quadlet/multipart/gpt-oss-120b.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/data/test_quadlet/empty/tinyllama.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/data/test_quadlet/modelfromstore/modelfromstore.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/data/test_quadlet/modelfromstore_add_to_unit/modelfromstore_add_to_unit.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/data/test_quadlet/oci_rag/oci-model-rag.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/data/test_quadlet/portmapping/tinyllama.container:9:AddDevice=nvidia.com/gpu=all
+test/unit/data/test_quadlet/basic/tinyllama.container:9:AddDevice=nvidia.com/gpu=all
+docs/ramalama-cuda.7.md:53:# Generate the CDI specification file
+docs/ramalama-cuda.7.md:65:   INFO[0000] Found 1 CDI devices
+docs/ramalama-cuda.7.md:69:   > **Note:** Generate a new CDI specification after any configuration change most notably when the driver is upgraded!
+docs/ramalama-cuda.7.md:164:Because the CUDA version is updated, the CDI specification file needs to be recreated.
+ramalama/common.py:306:class CDI_DEVICE(TypedDict):
+ramalama/common.py:310:class CDI_RETURN_TYPE(TypedDict):
+ramalama/common.py:311:    devices: list[CDI_DEVICE]
+ramalama/common.py:314:def load_cdi_config(spec_dirs: list[str]) -> CDI_RETURN_TYPE | None:
+ramalama/common.py:315:    # Load and merge devices from all YAML and JSON CDI configuration files.
+ramalama/common.py:318:    devices: list[CDI_DEVICE] = []
+ramalama/common.py:352:                    logger.warning(f"Unable to process CDI configuration {file_path}: {e}")
+ramalama/common.py:357:def get_podman_machine_cdi_config() -> CDI_RETURN_TYPE | None:
+ramalama/common.py:365:    # Attempts to find a CDI configuration for each device in devices
+ramalama/common.py:377:        logger.warning(f"Unable to process CDI configuration: {e}")
+ramalama/common.py:389:            perror(f"Device {device} does not have a CDI configuration")
+ramalama/common.py:442:        perror(f"No CDI configuration found for {','.join(unconfigured)}")
+ramalama/common.py:444:        perror("nvidia-container-toolkit to generate a CDI configuration.")
+docs/readme/wsl2-podman-cuda.md:42:1. **Generate the CDI specification file:**
+docs/readme/wsl2-podman-cuda.md:54:   INFO[0000] Found 1 CDI devices
+docs/readme/wsl2-podman-cuda.md:57:> **Note:** You must generate a new CDI specification after any configuration change most notably when the driver is upgraded!
+
+2026-08-05T21:21:41.132282Z ERROR codex_models_manager::manager: failed to renew cache TTL: missing field `supports_reasoning_summaries` at line 86 column 5
+2026-08-05T21:22:14.363264Z ERROR codex_models_manager::manager: failed to renew cache TTL: missing field `supports_reasoning_summaries` at line 86 column 5
+codex
+The primary merge path is internally consistent. I’m checking edge-case failure handling now, especially cases where scanning later files can regress a previously successful detection.
+exec
+/bin/zsh -lc "python3 -c 'from pathlib import Path; [compile(Path(p).read_text(), p, \"exec\") for p in (\"ramalama/common.py\", \"test/unit/test_common.py\")]; print(\"syntax ok\")' && nl -ba ramalama/common.py | sed -n '314,358p'" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos007/authoring
+ succeeded in 0ms:
+syntax ok
+   314	def load_cdi_config(spec_dirs: list[str]) -> CDI_RETURN_TYPE | None:
+   315	    # Load and merge devices from all YAML and JSON CDI configuration files.
+   316	    # The directory order supplied by the caller takes precedence, followed by
+   317	    # alphabetical traversal within each directory.
+   318	    devices: list[CDI_DEVICE] = []
+   319	    device_names: set[str] = set()
+   320	
+   321	    for spec_dir in spec_dirs:
+   322	        for root, dirs, files in os.walk(spec_dir):
+   323	            dirs.sort()
+   324	            for file in sorted(files):
+   325	                _, ext = os.path.splitext(file)
+   326	                file_path = os.path.join(root, file)
+   327	                if ext in [".yaml", ".yml"]:
+   328	                    try:
+   329	                        with open(file_path, "r") as stream:
+   330	                            cdi = yaml.safe_load(stream)
+   331	                    except (OSError, yaml.YAMLError) as e:
+   332	                        logger.warning(f"Failed to load YAML file {file_path}: {e}")
+   333	                        continue
+   334	                elif ext == ".json":
+   335	                    try:
+   336	                        with open(file_path, "r") as stream:
+   337	                            cdi = json.load(stream)
+   338	                    except (OSError, json.JSONDecodeError, UnicodeDecodeError) as e:
+   339	                        logger.warning(f"Failed to load JSON file {file_path}: {e}")
+   340	                        continue
+   341	                else:
+   342	                    continue
+   343	
+   344	                try:
+   345	                    cdi_devices = cdi.get("devices", [])
+   346	                    for device in cdi_devices:
+   347	                        name = device["name"]
+   348	                        if name not in device_names:
+   349	                            devices.append(device)
+   350	                            device_names.add(name)
+   351	                except (AttributeError, KeyError, TypeError) as e:
+   352	                    logger.warning(f"Unable to process CDI configuration {file_path}: {e}")
+   353	
+   354	    return {"devices": devices} if devices else None
+   355	
+   356	
+   357	def get_podman_machine_cdi_config() -> CDI_RETURN_TYPE | None:
+   358	    cdi_config = run_cmd(["podman", "machine", "ssh", "cat", "/etc/cdi/nvidia.yaml"], encoding="utf-8").stdout.strip()
+
+2026-08-05T21:22:20.466476Z ERROR codex_models_manager::manager: failed to renew cache TTL: missing field `supports_reasoning_summaries` at line 86 column 5
+codex
+```json
+{
+  "claims": [
+    {
+      "file": "ramalama/common.py",
+      "line": 331,
+      "description": "YAML loading does not catch UnicodeDecodeError, so a later non-UTF-8 .yaml/.yml file can abort detection even after valid CDI devices were loaded, instead of being skipped like an unreadable JSON file."
+    }
+  ]
+}
+```
+tokens used
+137,208

@@ -1,0 +1,43 @@
+{
+ "a1": [
+  {
+   "file": "ramalama/common.py",
+   "line": 331,
+   "description": "YAML loading does not catch UnicodeDecodeError, so a later non-UTF-8 .yaml/.yml file can abort detection even after valid CDI devices were loaded, instead of being skipped like an unreadable JSON file."
+  }
+ ],
+ "a2": [
+  {
+   "file": "ramalama/common.py",
+   "line": 345,
+   "description": "Collecting every file's devices while discarding its top-level kind lets an unrelated CDI entry such as amd.com/gpu=all satisfy the NVIDIA check, causing CUDA selection before Podman fails to resolve nvidia.com/gpu=all."
+  },
+  {
+   "file": "ramalama/common.py",
+   "line": 348,
+   "description": "Choosing the alphabetically first duplicate disagrees with CDI conflict handling, so duplicate definitions of the same qualified device within one directory are reported as configured even though the runtime removes the conflicting device."
+  },
+  {
+   "file": "ramalama/common.py",
+   "line": 349,
+   "description": "Devices are appended before the entire file is processed, so a malformed later entry leaves earlier entries active and can make find_in_cdi accept a CDI specification that the runtime rejects."
+  }
+ ],
+ "b": [
+  {
+   "file": "ramalama/common.py",
+   "line": 345,
+   "description": "Merging devices from every spec file ignores each file's CDI `kind`, so unqualified names from other vendors' specs (amd.com/gpu, intel.com/gpu all define \"0\"/\"1\"/\"all\") satisfy find_in_cdi's NVIDIA lookup, making check_nvidia return \"cuda\" and emit `--device nvidia.com/gpu=all` when no nvidia.com/gpu spec exists."
+  },
+  {
+   "file": "ramalama/common.py",
+   "line": 347,
+   "description": "`device[\"name\"]` can raise KeyError and the except block is outside the device loop, so a single device entry lacking a name silently discards all remaining devices in that spec file instead of skipping just that entry."
+  },
+  {
+   "file": "ramalama/common.py",
+   "line": 331,
+   "description": "The YAML branch does not catch UnicodeDecodeError (a ValueError, unlike the JSON branch), so now that all files are read instead of stopping at the first, one non-UTF-8 .yaml file in the spec dirs raises out of load_cdi_config and aborts GPU detection."
+  }
+ ]
+}
