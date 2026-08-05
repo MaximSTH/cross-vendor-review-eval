@@ -1,0 +1,1945 @@
+{
+ "meta": {
+  "rule": "D-056: global created_at ASC (normalized to UTC 'YYYY-MM-DDTHH:MM:SSZ'; rebench naive timestamps treated as UTC), ties instance_id then source; admitted languages python/go/js/ts (D-065)",
+  "frozen": "2026-08-05",
+  "n": 215,
+  "note": "raw created_at formats differ per feed (rebench 'YYYY-MM-DD hh:mm:ss', multilang ISO-Z); sort key is created_at_utc"
+ },
+ "pool": [
+  {
+   "instance_id": "keras-team__keras-22316",
+   "created_at": "2026-03-01 00:54:12",
+   "repo": "keras-team/keras",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 1,
+   "created_at_utc": "2026-03-01T00:54:12Z"
+  },
+  {
+   "instance_id": "pallets__click-3239",
+   "created_at": "2026-03-02 07:53:49",
+   "repo": "pallets/click",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 2,
+   "created_at_utc": "2026-03-02T07:53:49Z"
+  },
+  {
+   "instance_id": "tobymao__sqlglot-7187",
+   "created_at": "2026-03-02 15:56:17",
+   "repo": "tobymao/sqlglot",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 3,
+   "created_at_utc": "2026-03-02T15:56:17Z"
+  },
+  {
+   "instance_id": "keras-team__keras-22330",
+   "created_at": "2026-03-02 18:17:38",
+   "repo": "keras-team/keras",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 4,
+   "created_at_utc": "2026-03-02T18:17:38Z"
+  },
+  {
+   "instance_id": "tox-dev__tox-3846",
+   "created_at": "2026-03-03 15:34:23",
+   "repo": "tox-dev/tox",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 5,
+   "created_at_utc": "2026-03-03T15:34:23Z"
+  },
+  {
+   "instance_id": "go-task__task-2716",
+   "created_at": "2026-03-05T01:56:55Z",
+   "repo": "go-task/task",
+   "source": "multilang",
+   "lang": "go",
+   "position": 6,
+   "created_at_utc": "2026-03-05T01:56:55Z"
+  },
+  {
+   "instance_id": "containers__ramalama-2487",
+   "created_at": "2026-03-05 10:57:45",
+   "repo": "containers/ramalama",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 7,
+   "created_at_utc": "2026-03-05T10:57:45Z"
+  },
+  {
+   "instance_id": "astronomy-commons__hats-648",
+   "created_at": "2026-03-06 10:12:00",
+   "repo": "astronomy-commons/hats",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 8,
+   "created_at_utc": "2026-03-06T10:12:00Z"
+  },
+  {
+   "instance_id": "hiero-ledger__hiero-sdk-python-1914_interface",
+   "created_at": "2026-03-06 14:12:44",
+   "repo": "hiero-ledger/hiero-sdk-python",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 9,
+   "created_at_utc": "2026-03-06T14:12:44Z"
+  },
+  {
+   "instance_id": "zauberzeug__nicegui-5858",
+   "created_at": "2026-03-09 16:34:24",
+   "repo": "zauberzeug/nicegui",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 10,
+   "created_at_utc": "2026-03-09T16:34:24Z"
+  },
+  {
+   "instance_id": "getmoto__moto-9841",
+   "created_at": "2026-03-09 23:11:49",
+   "repo": "getmoto/moto",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 11,
+   "created_at_utc": "2026-03-09T23:11:49Z"
+  },
+  {
+   "instance_id": "conan-io__conan-19735_interface",
+   "created_at": "2026-03-10 10:33:02",
+   "repo": "conan-io/conan",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 12,
+   "created_at_utc": "2026-03-10T10:33:02Z"
+  },
+  {
+   "instance_id": "koxudaxi__datamodel-code-generator-3046",
+   "created_at": "2026-03-10 16:48:04",
+   "repo": "koxudaxi/datamodel-code-generator",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 13,
+   "created_at_utc": "2026-03-10T16:48:04Z"
+  },
+  {
+   "instance_id": "alibaba__opensandbox-426",
+   "created_at": "2026-03-11 12:47:51",
+   "repo": "alibaba/OpenSandbox",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 14,
+   "created_at_utc": "2026-03-11T12:47:51Z"
+  },
+  {
+   "instance_id": "destine-climate-dt__aqua-2768",
+   "created_at": "2026-03-12 01:12:01",
+   "repo": "DestinE-Climate-DT/AQUA",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 15,
+   "created_at_utc": "2026-03-12T01:12:01Z"
+  },
+  {
+   "instance_id": "pycqa__isort-2491",
+   "created_at": "2026-03-12 21:21:11",
+   "repo": "PyCQA/isort",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 16,
+   "created_at_utc": "2026-03-12T21:21:11Z"
+  },
+  {
+   "instance_id": "kyverno__kyverno-15561",
+   "created_at": "2026-03-13T00:10:56Z",
+   "repo": "kyverno/kyverno",
+   "source": "multilang",
+   "lang": "go",
+   "position": 17,
+   "created_at_utc": "2026-03-13T00:10:56Z"
+  },
+  {
+   "instance_id": "caddyserver__caddy-7567",
+   "created_at": "2026-03-13T00:23:10Z",
+   "repo": "caddyserver/caddy",
+   "source": "multilang",
+   "lang": "go",
+   "position": 18,
+   "created_at_utc": "2026-03-13T00:23:10Z"
+  },
+  {
+   "instance_id": "thlorenz__doctoc-328",
+   "created_at": "2026-03-13T04:30:10Z",
+   "repo": "thlorenz/doctoc",
+   "source": "multilang",
+   "lang": "js",
+   "position": 19,
+   "created_at_utc": "2026-03-13T04:30:10Z"
+  },
+  {
+   "instance_id": "conan-io__conan-19750",
+   "created_at": "2026-03-13 10:20:23",
+   "repo": "conan-io/conan",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 20,
+   "created_at_utc": "2026-03-13T10:20:23Z"
+  },
+  {
+   "instance_id": "envoyproxy__gateway-8521",
+   "created_at": "2026-03-13T12:07:26Z",
+   "repo": "envoyproxy/gateway",
+   "source": "multilang",
+   "lang": "go",
+   "position": 21,
+   "created_at_utc": "2026-03-13T12:07:26Z"
+  },
+  {
+   "instance_id": "kubernetes-sigs__kueue-9866",
+   "created_at": "2026-03-13T13:37:01Z",
+   "repo": "kubernetes-sigs/kueue",
+   "source": "multilang",
+   "lang": "go",
+   "position": 22,
+   "created_at_utc": "2026-03-13T13:37:01Z"
+  },
+  {
+   "instance_id": "Gentleman-Programming__gentle-ai-50",
+   "created_at": "2026-03-14T02:05:29Z",
+   "repo": "Gentleman-Programming/gentle-ai",
+   "source": "multilang",
+   "lang": "go",
+   "position": 23,
+   "created_at_utc": "2026-03-14T02:05:29Z"
+  },
+  {
+   "instance_id": "oauth2-proxy__oauth2-proxy-3374",
+   "created_at": "2026-03-14T22:41:24Z",
+   "repo": "oauth2-proxy/oauth2-proxy",
+   "source": "multilang",
+   "lang": "go",
+   "position": 24,
+   "created_at_utc": "2026-03-14T22:41:24Z"
+  },
+  {
+   "instance_id": "sqlfluff__sqlfluff-7615",
+   "created_at": "2026-03-15 12:31:18",
+   "repo": "sqlfluff/sqlfluff",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 25,
+   "created_at_utc": "2026-03-15T12:31:18Z"
+  },
+  {
+   "instance_id": "magefile__mage-544",
+   "created_at": "2026-03-15T13:51:21Z",
+   "repo": "magefile/mage",
+   "source": "multilang",
+   "lang": "go",
+   "position": 26,
+   "created_at_utc": "2026-03-15T13:51:21Z"
+  },
+  {
+   "instance_id": "dagster-io__dagster-33605",
+   "created_at": "2026-03-15 15:42:33",
+   "repo": "dagster-io/dagster",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 27,
+   "created_at_utc": "2026-03-15T15:42:33Z"
+  },
+  {
+   "instance_id": "0xERR0R__blocky-2016",
+   "created_at": "2026-03-15T18:41:56Z",
+   "repo": "0xERR0R/blocky",
+   "source": "multilang",
+   "lang": "go",
+   "position": 28,
+   "created_at_utc": "2026-03-15T18:41:56Z"
+  },
+  {
+   "instance_id": "sqlfluff__sqlfluff-7617",
+   "created_at": "2026-03-16 06:55:25",
+   "repo": "sqlfluff/sqlfluff",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 29,
+   "created_at_utc": "2026-03-16T06:55:25Z"
+  },
+  {
+   "instance_id": "mgechev__revive-1686",
+   "created_at": "2026-03-16T12:02:49Z",
+   "repo": "mgechev/revive",
+   "source": "multilang",
+   "lang": "go",
+   "position": 30,
+   "created_at_utc": "2026-03-16T12:02:49Z"
+  },
+  {
+   "instance_id": "code-charity__youtube-3708",
+   "created_at": "2026-03-16T12:49:20Z",
+   "repo": "code-charity/youtube",
+   "source": "multilang",
+   "lang": "js",
+   "position": 31,
+   "created_at_utc": "2026-03-16T12:49:20Z"
+  },
+  {
+   "instance_id": "astropy__astropy-19438",
+   "created_at": "2026-03-16 13:19:32",
+   "repo": "astropy/astropy",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 32,
+   "created_at_utc": "2026-03-16T13:19:32Z"
+  },
+  {
+   "instance_id": "sqlfluff__sqlfluff-7622",
+   "created_at": "2026-03-16 15:50:33",
+   "repo": "sqlfluff/sqlfluff",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 33,
+   "created_at_utc": "2026-03-16T15:50:33Z"
+  },
+  {
+   "instance_id": "scikit-learn__scikit-learn-33565",
+   "created_at": "2026-03-17 10:54:06",
+   "repo": "scikit-learn/scikit-learn",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 34,
+   "created_at_utc": "2026-03-17T10:54:06Z"
+  },
+  {
+   "instance_id": "psd-tools__psd-tools-593",
+   "created_at": "2026-03-17 11:04:07",
+   "repo": "psd-tools/psd-tools",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 35,
+   "created_at_utc": "2026-03-17T11:04:07Z"
+  },
+  {
+   "instance_id": "influxdata__telegraf-18556",
+   "created_at": "2026-03-17T15:40:45Z",
+   "repo": "influxdata/telegraf",
+   "source": "multilang",
+   "lang": "go",
+   "position": 36,
+   "created_at_utc": "2026-03-17T15:40:45Z"
+  },
+  {
+   "instance_id": "coze-dev__coze-loop-462",
+   "created_at": "2026-03-18T06:54:03Z",
+   "repo": "coze-dev/coze-loop",
+   "source": "multilang",
+   "lang": "go",
+   "position": 37,
+   "created_at_utc": "2026-03-18T06:54:03Z"
+  },
+  {
+   "instance_id": "NVIDIA__NemoClaw-330",
+   "created_at": "2026-03-18T17:52:30Z",
+   "repo": "NVIDIA/NemoClaw",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 38,
+   "created_at_utc": "2026-03-18T17:52:30Z"
+  },
+  {
+   "instance_id": "con__nwb2bids-347_interface",
+   "created_at": "2026-03-18 18:16:27",
+   "repo": "con/nwb2bids",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 39,
+   "created_at_utc": "2026-03-18T18:16:27Z"
+  },
+  {
+   "instance_id": "vprusso__toqito-1484_interface",
+   "created_at": "2026-03-19 11:41:16",
+   "repo": "vprusso/toqito",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 40,
+   "created_at_utc": "2026-03-19T11:41:16Z"
+  },
+  {
+   "instance_id": "thlorenz__doctoc-329",
+   "created_at": "2026-03-19T14:31:57Z",
+   "repo": "thlorenz/doctoc",
+   "source": "multilang",
+   "lang": "js",
+   "position": 41,
+   "created_at_utc": "2026-03-19T14:31:57Z"
+  },
+  {
+   "instance_id": "stanfordnlp__dspy-9478_interface",
+   "created_at": "2026-03-20 05:25:19",
+   "repo": "stanfordnlp/dspy",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 42,
+   "created_at_utc": "2026-03-20T05:25:19Z"
+  },
+  {
+   "instance_id": "can1357__oh-my-pi-489",
+   "created_at": "2026-03-20T09:08:07Z",
+   "repo": "can1357/oh-my-pi",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 43,
+   "created_at_utc": "2026-03-20T09:08:07Z"
+  },
+  {
+   "instance_id": "kumahq__kuma-15918",
+   "created_at": "2026-03-20T10:14:20Z",
+   "repo": "kumahq/kuma",
+   "source": "multilang",
+   "lang": "go",
+   "position": 44,
+   "created_at_utc": "2026-03-20T10:14:20Z"
+  },
+  {
+   "instance_id": "hiero-ledger__hiero-sdk-python-2007_interface",
+   "created_at": "2026-03-20 10:52:28",
+   "repo": "hiero-ledger/hiero-sdk-python",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 45,
+   "created_at_utc": "2026-03-20T10:52:28Z"
+  },
+  {
+   "instance_id": "idaholab__montepy-933_interface",
+   "created_at": "2026-03-20 15:47:06",
+   "repo": "idaholab/MontePy",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 46,
+   "created_at_utc": "2026-03-20T15:47:06Z"
+  },
+  {
+   "instance_id": "genericmappingtools__pygmt-4463",
+   "created_at": "2026-03-21 08:51:06",
+   "repo": "GenericMappingTools/pygmt",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 47,
+   "created_at_utc": "2026-03-21T08:51:06Z"
+  },
+  {
+   "instance_id": "harumiweb__exstruct-113",
+   "created_at": "2026-03-21 08:53:23",
+   "repo": "harumiWeb/exstruct",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 48,
+   "created_at_utc": "2026-03-21T08:53:23Z"
+  },
+  {
+   "instance_id": "sunpy__sunpy-8548_interface",
+   "created_at": "2026-03-21 21:08:48",
+   "repo": "sunpy/sunpy",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 49,
+   "created_at_utc": "2026-03-21T21:08:48Z"
+  },
+  {
+   "instance_id": "aralroca__next-translate-1259",
+   "created_at": "2026-03-22T06:21:20Z",
+   "repo": "aralroca/next-translate",
+   "source": "multilang",
+   "lang": "js",
+   "position": 50,
+   "created_at_utc": "2026-03-22T06:21:20Z"
+  },
+  {
+   "instance_id": "pgmpy__pgmpy-3137",
+   "created_at": "2026-03-22 09:18:02",
+   "repo": "pgmpy/pgmpy",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 51,
+   "created_at_utc": "2026-03-22T09:18:02Z"
+  },
+  {
+   "instance_id": "Mintplex-Labs__anything-llm-5252",
+   "created_at": "2026-03-23T00:07:37Z",
+   "repo": "Mintplex-Labs/anything-llm",
+   "source": "multilang",
+   "lang": "js",
+   "position": 52,
+   "created_at_utc": "2026-03-23T00:07:37Z"
+  },
+  {
+   "instance_id": "gohugoio__hugo-14657",
+   "created_at": "2026-03-23T01:59:36Z",
+   "repo": "gohugoio/hugo",
+   "source": "multilang",
+   "lang": "go",
+   "position": 53,
+   "created_at_utc": "2026-03-23T01:59:36Z"
+  },
+  {
+   "instance_id": "Automattic__mongoose-16153",
+   "created_at": "2026-03-23T03:45:51Z",
+   "repo": "Automattic/mongoose",
+   "source": "multilang",
+   "lang": "js",
+   "position": 54,
+   "created_at_utc": "2026-03-23T03:45:51Z"
+  },
+  {
+   "instance_id": "gruntwork-io__cloud-nuke-1085",
+   "created_at": "2026-03-23T08:44:58Z",
+   "repo": "gruntwork-io/cloud-nuke",
+   "source": "multilang",
+   "lang": "go",
+   "position": 55,
+   "created_at_utc": "2026-03-23T08:44:58Z"
+  },
+  {
+   "instance_id": "GladysAssistant__Gladys-2504",
+   "created_at": "2026-03-23T14:32:01Z",
+   "repo": "GladysAssistant/Gladys",
+   "source": "multilang",
+   "lang": "js",
+   "position": 56,
+   "created_at_utc": "2026-03-23T14:32:01Z"
+  },
+  {
+   "instance_id": "getmoto__moto-9903",
+   "created_at": "2026-03-23 19:41:08",
+   "repo": "getmoto/moto",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 57,
+   "created_at_utc": "2026-03-23T19:41:08Z"
+  },
+  {
+   "instance_id": "pandas-dev__pandas-64796",
+   "created_at": "2026-03-23 21:00:36",
+   "repo": "pandas-dev/pandas",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 58,
+   "created_at_utc": "2026-03-23T21:00:36Z"
+  },
+  {
+   "instance_id": "pandas-dev__pandas-64797",
+   "created_at": "2026-03-23 21:01:03",
+   "repo": "pandas-dev/pandas",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 59,
+   "created_at_utc": "2026-03-23T21:01:03Z"
+  },
+  {
+   "instance_id": "kubeflow__pipelines-13112",
+   "created_at": "2026-03-23 23:40:27",
+   "repo": "kubeflow/pipelines",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 60,
+   "created_at_utc": "2026-03-23T23:40:27Z"
+  },
+  {
+   "instance_id": "haraka__Haraka-3535",
+   "created_at": "2026-03-24T00:23:20Z",
+   "repo": "haraka/Haraka",
+   "source": "multilang",
+   "lang": "js",
+   "position": 61,
+   "created_at_utc": "2026-03-24T00:23:20Z"
+  },
+  {
+   "instance_id": "pandas-dev__pandas-64816",
+   "created_at": "2026-03-24 01:27:57",
+   "repo": "pandas-dev/pandas",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 62,
+   "created_at_utc": "2026-03-24T01:27:57Z"
+  },
+  {
+   "instance_id": "vueuse__vueuse-5336",
+   "created_at": "2026-03-24T01:44:17Z",
+   "repo": "vueuse/vueuse",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 63,
+   "created_at_utc": "2026-03-24T01:44:17Z"
+  },
+  {
+   "instance_id": "chenhg5__cc-connect-303",
+   "created_at": "2026-03-24T03:32:22Z",
+   "repo": "chenhg5/cc-connect",
+   "source": "multilang",
+   "lang": "go",
+   "position": 64,
+   "created_at_utc": "2026-03-24T03:32:22Z"
+  },
+  {
+   "instance_id": "pyinfra-dev__pyinfra-1630",
+   "created_at": "2026-03-24 13:55:45",
+   "repo": "pyinfra-dev/pyinfra",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 65,
+   "created_at_utc": "2026-03-24T13:55:45Z"
+  },
+  {
+   "instance_id": "scrapy__scrapy-7351_interface",
+   "created_at": "2026-03-24 14:13:12",
+   "repo": "scrapy/scrapy",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 66,
+   "created_at_utc": "2026-03-24T14:13:12Z"
+  },
+  {
+   "instance_id": "delgan__loguru-1451",
+   "created_at": "2026-03-25 02:34:06",
+   "repo": "Delgan/loguru",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 67,
+   "created_at_utc": "2026-03-25T02:34:06Z"
+  },
+  {
+   "instance_id": "dlvhdr__gh-dash-813",
+   "created_at": "2026-03-25T03:47:35Z",
+   "repo": "dlvhdr/gh-dash",
+   "source": "multilang",
+   "lang": "go",
+   "position": 68,
+   "created_at_utc": "2026-03-25T03:47:35Z"
+  },
+  {
+   "instance_id": "holoviz__param-1117",
+   "created_at": "2026-03-25 14:50:38",
+   "repo": "holoviz/param",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 69,
+   "created_at_utc": "2026-03-25T14:50:38Z"
+  },
+  {
+   "instance_id": "marshmallow-code__marshmallow-2925_interface",
+   "created_at": "2026-03-25 16:50:58",
+   "repo": "marshmallow-code/marshmallow",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 70,
+   "created_at_utc": "2026-03-25T16:50:58Z"
+  },
+  {
+   "instance_id": "github__gh-aw-22943",
+   "created_at": "2026-03-25T18:14:24Z",
+   "repo": "github/gh-aw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 71,
+   "created_at_utc": "2026-03-25T18:14:24Z"
+  },
+  {
+   "instance_id": "gohugoio__hugo-14671",
+   "created_at": "2026-03-25T18:34:40Z",
+   "repo": "gohugoio/hugo",
+   "source": "multilang",
+   "lang": "go",
+   "position": 72,
+   "created_at_utc": "2026-03-25T18:34:40Z"
+  },
+  {
+   "instance_id": "tox-dev__tox-3904",
+   "created_at": "2026-03-26 04:52:51",
+   "repo": "tox-dev/tox",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 73,
+   "created_at_utc": "2026-03-26T04:52:51Z"
+  },
+  {
+   "instance_id": "oemof__tespy-921",
+   "created_at": "2026-03-26 06:19:08",
+   "repo": "oemof/tespy",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 74,
+   "created_at_utc": "2026-03-26T06:19:08Z"
+  },
+  {
+   "instance_id": "gsd-build__gsd-2-2643",
+   "created_at": "2026-03-26T09:40:44Z",
+   "repo": "gsd-build/gsd-2",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 75,
+   "created_at_utc": "2026-03-26T09:40:44Z"
+  },
+  {
+   "instance_id": "velero-io__velero-9653",
+   "created_at": "2026-03-26T11:28:33Z",
+   "repo": "velero-io/velero",
+   "source": "multilang",
+   "lang": "go",
+   "position": 76,
+   "created_at_utc": "2026-03-26T11:28:33Z"
+  },
+  {
+   "instance_id": "zauberzeug__nicegui-5914",
+   "created_at": "2026-03-26 14:10:41",
+   "repo": "zauberzeug/nicegui",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 77,
+   "created_at_utc": "2026-03-26T14:10:41Z"
+  },
+  {
+   "instance_id": "github__gh-aw-23146",
+   "created_at": "2026-03-26T16:58:29Z",
+   "repo": "github/gh-aw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 78,
+   "created_at_utc": "2026-03-26T16:58:29Z"
+  },
+  {
+   "instance_id": "gsd-build__gsd-2-2738",
+   "created_at": "2026-03-26T20:59:35Z",
+   "repo": "gsd-build/gsd-2",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 79,
+   "created_at_utc": "2026-03-26T20:59:35Z"
+  },
+  {
+   "instance_id": "akuity__kargo-5990",
+   "created_at": "2026-03-26T21:08:07Z",
+   "repo": "akuity/kargo",
+   "source": "multilang",
+   "lang": "go",
+   "position": 80,
+   "created_at_utc": "2026-03-26T21:08:07Z"
+  },
+  {
+   "instance_id": "modelcontextprotocol__go-sdk-862",
+   "created_at": "2026-03-27T15:02:39Z",
+   "repo": "modelcontextprotocol/go-sdk",
+   "source": "multilang",
+   "lang": "go",
+   "position": 81,
+   "created_at_utc": "2026-03-27T15:02:39Z"
+  },
+  {
+   "instance_id": "iOfficeAI__AionUi-1818",
+   "created_at": "2026-03-27T23:54:31Z",
+   "repo": "iOfficeAI/AionUi",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 82,
+   "created_at_utc": "2026-03-27T23:54:31Z"
+  },
+  {
+   "instance_id": "github__gh-aw-23348",
+   "created_at": "2026-03-28T12:28:10Z",
+   "repo": "github/gh-aw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 83,
+   "created_at_utc": "2026-03-28T12:28:10Z"
+  },
+  {
+   "instance_id": "gohugoio__hugo-14685",
+   "created_at": "2026-03-28T18:14:43Z",
+   "repo": "gohugoio/hugo",
+   "source": "multilang",
+   "lang": "go",
+   "position": 84,
+   "created_at_utc": "2026-03-28T18:14:43Z"
+  },
+  {
+   "instance_id": "twpayne__chezmoi-4978",
+   "created_at": "2026-03-29T00:17:56Z",
+   "repo": "twpayne/chezmoi",
+   "source": "multilang",
+   "lang": "go",
+   "position": 85,
+   "created_at_utc": "2026-03-29T00:17:56Z"
+  },
+  {
+   "instance_id": "kubernetes-sigs__kubebuilder-5559",
+   "created_at": "2026-03-29T15:37:43Z",
+   "repo": "kubernetes-sigs/kubebuilder",
+   "source": "multilang",
+   "lang": "go",
+   "position": 86,
+   "created_at_utc": "2026-03-29T15:37:43Z"
+  },
+  {
+   "instance_id": "getgauge__gauge-2836",
+   "created_at": "2026-03-30T08:37:16Z",
+   "repo": "getgauge/gauge",
+   "source": "multilang",
+   "lang": "go",
+   "position": 87,
+   "created_at_utc": "2026-03-30T08:37:16Z"
+  },
+  {
+   "instance_id": "usebruno__bruno-7620",
+   "created_at": "2026-03-30T14:29:47Z",
+   "repo": "usebruno/bruno",
+   "source": "multilang",
+   "lang": "js",
+   "position": 88,
+   "created_at_utc": "2026-03-30T14:29:47Z"
+  },
+  {
+   "instance_id": "gsd-build__gsd-2-3258",
+   "created_at": "2026-03-30T16:13:48Z",
+   "repo": "gsd-build/gsd-2",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 89,
+   "created_at_utc": "2026-03-30T16:13:48Z"
+  },
+  {
+   "instance_id": "influxdata__telegraf-18640",
+   "created_at": "2026-03-31T03:48:59Z",
+   "repo": "influxdata/telegraf",
+   "source": "multilang",
+   "lang": "go",
+   "position": 90,
+   "created_at_utc": "2026-03-31T03:48:59Z"
+  },
+  {
+   "instance_id": "NVIDIA__gpu-operator-2258",
+   "created_at": "2026-03-31T14:34:02Z",
+   "repo": "NVIDIA/gpu-operator",
+   "source": "multilang",
+   "lang": "go",
+   "position": 91,
+   "created_at_utc": "2026-03-31T14:34:02Z"
+  },
+  {
+   "instance_id": "ucfopen__canvasapi-716",
+   "created_at": "2026-03-31 19:11:13",
+   "repo": "ucfopen/canvasapi",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 92,
+   "created_at_utc": "2026-03-31T19:11:13Z"
+  },
+  {
+   "instance_id": "sveltejs__svelte-18039",
+   "created_at": "2026-03-31T21:06:12Z",
+   "repo": "sveltejs/svelte",
+   "source": "multilang",
+   "lang": "js",
+   "position": 93,
+   "created_at_utc": "2026-03-31T21:06:12Z"
+  },
+  {
+   "instance_id": "line__line-bot-sdk-python-981_interface",
+   "created_at": "2026-04-01 07:44:57",
+   "repo": "line/line-bot-sdk-python",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 94,
+   "created_at_utc": "2026-04-01T07:44:57Z"
+  },
+  {
+   "instance_id": "openai__codex-plugin-cc-83",
+   "created_at": "2026-04-01T08:09:41Z",
+   "repo": "openai/codex-plugin-cc",
+   "source": "multilang",
+   "lang": "js",
+   "position": 95,
+   "created_at_utc": "2026-04-01T08:09:41Z"
+  },
+  {
+   "instance_id": "mikro-orm__mikro-orm-7464",
+   "created_at": "2026-04-01T11:40:33Z",
+   "repo": "mikro-orm/mikro-orm",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 96,
+   "created_at_utc": "2026-04-01T11:40:33Z"
+  },
+  {
+   "instance_id": "github__gh-aw-23870",
+   "created_at": "2026-04-01T11:58:19Z",
+   "repo": "github/gh-aw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 97,
+   "created_at_utc": "2026-04-01T11:58:19Z"
+  },
+  {
+   "instance_id": "pdm-project__pdm-3759",
+   "created_at": "2026-04-01 14:37:40",
+   "repo": "pdm-project/pdm",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 98,
+   "created_at_utc": "2026-04-01T14:37:40Z"
+  },
+  {
+   "instance_id": "kubernetes__kops-18146",
+   "created_at": "2026-04-02T01:12:54Z",
+   "repo": "kubernetes/kops",
+   "source": "multilang",
+   "lang": "go",
+   "position": 99,
+   "created_at_utc": "2026-04-02T01:12:54Z"
+  },
+  {
+   "instance_id": "code-yeongyu__oh-my-openagent-3013",
+   "created_at": "2026-04-02T01:40:24Z",
+   "repo": "code-yeongyu/oh-my-openagent",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 100,
+   "created_at_utc": "2026-04-02T01:40:24Z"
+  },
+  {
+   "instance_id": "github__gh-aw-24043",
+   "created_at": "2026-04-02T10:21:27Z",
+   "repo": "github/gh-aw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 101,
+   "created_at_utc": "2026-04-02T10:21:27Z"
+  },
+  {
+   "instance_id": "proj4js__proj4js-560",
+   "created_at": "2026-04-02T18:43:11Z",
+   "repo": "proj4js/proj4js",
+   "source": "multilang",
+   "lang": "js",
+   "position": 102,
+   "created_at_utc": "2026-04-02T18:43:11Z"
+  },
+  {
+   "instance_id": "evcc-io__evcc-28765",
+   "created_at": "2026-04-02T19:12:06Z",
+   "repo": "evcc-io/evcc",
+   "source": "multilang",
+   "lang": "go",
+   "position": 103,
+   "created_at_utc": "2026-04-02T19:12:06Z"
+  },
+  {
+   "instance_id": "kubernetes__kops-18152",
+   "created_at": "2026-04-03T02:29:20Z",
+   "repo": "kubernetes/kops",
+   "source": "multilang",
+   "lang": "go",
+   "position": 104,
+   "created_at_utc": "2026-04-03T02:29:20Z"
+  },
+  {
+   "instance_id": "python-scim__scim2-models-139_interface",
+   "created_at": "2026-04-03 08:06:17",
+   "repo": "python-scim/scim2-models",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 105,
+   "created_at_utc": "2026-04-03T08:06:17Z"
+  },
+  {
+   "instance_id": "puppeteer__puppeteer-14826",
+   "created_at": "2026-04-03T10:32:58Z",
+   "repo": "puppeteer/puppeteer",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 106,
+   "created_at_utc": "2026-04-03T10:32:58Z"
+  },
+  {
+   "instance_id": "open-telemetry__opentelemetry-go-8133",
+   "created_at": "2026-04-03T12:43:28Z",
+   "repo": "open-telemetry/opentelemetry-go",
+   "source": "multilang",
+   "lang": "go",
+   "position": 107,
+   "created_at_utc": "2026-04-03T12:43:28Z"
+  },
+  {
+   "instance_id": "gastownhall__beads-2992",
+   "created_at": "2026-04-03T17:46:21Z",
+   "repo": "gastownhall/beads",
+   "source": "multilang",
+   "lang": "go",
+   "position": 108,
+   "created_at_utc": "2026-04-03T17:46:21Z"
+  },
+  {
+   "instance_id": "ether__etherpad-7445",
+   "created_at": "2026-04-04T00:13:07Z",
+   "repo": "ether/etherpad",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 109,
+   "created_at_utc": "2026-04-04T00:13:07Z"
+  },
+  {
+   "instance_id": "meltano__meltano-9929",
+   "created_at": "2026-04-04 02:15:27",
+   "repo": "meltano/meltano",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 110,
+   "created_at_utc": "2026-04-04T02:15:27Z"
+  },
+  {
+   "instance_id": "koxudaxi__datamodel-code-generator-3070",
+   "created_at": "2026-04-04 06:59:19",
+   "repo": "koxudaxi/datamodel-code-generator",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 111,
+   "created_at_utc": "2026-04-04T06:59:19Z"
+  },
+  {
+   "instance_id": "koxudaxi__datamodel-code-generator-3071",
+   "created_at": "2026-04-04 07:33:36",
+   "repo": "koxudaxi/datamodel-code-generator",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 112,
+   "created_at_utc": "2026-04-04T07:33:36Z"
+  },
+  {
+   "instance_id": "github__gh-aw-24521",
+   "created_at": "2026-04-04T16:20:32Z",
+   "repo": "github/gh-aw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 113,
+   "created_at_utc": "2026-04-04T16:20:32Z"
+  },
+  {
+   "instance_id": "karmada-io__karmada-7365",
+   "created_at": "2026-04-04T21:45:20Z",
+   "repo": "karmada-io/karmada",
+   "source": "multilang",
+   "lang": "go",
+   "position": 114,
+   "created_at_utc": "2026-04-04T21:45:20Z"
+  },
+  {
+   "instance_id": "kubernetes-sigs__controller-runtime-3494",
+   "created_at": "2026-04-05T09:52:43Z",
+   "repo": "kubernetes-sigs/controller-runtime",
+   "source": "multilang",
+   "lang": "go",
+   "position": 115,
+   "created_at_utc": "2026-04-05T09:52:43Z"
+  },
+  {
+   "instance_id": "tobymao__sqlglot-7457",
+   "created_at": "2026-04-05 13:50:52",
+   "repo": "tobymao/sqlglot",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 116,
+   "created_at_utc": "2026-04-05T13:50:52Z"
+  },
+  {
+   "instance_id": "cpp-linter__cpp-linter-hooks-206_interface",
+   "created_at": "2026-04-05 20:19:31",
+   "repo": "cpp-linter/cpp-linter-hooks",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 117,
+   "created_at_utc": "2026-04-05T20:19:31Z"
+  },
+  {
+   "instance_id": "lima-vm__lima-4803",
+   "created_at": "2026-04-06T11:14:59Z",
+   "repo": "lima-vm/lima",
+   "source": "multilang",
+   "lang": "go",
+   "position": 118,
+   "created_at_utc": "2026-04-06T11:14:59Z"
+  },
+  {
+   "instance_id": "kube-vip__kube-vip-1505",
+   "created_at": "2026-04-06T14:50:14Z",
+   "repo": "kube-vip/kube-vip",
+   "source": "multilang",
+   "lang": "go",
+   "position": 119,
+   "created_at_utc": "2026-04-06T14:50:14Z"
+  },
+  {
+   "instance_id": "huggingface__huggingface_hub-4056",
+   "created_at": "2026-04-06 15:39:13",
+   "repo": "huggingface/huggingface_hub",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 120,
+   "created_at_utc": "2026-04-06T15:39:13Z"
+  },
+  {
+   "instance_id": "keras-team__keras-22642",
+   "created_at": "2026-04-06 21:57:28",
+   "repo": "keras-team/keras",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 121,
+   "created_at_utc": "2026-04-06T21:57:28Z"
+  },
+  {
+   "instance_id": "azure-samples__azure-search-openai-demo-3025",
+   "created_at": "2026-04-06 23:17:47",
+   "repo": "Azure-Samples/azure-search-openai-demo",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 122,
+   "created_at_utc": "2026-04-06T23:17:47Z"
+  },
+  {
+   "instance_id": "open-telemetry__opentelemetry-collector-contrib-47408",
+   "created_at": "2026-04-07T08:04:48Z",
+   "repo": "open-telemetry/opentelemetry-collector-contrib",
+   "source": "multilang",
+   "lang": "go",
+   "position": 123,
+   "created_at_utc": "2026-04-07T08:04:48Z"
+  },
+  {
+   "instance_id": "TypeCellOS__BlockNote-2629",
+   "created_at": "2026-04-07T08:35:41Z",
+   "repo": "TypeCellOS/BlockNote",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 124,
+   "created_at_utc": "2026-04-07T08:35:41Z"
+  },
+  {
+   "instance_id": "surveyjs__survey-library-11137",
+   "created_at": "2026-04-07T09:26:29Z",
+   "repo": "surveyjs/survey-library",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 125,
+   "created_at_utc": "2026-04-07T09:26:29Z"
+  },
+  {
+   "instance_id": "ethereum__go-ethereum-34675",
+   "created_at": "2026-04-07T11:07:06Z",
+   "repo": "ethereum/go-ethereum",
+   "source": "multilang",
+   "lang": "go",
+   "position": 126,
+   "created_at_utc": "2026-04-07T11:07:06Z"
+  },
+  {
+   "instance_id": "gohugoio__hugo-14733",
+   "created_at": "2026-04-07T15:58:44Z",
+   "repo": "gohugoio/hugo",
+   "source": "multilang",
+   "lang": "go",
+   "position": 127,
+   "created_at_utc": "2026-04-07T15:58:44Z"
+  },
+  {
+   "instance_id": "gohugoio__hugo-14741",
+   "created_at": "2026-04-08T10:12:39Z",
+   "repo": "gohugoio/hugo",
+   "source": "multilang",
+   "lang": "go",
+   "position": 128,
+   "created_at_utc": "2026-04-08T10:12:39Z"
+  },
+  {
+   "instance_id": "gohugoio__hugo-14742",
+   "created_at": "2026-04-08T11:26:31Z",
+   "repo": "gohugoio/hugo",
+   "source": "multilang",
+   "lang": "go",
+   "position": 129,
+   "created_at_utc": "2026-04-08T11:26:31Z"
+  },
+  {
+   "instance_id": "nodejs__undici-5000",
+   "created_at": "2026-04-08T15:06:55Z",
+   "repo": "nodejs/undici",
+   "source": "multilang",
+   "lang": "js",
+   "position": 130,
+   "created_at_utc": "2026-04-08T15:06:55Z"
+  },
+  {
+   "instance_id": "graphistry__pygraphistry-1107_interface",
+   "created_at": "2026-04-08 23:33:51",
+   "repo": "graphistry/pygraphistry",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 131,
+   "created_at_utc": "2026-04-08T23:33:51Z"
+  },
+  {
+   "instance_id": "go-vikunja__vikunja-2574",
+   "created_at": "2026-04-09T10:08:21Z",
+   "repo": "go-vikunja/vikunja",
+   "source": "multilang",
+   "lang": "go",
+   "position": 132,
+   "created_at_utc": "2026-04-09T10:08:21Z"
+  },
+  {
+   "instance_id": "tobymao__sqlglot-7479",
+   "created_at": "2026-04-09 12:51:48",
+   "repo": "tobymao/sqlglot",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 133,
+   "created_at_utc": "2026-04-09T12:51:48Z"
+  },
+  {
+   "instance_id": "nodejs__undici-5011",
+   "created_at": "2026-04-09T15:02:43Z",
+   "repo": "nodejs/undici",
+   "source": "multilang",
+   "lang": "js",
+   "position": 134,
+   "created_at_utc": "2026-04-09T15:02:43Z"
+  },
+  {
+   "instance_id": "influxdata__telegraf-18686",
+   "created_at": "2026-04-09T16:25:25Z",
+   "repo": "influxdata/telegraf",
+   "source": "multilang",
+   "lang": "go",
+   "position": 135,
+   "created_at_utc": "2026-04-09T16:25:25Z"
+  },
+  {
+   "instance_id": "submariner-io__submariner-3957",
+   "created_at": "2026-04-09T16:41:41Z",
+   "repo": "submariner-io/submariner",
+   "source": "multilang",
+   "lang": "go",
+   "position": 136,
+   "created_at_utc": "2026-04-09T16:41:41Z"
+  },
+  {
+   "instance_id": "centrifugal__centrifugo-1129",
+   "created_at": "2026-04-09T18:38:00Z",
+   "repo": "centrifugal/centrifugo",
+   "source": "multilang",
+   "lang": "go",
+   "position": 137,
+   "created_at_utc": "2026-04-09T18:38:00Z"
+  },
+  {
+   "instance_id": "twpayne__chezmoi-5001",
+   "created_at": "2026-04-09T23:31:29Z",
+   "repo": "twpayne/chezmoi",
+   "source": "multilang",
+   "lang": "go",
+   "position": 138,
+   "created_at_utc": "2026-04-09T23:31:29Z"
+  },
+  {
+   "instance_id": "kyverno__kyverno-15834",
+   "created_at": "2026-04-10T16:19:45Z",
+   "repo": "kyverno/kyverno",
+   "source": "multilang",
+   "lang": "go",
+   "position": 139,
+   "created_at_utc": "2026-04-10T16:19:45Z"
+  },
+  {
+   "instance_id": "pypa__build-1027",
+   "created_at": "2026-04-10 18:48:38",
+   "repo": "pypa/build",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 140,
+   "created_at_utc": "2026-04-10T18:48:38Z"
+  },
+  {
+   "instance_id": "meltano__meltano-9950",
+   "created_at": "2026-04-10 20:30:39",
+   "repo": "meltano/meltano",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 141,
+   "created_at_utc": "2026-04-10T20:30:39Z"
+  },
+  {
+   "instance_id": "gsd-build__gsd-2-3946",
+   "created_at": "2026-04-10T20:44:37Z",
+   "repo": "gsd-build/gsd-2",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 142,
+   "created_at_utc": "2026-04-10T20:44:37Z"
+  },
+  {
+   "instance_id": "kedacore__keda-7642",
+   "created_at": "2026-04-10T20:46:40Z",
+   "repo": "kedacore/keda",
+   "source": "multilang",
+   "lang": "go",
+   "position": 143,
+   "created_at_utc": "2026-04-10T20:46:40Z"
+  },
+  {
+   "instance_id": "unit8co__darts-3065",
+   "created_at": "2026-04-10 23:06:13",
+   "repo": "unit8co/darts",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 144,
+   "created_at_utc": "2026-04-10T23:06:13Z"
+  },
+  {
+   "instance_id": "gsd-build__get-shit-done-2107",
+   "created_at": "2026-04-11T13:20:47Z",
+   "repo": "gsd-build/get-shit-done",
+   "source": "multilang",
+   "lang": "js",
+   "position": 145,
+   "created_at_utc": "2026-04-11T13:20:47Z"
+  },
+  {
+   "instance_id": "amir20__dozzle-4612",
+   "created_at": "2026-04-11T13:47:16Z",
+   "repo": "amir20/dozzle",
+   "source": "multilang",
+   "lang": "go",
+   "position": 146,
+   "created_at_utc": "2026-04-11T13:47:16Z"
+  },
+  {
+   "instance_id": "chenhg5__cc-connect-567",
+   "created_at": "2026-04-11T14:47:17Z",
+   "repo": "chenhg5/cc-connect",
+   "source": "multilang",
+   "lang": "go",
+   "position": 147,
+   "created_at_utc": "2026-04-11T14:47:17Z"
+  },
+  {
+   "instance_id": "nextlevelbuilder__goclaw-841",
+   "created_at": "2026-04-11T17:55:01Z",
+   "repo": "nextlevelbuilder/goclaw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 148,
+   "created_at_utc": "2026-04-11T17:55:01Z"
+  },
+  {
+   "instance_id": "kepano__defuddle-243",
+   "created_at": "2026-04-12T01:55:09Z",
+   "repo": "kepano/defuddle",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 149,
+   "created_at_utc": "2026-04-12T01:55:09Z"
+  },
+  {
+   "instance_id": "agentscope-ai__qwenpaw-3278",
+   "created_at": "2026-04-12 04:51:22",
+   "repo": "agentscope-ai/QwenPaw",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 150,
+   "created_at_utc": "2026-04-12T04:51:22Z"
+  },
+  {
+   "instance_id": "nesquena__hermes-webui-330_interface",
+   "created_at": "2026-04-12 21:10:36",
+   "repo": "nesquena/hermes-webui",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 151,
+   "created_at_utc": "2026-04-12T21:10:36Z"
+  },
+  {
+   "instance_id": "reactjs__react-rails-1418",
+   "created_at": "2026-04-13T01:11:26Z",
+   "repo": "reactjs/react-rails",
+   "source": "multilang",
+   "lang": "js",
+   "position": 152,
+   "created_at_utc": "2026-04-13T01:11:26Z"
+  },
+  {
+   "instance_id": "spack__spack-52244",
+   "created_at": "2026-04-13 07:36:02",
+   "repo": "spack/spack",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 153,
+   "created_at_utc": "2026-04-13T07:36:02Z"
+  },
+  {
+   "instance_id": "pypsa__pypsa-1653",
+   "created_at": "2026-04-13 08:33:16",
+   "repo": "PyPSA/PyPSA",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 154,
+   "created_at_utc": "2026-04-13T08:33:16Z"
+  },
+  {
+   "instance_id": "deltares__hydrolib-core-1049_interface",
+   "created_at": "2026-04-13 09:42:06",
+   "repo": "Deltares/HYDROLIB-core",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 155,
+   "created_at_utc": "2026-04-13T09:42:06Z"
+  },
+  {
+   "instance_id": "mui__mui-x-22062",
+   "created_at": "2026-04-13T09:59:32Z",
+   "repo": "mui/mui-x",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 156,
+   "created_at_utc": "2026-04-13T09:59:32Z"
+  },
+  {
+   "instance_id": "microsoft__qcodes-8039",
+   "created_at": "2026-04-13 10:36:33",
+   "repo": "microsoft/Qcodes",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 157,
+   "created_at_utc": "2026-04-13T10:36:33Z"
+  },
+  {
+   "instance_id": "gsd-build__get-shit-done-2186",
+   "created_at": "2026-04-13T11:48:41Z",
+   "repo": "gsd-build/get-shit-done",
+   "source": "multilang",
+   "lang": "js",
+   "position": 158,
+   "created_at_utc": "2026-04-13T11:48:41Z"
+  },
+  {
+   "instance_id": "moonD4rk__HackBrowserData-571",
+   "created_at": "2026-04-13T14:06:59Z",
+   "repo": "moonD4rk/HackBrowserData",
+   "source": "multilang",
+   "lang": "go",
+   "position": 159,
+   "created_at_utc": "2026-04-13T14:06:59Z"
+  },
+  {
+   "instance_id": "github__gh-aw-26074",
+   "created_at": "2026-04-13T17:48:04Z",
+   "repo": "github/gh-aw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 160,
+   "created_at_utc": "2026-04-13T17:48:04Z"
+  },
+  {
+   "instance_id": "pennylaneai__pennylane-9298",
+   "created_at": "2026-04-13 19:33:03",
+   "repo": "PennyLaneAI/pennylane",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 161,
+   "created_at_utc": "2026-04-13T19:33:03Z"
+  },
+  {
+   "instance_id": "pipecat-ai__pipecat-4283",
+   "created_at": "2026-04-13 22:11:49",
+   "repo": "pipecat-ai/pipecat",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 162,
+   "created_at_utc": "2026-04-13T22:11:49Z"
+  },
+  {
+   "instance_id": "pyinfra-dev__pyinfra-1665",
+   "created_at": "2026-04-14 07:06:21",
+   "repo": "pyinfra-dev/pyinfra",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 163,
+   "created_at_utc": "2026-04-14T07:06:21Z"
+  },
+  {
+   "instance_id": "wxt-dev__wxt-2267",
+   "created_at": "2026-04-14T13:51:30Z",
+   "repo": "wxt-dev/wxt",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 164,
+   "created_at_utc": "2026-04-14T13:51:30Z"
+  },
+  {
+   "instance_id": "twpayne__chezmoi-5016",
+   "created_at": "2026-04-14T18:06:15Z",
+   "repo": "twpayne/chezmoi",
+   "source": "multilang",
+   "lang": "go",
+   "position": 165,
+   "created_at_utc": "2026-04-14T18:06:15Z"
+  },
+  {
+   "instance_id": "kubernetes__kube-state-metrics-2926",
+   "created_at": "2026-04-15T04:17:07Z",
+   "repo": "kubernetes/kube-state-metrics",
+   "source": "multilang",
+   "lang": "go",
+   "position": 166,
+   "created_at_utc": "2026-04-15T04:17:07Z"
+  },
+  {
+   "instance_id": "gohugoio__hugo-14757",
+   "created_at": "2026-04-15T17:23:44Z",
+   "repo": "gohugoio/hugo",
+   "source": "multilang",
+   "lang": "go",
+   "position": 167,
+   "created_at_utc": "2026-04-15T17:23:44Z"
+  },
+  {
+   "instance_id": "QwenLM__qwen-code-3310",
+   "created_at": "2026-04-16T01:00:42Z",
+   "repo": "QwenLM/qwen-code",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 168,
+   "created_at_utc": "2026-04-16T01:00:42Z"
+  },
+  {
+   "instance_id": "github__gh-aw-26689",
+   "created_at": "2026-04-16T16:43:34Z",
+   "repo": "github/gh-aw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 169,
+   "created_at_utc": "2026-04-16T16:43:34Z"
+  },
+  {
+   "instance_id": "RooCodeInc__Roo-Code-12135",
+   "created_at": "2026-04-16T18:19:25Z",
+   "repo": "RooCodeInc/Roo-Code",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 170,
+   "created_at_utc": "2026-04-16T18:19:25Z"
+  },
+  {
+   "instance_id": "ultraplot__ultraplot-696",
+   "created_at": "2026-04-16 22:58:14",
+   "repo": "Ultraplot/UltraPlot",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 171,
+   "created_at_utc": "2026-04-16T22:58:14Z"
+  },
+  {
+   "instance_id": "danielmiessler__Fabric-2098",
+   "created_at": "2026-04-17T03:18:51Z",
+   "repo": "danielmiessler/Fabric",
+   "source": "multilang",
+   "lang": "go",
+   "position": 172,
+   "created_at_utc": "2026-04-17T03:18:51Z"
+  },
+  {
+   "instance_id": "sqlc-dev__sqlc-4383",
+   "created_at": "2026-04-17T13:21:52Z",
+   "repo": "sqlc-dev/sqlc",
+   "source": "multilang",
+   "lang": "go",
+   "position": 173,
+   "created_at_utc": "2026-04-17T13:21:52Z"
+  },
+  {
+   "instance_id": "gsd-build__gsd-2-4400",
+   "created_at": "2026-04-17T16:02:17Z",
+   "repo": "gsd-build/gsd-2",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 174,
+   "created_at_utc": "2026-04-17T16:02:17Z"
+  },
+  {
+   "instance_id": "pypa__twine-1309",
+   "created_at": "2026-04-17 17:23:13",
+   "repo": "pypa/twine",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 175,
+   "created_at_utc": "2026-04-17T17:23:13Z"
+  },
+  {
+   "instance_id": "celestoai__smolvm-172",
+   "created_at": "2026-04-18 11:06:08",
+   "repo": "CelestoAI/SmolVM",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 176,
+   "created_at_utc": "2026-04-18T11:06:08Z"
+  },
+  {
+   "instance_id": "mempalace__mempalace-1004",
+   "created_at": "2026-04-18 17:52:28",
+   "repo": "MemPalace/mempalace",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 177,
+   "created_at_utc": "2026-04-18T17:52:28Z"
+  },
+  {
+   "instance_id": "github__gh-aw-27242",
+   "created_at": "2026-04-19T23:34:14Z",
+   "repo": "github/gh-aw",
+   "source": "multilang",
+   "lang": "go",
+   "position": 178,
+   "created_at_utc": "2026-04-19T23:34:14Z"
+  },
+  {
+   "instance_id": "pyinfra-dev__pyinfra-1679_interface",
+   "created_at": "2026-04-20 07:41:05",
+   "repo": "pyinfra-dev/pyinfra",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 179,
+   "created_at_utc": "2026-04-20T07:41:05Z"
+  },
+  {
+   "instance_id": "assistant-ui__assistant-ui-3866",
+   "created_at": "2026-04-20T15:03:37Z",
+   "repo": "assistant-ui/assistant-ui",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 180,
+   "created_at_utc": "2026-04-20T15:03:37Z"
+  },
+  {
+   "instance_id": "mnfst__manifest-1635",
+   "created_at": "2026-04-20T15:23:45Z",
+   "repo": "mnfst/manifest",
+   "source": "multilang",
+   "lang": "ts",
+   "position": 181,
+   "created_at_utc": "2026-04-20T15:23:45Z"
+  },
+  {
+   "instance_id": "schemathesis__schemathesis-3778",
+   "created_at": "2026-04-21 11:18:39",
+   "repo": "schemathesis/schemathesis",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 182,
+   "created_at_utc": "2026-04-21T11:18:39Z"
+  },
+  {
+   "instance_id": "agronholm__anyio-1121",
+   "created_at": "2026-04-21 14:00:36",
+   "repo": "agronholm/anyio",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 183,
+   "created_at_utc": "2026-04-21T14:00:36Z"
+  },
+  {
+   "instance_id": "vprusso__toqito-1538",
+   "created_at": "2026-04-22 15:23:30",
+   "repo": "vprusso/toqito",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 184,
+   "created_at_utc": "2026-04-22T15:23:30Z"
+  },
+  {
+   "instance_id": "sigma67__ytmusicapi-909_interface",
+   "created_at": "2026-04-23 19:52:13",
+   "repo": "sigma67/ytmusicapi",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 185,
+   "created_at_utc": "2026-04-23T19:52:13Z"
+  },
+  {
+   "instance_id": "zarr-developers__virtualizarr-979",
+   "created_at": "2026-04-24 16:09:18",
+   "repo": "zarr-developers/VirtualiZarr",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 186,
+   "created_at_utc": "2026-04-24T16:09:18Z"
+  },
+  {
+   "instance_id": "databricks__dbt-databricks-1428",
+   "created_at": "2026-04-27 19:20:43",
+   "repo": "databricks/dbt-databricks",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 187,
+   "created_at_utc": "2026-04-27T19:20:43Z"
+  },
+  {
+   "instance_id": "reframe-hpc__reframe-3660_interface",
+   "created_at": "2026-04-27 23:53:48",
+   "repo": "reframe-hpc/reframe",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 188,
+   "created_at_utc": "2026-04-27T23:53:48Z"
+  },
+  {
+   "instance_id": "apache__iceberg-python-3295",
+   "created_at": "2026-04-28 22:03:47",
+   "repo": "apache/iceberg-python",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 189,
+   "created_at_utc": "2026-04-28T22:03:47Z"
+  },
+  {
+   "instance_id": "alibaba__opensandbox-816",
+   "created_at": "2026-04-29 07:35:36",
+   "repo": "alibaba/OpenSandbox",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 190,
+   "created_at_utc": "2026-04-29T07:35:36Z"
+  },
+  {
+   "instance_id": "beever-ai__beever-atlas-102",
+   "created_at": "2026-04-29 16:56:35",
+   "repo": "Beever-AI/beever-atlas",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 191,
+   "created_at_utc": "2026-04-29T16:56:35Z"
+  },
+  {
+   "instance_id": "astronomy-commons__lsdb-1349",
+   "created_at": "2026-04-29 20:36:11",
+   "repo": "astronomy-commons/lsdb",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 192,
+   "created_at_utc": "2026-04-29T20:36:11Z"
+  },
+  {
+   "instance_id": "hkuds__openharness-217",
+   "created_at": "2026-04-30 00:28:27",
+   "repo": "HKUDS/OpenHarness",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 193,
+   "created_at_utc": "2026-04-30T00:28:27Z"
+  },
+  {
+   "instance_id": "copier-org__copier-2646",
+   "created_at": "2026-04-30 11:21:38",
+   "repo": "copier-org/copier",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 194,
+   "created_at_utc": "2026-04-30T11:21:38Z"
+  },
+  {
+   "instance_id": "tox-dev__tox-3931",
+   "created_at": "2026-05-01 15:37:40",
+   "repo": "tox-dev/tox",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 195,
+   "created_at_utc": "2026-05-01T15:37:40Z"
+  },
+  {
+   "instance_id": "pallets-eco__wtforms-892_interface",
+   "created_at": "2026-05-03 13:17:49",
+   "repo": "pallets-eco/wtforms",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 196,
+   "created_at_utc": "2026-05-03T13:17:49Z"
+  },
+  {
+   "instance_id": "graphistry__pygraphistry-1277",
+   "created_at": "2026-05-04 02:58:43",
+   "repo": "graphistry/pygraphistry",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 197,
+   "created_at_utc": "2026-05-04T02:58:43Z"
+  },
+  {
+   "instance_id": "schemathesis__schemathesis-3933",
+   "created_at": "2026-05-04 09:43:10",
+   "repo": "schemathesis/schemathesis",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 198,
+   "created_at_utc": "2026-05-04T09:43:10Z"
+  },
+  {
+   "instance_id": "python-wheel-build__fromager-1106",
+   "created_at": "2026-05-04 11:13:36",
+   "repo": "python-wheel-build/fromager",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 199,
+   "created_at_utc": "2026-05-04T11:13:36Z"
+  },
+  {
+   "instance_id": "raullenchai__rapid-mlx-227",
+   "created_at": "2026-05-05 17:39:40",
+   "repo": "raullenchai/Rapid-MLX",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 200,
+   "created_at_utc": "2026-05-05T17:39:40Z"
+  },
+  {
+   "instance_id": "raullenchai__rapid-mlx-228",
+   "created_at": "2026-05-05 17:40:54",
+   "repo": "raullenchai/Rapid-MLX",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 201,
+   "created_at_utc": "2026-05-05T17:40:54Z"
+  },
+  {
+   "instance_id": "agronholm__anyio-1134",
+   "created_at": "2026-05-05 21:20:58",
+   "repo": "agronholm/anyio",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 202,
+   "created_at_utc": "2026-05-05T21:20:58Z"
+  },
+  {
+   "instance_id": "itsdnns__docsight-437",
+   "created_at": "2026-05-06 09:32:16",
+   "repo": "itsDNNS/docsight",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 203,
+   "created_at_utc": "2026-05-06T09:32:16Z"
+  },
+  {
+   "instance_id": "python-wheel-build__fromager-1124",
+   "created_at": "2026-05-07 03:47:42",
+   "repo": "python-wheel-build/fromager",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 204,
+   "created_at_utc": "2026-05-07T03:47:42Z"
+  },
+  {
+   "instance_id": "olofk__fusesoc-776_interface",
+   "created_at": "2026-05-07 12:05:49",
+   "repo": "olofk/fusesoc",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 205,
+   "created_at_utc": "2026-05-07T12:05:49Z"
+  },
+  {
+   "instance_id": "nesquena__hermes-webui-1818",
+   "created_at": "2026-05-07 13:43:28",
+   "repo": "nesquena/hermes-webui",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 206,
+   "created_at_utc": "2026-05-07T13:43:28Z"
+  },
+  {
+   "instance_id": "raullenchai__rapid-mlx-289",
+   "created_at": "2026-05-07 19:33:12",
+   "repo": "raullenchai/Rapid-MLX",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 207,
+   "created_at_utc": "2026-05-07T19:33:12Z"
+  },
+  {
+   "instance_id": "youssofal__mtplx-21",
+   "created_at": "2026-05-07 19:59:26",
+   "repo": "youssofal/MTPLX",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 208,
+   "created_at_utc": "2026-05-07T19:59:26Z"
+  },
+  {
+   "instance_id": "macbre__sql-metadata-625_interface",
+   "created_at": "2026-05-07 20:17:44",
+   "repo": "macbre/sql-metadata",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 209,
+   "created_at_utc": "2026-05-07T20:17:44Z"
+  },
+  {
+   "instance_id": "raullenchai__rapid-mlx-341_interface",
+   "created_at": "2026-05-09 17:33:42",
+   "repo": "raullenchai/Rapid-MLX",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 210,
+   "created_at_utc": "2026-05-09T17:33:42Z"
+  },
+  {
+   "instance_id": "geopython__pygeoapi-2338",
+   "created_at": "2026-05-11 03:12:03",
+   "repo": "geopython/pygeoapi",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 211,
+   "created_at_utc": "2026-05-11T03:12:03Z"
+  },
+  {
+   "instance_id": "nesquena__hermes-webui-2056",
+   "created_at": "2026-05-11 05:49:36",
+   "repo": "nesquena/hermes-webui",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 212,
+   "created_at_utc": "2026-05-11T05:49:36Z"
+  },
+  {
+   "instance_id": "cs-si__eodag-2176",
+   "created_at": "2026-05-11 10:01:25",
+   "repo": "CS-SI/eodag",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 213,
+   "created_at_utc": "2026-05-11T10:01:25Z"
+  },
+  {
+   "instance_id": "aallan__vera-662_interface",
+   "created_at": "2026-05-12 08:07:53",
+   "repo": "aallan/vera",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 214,
+   "created_at_utc": "2026-05-12T08:07:53Z"
+  },
+  {
+   "instance_id": "schemathesis__schemathesis-4087",
+   "created_at": "2026-05-12 11:45:06",
+   "repo": "schemathesis/schemathesis",
+   "source": "swe-rebench",
+   "lang": "python",
+   "position": 215,
+   "created_at_utc": "2026-05-12T11:45:06Z"
+  }
+ ]
+}

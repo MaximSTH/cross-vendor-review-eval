@@ -1535,6 +1535,20 @@ story):* **platform_infeasible** — hard (`oh-my-pi-489` bun crash) and time
 because each is a distinct diagnostic signature and the pilot report reports
 their individual prevalence.)*
 
+**Candidate sixth mode (D-065.2, 2026-08-05 — recorded, classification
+deferred): F2P-unreported-despite-large-parsed-suite** (feed): the record's
+own test command runs and its own parser reports thousands of tests, yet
+nearly all declared F2P names are absent from the output — consistent with a
+record/parser test-name inconsistency rather than honest failing labels.
+Evidence (Step-3 validation, `results/step3/validation/`):
+`Automattic__harper-2973` 108/111 F2P missing of 4742 parsed;
+`gleam-lang__gleam-5482` 1552/1558 missing of 3757 parsed; pattern dominates
+the rust and cs FAIL rows. **Pursued only if it ever changes an outcome or at
+write-up time** — it changed no D-065 admission outcome. Also per D-065.2 the
+rig-relative platform_infeasible family gains a third species:
+**emulation-spawn** (cargo-nextest `__double-spawn` failure under QEMU;
+`harper-2962`), alongside hard-crash and time.
+
 ## D-050 · 2026-07-23 · D-018 adjudication (pos5 A1): `jest.fn()` in read test-file content is quotation; second refinement channel
 
 Pre-registered D-025 procedure. Position 5 A1 (anthropic, in-session) scanned
@@ -2242,6 +2256,97 @@ evidence committed under `results/step3/validation/`):**
 
 **Status: adjudications 1 logged and applied to the table; 2 pending one
 rerun; 3 pending pass-3 completion.**
+
+## D-065 · 2026-08-05 · D-064.3 checkpoint ruled: admissions (python+go), harper classification, own-harvest split ruling with pre-registered trigger; step 2 executes
+
+**Ruled (supervisor), on the final validation table (brief §2.1, commit
+`81460d4`):**
+
+1. **Admissions (D-055 gate): ADMIT python, ADMIT go. REJECT cs, java, rust,
+   and cpp.** cpp's ~4 expected defects do not justify the worst wall-time
+   profile and feed-defect rate in the table; the supply gap is addressed by
+   (3), not by the most expensive language. Rejected languages are **recorded
+   with their evidence per the bun pattern** (set aside, never silently
+   dropped): cs 0/10 (9 label FAILs incl. F2P-passing-at-base, 1 time-
+   infeasible), java 1/10 (9 label FAILs), rust 0/10 (7 FAILs dominated by the
+   candidate sixth mode, 2 time-infeasible, 1 emulation-spawn), cpp 2/10
+   (4 label FAILs, 2 time-infeasible >60 min, 2 adjudicated
+   eval_harness_failure D-064.1). Evidence: `results/step3/validation/`.
+2. **harper-2962: `platform_infeasible(emulation-spawn)` ADOPTED** — the third
+   rig-relative species alongside crash and time. rust closes at 0/10. The
+   "F2P unreported despite thousands parsed" observation is recorded in the
+   corpus-findings ledger as a **candidate sixth integrity mode** (evidence:
+   harper-2973 108/111, gleam-5482 1552/1558), classification deferred,
+   pursued only if it ever changes an outcome or at write-up time.
+3. **Own-harvest (D-028c): split ruling.**
+   - **Authorized immediately:** pipeline **design and build** — harvest
+     criteria per §6's task-construction rules, candidate-repo sourcing,
+     label-generation-and-verification flow **reusing the D-028 screen as its
+     output gate** — as paper/container work in idle windows, **zero
+     sessions**, **presented for supervisor ratification before any harvested
+     task enters the pool**.
+   - **Harvesting itself is gated on a pre-registered trigger, logged
+     verbatim:** *"when cumulative screened rows across admitted feeds reach
+     60, recompute expected total defect supply with the tightened yield CI;
+     if the point estimate falls below n_max + 10% (48.4), harvest activates;
+     if above, it stays built-and-idle and re-evaluates at every subsequent
+     30 rows."*
+4. **Step 2 executes now:** pool freeze (python + go + JS/TS, 215 rows),
+   D-056 ordering, identity pull, brief §3 — **and sessions begin per the
+   ratified design.** Alternation per the recorded flip (D-063), ceiling per
+   D-057, stop protocol standing (D-058). Checkpoint at the brief, then at
+   the worker's judgment at natural boundaries.
+
+**Execution record of (4):** ordering **frozen** at
+`results/step3/ordered-pool-frozen.json` — 215 rows (python 110, go 66, ts 22,
+js 17), global `created_at` ASC with timestamps **normalized to UTC** before
+sorting (the feeds ship different formats: rebench `YYYY-MM-DD hh:mm:ss`
+naive, MultiLang ISO-Z; a raw string sort misorders same-day rows — caught
+before freeze, normalization rule recorded in the artifact header), ties
+`instance_id`→source. Pilot-touched rows (6 used + 16 screened,
+`results/step3/pilot-consumed.json`) sit at positions 19+. **Positions 1–11
+already carry D-028 screen verdicts from the validation samples** (7
+screen-PASS among them). → **OQ-27** (verdict-carryover + pilot-used
+exclusion) filed; sessions gated on that one ruling.
+
+**Status: rulings logged; step 2 executed to the OQ-27 gate.**
+
+## OQ-27 · 2026-08-05 · [Step 3] Screen-verdict carryover into accrual + pilot-used exclusion — the one gate before session 1
+
+**Why open:** the frozen D-056 ordering surfaces two facts the rulings never
+addressed. (i) **Positions 1–11 are (nearly exactly) the validation sample**
+— the first 10 python rows + go's first row already carry D-028 screen
+verdicts from step 1 (7 screen-PASS: click-3239, sqlglot-7187, tox-3846,
+go-task-2716, ramalama-2487, hiero-sdk-1914, moto-9841; 2 FAIL; 2
+INFEASIBLE). Does accrual **re-screen** them or do the verdicts **carry**?
+(ii) **Pilot-touched JS/TS rows appear at positions 19+**: 6 pilot-USED
+(P0/P1 authored+reviewed, materials published in this repo) and 16
+pilot-screened-not-used. Session 1 is authoring on the first screen-PASS
+position — so (i) gates session 1 directly; (ii) has runway to position 19.
+
+**Sub-questions and worker recommendation (one ruling covers all three):**
+- **(a) Validation-screen verdicts carry into accrual** *(rec: YES — same
+  D-028 screen, same rig, same committed tooling (`screen-runner.py`),
+  verdicts committed with full artifacts; re-screening is identical
+  computation repeated)*.
+- **(b) Pilot screen verdicts carry for the 16 screened-not-used rows**
+  *(rec: YES — same D-028 flow, verdicts committed under
+  `results/pilot/raw/p1-gt-screen/`; their FAIL/INFEASIBLE members enter the
+  skip trail with their pilot verdicts cited)*.
+- **(c) The 6 pilot-USED rows are excluded from accrual** *(rec: EXCLUDE —
+  authored patches, transcripts, and review results for these tasks are
+  published in this repo; reuse would double-use items and break D-003
+  "unknown to all parties"; logged in the skip trail as `pilot-consumed`)*.
+
+**If ruled per recommendation:** position 1 (keras-22316, INFEASIBLE) enters
+the skip trail, and **session 1 = authoring position 2
+(`pallets__click-3239`)**. Direction is keyed to the position index
+regardless of skips (D-063: odd positions openai, even positions anthropic,
+per the recorded flip) — so position 2 is **authored Claude-side
+(anthropic)**; the first Codex-side authoring lands on the first odd
+screen-PASS position (3, `tobymao__sqlglot-7187`).
+
+**Waiting on this single ruling; everything else is staged.**
 
 ---
 

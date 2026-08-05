@@ -1,0 +1,28 @@
+{
+ "used": [
+  "NVIDIA__NemoClaw-330",
+  "aralroca__next-translate-1259",
+  "haraka__Haraka-3535",
+  "openai__codex-plugin-cc-83",
+  "thlorenz__doctoc-328",
+  "thlorenz__doctoc-329"
+ ],
+ "screened_not_used": [
+  "Automattic__mongoose-16153",
+  "GladysAssistant__Gladys-2504",
+  "Mintplex-Labs__anything-llm-5252",
+  "can1357__oh-my-pi-489",
+  "code-charity__youtube-3708",
+  "code-yeongyu__oh-my-openagent-3013",
+  "gsd-build__gsd-2-2643",
+  "gsd-build__gsd-2-2738",
+  "gsd-build__gsd-2-3258",
+  "iOfficeAI__AionUi-1818",
+  "mikro-orm__mikro-orm-7464",
+  "proj4js__proj4js-560",
+  "puppeteer__puppeteer-14826",
+  "sveltejs__svelte-18039",
+  "usebruno__bruno-7620",
+  "vueuse__vueuse-5336"
+ ]
+}

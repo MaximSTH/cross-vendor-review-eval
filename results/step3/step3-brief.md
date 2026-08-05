@@ -159,12 +159,45 @@ under-running/own-harvest path was already declared the likely one. This
 table is the §2.5 evidence table for the supervisor's D-028c own-harvest
 re-ratification decision.
 
-## 3. Pool fix + selection ordering (D-056) — execution step 2
+### 2.3 Rulings on §2.1/§2.2 (D-065, 2026-08-05)
 
-PENDING step-1 admissions. Will record: admitted languages, the frozen pool
-(per-language post-gate counts at freeze time), the full D-056 ordering
-(`created_at` ASC, ties `instance_id`→source), all seeds (repeat draw, A1
-subsample per D-061 — seeds recorded before use), and the identity pull.
+**ADMITTED: python, go** (+ JS/TS, pilot-validated). **REJECTED: cs, java,
+rust, cpp** — recorded with evidence per the bun pattern (D-065.1).
+harper-2962 = `platform_infeasible(emulation-spawn)` (third rig-relative
+species); the F2P-unreported pattern is logged as a **candidate sixth
+integrity mode** in the findings taxonomy (classification deferred).
+**Own-harvest (D-028c) split ruling:** pipeline **design + build authorized
+now** (idle-window paper/container work, zero sessions, ratification before
+any harvested task enters the pool); **harvesting gated on the pre-registered
+trigger** (D-065.3, verbatim): *"when cumulative screened rows across
+admitted feeds reach 60, recompute expected total defect supply with the
+tightened yield CI; if the point estimate falls below n_max + 10% (48.4),
+harvest activates; if above, it stays built-and-idle and re-evaluates at
+every subsequent 30 rows."*
+
+## 3. Pool fix + selection ordering (D-056) — execution step 2 (EXECUTED 2026-08-05)
+
+- **Pool FROZEN: 215 rows** — python 110 (SWE-rebench `2026_03`), go 66, ts
+  22, js 17 (MultiLang), post-gate `created_at > 2026-03-01`, counts at
+  freeze matching the prereg §2 live-verified numbers exactly.
+- **Ordering artifact:** `ordered-pool-frozen.json` — global `created_at`
+  ASC, ties `instance_id`→source, per D-056. **Normalization note (caught
+  before freeze):** the feeds ship different timestamp formats (rebench
+  `YYYY-MM-DD hh:mm:ss` naive; MultiLang ISO-`Z`); a raw string sort
+  misorders same-day rows (space sorts before `T`), so the sort key is
+  `created_at_utc` (both parsed as UTC), recorded per-row in the artifact.
+- **Identity pull:** done at freeze (215 identities + created_at + repo);
+  this is the D-056-authorized pull, after the ordering rule was in force.
+- **Pilot overlap:** `pilot-consumed.json` — 6 pilot-USED + 16
+  pilot-screened rows, first appearing at **position 19**. **Positions 1–11
+  are (nearly exactly) the step-1 validation sample** and already carry D-028
+  screen verdicts (7 screen-PASS). → **OQ-27** (verdict carryover + 
+  pilot-used exclusion) filed; **session 1 waits on that single ruling.**
+- **Seeds:** none consumed yet. The D-061 A1-subsample seed and the
+  conditional-repeat seed are drawn (and recorded here) at their first use,
+  per D-027c.
+- **Alternation (D-063):** odd positions → openai authors; even positions →
+  anthropic; keyed to position index, skips never shift it.
 
 ## 4. Session log pointers — execution step 3
 
