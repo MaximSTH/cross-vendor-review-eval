@@ -32,3 +32,5 @@ results/runs/
 
 # generated doc exports (regenerate via tools/render-doc.sh)
 exports/
+results/pilot/practitioner-writeup.md
+results/pilot/practitioner-writeup.html
