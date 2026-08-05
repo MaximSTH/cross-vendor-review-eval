@@ -1,0 +1,23 @@
+method: timestamp does not run when generates: path is missing
+```  
+my-task:
+    desc: does useful things
+    cmds:
+      - echo "I ran yo"
+    sources:
+      - [insert some path to source files]
+    generates:
+      - [insert some path to generated file]
+    method: timestamp  
+```
+
+- Task version: Task version: v3.26.0 (h1:NfYktTh/XXJUFtUFdle+BZFtvGlmhk4Q7YfoeOBLPlE=)
+- Operating system: Darwin
+- Experiments enabled: no
+
+
+If i add method timestamp then the task is not run when the output is not there... (like after a clean operation)
+
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.

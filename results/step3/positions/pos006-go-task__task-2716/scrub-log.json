@@ -1,0 +1,6 @@
+{
+ "task": "go-task__task-2716",
+ "rule": "prereg 4.4 (D-035b)",
+ "removed": [],
+ "note": "pointer scan: []"
+}

@@ -1,0 +1,16 @@
+Implemented and left uncommitted.
+
+Changes:
+
+- Dotted Python factors like `3.10-tests`, `tests-3.10`, and `3.10t-tests` now determine `base_python`.
+- Restricted bare dotted factors to Python 2.x/3.x, preserving behavior for names like `eslint-8.3`.
+- Added regression and conflicting-factor tests.
+- Added a changelog entry.
+
+Validation passed:
+
+- Direct extraction regression checks
+- Python syntax compilation
+- `git diff --check`
+
+The full pytest module couldn’t run because dependencies were unavailable and the sandbox cannot access PyPI. Working tree contains only the three intended files: [api.py](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos005/authoring/src/tox/tox_env/python/api.py:66), [test_python_api.py](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos005/authoring/tests/tox_env/python/test_python_api.py:48), and [3845.bugfix.rst](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos005/authoring/docs/changelog/3845.bugfix.rst:1).

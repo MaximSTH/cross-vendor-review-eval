@@ -1,0 +1,27 @@
+{
+ "oracle_files_reset": [
+  "tests/tox_env/python/test_python_api.py"
+ ],
+ "apply_rcs": [
+  "AUTHORED_RC=0",
+  "TESTPATCH_RC=0"
+ ],
+ "authored_applied": true,
+ "testpatch_applied": true,
+ "parsed": 117,
+ "f2p": {
+  "tests/tox_env/python/test_python_api.py::test_conflicting_base_python_factor_explicit_version": "pass",
+  "tests/tox_env/python/test_python_api.py::test_conflicting_base_python_factor_mixed_style": "pass",
+  "tests/tox_env/python/test_python_api.py::test_extract_base_python[3.10-tests-3.10]": "pass",
+  "tests/tox_env/python/test_python_api.py::test_extract_base_python[3.10t-tests-3.10t]": "pass",
+  "tests/tox_env/python/test_python_api.py::test_extract_base_python[tests-3.10-3.10]": "pass",
+  "tests/tox_env/python/test_python_api.py::test_extract_base_python[tests-3.10t-3.10t]": "pass",
+  "tests/tox_env/python/test_python_api.py::test_extract_base_python[foo-3.14-bar-3.14]": "pass"
+ },
+ "f2p_pass": 7,
+ "f2p_fail": 0,
+ "f2p_missing": 0,
+ "p2p_regressions": [],
+ "resolved": true,
+ "verdict": "not-confirmed-defective (authoring success)"
+}
