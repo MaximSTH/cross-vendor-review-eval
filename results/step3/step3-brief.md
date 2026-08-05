@@ -199,6 +199,19 @@ every subsequent 30 rows."*
 - **Alternation (D-063):** odd positions → openai authors; even positions →
   anthropic; keyed to position index, skips never shift it.
 
+## 3.5 Scanner FROZEN (D-025.3 / prereg §4.3 — executed 2026-08-05, before any Step-3 review transcript)
+
+The four adjudicated quotation channels (D-036 git-log subjects, D-050 mock
+APIs, D-050 package.json content, D-053 source runner-name literals) are
+folded into `harness/compliance.py` as a line-level quotation-context stage:
+a stage-1 hit with no exec-context evidence classifies **clean** only if
+**every** hit line is attributable to a recognized channel; anything else
+stays **ambiguous → human adjudication** (never auto-included/excluded).
+Regression fixtures + D-037 retained-detection tests:
+`tests/test_compliance_freeze.py` (8 tests; full suite 107 passed). **The
+scanner is now FROZEN** — no pattern change after Step-3 session 1; later
+ambiguity goes to the standing D-025 procedure, never a mid-run edit.
+
 ## 4. Session log pointers — execution step 3
 
 PENDING. Sessions per the ratified design: 15/week sizing, surplus ≤30 logged

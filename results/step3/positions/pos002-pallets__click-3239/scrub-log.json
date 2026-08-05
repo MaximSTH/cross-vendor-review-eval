@@ -1,0 +1,6 @@
+{
+ "task": "pallets__click-3239",
+ "rule": "prereg 4.4 (D-035b): strip related-PR lists, fixed-in #N/commit refs, upstream-patch URLs; keep bug description/repro/expected",
+ "removed": [],
+ "note": "no fix-pointing references present (hints_text empty; the click 8.3.0 release-notes link describes the behavior change under report, not this issue's fix)"
+}

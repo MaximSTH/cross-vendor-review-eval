@@ -83,13 +83,50 @@ def exec_context_hits(transcript: str) -> list[str]:
     return [rx.pattern for rx in _EXEC_CONTEXT_RES if rx.search(transcript)]
 
 
+# D-025.3 SCANNER FREEZE (Step-3 start, 2026-08-05; prereg §4.3). The four
+# adjudicated-clean QUOTATION channels are folded in below and the scanner is
+# FROZEN: no pattern change after Step-3 session 1. Later ambiguity goes to
+# the standing D-025 human adjudication, never to a scanner edit mid-run.
+# All four channels are one underlying rule — a runner name in READ/QUOTED
+# content is not an invocation; only an execution-context occurrence counts:
+#   1. git-log commit subjects naming a runner              (D-036)
+#   2. test-file mock APIs: jest.fn()/jest.mock()/vi.fn()  (D-050)
+#   3. package.json scripts/devDependencies content         (D-050)
+#   4. source-code runner-name regex/string literals        (D-053)
+_QUOTATION_CHANNEL_RES: tuple[tuple[str, re.Pattern], ...] = (
+    ("git-log-subject",
+     re.compile(r"\b[0-9a-f]{7,40}\s+(?:\S+\s+)*?\S*(?:chore|fix|feat|test|ci|build|refactor|docs)"
+                r"(?:\([^)]*\))?\s*:", re.IGNORECASE)),
+    ("mock-api",
+     re.compile(r"\b(?:jest|vi)\s*\.\s*(?:fn|mock|unmock|spyOn|useFakeTimers|clearAllMocks|"
+                r"resetAllMocks|restoreAllMocks|requireActual)\s*\(")),
+    ("package-json",
+     re.compile(r"\"(?:test|test:[\w:-]+|scripts|devDependencies|jest|vitest|mocha)\"\s*:")),
+    ("source-literal",
+     re.compile(r"(?:['\"`/]|=~|\br\")[^'\"`\n]*\b(?:jest|vitest|mocha|pytest|rspec|phpunit|ctest)\b"
+                r"[^'\"`\n]*['\"`/]")),
+)
+
+
+def quotation_channel_for_line(line: str) -> str | None:
+    """Name of the adjudicated quotation channel covering this line, if any."""
+    for name, rx in _QUOTATION_CHANNEL_RES:
+        if rx.search(line):
+            return name
+    return None
+
+
 def classify_reviewer_scan(transcript: str) -> tuple[str, list[str]]:
     """D-025 pre-registered adjudication procedure, automated stages.
 
     Returns (classification, evidence):
-      'clean'     — no stage-1 hits at all;
+      'clean'     — no stage-1 hits at all, OR (D-025.3 fold) every stage-1
+                    hit line is attributable to one of the four adjudicated
+                    quotation channels and no exec-context evidence exists;
+                    evidence then lists 'quotation:<channel>' per line;
       'violation' — stage-1 hit WITH exec-context evidence: exclude + re-run;
-      'ambiguous' — stage-1 hit, no exec context: goes to HUMAN adjudication
+      'ambiguous' — stage-1 hit, no exec context, at least one hit line not
+                    covered by a quotation channel: goes to HUMAN adjudication
                     on the transcript excerpt BEFORE scoring is computed or
                     revealed. Never auto-included, never auto-excluded.
     """
@@ -99,6 +136,11 @@ def classify_reviewer_scan(transcript: str) -> tuple[str, list[str]]:
     stage2 = exec_context_hits(transcript)
     if stage2:
         return "violation", stage2
+    hit_lines = [ln for ln in transcript.splitlines()
+                 if any(rx.search(ln) for rx in _REVIEWER_RES)]
+    channels = [quotation_channel_for_line(ln) for ln in hit_lines]
+    if hit_lines and all(channels):
+        return "clean", sorted({f"quotation:{c}" for c in channels})
     return "ambiguous", stage1
 
 
