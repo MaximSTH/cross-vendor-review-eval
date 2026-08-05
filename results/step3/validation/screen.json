@@ -185,8 +185,8 @@
     "wall_s": 576
   },
   "go:envoyproxy__gateway-8521": {
-    "verdict": "ERROR",
-    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+    "verdict": "INFEASIBLE",
+    "reason": "platform_infeasible(crash): test command died under amd64 emulation (D-048/D-030 bun precedent)",
     "parsed_tests": 0,
     "F2P": {
       "n": 2,
@@ -197,7 +197,7 @@
       "n": 3068,
       "not_pass_at_base": 0
     },
-    "wall_s": 94
+    "wall_s": 117
   },
   "go:kubernetes-sigs__kueue-9866": {
     "verdict": "FAIL",

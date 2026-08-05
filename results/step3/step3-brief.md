@@ -114,6 +114,51 @@ precedent), not ERROR. Settled PASS/FAIL/INFEASIBLE verdicts from the first
 pass were produced by unaffected code paths and stand; **ERROR rows re-run
 under the fixed harness** (the runner caches only settled verdicts).
 
+### 2.1 FINAL per-language table (passes 1–4 complete, 2026-08-05; adjudication overlays D-064 applied)
+
+| language | PASS | FAIL (label) | INFEASIBLE (rig) | feed defect (adjudicated) | **usable** | Wilson 95% CI |
+|---|---:|---:|---|---:|---:|---|
+| **python** | 6 | 2 | 2 (crash: keras/TF AVX) | 0 | **6/10** | [0.31, 0.83] |
+| **go** | 4 | 4 | 2 (time: kyverno; crash: envoy-gateway, `fatal error: fault` ×3 runs, D-064.2 rerun) | 0 | **4/10** | [0.17, 0.69] |
+| **cs** | 0 | 9 | 1 (time) | 0 | **0/10** | [0.00, 0.28] |
+| **cpp** | 2 | 4 | 2 (time) | 2 (D-064.1: DXC, esphome) | **2/10** | [0.06, 0.51] |
+| **java** | 1 | 9 | 0 | 0 | **1/10** | [0.02, 0.40] |
+| **rust** | 0 | 7 | 2 (time) + 1 pending¹ | 0 | **0/10** | [0.00, 0.28] |
+
+¹ `harper-2962`: machine ERROR; **proposed** `platform_infeasible(emulation-spawn)` —
+cargo-nextest `__double-spawn: No such file or directory` under QEMU (build
+succeeded; evidence committed). Classification with the supervisor; usable
+count unaffected. Note also: rust/cs FAIL rows are dominated by "F2P not
+reported despite large parsed suites" (harper-2973 108/111 missing of 4742
+parsed; gleam-5482 1552/1558 missing of 3757) — consistent with feed-side
+record/parser name inconsistency; refining FAIL→eval_harness_failure would
+not change any admission outcome, so it is recorded, not pursued.
+
+Pilot comparator (JS/TS): 5/17 ≈ 29% [0.13, 0.53]. Screen cost: container
+time only, **0 sessions**.
+
+### 2.2 Supply picture (§2.5) — own-harvest evidence table (for D-028c re-ratification)
+
+Under the proposed admissions (python + go; JS/TS already validated), with the
+pilot defect yield 0.40 (2/5; 95% CI [0.12, 0.77]) composed on measured
+usable rates:
+
+| source | pool (post-gate) | usable rate (measured) | E[screen-PASS] | E[defects] |
+|---|---:|---:|---:|---:|
+| SWE-rebench python | 110 | 0.60 | 66.0 | 26.4 |
+| MultiLang go | 66 | 0.40 | 26.4 | 10.6 |
+| MultiLang js/ts | 39 | 0.29 (pilot) | 11.5 | 4.6 |
+| **TOTAL admitted** | **215** | | **103.9** | **41.5** |
+| (cpp if admitted) | +53 | 0.20 | +10.6 | +4.2 → 45.8 |
+
+**Reading: expected defect supply from admitted external feeds is ~41.5 <
+n_max = 44 even if every admitted post-gate row is screened** (yield-CI range
+~12–80 — dominated by the 5-row pilot yield sample). The §2.5
+demonstrated-insufficiency condition is met on point estimates; per D-062 the
+under-running/own-harvest path was already declared the likely one. This
+table is the §2.5 evidence table for the supervisor's D-028c own-harvest
+re-ratification decision.
+
 ## 3. Pool fix + selection ordering (D-056) — execution step 2
 
 PENDING step-1 admissions. Will record: admitted languages, the frozen pool
