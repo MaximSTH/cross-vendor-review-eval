@@ -1,0 +1,59 @@
+ Downloading crates ...
+  Downloaded alloca v0.4.0
+  Downloaded ciborium-ll v0.2.2
+  Downloaded num-conv v0.2.0
+  Downloaded time-core v0.1.8
+  Downloaded tracing-log v0.2.0
+  Downloaded tinytemplate v1.2.1
+  Downloaded nu-ansi-term v0.50.1
+  Downloaded tempfile v3.27.0
+  Downloaded rstest v0.26.1
+  Downloaded rstest_macros v0.26.1
+  Downloaded burn-train v0.19.1
+  Downloaded rand v0.10.0
+  Downloaded crossbeam-channel v0.5.15
+  Downloaded criterion v0.8.2
+  Downloaded time v0.3.47
+  Downloaded burn-dataset v0.19.1
+  Downloaded anes v0.1.6
+  Downloaded ciborium v0.2.2
+  Downloaded deranged v0.5.5
+  Downloaded tracing-appender v0.2.3
+  Downloaded sysinfo v0.38.4
+  Downloaded time-macros v0.2.27
+  Downloaded strum_macros v0.27.2
+  Downloaded strum v0.27.2
+  Downloaded relative-path v1.9.3
+  Downloaded quickcheck_macros v1.2.0
+  Downloaded quickcheck v1.1.0
+  Downloaded page_size v0.6.0
+  Downloaded oorandom v11.1.5
+  Downloaded futures-timer v3.0.3
+  Downloaded env_logger v0.11.9
+  Downloaded csv-core v0.1.12
+  Downloaded criterion-plot v0.8.2
+  Downloaded thread-tree v0.3.3
+  Downloaded powerfmt v0.2.0
+  Downloaded cpufeatures v0.3.0
+  Downloaded env_filter v1.0.0
+  Downloaded ciborium-io v0.2.2
+  Downloaded chacha20 v0.10.0
+  Downloaded cast v0.3.0
+  Downloaded csv v1.3.1
+   Compiling harper-wasm v0.1.0 (/testbed/harper-wasm)
+<jemalloc>: MADV_DONTNEED does not work (memset will be used instead)
+<jemalloc>: (This is the expected behaviour if you are running under QEMU)
+   Compiling harper-core v1.11.0 (/testbed/harper-core)
+<jemalloc>: MADV_DONTNEED does not work (memset will be used instead)
+<jemalloc>: (This is the expected behaviour if you are running under QEMU)
+    Finished `test` profile [optimized + debuginfo] target(s) in 3m 15s
+error: creating test list failed
+
+Caused by:
+  for `harper-asciidoc`, command `/testbed/target/debug/deps/harper_asciidoc-290a30e7ebdb1c2c --list --format terse` exited with exit code 1
+  --- stdout:
+  Error while loading __double-spawn: No such file or directory
+
+  --- stderr:
+
+  ---

@@ -1,0 +1,47 @@
+s::unused_record_constructor_raises_a_warning ... ok
+test type_::tests::warnings::unused_recursive_function_argument ... ok
+test type_::tests::warnings::unused_record_update_raises_a_warning ... ok
+test type_::tests::warnings::unused_recursive_function_argument_2 ... ok
+test type_::tests::warnings::unused_recursive_function_inside_anonymous_function ... ok
+test type_::tests::warnings::unused_recursive_function_passing_argument_in_a_different_position_counts_as_using_it ... ok
+test type_::tests::warnings::unused_recursive_function_with_shadowed_function ... ok
+test type_::tests::warnings::unused_recursive_function_with_shadowing ... ok
+test type_::tests::warnings::unused_recursive_function_with_variable_shadowing ... ok
+test type_::tests::warnings::unused_string ... ok
+test type_::tests::warnings::unused_tuple ... ok
+test type_::tests::warnings::unused_tuple_index_raises_a_warning ... ok
+test type_::tests::warnings::unused_variable_assignment_pattern ... ok
+test type_::tests::warnings::unused_variable_raises_a_warning ... ok
+test type_::tests::warnings::unused_variable_shadowing_test ... ok
+test type_::tests::warnings::unused_variable_string_prefix_pattern ... ok
+test type_::tests::warnings::unused_variable_warnings_test ... ok
+test type_::tests::warnings::unused_variable_string_prefix_pattern2 ... ok
+test type_::tests::warnings::use_statement_calling_regular_function_is_never_marked_unused ... ok
+test type_::tests::warnings::unused_variable_warnings_test2 ... ok
+test type_::tests::warnings::used_destructure ... ok
+test type_::tests::warnings::use_with_pure_fn_expression_is_marked_as_unused ... ok
+test type_::tests::warnings::used_private_const_warnings_test ... ok
+test type_::tests::warnings::used_private_const_warnings_test2 ... ok
+test type_::tests::warnings::used_private_fn_warnings_test ... ok
+test type_::tests::warnings::used_private_fn_warnings_test2 ... ok
+test type_::tests::warnings::used_variable_shadowing_test ... ok
+test type_::tests::warnings::used_type_with_import_alias_no_warning_test ... ok
+test type_::tests::warnings::used_variable_warnings_test ... ok
+test type_::tests::warnings::used_variable_warnings_test2 ... ok
+test type_::tests::warnings::variables_not_redundant_comparison ... ok
+test type_::tests::warnings::variables_redundant_comparison ... ok
+test type_::tests::warnings::warning_many_at_same_time ... ok
+test type_::tests::warnings::warning_private_function_never_used ... ok
+test type_::tests::warnings::warning_variable_never_used_test ... ok
+test type_::tests::warnings::warnings_for_matches_on_literal_values_that_are_not_like_an_if_1 ... ok
+test uid::id_geneation ... ok
+test type_::tests::warnings::warnings_for_matches_on_literal_values_that_are_not_like_an_if_2 ... ok
+
+failures:
+
+failures:
+    javascript::tests::case::no_duplicate_let_after_directly_matching_case
+
+test result: FAILED. 3720 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 19.65s
+
+error: test failed, to rerun pass `-p gleam-core --lib`

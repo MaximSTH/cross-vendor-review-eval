@@ -1,0 +1,116 @@
+x! {
+                                div { "hi" }
+                            }
+                        },
+                    }
+                    {
+                        rsx! {
+                            BarChart { id: "bar-plot".to_string(), x: value, y: label }
+                        }
+                    }
+                },
+            }
+        },
+    }
+}
+test prettier_please::tests::write_body_no_indent ... ok
+
+div { class: "px-4",
+    {is_current.then(|| rsx! {
+        {children}
+    })}
+}
+test prettier_please::tests::write_component_body ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
+
+     Running tests/error_handling.rs (target/debug/deps/error_handling-bdf313cddc6c5a19)
+
+running 3 tests
+test no_parse ... ok
+test parses_but_fmt_fails ... ok
+test parses_and_is_okay ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+     Running tests/samples.rs (target/debug/deps/samples-820a59048cf225dd)
+
+running 40 tests
+test asset ... ok
+test attributes ... ok
+test basic_expr ... ok
+test blank_lines_preserved ... ok
+test blank_lines ... ok
+test collapse_expr ... ok
+test collapse ... ok
+test comments ... ok
+test commentshard ... ok
+test complex ... ok
+test emoji ... ok
+test expr_on_conditional ... ok
+test fat_exprs ... ok
+test docsite ... ok
+
+thread 'forloop_tuple' panicked at packages/autofmt/tests/samples.rs:27:1:
+assertion failed: `(left == right)`
+
+[1mDiff[0m [31m< left[0m / [32mright >[0m :
+ rsx! {
+[31m<    for (index, name, value) in data.iter() {[0m
+[32m>    for (index[0m[1;48;5;22;32m [0m[32m, name[0m[1;48;5;22;32m [0m[32m, value) in data.iter() {[0m
+         div { "{index}: {name} = {value}" }
+     }
+ 
+     for item in items {
+         div { "{item}" }
+     }
+ 
+[31m<    for (a, b) in pairs.iter().enumerate() {[0m
+[32m>    for (a[0m[1;48;5;22;32m [0m[32m, b) in pairs.iter().enumerate() {[0m
+         span { "{a}-{b}" }
+     }
+ 
+[31m<    for (_, value) in pairs {[0m
+[32m>    for (_[0m[1;48;5;22;32m [0m[32m, value) in pairs {[0m
+         span { "{value}" }
+     }
+ }
+ 
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test forloop_tuple ... FAILED
+test ifchain_forloop ... ok
+test key ... ok
+test letsome ... ok
+test immediate_expr ... ok
+test long ... ok
+test long_exprs ... ok
+test manual_props ... ok
+test messy_indent ... ok
+test misplaced ... ok
+test multirsx ... ok
+test many_exprs ... ok
+test oneline ... ok
+test nested ... ok
+test raw_strings ... ok
+test reallylong ... ok
+test prop_rsx ... ok
+test simple ... ok
+test skip ... ok
+test shorthand ... ok
+test spaces ... ok
+test t2 ... ok
+test tiny ... ok
+test tinynoopt ... ok
+test staged ... ok
+test trailing_expr ... ok
+
+failures:
+
+failures:
+    forloop_tuple
+
+test result: FAILED. 39 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.92s
+
+error: test failed, to rerun pass `-p dioxus-autofmt --test samples`

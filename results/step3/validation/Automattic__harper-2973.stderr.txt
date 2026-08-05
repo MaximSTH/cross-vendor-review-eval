@@ -1,0 +1,56 @@
+ld panic ... ok
+test weir::parsing::stmt::tests::catches_non_whitespace_after_let - should panic ... ok
+test weir::parsing::stmt::tests::catches_non_whitespace_after_let_var - should panic ... ok
+test weir::parsing::stmt::tests::catches_non_whitespace_after_test - should panic ... ok
+test weir::parsing::stmt::tests::catches_non_whitespace_between_test - should panic ... ok
+test weir::parsing::stmt::tests::parses_allows ... ok
+test weir::parsing::stmt::tests::parses_comment_expr_var_together ... ok
+test weir::parsing::stmt::tests::parses_comment_in_middle ... ok
+test weir::parsing::stmt::tests::parses_multiple_spaces_in_tests ... ok
+test weir::parsing::stmt::tests::parses_single_comment_stmt ... ok
+test weir::parsing::stmt::tests::parses_single_comment_stmt_with_space_prefix ... ok
+test weir::parsing::stmt::tests::parses_single_expr_stmt ... ok
+test weir::parsing::stmt::tests::parses_single_var_stmt ... ok
+test weir::parsing::stmt::tests::parses_single_var_stmt_with_lots_of_space ... ok
+test weir::parsing::stmt::tests::parses_single_var_stmt_array ... ok
+test weir::parsing::stmt::tests::parses_tests ... ok
+test weir::tests::does_not_panic ... ok
+test weir::tests::errors_properly_with_missing_expr ... ok
+test weir::tests::fails_on_ignore_test ... ok
+test weir::tests::fails_on_unresolved_expr ... ok
+test weir::tests::dashes ... ok
+test weir::tests::g_suite_with_refs ... ok
+test weir::tests::g_suite ... ok
+test weir::tests::wildcard ... ok
+test weirpack::tests::round_trip_weirpack_bytes ... ok
+test weir::tests::simple_right_click_linter ... ok
+
+failures:
+
+---- linting::phrase_set_corrections::tests::corrects_verse_me stdout ----
+
+thread 'linting::phrase_set_corrections::tests::corrects_verse_me' (3142) panicked at harper-core/src/linting/phrase_set_corrections/tests.rs:1690:5:
+No suggestion sequence produced the expected result.
+Expected: "Come play me in this game."
+
+---- linting::phrase_set_corrections::tests::corrects_verse_against stdout ----
+
+thread 'linting::phrase_set_corrections::tests::corrects_verse_against' (3141) panicked at harper-core/src/linting/phrase_set_corrections/tests.rs:1672:5:
+No suggestion sequence produced the expected result.
+Expected: "A game of Morra, with 3 different AI you can play against."
+
+---- linting::phrase_set_corrections::tests::corrects_versing_against stdout ----
+
+thread 'linting::phrase_set_corrections::tests::corrects_versing_against' (3143) panicked at harper-core/src/linting/phrase_set_corrections/tests.rs:1681:5:
+No suggestion sequence produced the expected result.
+Expected: "This will help when you are playing against a particular boss."
+
+
+failures:
+    linting::phrase_set_corrections::tests::corrects_verse_against
+    linting::phrase_set_corrections::tests::corrects_verse_me
+    linting::phrase_set_corrections::tests::corrects_versing_against
+
+test result: FAILED. 4679 passed; 3 failed; 240 ignored; 0 measured; 0 filtered out; finished in 167.15s
+
+error: test failed, to rerun pass `-p harper-core --lib`

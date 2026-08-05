@@ -1,0 +1,74 @@
+LRUCache.evictOnWeight (0 ms)
+[ RUN      ] SLRUCache.evictFromProtectedPart
+[       OK ] SLRUCache.evictFromProtectedPart (0 ms)
+[ RUN      ] SLRUCache.evictStreamProtected
+[       OK ] SLRUCache.evictStreamProtected (0 ms)
+[ RUN      ] SLRUCache.getOrSet
+[       OK ] SLRUCache.getOrSet (0 ms)
+[ RUN      ] SLRUCache.MaxCount
+[       OK ] SLRUCache.MaxCount (0 ms)
+[ RUN      ] SLRUCache.noOnRemoveEntryCallback
+[       OK ] SLRUCache.noOnRemoveEntryCallback (0 ms)
+[----------] 13 tests from SLRUCache (4 ms total)
+
+[----------] 4 tests from StrongTypedefSuite
+[ RUN      ] StrongTypedefSuite.TypedefsOfTheSameType
+[       OK ] StrongTypedefSuite.TypedefsOfTheSameType (0 ms)
+[ RUN      ] StrongTypedefSuite.Map
+[       OK ] StrongTypedefSuite.Map (0 ms)
+[ RUN      ] StrongTypedefSuite.CopyAndMoveCtor
+[       OK ] StrongTypedefSuite.CopyAndMoveCtor (0 ms)
+[ RUN      ] StrongTypedefSuite.NoDefaultCtor
+[       OK ] StrongTypedefSuite.NoDefaultCtor (0 ms)
+[----------] 4 tests from StrongTypedefSuite (0 ms total)
+
+[----------] 1 test from ThreadFuzzer
+[ RUN      ] ThreadFuzzer.mutex
+elapsed: 26
+[       OK ] ThreadFuzzer.mutex (2698 ms)
+[----------] 1 test from ThreadFuzzer (2698 ms total)
+
+[----------] 7 tests from ThreadPool
+[ RUN      ] ThreadPool.ConcurrentWait
+[       OK ] ThreadPool.ConcurrentWait (239 ms)
+[ RUN      ] ThreadPool.GlobalFull1
+[       OK ] ThreadPool.GlobalFull1 (57 ms)
+[ RUN      ] ThreadPool.GlobalFull2
+[       OK ] ThreadPool.GlobalFull2 (9 ms)
+[ RUN      ] ThreadPool.ThreadRemoval
+[       OK ] ThreadPool.ThreadRemoval (2 ms)
+[ RUN      ] ThreadPool.Loop
+[       OK ] ThreadPool.Loop (367 ms)
+[ RUN      ] ThreadPool.ExceptionFromSchedule
+[       OK ] ThreadPool.ExceptionFromSchedule (12 ms)
+[ RUN      ] ThreadPool.ExceptionFromWait
+[       OK ] ThreadPool.ExceptionFromWait (229 ms)
+[----------] 7 tests from ThreadPool (918 ms total)
+
+[----------] 12 tests from Threading
+[ RUN      ] Threading.SharedMutexSmokeSelf
+[       OK ] Threading.SharedMutexSmokeSelf (267 ms)
+[ RUN      ] Threading.SharedMutexSmokeAbsl
+[       OK ] Threading.SharedMutexSmokeAbsl (272 ms)
+[ RUN      ] Threading.SharedMutexSmokeStd
+[       OK ] Threading.SharedMutexSmokeStd (333 ms)
+[ RUN      ] Threading.PerfTestSharedMutexReadersOnlySelf
+*** DB::SelfSharedMutex/NoCancel ***
+thrs = 1:	40 ns	2.5e+07 rps
+thrs = 2:	41 ns	2.5e+07 rps
+thrs = 4:	59 ns	1.7e+07 rps
+thrs = 8:	52 ns	1.9e+07 rps
+thrs = 16:	58 ns	1.7e+07 rps
+thrs = 32:	79 ns	1.3e+07 rps
+thrs = 64:	1.3e+02 ns	7.6e+06 rps
+thrs = 128:	5.4e+02 ns	1.9e+06 rps
+[       OK ] Threading.PerfTestSharedMutexReadersOnlySelf (269 ms)
+[ RUN      ] Threading.PerfTestSharedMutexReadersOnlyAbsl
+*** DB::AbslSharedMutex/NoCancel ***
+thrs = 1:	28 ns	3.6e+07 rps
+thrs = 2:	50 ns	2e+07 rps
+thrs = 4:	45 ns	2.2e+07 rps
+thrs = 8:	2.1e+02 ns	4.8e+06 rps
+thrs = 16:	7.7e+02 ns	1.3e+06 rps
+thrs = 32:	2.8e+02 ns	3.6e+06 rps
+bash: line 7:  1225 Killed                  ./build/src/unit_tests_dbms --gtest_output=json:reports/gtest-results.json

@@ -1,0 +1,51 @@
+::tests::catches_non_whitespace_after_expr' (5150) panicked at harper-core/src/weir/parsing/stmt.rs:461:49:
+called `Result::unwrap()` on an `Err` value: UnexpectedToken("+")
+test weir::parsing::stmt::tests::catches_non_whitespace_after_expr - should panic ... ok
+
+thread 'weir::parsing::stmt::tests::catches_non_whitespace_after_let' (5151) panicked at harper-core/src/weir/parsing/stmt.rs:479:42:
+called `Result::unwrap()` on an `Err` value: UnexpectedToken("+")
+test weir::parsing::stmt::tests::catches_non_whitespace_after_let - should panic ... ok
+
+thread 'weir::parsing::stmt::tests::catches_non_whitespace_after_let_var' (5152) panicked at harper-core/src/weir/parsing/stmt.rs:485:42:
+called `Result::unwrap()` on an `Err` value: UnexpectedToken("+")
+test weir::parsing::stmt::tests::catches_non_whitespace_after_let_var - should panic ... ok
+
+thread 'weir::parsing::stmt::tests::catches_non_whitespace_after_test' (5153) panicked at harper-core/src/weir/parsing/stmt.rs:467:44:
+called `Result::unwrap()` on an `Err` value: UnexpectedToken("+")
+test weir::parsing::stmt::tests::catches_non_whitespace_after_test - should panic ... ok
+
+thread 'weir::parsing::stmt::tests::catches_non_whitespace_between_test' (5154) panicked at harper-core/src/weir/parsing/stmt.rs:473:44:
+called `Result::unwrap()` on an `Err` value: UnexpectedToken("+")
+test weir::parsing::stmt::tests::catches_non_whitespace_between_test - should panic ... ok
+test weir::parsing::stmt::tests::parses_allows ... ok
+test weir::parsing::stmt::tests::parses_comment_expr_var_together ... ok
+test weir::parsing::stmt::tests::parses_comment_in_middle ... ok
+test weir::parsing::stmt::tests::parses_multiple_spaces_in_tests ... ok
+test weir::parsing::stmt::tests::parses_single_comment_stmt ... ok
+test weir::parsing::stmt::tests::parses_single_comment_stmt_with_space_prefix ... ok
+test weir::parsing::stmt::tests::parses_single_expr_stmt ... ok
+test weir::parsing::stmt::tests::parses_single_var_stmt ... ok
+test weir::parsing::stmt::tests::parses_single_var_stmt_array ... ok
+test weir::parsing::stmt::tests::parses_single_var_stmt_with_lots_of_space ... ok
+test weir::parsing::stmt::tests::parses_tests ... ok
+test weir::tests::dashes ... ok
+test weir::tests::does_not_panic ... ok
+test weir::tests::errors_properly_with_missing_expr ... ok
+test weir::tests::fails_on_ignore_test ... ok
+test weir::tests::fails_on_unresolved_expr ... ok
+test weir::tests::g_suite ... ok
+test weir::tests::g_suite_with_refs ... ok
+test weir::tests::simple_right_click_linter ... ok
+test weir::tests::wildcard ... ok
+test weirpack::tests::round_trip_weirpack_bytes ... ok
+test title_case::tests::first_word_is_upcase ... ok
+
+failures:
+
+failures:
+    linting::phrase_set_corrections::tests::corrects_date_back_from
+    linting::phrase_set_corrections::tests::corrects_dates_back_from
+
+test result: FAILED. 4699 passed; 2 failed; 241 ignored; 0 measured; 0 filtered out; finished in 163.91s
+
+error: test failed, to rerun pass `-p harper-core --lib`

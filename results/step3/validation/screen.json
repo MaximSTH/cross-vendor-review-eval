@@ -530,9 +530,19 @@
     "wall_s": 356
   },
   "cpp:ClickHouse__ClickHouse-100579": {
-    "verdict": "ERROR",
-    "reason": "image pull failed",
-    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:362bdc491106e5d89666475750c04529098889216368e82980a9ed96b1e4b963) to overlayfs as \"extract-719400102-9iRl sha256:b3dc47c94a0daefb7d2bf56068c6c47e393e4d7c10961e4250162de9e06de69f\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/740/fs/testbed/.git/modules/contrib/llvm-project/objects/pack/pack-5a658527782e03cfe088f0def5e9d864c8b3314d.pack: no space left on device\n"
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 17946,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 1,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 15580,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 1155
   },
   "cpp:pocoproject__poco-5265": {
     "verdict": "FAIL",
@@ -705,14 +715,34 @@
     "wall_s": 6438
   },
   "rust:DioxusLabs__dioxus-5384": {
-    "verdict": "ERROR",
-    "reason": "image pull failed",
-    "stderr": "failed to copy: failed to send write: write /var/lib/containerd/io.containerd.content.v1.content/ingest/c186386c69a99dd6a66ed71ecbf9c0aab9f4b8b910c032d2d9f8b7de2a96fac3/data: no space left on device\n"
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 93,
+    "F2P": {
+      "n": 296,
+      "PASS_at_base": 0,
+      "not_reported": 295
+    },
+    "P2P": {
+      "n": 73,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 366
   },
   "rust:Automattic__harper-2962": {
     "verdict": "ERROR",
-    "reason": "image pull failed",
-    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:01d090bc508bc28f973676145d6f35d1b83c561c29c0fdf35c323f28d98f1645) to overlayfs as \"extract-923012776-B2tk sha256:e498fd0e7a6d9ed143ba42a6be611d38588238fda81378884ea0c5d81a57c39f\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/849/fs/testbed/target/debug/deps/libharper_wasm.so: no space left on device\n"
+    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 2154,
+      "PASS_at_base": 0,
+      "not_reported": 2154
+    },
+    "P2P": {
+      "n": 2693,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 313
   },
   "rust:J-F-Liu__lopdf-481": {
     "verdict": "FAIL",
@@ -730,33 +760,83 @@
     "wall_s": 815
   },
   "rust:gleam-lang__gleam-5482": {
-    "verdict": "ERROR",
-    "reason": "image pull failed",
-    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:369267c995a531c959b2e78309b1f4555739665c6966fe5e5573902fcf8c90fc) to overlayfs as \"extract-919447093-u5ji sha256:80176805ba4bc3d6a0c9f22f66585b0b0fbc94f863b9b5431a4a481575335d5b\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/864/fs/testbed/target/debug/build/crossbeam-utils-03027078ae0d8af8/build-script-build: no space left on device\n"
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 3757,
+    "F2P": {
+      "n": 1558,
+      "PASS_at_base": 2,
+      "not_reported": 1552
+    },
+    "P2P": {
+      "n": 3750,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 203
   },
   "rust:Automattic__harper-2973": {
-    "verdict": "ERROR",
-    "reason": "image pull failed",
-    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:de99cf6971380c2c9b76d29c26f51eddecf7cd719c6bea3a22b6fd149816b1d3) to overlayfs as \"extract-325410684-O-8V sha256:1d9c7c1430b1ed0ff945f75cbcb709295c1c18f00a8e6ec4230ddb6afb60d374\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/865/fs/testbed/target/debug/deps/libburn_nn-4b2609b7d070e108.rmeta: no space left on device\n"
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 4742,
+    "F2P": {
+      "n": 111,
+      "PASS_at_base": 0,
+      "not_reported": 108
+    },
+    "P2P": {
+      "n": 4736,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 380
   },
   "rust:Automattic__harper-2976": {
-    "verdict": "ERROR",
-    "reason": "image pull failed",
-    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:bfd7edc1960fdbf773297342640d58e42417278c18e7992f9f435f538e2035ed) to overlayfs as \"extract-514024107-1zEc sha256:dc0d245c89f98659cb0a5313f4d6386513fed021b28ee0937bcf9e167af233fc\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/871/fs/testbed/target/debug/deps/asciidoc_tests-6e9fa1aeddfb0117: no space left on device\n"
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 4746,
+    "F2P": {
+      "n": 109,
+      "PASS_at_base": 3,
+      "not_reported": 104
+    },
+    "P2P": {
+      "n": 4567,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 371
   },
   "rust:modelcontextprotocol__rust-sdk-760": {
-    "verdict": "ERROR",
-    "reason": "image pull failed",
-    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:8964e22e01ce68e9c7fe772cf5608554c74568040ea2c8e617a47e0a95c0cc0f) to overlayfs as \"extract-502837052-7wTh sha256:3a5017f31d90b245fd991018ca40465158a14a190e9ccef18c789d1d6a02e1e6\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/872/fs/usr/local/rustup/toolchains/1.90-x86_64-unknown-linux-gnu/share/doc/rust/html/cargo/print.html: no space left on device\n"
+    "verdict": "INFEASIBLE",
+    "reason": "platform_infeasible(time): run > 3600s (D-048)",
+    "wall_s": 3670
   },
   "rust:GitoxideLabs__gitoxide-2476": {
-    "verdict": "ERROR",
-    "reason": "image pull failed",
-    "stderr": "failed to copy: failed to send write: write /var/lib/containerd/io.containerd.content.v1.content/ingest/5c97c3cb9ef075cd2a3cff906c3b14e4778cd8882e93a90d94128e96599ce21c/data: no space left on device\n"
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 3208,
+    "F2P": {
+      "n": 3,
+      "PASS_at_base": 2,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 3181,
+      "not_pass_at_base": 3
+    },
+    "wall_s": 561
   },
   "rust:gleam-lang__gleam-5493": {
-    "verdict": "ERROR",
-    "reason": "image pull failed",
-    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:cf9214c2dcf66996938a0dde21b2f16d28ef727eba79ff492d4b5dd0ac56d2d2) to overlayfs as \"extract-812294459-Z3MS sha256:c6f9fb6cc828805ef22f8b7cef3cfe78bddbd05f1097d097ca475e242c8f4ff0\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/884/fs/testbed/target/debug/deps/gleam_core-6190d4e294a606bc: no space left on device\n"
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 3804,
+    "F2P": {
+      "n": 1499,
+      "PASS_at_base": 0,
+      "not_reported": 1498
+    },
+    "P2P": {
+      "n": 3803,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 192
   }
 }

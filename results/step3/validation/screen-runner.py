@@ -41,7 +41,10 @@ unaffected code paths and stand; ERROR rows re-run under the fixed harness):
 Usable rate per language = PASS / screened; full breakdown reported. Pilot
 comparator (JS/TS): 5 PASS / 17 screened ~= 29% (report §4/§8).
 
-Run:  python3 screen-runner.py <outdir>
+Run:  python3 screen-runner.py <outdir> [lang:iid,lang:iid,...]
+The optional second arg restricts the pass to the listed rows (targeted
+rerun, e.g. the D-064.2 envoy-gateway reclassification run) — adjudicated
+rows keep their committed evidence untouched.
 """
 import base64, json, pathlib, subprocess, sys, time, urllib.parse, urllib.request
 
@@ -190,10 +193,13 @@ def run_row(lang, iid, results):
 def main():
     outfile = OUT / "screen.json"
     results = json.loads(outfile.read_text()) if outfile.exists() else {}
+    only = set(sys.argv[2].split(",")) if len(sys.argv) > 2 else None
     for lang in LANG_ORDER:
         for row in SAMPLES[lang]:
             iid = row["instance_id"]
             key = f"{lang}:{iid}"
+            if only is not None and key not in only:
+                continue
             if key in results and results[key].get("verdict") in ("PASS", "FAIL", "INFEASIBLE"):
                 print(f"=== {key} (cached {results[key]['verdict']}) ===", flush=True)
                 continue
