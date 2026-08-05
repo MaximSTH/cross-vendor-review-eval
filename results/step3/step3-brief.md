@@ -236,10 +236,11 @@ quotation-clean; Python test-content quotation channel established as
 precedent). **pos007 Band-1: A1 catch / A2 no-catch / B catch** (both catches
 `ramalama/common.py:331`, sweep-stable ±1/±5/±10; A2 catch only at ±10 —
 appendix). **First discordant pair on the headline comparison: m = 1, b = 1
-(favoring cross-vendor).** Catch-audit batch **s3-b1** rendered
-(`results/band3/cards-s3-b1.html`, 2 cards, blindness-linted, secret-scanned)
-— supervisor rules before reading any arm analysis (D-039/D-068). 8 sessions
-spent this week (sizing 15/wk, D-057). Next look at m = 4 (§4.8 data-freeze). Cumulative screened rows toward the D-065.3
+(favoring cross-vendor).** Catch-audit batch **s3-b1 RULED (D-069): both catches STAND**
+(genuine-but-narrower species — third audit species after P-002/P-003);
+**audited row = mechanical row (A1 catch / A2 no-catch / B catch); audited
+b = 1 of m = 1; dilution parameter 0/2.** 8 sessions spent this week (sizing
+15/wk, D-057). Next look at m = 4 (§4.8 data-freeze). Cumulative screened rows toward the D-065.3
 own-harvest trigger: 21 (validation) + 0 new. Observed defect yield 0/4
 (Wilson 95% [0, 0.49]) vs the pilot's 2/5 — watched, recompute fires at 60
 screened rows. **Watch item (not yet an OQ):** go evals crash nondeterministically

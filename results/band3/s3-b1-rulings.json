@@ -1,0 +1,16 @@
+[
+  {
+    "case_id": "pos007-containers__ramalama-2487",
+    "condition": "A1",
+    "source": "audit_sample",
+    "ruling": "catch",
+    "note": "Genuine catch: claim identifies the config-file mishandling in the discovery loop, same problem-class and consequence as the annotation. Narrower than the full defect (specific decode-error mechanism vs. broader missing/malformed handling), but reader-actionable at the right location."
+  },
+  {
+    "case_id": "pos007-containers__ramalama-2487",
+    "condition": "B",
+    "source": "audit_sample",
+    "ruling": "catch",
+    "note": "Same basis as card 1; more mechanistically detailed (names the branch asymmetry and the all-files-read change), if anything more actionable."
+  }
+]

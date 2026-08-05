@@ -1,0 +1,16 @@
+{
+ "batch": "s3-b1",
+ "n_catches_audited": 2,
+ "band1_verdict": "catch (both)",
+ "human_catch": 2,
+ "human_no_catch": 0,
+ "catch_audit_agreement_rate": 1.0,
+ "interpretation": "2/2 mechanical catches SURVIVE audit (contrast pilot p1-b1: 0/2). Both are the new third species: genuine-but-narrower catch (right location, right problem-class/direction, mechanism stated more specifically than the annotation's full scope; reader-actionable). Dilution parameter (D-059f audit-overturn rate) opens at 0/2.",
+ "categories": {
+  "genuine_but_narrower": [
+   "pos007-containers__ramalama-2487/A1",
+   "pos007-containers__ramalama-2487/B"
+  ]
+ },
+ "rulings_file": "s3-b1-rulings.json"
+}

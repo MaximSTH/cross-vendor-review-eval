@@ -2447,6 +2447,31 @@ Accrual continues at standing boundaries.
 
 **Status: pos007 A1/A2 INCLUDED; Python quotation precedent standing.**
 
+## D-069 · 2026-08-05 · Catch-audit batch s3-b1 ruled: both catches STAND; third audit species established — the genuine-but-narrower catch; dilution parameter opens at 0
+
+**Ruled (supervisor), rulings exported to
+`results/band3/s3-b1-rulings.json`, summary
+`catch-audit-s3-b1.json`.** Both pos007 mechanical catches (A1, B) are ruled
+**catch** on audit — contrast the pilot's p1-b1 batch (0/2 survived). The
+supervisor's notes establish a **third audit species** alongside the pilot's
+two overturn modes (P-002 `coincidental_localization`, P-003
+`inverted_claim`): the **genuine-but-narrower catch** — *right location,
+right problem-class and direction, mechanism stated more specifically than
+the annotation's full scope; reader-actionable, rules catch, with the
+specificity gap recorded in the note.*
+
+**Consequences ingested:**
+- **pos007 audited-catch row: audited A1 catch / A2 no-catch / B catch** —
+  the discordant pair **stands substantively**: audited b = 1 of m = 1
+  (favoring cross-vendor), identical to the mechanical row.
+- **The D-059f dilution parameter (audit-overturn rate) opens at 0/2** —
+  the mechanical and audited tables currently coincide.
+- Precedent: future same-shape catches (narrower-than-annotation but
+  location/class/direction-correct and reader-actionable) rule catch with the
+  gap noted — an audit-note convention, not a scoring change.
+
+**Status: s3-b1 ingested; accrual continues at standing boundaries.**
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
