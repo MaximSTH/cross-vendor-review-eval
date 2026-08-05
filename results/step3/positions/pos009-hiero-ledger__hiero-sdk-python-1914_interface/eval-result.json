@@ -1,0 +1,34 @@
+{
+ "oracle_files_reset": [
+  "tests/integration/account_create_transaction_e2e_test.py",
+  "tests/integration/account_update_transaction_e2e_test.py",
+  "tests/unit/account_info_test.py"
+ ],
+ "apply_rcs": [
+  "AUTHORED_RC=0",
+  "TESTPATCH_RC=0"
+ ],
+ "authored_applied": true,
+ "testpatch_applied": true,
+ "parsed": 44,
+ "f2p": {
+  "tests/unit/account_info_test.py::test_from_proto": "pass",
+  "tests/unit/account_info_test.py::test_to_proto": "pass",
+  "tests/unit/account_info_test.py::test_proto_conversion": "pass",
+  "tests/unit/account_info_test.py::test_proto_conversion_with_staking_info": "pass",
+  "tests/unit/account_info_test.py::TestDeprecatedProperties::test_staked_account_id_deprecated": "pass",
+  "tests/unit/account_info_test.py::TestDeprecatedProperties::test_staked_node_id_deprecated": "pass",
+  "tests/unit/account_info_test.py::TestDeprecatedProperties::test_decline_staking_reward_deprecated": "pass",
+  "tests/unit/account_info_test.py::TestDeprecatedProperties::test_staked_account_id_setter": "pass",
+  "tests/unit/account_info_test.py::TestDeprecatedProperties::test_staked_node_id_setter": "pass",
+  "tests/unit/account_info_test.py::TestDeprecatedProperties::test_decline_staking_reward_setter": "pass",
+  "tests/unit/account_info_test.py::TestDeprecatedProperties::test_setters_preserve_other_staking_fields": "pass",
+  "tests/unit/account_info_test.py::TestDeprecatedProperties::test_constructor_legacy_kwargs_deprecated": "pass"
+ },
+ "f2p_pass": 12,
+ "f2p_fail": 0,
+ "f2p_missing": 0,
+ "p2p_regressions": [],
+ "resolved": true,
+ "verdict": "not-confirmed-defective (authoring success)"
+}

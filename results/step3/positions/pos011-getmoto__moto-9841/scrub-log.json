@@ -1,0 +1,6 @@
+{
+ "task": "getmoto__moto-9841",
+ "rule": "prereg 4.4 (D-035b)",
+ "removed": [],
+ "note": "pointer scan: ['pull/9745']"
+}

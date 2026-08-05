@@ -1,0 +1,9 @@
+Implemented and left uncommitted.
+
+- `AccountInfo` now stores canonical [`staking_info`](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos009/authoring/src/hiero_sdk_python/account/account_info.py).
+- Added deprecated warning-emitting constructor aliases and read/write properties.
+- Preserved oneof semantics and unrelated staking fields.
+- Full staking protobuf round-tripping and canonical string/repr output added.
+- Added focused regression tests in [`account_info_test.py`](/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos009/authoring/tests/unit/account_info_test.py).
+
+Validation passed: compilation, behavioral stub checks, and `git diff --check`. Pytest/ruff could not bootstrap because generated HAPI modules and uncached build dependencies are unavailable without network access.
