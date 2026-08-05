@@ -2348,6 +2348,35 @@ screen-PASS position (3, `tobymao__sqlglot-7187`).
 
 **Waiting on this single ruling; everything else is staged.**
 
+**RESOLVED by D-066.**
+
+## D-066 · 2026-08-05 · OQ-27 ruled (all three per recommendation); UTC-sort rule ratified; SESSIONS BEGIN
+
+**Ruled (supervisor):**
+
+1. **Step-1 validation verdicts CARRY into accrual** — same screen, same rig,
+   same committed tooling; *"re-screening is identical computation, not
+   independent evidence."*
+2. **The 6 pilot-USED rows are EXCLUDED**, logged `pilot-consumed` in the
+   skip trail — their authored patches and review materials are published in
+   this repo; *"contamination-by-publication is disqualifying regardless of
+   likelihood; the cure is cheap, the doubt is not."*
+3. **The 16 pilot-screened-not-used verdicts CARRY**, same basis as (1).
+4. **The UTC-normalization sort rule is RATIFIED as recorded** (ordering
+   artifact header, D-065 execution record).
+
+**Sessions begin.** Position 1 (`keras-team__keras-22316`,
+platform_infeasible(crash)) opens the skip trail; **session 1 authors
+position 2 (`pallets__click-3239`), Claude-side per the recorded flip**
+(even position → anthropic; D-063). Alternation, ceiling (D-057), and stop
+protocol (D-058) standing. Accrual runs at the worker's judgment through
+natural boundaries — pauses and limit events logged per §3, escalations and
+audit cards queue, **data-freeze checkpoint mandatory at every look
+(m = 4/8/12/16)** per prereg §4.8. **Checkpoint at the first completed
+position or the first escalation, whichever comes first.**
+
+**Status: OQ-27 RESOLVED; accrual ACTIVE.**
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
