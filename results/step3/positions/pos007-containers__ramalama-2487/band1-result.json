@@ -1,0 +1,65 @@
+{
+ "regions": [
+  [
+   "ramalama/common.py",
+   315,
+   316
+  ],
+  [
+   "ramalama/common.py",
+   320,
+   320
+  ],
+  [
+   "ramalama/common.py",
+   323,
+   337
+  ]
+ ],
+ "arms": {
+  "a1": {
+   "verdict": "catch",
+   "band": 1,
+   "matched_claim": {
+    "file": "ramalama/common.py",
+    "line": 331,
+    "description": "YAML loading does not catch UnicodeDecodeError, so a later non-UTF-8 .yaml/.yml file can abort detection even after valid CDI devices were loaded, instead of being skipped like an unreadable JSON file."
+   },
+   "n_band2_claims": 0,
+   "note": "",
+   "sweep": {
+    "1": "catch",
+    "5": "catch",
+    "10": "catch"
+   }
+  },
+  "a2": {
+   "verdict": "no_catch",
+   "band": 1,
+   "matched_claim": null,
+   "n_band2_claims": 0,
+   "note": "all claims fully localized; none within tolerance",
+   "sweep": {
+    "1": "no_catch",
+    "5": "no_catch",
+    "10": "catch"
+   }
+  },
+  "b": {
+   "verdict": "catch",
+   "band": 1,
+   "matched_claim": {
+    "file": "ramalama/common.py",
+    "line": 331,
+    "description": "The YAML branch does not catch UnicodeDecodeError (a ValueError, unlike the JSON branch), so now that all files are read instead of stopping at the first, one non-UTF-8 .yaml file in the spec dirs raises out of load_cdi_config and aborts GPU detection."
+   },
+   "n_band2_claims": 0,
+   "note": "",
+   "sweep": {
+    "1": "catch",
+    "5": "catch",
+    "10": "catch"
+   }
+  }
+ }
+}

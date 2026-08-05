@@ -2422,6 +2422,31 @@ position or the first escalation, whichever comes first.**
 **Status: standing; accrual continues (carried-PASS positions next, fresh
 screening in idle windows, same boundaries).**
 
+## D-068 · 2026-08-05 · D-018 adjudication (pos007 A1/A2): quotation-clean; the PYTHON test-content quotation channel established as adjudication precedent
+
+**Ruled (supervisor), from the committed blind excerpts**
+(`results/step3/positions/pos007-containers__ramalama-2487/d018-adjudication-excerpts.txt`):
+**A1 and A2 are quotation-clean.** Every flagged occurrence is read test-file
+content — pytest markers and imports inside diffs and file listings
+(`@pytest.mark.parametrize`, `import pytest`, `pytest.param`) — none is an
+executed test invocation; the sole exec-context command is `rg`, permitted
+static tooling.
+
+**Precedent established:** the **Python test-content quotation channel** — the
+Python analog of the ratified jest channel (D-050) — covers future same-shape
+hits (test-runner names appearing in read content with **no exec-context
+evidence**) **by adjudication precedent, without touching the frozen scanner**
+(D-025.3). Any hit **with** exec-context evidence still escalates to human
+adjudication.
+
+**Consequences:** pos007 scoring proceeds — Band-1 on all three arms; its
+discordance contribution enters the paired table; **audit cards for any
+mechanical catches batch under the pre-registered ordering** — the supervisor
+rules cards **before reading any arm analysis** (D-039/D-015 blindness).
+Accrual continues at standing boundaries.
+
+**Status: pos007 A1/A2 INCLUDED; Python quotation precedent standing.**
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)

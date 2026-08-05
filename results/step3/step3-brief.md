@@ -231,8 +231,15 @@ committed under `results/step3/looks/`.
 | 7 | containers__ramalama-2487 | openai | **CONFIRMED DEFECTIVE** (1st) — F2P reported-and-failing, 52 parsed, eval attempts: 1. Review triplet run (A1 108s/1 claim; A2 340s/3 claims; B 225s/3 claims; 0 format errors; prompt byte-check PASS ×3). D-018: B clean (quotation:source-literal); **A1+A2 AMBIGUOUS → supervisor adjudication (excerpts committed); scoring HELD** | 4 |
 
 **Accrual state after 2026-08-05:** 5 positions complete, 4 authoring
-successes, **1 confirmed-defective** (scoring held for D-018 adjudication),
-m = 0 pending scoring; 8 sessions spent this week (sizing 15/wk, D-057). Cumulative screened rows toward the D-065.3
+successes, **1 confirmed-defective — SCORED** (D-068 adjudication: A1/A2
+quotation-clean; Python test-content quotation channel established as
+precedent). **pos007 Band-1: A1 catch / A2 no-catch / B catch** (both catches
+`ramalama/common.py:331`, sweep-stable ±1/±5/±10; A2 catch only at ±10 —
+appendix). **First discordant pair on the headline comparison: m = 1, b = 1
+(favoring cross-vendor).** Catch-audit batch **s3-b1** rendered
+(`results/band3/cards-s3-b1.html`, 2 cards, blindness-linted, secret-scanned)
+— supervisor rules before reading any arm analysis (D-039/D-068). 8 sessions
+spent this week (sizing 15/wk, D-057). Next look at m = 4 (§4.8 data-freeze). Cumulative screened rows toward the D-065.3
 own-harvest trigger: 21 (validation) + 0 new. Observed defect yield 0/4
 (Wilson 95% [0, 0.49]) vs the pilot's 2/5 — watched, recompute fires at 60
 screened rows. **Watch item (not yet an OQ):** go evals crash nondeterministically

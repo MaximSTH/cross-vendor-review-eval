@@ -1,0 +1,135 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>Step-3 catch audit — batch s3-b1 (pos007)</title>
+<style>
+ body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5}
+ .card{border:1px solid #ccc;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+ .block{margin:.75rem 0} h2{margin:.1rem 0 .5rem} h3{margin:.2rem 0;font-size:.85rem;
+ text-transform:uppercase;letter-spacing:.05em;color:#555}
+ .key{background:#f6f3e8;padding:.5rem .75rem;border-radius:6px}
+ .claim{background:#eef3f9;padding:.5rem .75rem;border-radius:6px}
+ .judge{font-size:.92rem;margin:.2rem 0}
+ .rubric label{margin-right:1rem;cursor:pointer}
+ .help{font-size:.85rem;color:#444;background:#f2f2f2;padding:.6rem .8rem;border-radius:6px}
+ .note{display:block;margin-top:.5rem;width:100%;padding:.3rem}
+ #export{position:fixed;bottom:1rem;right:1rem;padding:.6rem 1rem;font-size:1rem;cursor:pointer}
+ pre{overflow-x:auto;background:#f4f4f4;padding:.5rem;border-radius:6px}
+</style></head><body>
+<h1>Step-3 catch audit — batch s3-b1 (pos007)</h1>
+<p>2 case(s). Rule each from the card alone — if a ruling requires opening
+the repo, flag it as an interface defect instead of ruling.</p>
+<p class='help'><b>Ruling boundaries:</b> catch — reader-actionability test: a busy engineer reading this review would locate and fix the planted bug. Correct region alone, without failure class or location, hedged throughout, fails this test. · no_catch — the task has a planted bug and the review fails the actionability test, even if it raises other concerns. · false_alarm — only for flags raised against clean (test-confirmed-correct) patches; never applicable on planted-bug tasks. · unscorable — the card itself is insufficient to rule; flag as an interface defect rather than guessing (do not open the repo).</p>
+
+<section class='card' data-case='pos007-containers__ramalama-2487' data-condition='A1' data-source='audit_sample'>
+  <h2>1. pos007-containers__ramalama-2487 <small>[A1 · audit_sample]</small></h2>
+  <div class='block key'><h3>Answer key — planted-bug annotation</h3><p>Defective authored change: fails hidden test on CDI config-path handling (F2P: test_nvidia_cdi_display_config_paths_missing_conf). Ground-truth defect region (gold-fix minus side, base coords): ramalama/common.py 315-337 — CDI spec discovery/parse loop; the true defect is in how missing/malformed CDI config paths are handled during device detection.</p></div>
+  <div class='block claim'><h3>Reviewer's claim (anonymized — as the judges saw it)</h3><p>ramalama/common.py:331 — YAML loading does not catch UnicodeDecodeError, so a later non-UTF-8 .yaml/.yml file can abort detection even after valid CDI devices were loaded, instead of being skipped like an unreadable JSON file.</p></div>
+  <div class='block judges'><h3>Judges</h3><div class='judge'>(audit sample — no judge disagreement)</div></div>
+  <details><summary>Code context (optional)</summary><pre>   1 
+   2 class CDI_DEVICE(TypedDict):
+   3     name: str
+   4 
+   5 
+   6 class CDI_RETURN_TYPE(TypedDict):
+   7     devices: list[CDI_DEVICE]
+   8 
+   9 
+  10 def load_cdi_config(spec_dirs: list[str]) -&gt; CDI_RETURN_TYPE | None:
+  11     # Loads the first YAML or JSON CDI configuration file found in the
+  12     # given directories.&quot;&quot;&quot;
+  13 
+  14     for spec_dir in spec_dirs:
+  15         for root, _, files in os.walk(spec_dir):
+  16             for file in files:
+  17                 _, ext = os.path.splitext(file)
+  18                 file_path = os.path.join(root, file)
+  19                 if ext in [&quot;.yaml&quot;, &quot;.yml&quot;]:
+  20                     try:
+  21                         with open(file_path, &quot;r&quot;) as stream:
+  22                             return yaml.safe_load(stream)
+  23                     except (OSError, yaml.YAMLError) as e:
+  24                         logger.warning(f&quot;Failed to load YAML file {file_path}: {e}&quot;)
+  25                         continue
+  26                 elif ext == &quot;.json&quot;:
+  27                     try:
+  28                         with open(file_path, &quot;r&quot;) as stream:
+  29                             return json.load(stream)
+  30                     except (OSError, json.JSONDecodeError, UnicodeDecodeError) as e:
+  31                         logger.warning(f&quot;Failed to load JSON file {file_path}: {e}&quot;)
+  32                         continue
+  33     return None
+  34 
+  35 
+  36 def get_podman_machine_cdi_config() -&gt; CDI_RETURN_TYPE | None:
+  37     cdi_config = run_cmd([&quot;podman&quot;, &quot;machine&quot;, &quot;ssh&quot;, &quot;cat&quot;, &quot;/etc/cdi/nvidia.yaml&quot;], encoding=&quot;utf-8&quot;).stdout.strip()
+  38     if cdi_config:
+  39         return yaml.safe_load(cdi_config)
+  40     return None
+  41 </pre></details>
+  <div class='block rubric'><h3>Ruling</h3><label><input type='radio' name='ruling-0' value='catch'> catch</label><label><input type='radio' name='ruling-0' value='no_catch'> no_catch</label><label><input type='radio' name='ruling-0' value='false_alarm'> false_alarm</label><label><input type='radio' name='ruling-0' value='unscorable'> unscorable</label>
+    <input type='text' class='note' placeholder='optional note' id='note-0'></div>
+</section>
+<section class='card' data-case='pos007-containers__ramalama-2487' data-condition='B' data-source='audit_sample'>
+  <h2>2. pos007-containers__ramalama-2487 <small>[B · audit_sample]</small></h2>
+  <div class='block key'><h3>Answer key — planted-bug annotation</h3><p>Defective authored change: fails hidden test on CDI config-path handling (F2P: test_nvidia_cdi_display_config_paths_missing_conf). Ground-truth defect region (gold-fix minus side, base coords): ramalama/common.py 315-337 — CDI spec discovery/parse loop; the true defect is in how missing/malformed CDI config paths are handled during device detection.</p></div>
+  <div class='block claim'><h3>Reviewer's claim (anonymized — as the judges saw it)</h3><p>ramalama/common.py:331 — The YAML branch does not catch UnicodeDecodeError (a ValueError, unlike the JSON branch), so now that all files are read instead of stopping at the first, one non-UTF-8 .yaml file in the spec dirs raises out of load_cdi_config and aborts GPU detection.</p></div>
+  <div class='block judges'><h3>Judges</h3><div class='judge'>(audit sample — no judge disagreement)</div></div>
+  <details><summary>Code context (optional)</summary><pre>   1 
+   2 class CDI_DEVICE(TypedDict):
+   3     name: str
+   4 
+   5 
+   6 class CDI_RETURN_TYPE(TypedDict):
+   7     devices: list[CDI_DEVICE]
+   8 
+   9 
+  10 def load_cdi_config(spec_dirs: list[str]) -&gt; CDI_RETURN_TYPE | None:
+  11     # Loads the first YAML or JSON CDI configuration file found in the
+  12     # given directories.&quot;&quot;&quot;
+  13 
+  14     for spec_dir in spec_dirs:
+  15         for root, _, files in os.walk(spec_dir):
+  16             for file in files:
+  17                 _, ext = os.path.splitext(file)
+  18                 file_path = os.path.join(root, file)
+  19                 if ext in [&quot;.yaml&quot;, &quot;.yml&quot;]:
+  20                     try:
+  21                         with open(file_path, &quot;r&quot;) as stream:
+  22                             return yaml.safe_load(stream)
+  23                     except (OSError, yaml.YAMLError) as e:
+  24                         logger.warning(f&quot;Failed to load YAML file {file_path}: {e}&quot;)
+  25                         continue
+  26                 elif ext == &quot;.json&quot;:
+  27                     try:
+  28                         with open(file_path, &quot;r&quot;) as stream:
+  29                             return json.load(stream)
+  30                     except (OSError, json.JSONDecodeError, UnicodeDecodeError) as e:
+  31                         logger.warning(f&quot;Failed to load JSON file {file_path}: {e}&quot;)
+  32                         continue
+  33     return None
+  34 
+  35 
+  36 def get_podman_machine_cdi_config() -&gt; CDI_RETURN_TYPE | None:
+  37     cdi_config = run_cmd([&quot;podman&quot;, &quot;machine&quot;, &quot;ssh&quot;, &quot;cat&quot;, &quot;/etc/cdi/nvidia.yaml&quot;], encoding=&quot;utf-8&quot;).stdout.strip()
+  38     if cdi_config:
+  39         return yaml.safe_load(cdi_config)
+  40     return None
+  41 </pre></details>
+  <div class='block rubric'><h3>Ruling</h3><label><input type='radio' name='ruling-1' value='catch'> catch</label><label><input type='radio' name='ruling-1' value='no_catch'> no_catch</label><label><input type='radio' name='ruling-1' value='false_alarm'> false_alarm</label><label><input type='radio' name='ruling-1' value='unscorable'> unscorable</label>
+    <input type='text' class='note' placeholder='optional note' id='note-1'></div>
+</section>
+<button id="export">Export rulings (JSON)</button>
+<script>
+const manifest = [{"case_id": "pos007-containers__ramalama-2487", "condition": "A1", "source": "audit_sample"}, {"case_id": "pos007-containers__ramalama-2487", "condition": "B", "source": "audit_sample"}];
+document.getElementById('export').addEventListener('click', () => {
+  const rulings = manifest.map((m, i) => {
+    const sel = document.querySelector(`input[name="ruling-${i}"]:checked`);
+    const note = document.getElementById(`note-${i}`).value;
+    return {...m, ruling: sel ? sel.value : null, note};
+  });
+  const blob = new Blob([JSON.stringify(rulings, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'band3-rulings.json';
+  a.click();
+});
+</script></body></html>
