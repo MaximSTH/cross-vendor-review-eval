@@ -2377,6 +2377,51 @@ position or the first escalation, whichever comes first.**
 
 **Status: OQ-27 RESOLVED; accrual ACTIVE.**
 
+## D-067 · 2026-08-05 · Review-arm blinding made explicit (oracle-before-reviews is the pre-registered flow); go-vet watch ratified; the 0-for-N double-consequence footnote
+
+**Ruled (supervisor), on the day-1 checkpoint.**
+
+1. **Ordering verified pre-registered — no divergence, no OQ.** Oracle
+   evaluation before reviews, reviews only on confirmed-defective cases, is
+   the recorded design at every layer: prereg §1 ("on **confirmed-defective
+   cases only**") and §3.1 ("every confirmed-defective case is reviewed under
+   A1, A2, B"; the accrual unit is the confirmed-defective case); design doc
+   ("For each code change the hidden test **later** proves broken…"; "the
+   hidden tests do not exist in the tree at authoring [or] reviewer
+   sessions"; "All conditions are **blind**"); pilot protocol P0 ("authoring
+   session, **hidden-test confirmation, then** A1 (in-session), A2 (fresh),
+   B (cross-vendor)").
+   **Blinding, now explicit:** reviewer sessions are **blind by
+   construction** —
+   - **fresh context**: A2/B run in fresh clones containing exactly base +
+     the authored patch, uncommitted; A1 resumes the authoring session and
+     holds only its own authoring context; **no oracle output is reachable
+     from any review session** (eval artifacts live under
+     `results/step3/positions/` in this repo, never in a review workdir; the
+     test_patch/hidden tests are never present in any review tree);
+   - **pinned prompt, byte-checked per session**: the OQ-3-ratified review
+     prompt body, sha256
+     `e49cc7b16c61197f844831b8c7773cf3056ac94396f08943bb66670487e98433`,
+     recorded at every review launch and required equal to this pinned hash;
+   - **byte-identical launch procedure** for every defective case, regardless
+     of operator knowledge: same flags (D-031f/D-041 read-only sandboxes),
+     same prompt bytes, same clone construction — nothing in the launch path
+     varies with what the oracle showed.
+2. **go-vet watch item RATIFIED as framed:** retries for now; **any
+   test-command mitigation comes to the supervisor first**; per-position
+   **eval attempt counts are logged in the brief position log** from here on
+   so retry cost stays visible (pos006: 3 attempts, on the record).
+3. **Ledger footnote (supervisor):** if 0-for-N authoring-failure yield
+   persists toward the D-065.3 trigger, the same fact **compresses both
+   supply and discordance** — fewer confirmed-defective cases AND a deeper
+   sparse-discordance regime for the sequential machinery. The own-harvest
+   recompute at 60 screened rows must present **both consequences together as
+   one picture** (pool arithmetic + the m_max/under-running outlook), not
+   two.
+
+**Status: standing; accrual continues (carried-PASS positions next, fresh
+screening in idle windows, same boundaries).**
+
 ---
 
 # Open questions (awaiting supervisor decision — build proceeds around them)
