@@ -1,0 +1,762 @@
+{
+  "python:keras-team__keras-22316": {
+    "verdict": "INFEASIBLE",
+    "reason": "platform_infeasible(crash): test command died under amd64 emulation (D-048/D-030 bun precedent)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 2
+    },
+    "P2P": {
+      "n": 8,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 19
+  },
+  "python:pallets__click-3239": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 740,
+    "F2P": {
+      "n": 4,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 694,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 101
+  },
+  "python:tobymao__sqlglot-7187": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 39,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 38,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 165
+  },
+  "python:keras-team__keras-22330": {
+    "verdict": "INFEASIBLE",
+    "reason": "platform_infeasible(crash): test command died under amd64 emulation (D-048/D-030 bun precedent)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 36,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 169
+  },
+  "python:tox-dev__tox-3846": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 117,
+    "F2P": {
+      "n": 7,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 110,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 143
+  },
+  "python:containers__ramalama-2487": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 52,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 51,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 159
+  },
+  "python:astronomy-commons__hats-648": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 1,
+    "F2P": {
+      "n": 15,
+      "PASS_at_base": 0,
+      "not_reported": 15
+    },
+    "P2P": {
+      "n": 0,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 524
+  },
+  "python:hiero-ledger__hiero-sdk-python-1914_interface": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 44,
+    "F2P": {
+      "n": 12,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 9,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 140
+  },
+  "python:zauberzeug__nicegui-5858": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 5,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 3,
+      "not_pass_at_base": 3
+    },
+    "wall_s": 417
+  },
+  "python:getmoto__moto-9841": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 157,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 149,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 268
+  },
+  "go:go-task__task-2716": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 621,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 620,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 339
+  },
+  "go:kyverno__kyverno-15561": {
+    "verdict": "INFEASIBLE",
+    "reason": "platform_infeasible(time): run > 3600s (D-048)",
+    "wall_s": 4301
+  },
+  "go:caddyserver__caddy-7567": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 916,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 917,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 576
+  },
+  "go:envoyproxy__gateway-8521": {
+    "verdict": "ERROR",
+    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 2
+    },
+    "P2P": {
+      "n": 3068,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 561
+  },
+  "go:kubernetes-sigs__kueue-9866": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 4760,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 4983,
+      "not_pass_at_base": 32
+    },
+    "wall_s": 3811
+  },
+  "go:Gentleman-Programming__gentle-ai-50": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 250,
+    "F2P": {
+      "n": 307,
+      "PASS_at_base": 0,
+      "not_reported": 307
+    },
+    "P2P": {
+      "n": 340,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 119
+  },
+  "go:oauth2-proxy__oauth2-proxy-3374": {
+    "verdict": "ERROR",
+    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 763,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 161
+  },
+  "go:magefile__mage-544": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 273,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 270,
+      "not_pass_at_base": 7
+    },
+    "wall_s": 141
+  },
+  "go:0xERR0R__blocky-2016": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 1742,
+    "F2P": {
+      "n": 320,
+      "PASS_at_base": 317,
+      "not_reported": 3
+    },
+    "P2P": {
+      "n": 1305,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 128
+  },
+  "go:mgechev__revive-1686": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 571,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 570,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 118
+  },
+  "cs:MudBlazor__MudBlazor-12775": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 4648,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 2,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 4642,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 226
+  },
+  "cs:MudBlazor__MudBlazor-12817": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 5155,
+    "F2P": {
+      "n": 6,
+      "PASS_at_base": 5,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 5138,
+      "not_pass_at_base": 1
+    },
+    "wall_s": 171
+  },
+  "cs:dotnet__command-line-api-2781": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 906,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 902,
+      "not_pass_at_base": 1
+    },
+    "wall_s": 338
+  },
+  "cs:dotnet-state-machine__stateless-644": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 423,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 423,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 114
+  },
+  "cs:Kareadita__Kavita-4552": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 2183,
+    "F2P": {
+      "n": 27,
+      "PASS_at_base": 0,
+      "not_reported": 27
+    },
+    "P2P": {
+      "n": 2177,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 381
+  },
+  "cs:gui-cs__Terminal.Gui-4841": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 20234,
+    "F2P": {
+      "n": 8,
+      "PASS_at_base": 7,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 19779,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 216
+  },
+  "cs:AvaloniaUI__Avalonia-20964": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 7940,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 2
+    },
+    "P2P": {
+      "n": 7384,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 774
+  },
+  "cs:SubtitleEdit__subtitleedit-10411": {
+    "verdict": "INFEASIBLE",
+    "reason": "platform_infeasible(time): run > 3600s (D-048)",
+    "wall_s": 6357
+  },
+  "cs:AvaloniaUI__Avalonia-20978": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 7310,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 6811,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 30
+  },
+  "cs:SubtitleEdit__subtitleedit-10419": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 342,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 346,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 279
+  },
+  "cpp:kokkos__kokkos-8967": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 939,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 919,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 487
+  },
+  "cpp:organicmaps__organicmaps-12396": {
+    "verdict": "INFEASIBLE",
+    "reason": "platform_infeasible(time): run > 3600s (D-048)",
+    "wall_s": 5672
+  },
+  "cpp:microsoft__DirectXShaderCompiler-8286": {
+    "verdict": "ERROR",
+    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 4530,
+      "PASS_at_base": 0,
+      "not_reported": 4530
+    },
+    "P2P": {
+      "n": 0,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 627
+  },
+  "cpp:esphome__esphome-15048": {
+    "verdict": "INFEASIBLE",
+    "reason": "platform_infeasible(time): run > 3600s (D-048)",
+    "wall_s": 3658
+  },
+  "cpp:actor-framework__actor-framework-2300": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 240,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 239,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 44
+  },
+  "cpp:esphome__esphome-15060": {
+    "verdict": "ERROR",
+    "reason": "parser returned no tests (harness/emit problem, not ground truth)",
+    "parsed_tests": 0,
+    "F2P": {
+      "n": 2063,
+      "PASS_at_base": 0,
+      "not_reported": 2063
+    },
+    "P2P": {
+      "n": 0,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 115
+  },
+  "cpp:ninja-build__ninja-2749": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 458,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 455,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 106
+  },
+  "cpp:TrenchBroom__TrenchBroom-5133": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 577,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 2
+    },
+    "P2P": {
+      "n": 2880,
+      "not_pass_at_base": 1
+    },
+    "wall_s": 356
+  },
+  "cpp:ClickHouse__ClickHouse-100579": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:362bdc491106e5d89666475750c04529098889216368e82980a9ed96b1e4b963) to overlayfs as \"extract-719400102-9iRl sha256:b3dc47c94a0daefb7d2bf56068c6c47e393e4d7c10961e4250162de9e06de69f\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/740/fs/testbed/.git/modules/contrib/llvm-project/objects/pack/pack-5a658527782e03cfe088f0def5e9d864c8b3314d.pack: no space left on device\n"
+  },
+  "cpp:pocoproject__poco-5265": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 19,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 1,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 13,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 590
+  },
+  "java:jetty__jetty.project-14652": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 25167,
+    "F2P": {
+      "n": 198,
+      "PASS_at_base": 159,
+      "not_reported": 38
+    },
+    "P2P": {
+      "n": 23648,
+      "not_pass_at_base": 4
+    },
+    "wall_s": 2865
+  },
+  "java:mc1arke__sonarqube-community-branch-plugin-1221": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 1,
+    "F2P": {
+      "n": 373,
+      "PASS_at_base": 0,
+      "not_reported": 373
+    },
+    "P2P": {
+      "n": 1,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 476
+  },
+  "java:magefree__mage-14628": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 6698,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 6552,
+      "not_pass_at_base": 1
+    },
+    "wall_s": 1089
+  },
+  "java:langchain4j__langchain4j-4734": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 3766,
+    "F2P": {
+      "n": 12,
+      "PASS_at_base": 0,
+      "not_reported": 12
+    },
+    "P2P": {
+      "n": 3733,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 1297
+  },
+  "java:open-telemetry__opentelemetry-java-instrumentation-16697": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 1190,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 2
+    },
+    "P2P": {
+      "n": 1162,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 2261
+  },
+  "java:spring-projects__spring-security-18938": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 13210,
+    "F2P": {
+      "n": 247,
+      "PASS_at_base": 0,
+      "not_reported": 246
+    },
+    "P2P": {
+      "n": 13200,
+      "not_pass_at_base": 22
+    },
+    "wall_s": 2062
+  },
+  "java:helidon-io__helidon-11386": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 5289,
+    "F2P": {
+      "n": 23,
+      "PASS_at_base": 0,
+      "not_reported": 20
+    },
+    "P2P": {
+      "n": 5274,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 1023
+  },
+  "java:floci-io__floci-26": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 521,
+    "F2P": {
+      "n": 3,
+      "PASS_at_base": 1,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 518,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 278
+  },
+  "java:helidon-io__helidon-11407": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 5306,
+    "F2P": {
+      "n": 13,
+      "PASS_at_base": 3,
+      "not_reported": 10
+    },
+    "P2P": {
+      "n": 5286,
+      "not_pass_at_base": 8
+    },
+    "wall_s": 979
+  },
+  "java:floci-io__floci-54": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 972,
+    "F2P": {
+      "n": 2,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 970,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 439
+  },
+  "rust:ruffle-rs__ruffle-23197": {
+    "verdict": "INFEASIBLE",
+    "reason": "platform_infeasible(time): run > 3600s (D-048)",
+    "wall_s": 6438
+  },
+  "rust:DioxusLabs__dioxus-5384": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "failed to copy: failed to send write: write /var/lib/containerd/io.containerd.content.v1.content/ingest/c186386c69a99dd6a66ed71ecbf9c0aab9f4b8b910c032d2d9f8b7de2a96fac3/data: no space left on device\n"
+  },
+  "rust:Automattic__harper-2962": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:01d090bc508bc28f973676145d6f35d1b83c561c29c0fdf35c323f28d98f1645) to overlayfs as \"extract-923012776-B2tk sha256:e498fd0e7a6d9ed143ba42a6be611d38588238fda81378884ea0c5d81a57c39f\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/849/fs/testbed/target/debug/deps/libharper_wasm.so: no space left on device\n"
+  },
+  "rust:J-F-Liu__lopdf-481": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 131,
+    "F2P": {
+      "n": 93,
+      "PASS_at_base": 0,
+      "not_reported": 92
+    },
+    "P2P": {
+      "n": 127,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 815
+  },
+  "rust:gleam-lang__gleam-5482": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:369267c995a531c959b2e78309b1f4555739665c6966fe5e5573902fcf8c90fc) to overlayfs as \"extract-919447093-u5ji sha256:80176805ba4bc3d6a0c9f22f66585b0b0fbc94f863b9b5431a4a481575335d5b\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/864/fs/testbed/target/debug/build/crossbeam-utils-03027078ae0d8af8/build-script-build: no space left on device\n"
+  },
+  "rust:Automattic__harper-2973": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:de99cf6971380c2c9b76d29c26f51eddecf7cd719c6bea3a22b6fd149816b1d3) to overlayfs as \"extract-325410684-O-8V sha256:1d9c7c1430b1ed0ff945f75cbcb709295c1c18f00a8e6ec4230ddb6afb60d374\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/865/fs/testbed/target/debug/deps/libburn_nn-4b2609b7d070e108.rmeta: no space left on device\n"
+  },
+  "rust:Automattic__harper-2976": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:bfd7edc1960fdbf773297342640d58e42417278c18e7992f9f435f538e2035ed) to overlayfs as \"extract-514024107-1zEc sha256:dc0d245c89f98659cb0a5313f4d6386513fed021b28ee0937bcf9e167af233fc\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/871/fs/testbed/target/debug/deps/asciidoc_tests-6e9fa1aeddfb0117: no space left on device\n"
+  },
+  "rust:modelcontextprotocol__rust-sdk-760": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:8964e22e01ce68e9c7fe772cf5608554c74568040ea2c8e617a47e0a95c0cc0f) to overlayfs as \"extract-502837052-7wTh sha256:3a5017f31d90b245fd991018ca40465158a14a190e9ccef18c789d1d6a02e1e6\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/872/fs/usr/local/rustup/toolchains/1.90-x86_64-unknown-linux-gnu/share/doc/rust/html/cargo/print.html: no space left on device\n"
+  },
+  "rust:GitoxideLabs__gitoxide-2476": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "failed to copy: failed to send write: write /var/lib/containerd/io.containerd.content.v1.content/ingest/5c97c3cb9ef075cd2a3cff906c3b14e4778cd8882e93a90d94128e96599ce21c/data: no space left on device\n"
+  },
+  "rust:gleam-lang__gleam-5493": {
+    "verdict": "ERROR",
+    "reason": "image pull failed",
+    "stderr": "failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:cf9214c2dcf66996938a0dde21b2f16d28ef727eba79ff492d4b5dd0ac56d2d2) to overlayfs as \"extract-812294459-Z3MS sha256:c6f9fb6cc828805ef22f8b7cef3cfe78bddbd05f1097d097ca475e242c8f4ff0\": write /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/884/fs/testbed/target/debug/deps/gleam_core-6190d4e294a606bc: no space left on device\n"
+  }
+}

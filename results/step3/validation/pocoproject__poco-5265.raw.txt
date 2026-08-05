@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Linux-c++"
+	tests="19"
+	failures="5"
+	disabled="0"
+	skipped="0"
+	hostname="420408d7ba0a"
+	time="485"
+	timestamp="2026-07-29T20:59:23"
+	>
+	<testcase name="Foundation" classname="Foundation" time="196.017" status="run">
+		<properties/>
+		<system-out>
+CoreTest::testPlatform: POCO_OS:   5
+POCO_ARCH: 9
+
+CoreTest::testFixedLength: 
+CoreTest::testBugcheck: 
+CoreTest::testEnvironment: OS Name:         Linux
+OS Display Name: Linux
+OS Version:      6.8.0-117-generic
+OS Architecture: x86_64
+Node Name:       30cff411d485
+Node ID:         d2:19:8d:17:ae:60
+Number of CPUs:  2
+
+CoreTest::testEnvironmentMultiThread: Environment multi-thread test: 3199 native reads
+
+CoreTest::testBuffer: 
+CoreTest::testFIFOBufferChar: 
+CoreTest::testFIFOBufferInt: 
+CoreTest::testFIFOBufferEOFAndError: 
+CoreTest::testAtomicCounter: 
+CoreTest::testNullable: 
+CoreTest::testAscii: 
+CoreTest::testSrcLoc: 
+CoreTest::testDemangle: 
+CoreTest::testDemangleDot: 
+ArrayTest::testConstruction: 
+ArrayTest::testOperations: 
+ArrayTest::testContainer: 
+ArrayTest::testIterator: 
+ArrayTest::testAlgorithm: 
+ArrayTest::testMultiLevelArray: 
+AutoPtrTest::testAutoPtr: 
+AutoPtrTest::testOps: 
+AutoPtrTest::testMakeAuto: 
+SharedPtrTest::testSharedPtr: 
+SharedPtrTest::testImplicitCast: 
+SharedPtrTest::testExplic...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="Encodings" classname="Encodings" time="0.0184033" status="run">
+		<properties/>
+		<system-out>
+DoubleByteEncodingTest::testSingleByte: 
+DoubleByteEncodingTest::testSingleByteReverse: 
+DoubleByteEncodingTest::testDoubleByte: 
+DoubleByteEncodingTest::testDoubleByteReverse: 
+
+OK (4 tests)
+
+</system-out>
+	</testcase>
+	<testcase name="XML" classname="XML" time="0.100725" status="run">
+		<properties/>
+		<system-out>
+NameTest::testSplit: 
+NameTest::testLocalName: 
+NameTest::testPrefix: 
+NameTest::testName: 
+NameTest::testCompare: 
+NameTest::testSwap: 
+NamePoolTest::testNamePool: 
+XMLWriterTest::testTrivial: 
+XMLWriterTest::testTrivialCanonical: 
+XMLWriterTest::testTrivialDecl: 
+XMLWriterTest::testTrivialDeclPretty: 
+XMLWriterTest::testTrivialFragment: 
+XMLWriterTest::testTrivialFragmentPretty: 
+XMLWriterTest::testDTDPretty: 
+XMLWriterTest::testDTD: 
+XMLWriterTest::testDTDPublic: 
+XMLWriterTest::testDTDNotation: 
+XMLWriterTest::testDTDEntity: 
+XMLWriterTest::testAttributes: 
+XMLWriterTest::testAttributesPretty: 
+XMLWriterTest::testData: 
+XMLWriterTest::testEmptyData: 
+XMLWriterTest::testDataPretty: 
+XMLWriterTest::testEmptyDataPretty: 
+XMLWriterTest::testComment: 
+XMLWriterTest::testPI: 
+XMLWriterTest::testCharacters: 
+XMLWriterTest::testEmptyCharacters: 
+XMLWriterTest::testCDATA: 
+XMLWriterTest::testRawCharacters: 
+XMLWriterTest::testAttributeCharacters: 
+XMLWriterTest::testDefaultNamespace: 
+XMLWriterTest::testQNamespac...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="JSON" classname="JSON" time="0.0581888" status="run">
+		<properties/>
+		<system-out>
+JSONTest::testNullProperty: 
+JSONTest::testTrueProperty: 
+JSONTest::testFalseProperty: 
+JSONTest::testNumberProperty: 
+JSONTest::testUnsignedNumberProperty: 
+JSONTest::testNumber64Property: 
+JSONTest::testUnsignedNumber64Property: 
+JSONTest::testStringProperty: 
+JSONTest::testEmptyObject: 
+JSONTest::testEmptyPropertyName: 
+JSONTest::testComplexObject: 
+JSONTest::testDoubleProperty: 
+JSONTest::testDouble2Property: 
+JSONTest::testDouble3Property: 
+JSONTest::testObjectProperty: 
+JSONTest::testObjectArray: 
+JSONTest::testArrayOfObjects: 
+JSONTest::testEmptyArray: 
+JSONTest::testNestedArray: 
+JSONTest::testNullElement: 
+JSONTest::testTrueElement: 
+JSONTest::testFalseElement: 
+JSONTest::testNumberElement: 
+JSONTest::testStringElement: 
+JSONTest::testEmptyObjectElement: 
+JSONTest::testDoubleElement: 
+JSONTest::testSetArrayElement: 
+JSONTest::testOptValue: 
+JSONTest::testQuery: 
+JSONTest::testComment: 
+JSONTest::testPrintHandler: 
+JSONTest::testStringify: 
+JSONTest::testStringifyNaN: 
+JSONTest::testStringifyPreserve...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="Util" classname="Util" time="11.8108" status="run">
+		<properties/>
+		<system-out>
+ConfigurationViewTest::testHasProperty: 
+ConfigurationViewTest::testGetString: 
+ConfigurationViewTest::testGetInt: 
+ConfigurationViewTest::testGetInt64: 
+ConfigurationViewTest::testGetDouble: 
+ConfigurationViewTest::testGetBool: 
+ConfigurationViewTest::testExpand: 
+ConfigurationViewTest::testSetString: 
+ConfigurationViewTest::testSetInt: 
+ConfigurationViewTest::testSetInt64: 
+ConfigurationViewTest::testSetDouble: 
+ConfigurationViewTest::testSetBool: 
+ConfigurationViewTest::testKeys: 
+ConfigurationViewTest::testRemove: 
+ConfigurationViewTest::testChangeEvents: 
+ConfigurationViewTest::testRemoveEvents: 
+ConfigurationViewTest::testView: 
+LocalConfigurationViewTest::testHasProperty: 
+LocalConfigurationViewTest::testGetString: 
+LocalConfigurationViewTest::testGetInt: 
+LocalConfigurationViewTest::testGetInt64: 
+LocalConfigurationViewTest::testGetDouble: 
+LocalConfigurationViewTest::testGetBool: 
+LocalConfigurationViewTest::testExpand: 
+LocalConfigurationViewTest::testSetString: 
+LocalConfigurationViewTest::testSet...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="Net" classname="Net" time="108.897" status="run">
+		<properties/>
+		<system-out>
+IPAddressTest::testStringConv: 
+IPAddressTest::testStringConv6: 
+IPAddressTest::testParse: 
+IPAddressTest::testClassification: 
+IPAddressTest::testMCClassification: 
+IPAddressTest::testClassification6: 
+IPAddressTest::testMCClassification6: 
+IPAddressTest::testRelationals: 
+IPAddressTest::testRelationals6: 
+IPAddressTest::testWildcard: 
+IPAddressTest::testBroadcast: 
+IPAddressTest::testPrefixCons: 
+IPAddressTest::testPrefixLen: 
+IPAddressTest::testOperators: 
+IPAddressTest::testByteOrderMacros: 
+IPAddressTest::testScoped: 
+SocketAddressTest::testSocketAddress: 
+SocketAddressTest::testSocketRelationals: 
+SocketAddressTest::testSocketAddress6: 
+SocketAddressTest::testSocketAddressUnixLocal: 
+DNSTest::testHostByName: 
+DNSTest::testHostByAddress: ERROR (ignored)
+DNSTest::testResolve: 
+DNSTest::testEncodeIDN: 
+DNSTest::testDecodeIDN: 
+NetworkInterfaceTest::testList: 
+==============
+Index:       1
+Name:        lo
+DisplayName: lo
+Status:      Up
+IP Address:  127.0.0.1
+Subnet:      255.0.0.0 (/8)
+==============
+
+
+==...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="MongoDB" classname="MongoDB" time="15.2547" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Couldn't connect to 127.0.0.1:27017. 
+
+BSONTest::testDocumentAddGet: 
+BSONTest::testDocumentExists: 
+BSONTest::testDocumentRemove: 
+BSONTest::testDocumentClear: 
+BSONTest::testDocumentSize: 
+BSONTest::testDocumentElementNames: 
+BSONTest::testNestedDocuments: 
+BSONTest::testDuplicateDocumentMembers: 
+BSONTest::testArray: 
+BSONTest::testArrayIndexAccess: 
+BSONTest::testArrayNested: 
+BSONTest::testDouble: 
+BSONTest::testString: 
+BSONTest::testBool: 
+BSONTest::testInt32: 
+BSONTest::testInt64: 
+BSONTest::testTimestamp: 
+BSONTest::testNull: 
+BSONTest::testBSONTimestamp: 
+BSONTest::testBinaryGeneric: 
+BSONTest::testBinaryUUID: 
+BSONTest::testBinarySubtypes: 
+BSONTest::testObjectID: 
+BSONTest::testObjectIDTimestamp: 
+BSONTest::testRegularExpression: 
+BSONTest::testJavaScriptCode: 
+BSONTest::testDocumentSerialization: 
+BSONTest::testDocumentDeserialization: 
+BSONTest::testArraySerialization: 
+BSONTest::testComplexDocumentSerialization: 
+BSONTest::testSimpleDocumentToString: 
+BSONTest::testNestedDocumentToString: 
+BSONTest::testDocumentWithArrayToString: 
+BSONTest::testComplexDocumentToString: 
+BSONTest::testToStringIndentation: 
+BSONTest::testArrayToString: 
+BSONTest::testGetNonExistent: 
+BSONTest::testBadCast: 
+BSONTest::testInvalidObjectID: 
+BSONTest::testEmptyDocument: 
+ReplicaSetTest::testServerDescriptionPrimary: FAILURE
+ReplicaSetTest::testServerDescriptionSecondary: 
+ReplicaSetTest::testServerDescriptionArbiter: 
+ReplicaSetTest::testServerDescriptionStandalone: 
+ReplicaSetTest::testServerDescriptionMongos: 
+ReplicaSetTest::testServerDescriptionWithTags: 
+ReplicaSetTest::testServerDescriptionWithHosts: FAILURE
+ReplicaSetTest::testServerDescriptionErrorHandling: 
+ReplicaSetTest::testServerDescriptionReset: 
+ReplicaSetTest::testTopologyEmpty: 
+ReplicaSetTest::testTopologyAddServers: 
+ReplicaSetTest::testTopologyUpdateToPrimary: FAILURE
+ReplicaSetTest::testTopologyUpdateToSecondary: 
+ReplicaSetTest::testTopologyReplicaSetWithPrimary: FAILURE
+ReplicaSetTest::testTopologyReplicaSetNoPrimary: 
+ReplicaSetTest::testTopologyStandalone: 
+ReplicaSetTest::testTopologySharded: 
+ReplicaSetTest::testTopologyFindPrimary: FAILURE
+ReplicaSetTest::testTopologyFindSecondaries: 
+ReplicaSetTest::testTopologyMarkServerUnknown: 
+ReplicaSetTest::testTopologyRemoveServer: 
+ReplicaSetTest::testTopologyDiscoverNewHosts: 
+ReplicaSetTest::testTopologySetNameMismatch: 
+ReplicaSetTest::testTopologyMixedUnknownAndKnown: 
+ReplicaSetTest::testTopologyAllUnknown: 
+ReplicaSetTest::testTopologyMultipleStandalone: 
+ReplicaSetTest::testTopologyMixedMongosAndPrimary: 
+ReplicaSetTest::testTopologyMixedStandaloneAndPrimary: 
+ReplicaSetTest::testTopologyMultipleStandaloneWithSetName: 
+ReplicaSetTest::testTopologyMixedMongosAndSecondary: 
+ReplicaSetTest::testTopologyMixedStandaloneAndSecondary: 
+ReplicaSetTest::testTopologyTransitions: 
+ReplicaSetTest::testTopologyReplicaSetNoPrimaryWithSetName: 
+ReplicaSetTest::testReadPreferencePrimary: FAILURE
+ReplicaSetTest::testReadPreferencePrimaryPreferred: 
+ReplicaSetTest::testReadPreferenceSecondary: FAILURE
+ReplicaSetTest::testReadPreferenceSecondaryPreferred: 
+ReplicaSetTest::testReadPreferenceNearest: 
+ReplicaSetTest::testReadPreferenceWithTags: 
+ReplicaSetTest::testReplicaSetURIParsing: 
+ReplicaSetTest::testReplicaSetURIClass: 
+ReplicaSetTest::testReplicaSetURIToString: 
+ReplicaSetTest::testReplicaSetURIModification: 
+ReplicaSetTest::testReplicaSetWithURIObject: 
+ReplicaSetTest::testConnectionTimeoutWithUnreachableServer: 
+ReplicaSetTest::testReplicaSetConstructionTimeout: 
+ReplicaSetTest::testReplicaSetMonitoringStopWithUnreachableServers: 
+ReplicaSetTest::testConnectionPoolTimeoutWithUnreachableServers: 
+ReplicaSetTest::testPlainConnectionPoolTimeoutWithUnreachableServer: 
+
+!!!FAILURES!!!
+Runs: 89   Failures: 7   Errors: 0
+
+There were 7 failures: 
+ 1: CppUnit::TestCaller&lt;ReplicaSetTest&gt;.testServerDescriptionPrimary
+    "expected: "localhost:27017" but was: "127.0.0.1:27017""
+    in "/testbed/MongoDB/testsuite/src/ReplicaSetTest.cpp", line 283
+ 2: CppUnit::TestCaller&lt;ReplicaSetTest&gt;.testServerDescriptionWithHosts
+    "foundPassive"
+    in "/testbed/MongoDB/testsuite/src/ReplicaSetTest.cpp", line 406
+ 3: CppUnit::TestCaller&lt;ReplicaSetTest&gt;.testTopologyUpdateToPrimary
+    "expected: "localhost:27017" but was: "127.0.0.1:27017""
+    in "/testbed/MongoDB/testsuite/src/ReplicaSetTest.cpp", line 523
+ 4: CppUnit::TestCaller&lt;ReplicaSetTest&gt;.testTopologyReplicaSetWithPrimary
+    "expected: "localhost:27017" but was: "127.0.0.1:27017""
+    in "/testbed/MongoDB/testsuite/src/ReplicaSetTest.cpp", line 578
+ 5: CppUnit::TestCaller&lt;ReplicaSetTest&gt;.testTopologyFindPrimary
+    "expected: "localhost:27017" but was: "127.0.0.1:27017""
+    in "/testbed/MongoDB/testsuite/src/ReplicaSetTest.cpp", line 691
+ 6: CppUnit::TestCaller&lt;ReplicaSetTest&gt;.testReadPreferencePrimary
+    "expected: "localhost:27017" but was: "127.0.0.1:27017""
+    in "/testbed/MongoDB/testsuite/src/ReplicaSetTest.cpp", line 1162
+ 7: CppUnit::TestCaller&lt;ReplicaSetTest&gt;.testReadPreferenceSecondary
+    "expected: "localhost:27018" but was: "127.0.0.1:27018""
+    in "/testbed/MongoDB/testsuite/src/ReplicaSetTest.cpp", line 1217
+
+</system-out>
+	</testcase>
+	<testcase name="Redis" classname="Redis" time="0.335825" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+Couldn't connect to [localhost:6379]. 
+
+RedisTest::testAPPEND: Not connected, test skipped.
+
+RedisTest::testBLPOP: Not connected, test skipped.
+
+RedisTest::testBRPOP: Not connected, test skipped.
+
+RedisTest::testDECR: Not connected, test skipped.
+
+RedisTest::testDECR: Not connected, test skipped.
+
+RedisTest::testECHO: Not connected, test skipped.
+
+RedisTest::testError: Not connected, test skipped.
+
+RedisTest::testEVAL: Not connected, test skipped.
+
+RedisTest::testHDEL: Not connected, test skipped.
+
+RedisTest::testHEXISTS: Not connected, test skipped.
+
+RedisTest::testHGETALL: Not connected, test skipped.
+
+RedisTest::testHINCRBY: Not connected, test skipped.
+
+RedisTest::testHKEYS: Not connected, test skipped.
+
+RedisTest::testHMGET: Not connected, test skipped.
+
+RedisTest::testHMSET: Not connected, test skipped.
+
+RedisTest::testHSET: Not connected, test skipped.
+
+RedisTest::testHVALS: Not connected, test skipped.
+
+RedisTest::testINCR: Not connected, test skipped.
+
+RedisTest::testINCRBY: Not connected, test skipped.
+
+RedisTest::testLINDEX: Not connected, test skipped.
+
+RedisTest::testLINSERT: Not connected, test skipped.
+
+RedisTest::testLPOP: Not connected, test skipped.
+
+RedisTest::testLREM: Not connected, test skipped.
+
+RedisTest::testLSET: Not connected, test skipped.
+
+RedisTest::testLTRIM: Not connected, test skipped.
+
+RedisTest::testMSET: Not connected, test skipped.
+
+RedisTest::testMSETWithMap: Not connected, test skipped.
+
+RedisTest::testMULTI: Not connected, test skipped.
+
+RedisTest::testPING: Not connected, test skipped.
+
+RedisTest::testPipeliningWithSendCommands: Not connected, test skipped.
+
+RedisTest::testPipeliningWithWriteCommand: Not connected, test skipped.
+
+RedisTest::testPubSub: Not connected, test skipped.
+
+RedisTest::testSADD: Not connected, test skipped.
+
+RedisTest::testSCARD: Not connected, test skipped.
+
+RedisTest::testSDIFF: Not connected, test skipped.
+
+RedisTest::testSDIFFSTORE: Not connected, test skipped.
+
+RedisTest::testSET: Not connected, test skipped.
+
+RedisTest::testSINTER: Not connected, test skipped.
+
+RedisTest::testSINTERSTORE: Not connected, test skipped.
+
+RedisTest::testSISMEMBER: Not connected, test skipped.
+
+RedisTest::testSMEMBERS: Not connected, test skipped.
+
+RedisTest::testSMOVE: Not connected, test skipped.
+
+RedisTest::testSPOP: Not connected, test skipped.
+
+RedisTest::testSRANDMEMBER: Not connected, test skipped.
+
+RedisTest::testSREM: Not connected, test skipped.
+
+RedisTest::testSTRLEN: Not connected, test skipped.
+
+RedisTest::testSUNION: Not connected, test skipped.
+
+RedisTest::testSUNIONSTORE: Not connected, test skipped.
+
+RedisTest::testRENAME: Not connected, test skipped.
+
+RedisTest::testRENAMENX: Not connected, test skipped.
+
+RedisTest::testRPOP: Not connected, test skipped.
+
+RedisTest::testRPOPLPUSH: Not connected, test skipped.
+
+RedisTest::testRPUSH: Not connected, test skipped.
+
+RedisTest::testPool: ERROR
+NotificationTest::testRedisNotifications: 
+NotificationTest::testAsyncNotificationCenter: Connect notification received
+Disconnect notification received
+Error notification received: Exception: Test async error
+
+NotificationTest::testClientNotifications: Error notification received: Exception: Simulated client error
+
+
+!!!FAILURES!!!
+Runs: 57   Failures: 0   Errors: 1
+
+There was 1 error: 
+ 1: CppUnit::TestCaller&lt;RedisTest&gt;.testPool
+    "Poco::AssertionViolationException: Assertion violation: _pOutput in file "/testbed/Redis/src/Client.cpp", line 210"
+    in "&lt;unknown&gt;", line -1
+
+</system-out>
+	</testcase>
+	<testcase name="Prometheus" classname="Prometheus" time="0.248987" status="run">
+		<properties/>
+		<system-out>
+CounterTest::testBasicBehavior: 
+CounterTest::testInvalidName: 
+CounterTest::testLabels: 
+CounterTest::testConcurrency: 
+CounterTest::testExport: 
+GaugeTest::testBasicBehavior: 
+GaugeTest::testInvalidName: 
+GaugeTest::testLabels: 
+GaugeTest::testExport: 
+IntCounterTest::testBasicBehavior: 
+IntCounterTest::testExport: 
+IntGaugeTest::testBasicBehavior: 
+IntGaugeTest::testExport: 
+CallbackMetricTest::testExport: 
+HistogramTest::testNoBuckets: 
+HistogramTest::testBuckets: 
+HistogramTest::testLabels: 
+HistogramTest::testExport: 
+
+OK (18 tests)
+
+</system-out>
+	</testcase>
+	<testcase name="JWT" classname="JWT" time="0.104689" status="run">
+		<properties/>
+		<system-out>
+SerializerTest::testSerializeEmpty: 
+SerializerTest::testSerializeAlgNone: 
+SerializerTest::testSerializeAlgHS256: 
+SerializerTest::testDeserializeEmpty: 
+SerializerTest::testDeserializeAlgNone: 
+SerializerTest::testDeserializeAlgHS256: 
+SerializerTest::testSplit: 
+SerializerTest::testSplitEmptySig: 
+TokenTest::testParse: 
+TokenTest::testParseNoSig: 
+TokenTest::testSerialize: 
+TokenTest::testAssign: 
+TokenTest::testAudience: 
+SignerTest::testSignHS256: 
+SignerTest::testSignHS384: 
+SignerTest::testSignHS512: 
+SignerTest::testVerifyHS256: 
+SignerTest::testVerifyHS384: 
+SignerTest::testVerifyHS512: 
+SignerTest::testVerifyFailSignature: 
+SignerTest::testVerifyFailKey: 
+SignerTest::testSignRS256: 
+SignerTest::testSignRS384: 
+SignerTest::testSignRS512: 
+SignerTest::testVerifyRS256: 
+SignerTest::testVerifyRS384: 
+SignerTest::testVerifyRS512: 
+SignerTest::testSignVerifyES256: 
+SignerTest::testSignVerifyES384: 
+SignerTest::testSignVerifyES512: 
+SignerTest::testVerifyES256: 
+SignerTest::testVerifyES384: 
+SignerTest::t...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="NetSSL" classname="NetSSL" time="94.6638" status="run">
+		<properties/>
+		<system-out>
+SecureStreamSocketTest::testSendReceive: 
+SecureStreamSocketTest::testPeek: 
+SecureStreamSocketTest::testNB: 
+SecureStreamSocketTest::testSendFile: 
+SecureStreamSocketTest::testSendFileLarge: 
+SecureStreamSocketTest::testSendFileRange: 
+HTTPSClientSessionTest::testFromSocket: 
+HTTPSClientSessionTest::testGetSmall: 
+HTTPSClientSessionTest::testGetLarge: 
+HTTPSClientSessionTest::testHead: 
+HTTPSClientSessionTest::testPostSmallIdentity: 
+HTTPSClientSessionTest::testPostLargeIdentity: 
+HTTPSClientSessionTest::testPostSmallChunked: 
+HTTPSClientSessionTest::testPostLargeChunked: 
+HTTPSClientSessionTest::testPostLargeChunkedKeepAlive: 
+HTTPSClientSessionTest::testKeepAlive: 
+HTTPSClientSessionTest::testMultipleSSLInit: 
+HTTPSClientSessionTest::testInterop: 
+HTTPSClientSessionTest::testProxy: ERROR (ignored)
+HTTPSClientSessionTest::testCachedSession: 
+HTTPSClientSessionTest::testUnknownContentLength: 
+HTTPSClientSessionTest::testServerAbort: 
+HTTPSStreamFactoryTest::testNoRedirect: 
+HTTPSStreamFactoryTest::testEmpty...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="Crypto" classname="Crypto" time="40.0322" status="run">
+		<properties/>
+		<system-out>
+CryptoTest::testEncryptDecrypt: 
+CryptoTest::testEncryptDecryptWithSalt: 
+CryptoTest::testEncryptDecryptWithSaltSha1: 
+CryptoTest::testEncryptDecryptDESECB: 
+CryptoTest::testEncryptDecryptGCM: 
+CryptoTest::testPassword: 
+CryptoTest::testPasswordSha1: 
+CryptoTest::testEncryptInterop: 
+CryptoTest::testDecryptInterop: 
+CryptoTest::testStreams: 
+CryptoTest::testCertificate: 
+CryptoTest::testCertificateUTF8: 
+RSATest::testNewKeys: 
+RSATest::testNewKeysNoPassphrase: 
+RSATest::testSign: 
+RSATest::testSignSha256: 
+RSATest::testSignManipulated: 
+RSATest::testRSACipher: 
+RSATest::testRSACipherLarge: 
+RSATest::testCertificate: 
+EVPTest::testRSAEVPPKey: 
+EVPTest::testRSAEVPSaveLoadStream: 
+EVPTest::testRSAEVPSaveLoadStreamNoPass: 
+EVPTest::testECEVPPKey: 
+EVPTest::testECEVPSaveLoadStream: 
+EVPTest::testECEVPSaveLoadStreamNoPass: 
+EVPTest::testECEVPSaveLoadFile: 
+EVPTest::testECEVPSaveLoadFileNoPass: 
+EVPTest::testECEVPLoadKeyWrongPassword: 
+EVPTest::testRSAEVPKeyFromX509: 
+EVPTest::testRSAEVPKeyFromPKCS12: 
+EVPTest::tes...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="Data" classname="Data" time="7.14708" status="run">
+		<properties/>
+		<system-out>
+DataTest::testSession: 
+DataTest::testStatementFormatting: 
+DataTest::testFeatures: 
+DataTest::testProperties: 
+DataTest::testLOB: 
+DataTest::testCLOB: 
+DataTest::testCLOBStreams: 
+DataTest::testColumnVector: 
+DataTest::testColumnVectorBool: 
+DataTest::testColumnDeque: 
+DataTest::testColumnList: 
+DataTest::testRow: 
+DataTest::testRowSort: 
+DataTest::testSimpleRowFormatter: 
+DataTest::testJSONRowFormatter: 
+DataTest::testDateAndTime: 
+DataTest::testExternalBindingAndExtraction: 
+DataTest::testTranscode: 
+DataTest::testSQLParse: 
+DataTest::testSQLChannel: 
+DataTest::testNullableExtract: 
+SessionPoolTest::testSessionPool: 
+SessionPoolTest::testSessionPoolContainer: 
+SQLParserTest::testSQLParser: 
+
+OK (24 tests)
+
+</system-out>
+	</testcase>
+	<testcase name="DataSQLite" classname="DataSQLite" time="10.2623" status="run">
+		<properties/>
+		<system-out>
+SQLiteTest::testBind: 
+SQLiteTest::testBinding: 
+SQLiteTest::testZeroRows: 
+SQLiteTest::testSimpleAccess: 
+SQLiteTest::testInMemory: 
+SQLiteTest::testNullCharPointer: 
+SQLiteTest::testInsertCharPointer: 
+SQLiteTest::testInsertCharPointer2: 
+SQLiteTest::testComplexType: 
+SQLiteTest::testSimpleAccessVector: 
+SQLiteTest::testComplexTypeVector: 
+SQLiteTest::testSharedPtrComplexTypeVector: 
+SQLiteTest::testInsertVector: 
+SQLiteTest::testInsertEmptyVector: 
+SQLiteTest::testAffectedRows: 
+SQLiteTest::testInsertSingleBulk: 
+SQLiteTest::testInsertSingleBulkVec: 
+SQLiteTest::testLimit: 
+SQLiteTest::testLimitOnce: 
+SQLiteTest::testLimitPrepare: 
+SQLiteTest::testLimitZero: 
+SQLiteTest::testPrepare: 
+SQLiteTest::testSetSimple: 
+SQLiteTest::testSetComplex: 
+SQLiteTest::testSetComplexUnique: 
+SQLiteTest::testMultiSetSimple: 
+SQLiteTest::testMultiSetComplex: 
+SQLiteTest::testMapComplex: 
+SQLiteTest::testMapComplexUnique: 
+SQLiteTest::testMultiMapComplex: 
+SQLiteTest::testSelectIntoSingle: 
+SQLiteTest::testSelectIntoSingleSt...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="DataMySQL" classname="DataMySQL" time="0.0715368" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>WARNING: MYSQL_OPT_RECONNECT is deprecated and will be removed in a future version.
+Connection attempt failed: Can't connect to MySQL server on '127.0.0.1:3306' (111)
+Trying to connect without DB and create one ...
+WARNING: MYSQL_OPT_RECONNECT is deprecated and will be removed in a future version.
+Connection attempt failed: Can't connect to MySQL server on '127.0.0.1:3306' (111)
+WARNING: MYSQL_OPT_RECONNECT is deprecated and will be removed in a future version.
+Connection attempt failed: Can't connect to MySQL server on '127.0.0.1:3306' (111)
+
+
+OK (0 tests)
+
+Usage: driver [-all] [-ignore &lt;file&gt; ] [-long] [-print] [-wait] [name] ...
+       where name is the name of a test case class
+</system-out>
+	</testcase>
+	<testcase name="DataPostgreSQL" classname="DataPostgreSQL" time="0.0384988" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Connection attempt failed: Connection Error: connection to server at "localhost" (::1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+	Is the server running on that host and accepting TCP/IP connections?
+
+
+
+OK (0 tests)
+
+Usage: driver [-all] [-ignore &lt;file&gt; ] [-long] [-print] [-wait] [name] ...
+       where name is the name of a test case class
+</system-out>
+	</testcase>
+	<testcase name="DataODBC" classname="DataODBC" time="0.0222451" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Oracle 23 ODBC driver driver NOT found, tests not available.
+ODBC Driver 18 for SQL Server driver NOT found, tests not available.
+MySQL/MariaDB ODBC driver NOT found, tests not available.
+PostgreSQL ODBC driver NOT found, tests not available.
+SQLite3 ODBC Driver driver NOT found, tests not available.
+IBM DB2 ODBC DRIVER - DB2COPY1 driver NOT found, tests not available.
+Informix ODBC Driver driver NOT found, tests not available.
+
+
+OK (0 tests)
+
+Usage: driver [-all] [-ignore &lt;file&gt; ] [-long] [-print] [-wait] [name] ...
+       where name is the name of a test case class
+</system-out>
+	</testcase>
+	<testcase name="ActiveRecord" classname="ActiveRecord" time="0.16972" status="run">
+		<properties/>
+		<system-out>
+ActiveRecordTest::testInsert: 
+ActiveRecordTest::testFind: 
+ActiveRecordTest::testUpdate: 
+ActiveRecordTest::testDelete: 
+ActiveRecordTest::testRelations: 
+ActiveRecordTest::testQuery: 
+ActiveRecordTest::testQueryWhere: 
+ActiveRecordTest::testQueryWhereBind: 
+ActiveRecordTest::testQueryOrderBy: 
+ActiveRecordTest::testQueryFilter: 
+ActiveRecordTest::testQueryPaging: 
+
+OK (11 tests)
+
+</system-out>
+	</testcase>
+	<testcase name="Zip" classname="Zip" time="0.118539" status="run">
+		<properties/>
+		<system-out>
+CompressTest::testSingleFile: 
+CompressTest::testDirectory: 
+CompressTest::testManipulator: 
+CompressTest::testManipulatorDel: 
+CompressTest::testManipulatorReplace: 
+CompressTest::testSetZipComment: 
+CompressTest::testZip64: 
+	createDataFile(data1.bin, 4194305);
+	createDataFile(data2.bin, 16384);
+	createDataFile(data3.bin, 4194303);
+	addFile(data1.bin);
+	addFile(data2.bin);
+	addFile(data3.bin);
+
+ZipTest::testSkipSingleFile: 
+ZipTest::testDecompressSingleFile: 
+ZipTest::testDecompressSingleFileInDir: 
+ZipTest::testDecompress: 
+ZipTest::testDecompressFlat: 
+ZipTest::testDecompressVuln: 
+ZipTest::testDecompressFlatVuln: 
+ZipTest::testCrcAndSizeAfterData: 
+ZipTest::testCrcAndSizeAfterDataWithArchive: 
+ZipTest::testCrcAndSizeAfterDataEncapsulated: 
+ZipTest::testDecompressZip64: 
+ZipTest::testValidPath: 
+ZipTest::testDecompressConsistency: 
+PartialStreamTest::testReading: 
+PartialStreamTest::testWriting: 
+PartialStreamTest::testWritingZero: 
+PartialStreamTest::testWritingOne: 
+PartialStreamTest::testAutoDetect: 
+...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

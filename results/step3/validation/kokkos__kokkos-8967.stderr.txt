@@ -1,0 +1,72 @@
+ts from 1 test suite.
+42: [----------] Global test environment set-up.
+42: [----------] 28 tests from simd
+42: [ RUN      ] simd.host_math_ops
+42: [       OK ] simd.host_math_ops (16 ms)
+42: [ RUN      ] simd.device_math_ops
+42: [       OK ] simd.device_math_ops (8 ms)
+42: [ RUN      ] simd.host_mask_ops
+42: [       OK ] simd.host_mask_ops (0 ms)
+42: [ RUN      ] simd.device_mask_ops
+42: [       OK ] simd.device_mask_ops (0 ms)
+42: [ RUN      ] simd.host_conversions
+42: [       OK ] simd.host_conversions (1 ms)
+42: [ RUN      ] simd.device_conversions
+42: [       OK ] simd.device_conversions (0 ms)
+42: [ RUN      ] simd.host_shift_ops
+42: [       OK ] simd.host_shift_ops (0 ms)
+42: [ RUN      ] simd.device_shift_ops
+42: [       OK ] simd.device_shift_ops (0 ms)
+42: [ RUN      ] simd.host_bitwise_ops
+42: [       OK ] simd.host_bitwise_ops (1 ms)
+42: [ RUN      ] simd.host_mask_bitwise_ops
+42: [       OK ] simd.host_mask_bitwise_ops (0 ms)
+42: [ RUN      ] simd.device_bitwise_ops
+42: [       OK ] simd.device_bitwise_ops (0 ms)
+42: [ RUN      ] simd.device_mask_bitwise_ops
+42: [       OK ] simd.device_mask_bitwise_ops (0 ms)
+42: [ RUN      ] simd.host_comparison_ops
+42: [       OK ] simd.host_comparison_ops (1 ms)
+42: [ RUN      ] simd.host_mask_comparison_ops
+42: [       OK ] simd.host_mask_comparison_ops (0 ms)
+42: [ RUN      ] simd.device_comparison_ops
+42: [       OK ] simd.device_comparison_ops (0 ms)
+42: [ RUN      ] simd.device_mask_comparison_ops
+42: [       OK ] simd.device_mask_comparison_ops (0 ms)
+42: [ RUN      ] simd.host_condition
+42: [       OK ] simd.host_condition (0 ms)
+42: [ RUN      ] simd.device_condition
+42: [       OK ] simd.device_condition (0 ms)
+42: [ RUN      ] simd.host_gen_ctors
+42: [       OK ] simd.host_gen_ctors (0 ms)
+42: [ RUN      ] simd.device_gen_ctors
+42: [       OK ] simd.device_gen_ctors (0 ms)
+42: [ RUN      ] simd.host_reductions
+42: [       OK ] simd.host_reductions (1 ms)
+42: [ RUN      ] simd.device_reductions
+42: [       OK ] simd.device_reductions (0 ms)
+42: [ RUN      ] simd.host_construction
+42: [       OK ] simd.host_construction (0 ms)
+42: [ RUN      ] simd.device_construction
+42: [       OK ] simd.device_construction (0 ms)
+42: [ RUN      ] simd.host_loadstore
+42: [       OK ] simd.host_loadstore (0 ms)
+42: [ RUN      ] simd.device_loadstore
+42: [       OK ] simd.device_loadstore (0 ms)
+42: [ RUN      ] simd.host_memory_permute
+42: [       OK ] simd.host_memory_permute (0 ms)
+42: [ RUN      ] simd.device_memory_permute
+42: [       OK ] simd.device_memory_permute (0 ms)
+42: [----------] 28 tests from simd (34 ms total)
+42: 
+42: [----------] Global test environment tear-down
+42: [==========] 28 tests from 1 test suite ran. (35 ms total)
+42: [  PASSED  ] 28 tests.
+42/42 Test #42: Kokkos_UnitTest_SIMD .......................................   Passed    0.06 sec
+
+100% tests passed, 0 tests failed out of 42
+
+Label Time Summary:
+Kokkos    = 337.17 sec*proc (41 tests)
+
+Total Test time (real) = 337.79 sec

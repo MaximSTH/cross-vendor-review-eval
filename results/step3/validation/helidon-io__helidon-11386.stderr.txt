@@ -1,0 +1,37 @@
+.... [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon All ........................................ [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Applications Project ....................... [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Applications Parent ........................ [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon SE applications parent pom ................. [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Builder Code Generator Jackson ............. [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Bundles APT ................................ [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Config Metadata Docs ....................... [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Licensing .................................. [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon WebServer Testing JUnit5 gRPC .............. [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Codegen Testing ............................ [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Service JNDI ............................... [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Discovery Providers ........................ [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Data SQL Testing ........................... [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Data Jakarta Persistence Codegen ........... [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Transaction Jakarta Transactions ........... [1;33mSKIPPED[m
+[[1;34mINFO[m] Helidon Transaction Narayana ....................... [1;33mSKIPPED[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  02:40 min
+[[1;34mINFO[m] Finished at: 2026-07-30T00:13:47Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] Failed to execute goal [32morg.apache.maven.plugins:maven-surefire-plugin:3.1.0:test[m [1m(default-test)[m on project [36mhelidon-common-socket[m: [1;31mThere are test failures.[m
+[[1;31mERROR[m] [1;31m[m
+[[1;31mERROR[m] [1;31mPlease refer to /testbed/common/socket/target/surefire-reports for the individual test results.[m
+[[1;31mERROR[m] [1;31mPlease refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.[m
+[[1;31mERROR[m] -> [1m[Help 1][m
+[[1;31mERROR[m] 
+[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[[1;31mERROR[m] 
+[[1;31mERROR[m] After correcting the problems, you can resume the build with the command
+[[1;31mERROR[m]   [1mmvn <args> -rf :helidon-common-socket[m

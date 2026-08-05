@@ -1,0 +1,97 @@
+============================= test session starts ==============================
+collected 52 items
+
+test/unit/test_common.py ......................................F........ [ 90%]
+.....                                                                    [100%]
+
+=================================== FAILURES ===================================
+E   AssertionError: assert {'0', 'GPU-abc123'} == {'0', 'GPU-abc123', 'all'}
+      
+      Extra items in the right set:
+      'all'
+      Use -v to get more diff
+/testbed/test/unit/test_common.py:409: AssertionError: assert {'0', 'GPU-abc123'} == {'0', 'GPU-abc123', 'all'}
+==================================== PASSES ====================================
+___________________ test_find_in_cdi[visible3-conf3-unconf3] ___________________
+----------------------------- Captured stderr call -----------------------------
+Device 1 does not have a CDI configuration
+___________________ test_find_in_cdi[visible4-conf4-unconf4] ___________________
+----------------------------- Captured stderr call -----------------------------
+Device dummy does not have a CDI configuration
+_______________ test_find_in_cdi_broken[visible0-conf0-unconf0] ________________
+------------------------------ Captured log call -------------------------------
+WARNING  ramalama:common.py:360 Unable to process CDI configuration: 'str' object has no attribute 'get'
+_______________ test_find_in_cdi_broken[visible1-conf1-unconf1] ________________
+------------------------------ Captured log call -------------------------------
+WARNING  ramalama:common.py:360 Unable to process CDI configuration: 'str' object has no attribute 'get'
+_______________ test_find_in_cdi_broken[visible2-conf2-unconf2] ________________
+------------------------------ Captured log call -------------------------------
+WARNING  ramalama:common.py:360 Unable to process CDI configuration: 'str' object has no attribute 'get'
+__________________________ test_find_in_cdi_no_config __________________________
+----------------------------- Captured stderr call -----------------------------
+Device all does not have a CDI configuration
+============================= slowest 10 durations =============================
+0.21s call     test/unit/test_common.py::test_accel_image[None-None-None-quay.io/ramalama/ramalama:latest]
+0.05s call     test/unit/test_common.py::test_load_cdi_config[YAML-0-UUID-all]
+0.04s call     test/unit/test_common.py::test_find_in_cdi[visible0-conf0-unconf0]
+0.04s call     test/unit/test_common.py::test_find_in_cdi[visible1-conf1-unconf1]
+0.04s call     test/unit/test_common.py::test_find_in_cdi[visible3-conf3-unconf3]
+0.04s call     test/unit/test_common.py::test_find_in_cdi[visible4-conf4-unconf4]
+0.04s call     test/unit/test_common.py::test_find_in_cdi[visible2-conf2-unconf2]
+0.04s call     test/unit/test_common.py::test_accel_image[None-None-quay.io/ramalama/ramalama@sha256:digest-quay.io/ramalama/ramalama@sha256:digest]
+0.04s call     test/unit/test_common.py::test_accel_image[None-None-quay.io/ramalama/ramalama:latest-quay.io/ramalama/ramalama:latest]
+0.04s call     test/unit/test_common.py::test_accel_image[None-quay.io/ramalama/ramalama:latest-None-quay.io/ramalama/ramalama:latest]
+=========================== short test summary info ============================
+PASSED test/unit/test_common.py::test_rm_until_substring[--]
+PASSED test/unit/test_common.py::test_rm_until_substring[huggingface://granite-code-://-granite-code]
+PASSED test/unit/test_common.py::test_rm_until_substring[hf://granite-code-://-granite-code]
+PASSED test/unit/test_common.py::test_rm_until_substring[hf.co/granite-code-hf.co/-granite-code]
+PASSED test/unit/test_common.py::test_rm_until_substring[http://huggingface.co/ibm-granite/granite-3b-code-base-2k-GGUF/blob/main/granite-3b-code-base.Q4_K_M.gguf-.co/-ibm-granite/granite-3b-code-base-2k-GGUF/blob/main/granite-3b-code-base.Q4_K_M.gguf]
+PASSED test/unit/test_common.py::test_rm_until_substring[modelscope://granite-code-://-granite-code]
+PASSED test/unit/test_common.py::test_rm_until_substring[ms://granite-code-://-granite-code]
+PASSED test/unit/test_common.py::test_rm_until_substring[file:///tmp/models/granite-3b-code-base.Q4_K_M.gguf--file:///tmp/models/granite-3b-code-base.Q4_K_M.gguf]
+PASSED test/unit/test_common.py::test_verify_checksum[invalidname--ValueError-None]
+PASSED test/unit/test_common.py::test_verify_checksum[sha256:123-RamaLama - make working with AI boring through the use of OCI containers.-ValueError-None]
+PASSED test/unit/test_common.py::test_verify_checksum[sha256:62fbfd9ed093d6e5ac83190c86eec5369317919f4b149598d2dbb38900e9faef-{{ if .System }}<|im_start|>system\n{{ .System }}<|im_end|>\n{{ end }}{{ if .Prompt }}<|im_start|>user\n{{ .Prompt }}<|im_end|>\n{{ end }}<|im_start|>assistant\n{{ .Response }}<|im_end|>\n-None-True]
+PASSED test/unit/test_common.py::test_verify_checksum[sha256-62fbfd9ed093d6e5ac83190c86eec5369317919f4b149598d2dbb38900e9faef-{{ if .System }}<|im_start|>system\n{{ .System }}<|im_end|>\n{{ end }}{{ if .Prompt }}<|im_start|>user\n{{ .Prompt }}<|im_end|>\n{{ end }}<|im_start|>assistant\n{{ .Response }}<|im_end|>\n-None-True]
+PASSED test/unit/test_common.py::test_verify_checksum[sha256:16cd1aa2bd52b0e87ff143e8a8a7bb6fcb0163c624396ca58e7f75ec99ef081f-{"model_format":"gguf","model_family":"llama","model_families":["llama"],"model_type":"361.82M","file_type":"Q4_0","architecture":"amd64","os":"linux","rootfs":{"type":"layers","diff_ids":["sha256:f7ae49f9d598730afa2de96fc7dade47f5850446bf813df2e9d739cc8a6c4f29","sha256:62fbfd9ed093d6e5ac83190c86eec5369317919f4b149598d2dbb38900e9faef","sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30","sha256:ca7a9654b5469dc2d638456f31a51a03367987c54135c089165752d9eeb08cd7"]}}\n\nI have been tampered with\n\n-None-False]
+PASSED test/unit/test_common.py::test_accel_image[None-None-None-quay.io/ramalama/ramalama:latest]
+PASSED test/unit/test_common.py::test_accel_image[None-quay.io/ramalama/ramalama:latest-None-quay.io/ramalama/ramalama:latest]
+PASSED test/unit/test_common.py::test_accel_image[None-None-quay.io/ramalama/ramalama:latest-quay.io/ramalama/ramalama:latest]
+PASSED test/unit/test_common.py::test_accel_image[None-quay.io/ramalama/ramalama:tag-None-quay.io/ramalama/ramalama:tag]
+PASSED test/unit/test_common.py::test_accel_image[None-None-quay.io/ramalama/ramalama:tag-quay.io/ramalama/ramalama:tag]
+PASSED test/unit/test_common.py::test_accel_image[None-quay.io/ramalama/ramalama@sha256:digest-None-quay.io/ramalama/ramalama@sha256:digest]
+PASSED test/unit/test_common.py::test_accel_image[None-None-quay.io/ramalama/ramalama@sha256:digest-quay.io/ramalama/ramalama@sha256:digest]
+PASSED test/unit/test_common.py::test_accel_image[HIP_VISIBLE_DEVICES-None-None-quay.io/ramalama/rocm:latest]
+PASSED test/unit/test_common.py::test_accel_image[HIP_VISIBLE_DEVICES-quay.io/ramalama/ramalama:latest-None-quay.io/ramalama/ramalama:latest]
+PASSED test/unit/test_common.py::test_accel_image[HIP_VISIBLE_DEVICES-None-quay.io/ramalama/ramalama:latest-quay.io/ramalama/ramalama:latest]
+PASSED test/unit/test_common.py::test_apple_vm_returns_result
+PASSED test/unit/test_common.py::TestCheckNvidia::test_check_nvidia_smi_success
+PASSED test/unit/test_common.py::TestCheckNvidia::test_check_nvidia_smi_failure
+PASSED test/unit/test_common.py::TestCheckNvidia::test_check_nvidia_smi_not_found
+PASSED test/unit/test_common.py::TestGetAccel::test_get_accel[check_rocm_amd-hip]
+PASSED test/unit/test_common.py::TestGetAccel::test_get_accel[check_nvidia-cuda]
+PASSED test/unit/test_common.py::TestGetAccel::test_get_accel[check_mthreads-musa]
+PASSED test/unit/test_common.py::TestGetAccel::test_get_accel[check_intel-intel]
+PASSED test/unit/test_common.py::TestGetAccel::test_get_accel[check_ascend-cann]
+PASSED test/unit/test_common.py::TestGetAccel::test_get_accel[check_asahi-asahi]
+PASSED test/unit/test_common.py::TestGetAccel::test_default_get_accel
+PASSED test/unit/test_common.py::test_load_cdi_config[YAML-all]
+PASSED test/unit/test_common.py::test_load_cdi_config[YAML-0-UUID-all]
+PASSED test/unit/test_common.py::test_load_cdi_config[JSON-all]
+PASSED test/unit/test_common.py::test_load_cdi_config[JSON-0-UUID-all]
+PASSED test/unit/test_common.py::test_find_in_cdi[visible0-conf0-unconf0]
+PASSED test/unit/test_common.py::test_find_in_cdi[visible1-conf1-unconf1]
+PASSED test/unit/test_common.py::test_find_in_cdi[visible2-conf2-unconf2]
+PASSED test/unit/test_common.py::test_find_in_cdi[visible3-conf3-unconf3]
+PASSED test/unit/test_common.py::test_find_in_cdi[visible4-conf4-unconf4]
+PASSED test/unit/test_common.py::test_find_in_cdi_broken[visible0-conf0-unconf0]
+PASSED test/unit/test_common.py::test_find_in_cdi_broken[visible1-conf1-unconf1]
+PASSED test/unit/test_common.py::test_find_in_cdi_broken[visible2-conf2-unconf2]
+PASSED test/unit/test_common.py::test_find_in_cdi_no_config
+PASSED test/unit/test_common.py::TestPopulateVolumeFromImage::test_populate_volume_success
+PASSED test/unit/test_common.py::TestPopulateVolumeFromImage::test_populate_volume_export_failure
+PASSED test/unit/test_common.py::TestPopulateVolumeFromImage::test_populate_volume_tar_failure
+PASSED test/unit/test_common.py::TestPopulateVolumeFromImage::test_volume_name_generation
+FAILED test/unit/test_common.py::test_load_cdi_config_merges_multiple_files
+========================= 1 failed, 51 passed in 7.64s =========================

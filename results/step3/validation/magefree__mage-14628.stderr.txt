@@ -1,0 +1,43 @@
+...... SUCCESS [  0.041 s]
+[INFO] Mage Tournament Booster Draft 1.4.58 ............... SUCCESS [  0.110 s]
+[INFO] Mage Tournament Sealed 1.4.58 ...................... SUCCESS [  0.055 s]
+[INFO] Mage Tournament Constructed 1.4.58 ................. SUCCESS [  0.036 s]
+[INFO] Mage Player AI (draft bot) 1.4.58 .................. SUCCESS [  0.046 s]
+[INFO] Mage Game Tiny Leaders Two Player 1.4.58 ........... SUCCESS [  0.031 s]
+[INFO] Mage Game Canadian Highlander Two Player 1.4.58 .... SUCCESS [  0.030 s]
+[INFO] Mage Game Penny Dreadful Commander Free For All 1.4.58 SUCCESS [  0.036 s]
+[INFO] Mage Game Freeform Commander Free For All 1.4.58 ... SUCCESS [  0.049 s]
+[INFO] Mage Game Freeform Unlimited Commander 1.4.58 ...... SUCCESS [  0.044 s]
+[INFO] Mage Game Freeform Commander Two Player 1.4.58 ..... SUCCESS [  0.038 s]
+[INFO] Mage Game Custom Pillar of the Paruns Two Player Duel 1.4.58 SUCCESS [  0.027 s]
+[INFO] Mage Game Oathbreaker Free For All 1.4.58 .......... SUCCESS [  0.034 s]
+[INFO] Mage Game Oathbreaker Two Player 1.4.58 ............ SUCCESS [  0.030 s]
+[INFO] Mage Game Momir Basic Two Player 1.4.58 ............ SUCCESS [  0.028 s]
+[INFO] Mage Game Momir Basic Free for All 1.4.58 .......... SUCCESS [  0.062 s]
+[INFO] Mage Server 1.4.58 ................................. SUCCESS [  7.334 s]
+[INFO] Mage Plugins 1.4.58 ................................ SUCCESS [  0.023 s]
+[INFO] Mage Counter Plugin 0.1 ............................ SUCCESS [  0.051 s]
+[INFO] Mage Client 1.4.58 ................................. SUCCESS [  7.602 s]
+[INFO] Mage Server Console 1.4.58 ......................... SUCCESS [  2.424 s]
+[INFO] Mage Tests 1.4.58 .................................. FAILURE [13:23 min]
+[INFO] Mage Reports 1.4.58 ................................ SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  14:03 min
+[INFO] Finished at: 2026-07-29T22:21:25Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.1.2:test (default-test) on project mage-tests: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /testbed/Mage.Tests/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :mage-tests

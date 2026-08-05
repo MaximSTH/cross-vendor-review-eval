@@ -1,0 +1,48 @@
+WebApp Fragment ..................... SKIPPED
+[INFO] EE8 :: OSGi :: Server .............................. SKIPPED
+[INFO] Servlet 4 :: Demo :: Javax WebSocket WebApp ........ SKIPPED
+[INFO] EE8 :: OSGi :: Test ................................ SKIPPED
+[INFO] EE8 :: Websocket :: Javax Client Webapp ............ SKIPPED
+[INFO] EE8 :: Websocket :: Javax Tests .................... SKIPPED
+[INFO] EE8 :: Websocket :: Jetty Tests .................... SKIPPED
+[INFO] Servlet 6 :: Demo :: Embedded ...................... SKIPPED
+[INFO] Servlet 5 :: Demo :: Servlet Spec .................. SKIPPED
+[INFO] Tests :: Testers ................................... SKIPPED
+[INFO] Tests :: JMH ....................................... SKIPPED
+[INFO] Tests :: Cross Context Dispatch :: Parent .......... SKIPPED
+[INFO] Tests :: Cross Context Dispatch :: Common .......... SKIPPED
+[INFO] Tests :: Cross Context Dispatch :: ee11 WebApp ..... SKIPPED
+[INFO] Tests :: Cross Context Dispatch :: ee10 WebApp ..... SKIPPED
+[INFO] Tests :: Cross Context Dispatch :: ee9 WebApp ...... SKIPPED
+[INFO] Tests :: Cross Context Dispatch :: ee8 WebApp ...... SKIPPED
+[INFO] Tests :: Cross Context Dispatch :: Tests ........... SKIPPED
+[INFO] Tests :: Distribution .............................. SKIPPED
+[INFO] Tests :: Distribution :: Common .................... SKIPPED
+[INFO] Tests :: Integration ............................... SKIPPED
+[INFO] Tests :: JPMS ...................................... SKIPPED
+[INFO] Documentation ...................................... SKIPPED
+[INFO] Documentation :: Code Examples ..................... SKIPPED
+[INFO] Documentation :: Asciidoc .......................... SKIPPED
+[INFO] Jetty :: P2 ........................................ SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  05:22 min
+[INFO] Finished at: 2026-07-29T21:55:22Z
+[INFO] ------------------------------------------------------------------------
+[INFO] Mimir session closed (RETRIEVED=0 CACHED=0)
+[INFO] Njord session closed
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.5:test (default-test) on project jetty-jmx: 
+[ERROR] 
+[ERROR] See /testbed/jetty-core/jetty-jmx/target/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :jetty-jmx

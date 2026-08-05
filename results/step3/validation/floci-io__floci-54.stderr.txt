@@ -1,0 +1,27 @@
+50df8538b1944a7e8aed89</MD5OfBody><Body>{&quot;Type&quot;:&quot;Notification&quot;,&quot;MessageId&quot;:&quot;4a8debb9-3b07-44db-8589-adfeccb11019&quot;,&quot;TopicArn&quot;:&quot;arn:aws:sns:us-east-1:000000000000:integration-test-topic&quot;,&quot;Message&quot;:&quot;Attribute forwarding test&quot;,&quot;MessageAttributes&quot;:{&quot;color&quot;:{&quot;Type&quot;:&quot;String&quot;,&quot;Value&quot;:&quot;blue&quot;},&quot;count&quot;:{&quot;Type&quot;:&quot;String&quot;,&quot;Value&quot;:&quot;42&quot;}}}</Body><Attribute><Name>ApproximateReceiveCount</Name><Value>1</Value></Attribute><Attribute><Name>SentTimestamp</Name><Value>1785372117119</Value></Attribute></Message></ReceiveMessageResult><ResponseMetadata><RequestId>5eff3fa0-7b38-42ba-b4c4-274db1008561</RequestId></ResponseMetadata></ReceiveMessageResponse>
+
+[ERROR]   SnsIntegrationTest.rawDelivery_publishAndVerifyRawMessage:685 1 expectation failed.
+Response body doesn't match expectation.
+Expected: not a string containing "Notification"
+  Actual: <ReceiveMessageResponse><ReceiveMessageResult><Message><MessageId>403c459f-5a7a-4496-b7b4-5e5aaf8f9876</MessageId><ReceiptHandle>07e6a0a5-a24f-4ac5-927c-087cdca8b2ca</ReceiptHandle><MD5OfBody>1eb7b6e17d09e7ae38fe56fc321fa59d</MD5OfBody><Body>{&quot;Type&quot;:&quot;Notification&quot;,&quot;MessageId&quot;:&quot;cdff411c-ca68-4e5a-b5bb-d82aa9e5952b&quot;,&quot;TopicArn&quot;:&quot;arn:aws:sns:us-east-1:000000000000:integration-test-topic&quot;,&quot;Message&quot;:&quot;Raw delivery test message&quot;,&quot;MessageAttributes&quot;:{}}</Body><Attribute><Name>ApproximateReceiveCount</Name><Value>1</Value></Attribute><Attribute><Name>SentTimestamp</Name><Value>1785372116856</Value></Attribute></Message></ReceiveMessageResult><ResponseMetadata><RequestId>5eaa0ac0-38b8-43c2-b448-d838091b15c0</RequestId></ResponseMetadata></ReceiveMessageResponse>
+
+[INFO] 
+[ERROR] Tests run: 972, Failures: 2, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  04:08 min
+[INFO] Finished at: 2026-07-30T00:42:17Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.2:test (default-test) on project floci: There are test failures.
+[ERROR] 
+[ERROR] See /testbed/target/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

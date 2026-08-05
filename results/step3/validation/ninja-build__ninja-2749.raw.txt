@@ -1,0 +1,4649 @@
+{
+  "tests": 415,
+  "failures": 2,
+  "disabled": 0,
+  "errors": 0,
+  "timestamp": "2026-07-29T19:58:01Z",
+  "time": "0.747s",
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "CanonicalizePath",
+      "tests": 5,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "PathSamples",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 30,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CanonicalizePath"
+        },
+        {
+          "name": "TooManyComponents",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 394,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CanonicalizePath"
+        },
+        {
+          "name": "UpDir",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 420,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CanonicalizePath"
+        },
+        {
+          "name": "AbsolutePath",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 431,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CanonicalizePath"
+        },
+        {
+          "name": "NotNullTerminated",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 438,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CanonicalizePath"
+        }
+      ]
+    },
+    {
+      "name": "PathEscaping",
+      "tests": 3,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "TortureTest",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 458,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PathEscaping"
+        },
+        {
+          "name": "SensiblePathsAreNotNeedlesslyEscaped",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 469,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PathEscaping"
+        },
+        {
+          "name": "SensibleWin32PathsAreNotNeedlesslyEscaped",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 481,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PathEscaping"
+        }
+      ]
+    },
+    {
+      "name": "StripAnsiEscapeCodes",
+      "tests": 2,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "EscapeAtEnd",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 489,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StripAnsiEscapeCodes"
+        },
+        {
+          "name": "StripColors",
+          "file": "\/testbed\/src\/util_test.cc",
+          "line": 497,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StripAnsiEscapeCodes"
+        }
+      ]
+    },
+    {
+      "name": "SubprocessTest",
+      "tests": 13,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.131s",
+      "testsuite": [
+        {
+          "name": "BadCommandStderr",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 45,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.009s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "NoSuchCommand",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 60,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.008s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "InterruptChild",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 80,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.008s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "InterruptParent",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 91,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.008s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "InterruptChildWithSigTerm",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 104,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.008s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "InterruptParentWithSigTerm",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 115,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.008s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "InterruptChildWithSigHup",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 128,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.008s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "InterruptParentWithSigHup",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 139,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.008s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "Console",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 152,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "SetWithSingle",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 169,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.018s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "SetWithMulti",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 182,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.027s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "SetWithLots",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 223,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "SubprocessTest"
+        },
+        {
+          "name": "ReadStdin",
+          "file": "\/testbed\/src\/subprocess_test.cc",
+          "line": 258,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.016s",
+          "classname": "SubprocessTest"
+        }
+      ]
+    },
+    {
+      "name": "StringPieceUtilTest",
+      "tests": 4,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "SplitStringPiece",
+          "file": "\/testbed\/src\/string_piece_util_test.cc",
+          "line": 21,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StringPieceUtilTest"
+        },
+        {
+          "name": "JoinStringPiece",
+          "file": "\/testbed\/src\/string_piece_util_test.cc",
+          "line": 75,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StringPieceUtilTest"
+        },
+        {
+          "name": "ToLowerASCII",
+          "file": "\/testbed\/src\/string_piece_util_test.cc",
+          "line": 112,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StringPieceUtilTest"
+        },
+        {
+          "name": "EqualsCaseInsensitiveASCII",
+          "file": "\/testbed\/src\/string_piece_util_test.cc",
+          "line": 121,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StringPieceUtilTest"
+        }
+      ]
+    },
+    {
+      "name": "State",
+      "tests": 1,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.001s",
+      "testsuite": [
+        {
+          "name": "Basic",
+          "file": "\/testbed\/src\/state_test.cc",
+          "line": 23,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.001s",
+          "classname": "State"
+        }
+      ]
+    },
+    {
+      "name": "MissingDependencyScannerTest",
+      "tests": 7,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.002s",
+      "testsuite": [
+        {
+          "name": "EmptyGraph",
+          "file": "\/testbed\/src\/missing_deps_test.cc",
+          "line": 97,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "MissingDependencyScannerTest"
+        },
+        {
+          "name": "NoMissingDep",
+          "file": "\/testbed\/src\/missing_deps_test.cc",
+          "line": 102,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "MissingDependencyScannerTest"
+        },
+        {
+          "name": "MissingDepPresent",
+          "file": "\/testbed\/src\/missing_deps_test.cc",
+          "line": 108,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "MissingDependencyScannerTest"
+        },
+        {
+          "name": "MissingDepFixedDirect",
+          "file": "\/testbed\/src\/missing_deps_test.cc",
+          "line": 120,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "MissingDependencyScannerTest"
+        },
+        {
+          "name": "MissingDepFixedIndirect",
+          "file": "\/testbed\/src\/missing_deps_test.cc",
+          "line": 129,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "MissingDependencyScannerTest"
+        },
+        {
+          "name": "CyclicMissingDep",
+          "file": "\/testbed\/src\/missing_deps_test.cc",
+          "line": 141,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "MissingDependencyScannerTest"
+        },
+        {
+          "name": "CycleInGraph",
+          "file": "\/testbed\/src\/missing_deps_test.cc",
+          "line": 157,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "MissingDependencyScannerTest"
+        }
+      ]
+    },
+    {
+      "name": "ParserTest",
+      "tests": 51,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.01s",
+      "testsuite": [
+        {
+          "name": "Empty",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 39,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Rules",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 43,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.001s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "RuleAttributes",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 60,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "IgnoreIndentedComments",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 75,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "IgnoreIndentedBlankLines",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 94,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "ResponseFiles",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 109,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "InNewline",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 128,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Variables",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 146,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "VariableScope",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 171,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Continuation",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 188,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Backslash",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 203,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Comment",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 212,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Dollars",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 219,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "EscapeSpaces",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 235,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "CanonicalizeFile",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 248,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "PathVariables",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 282,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "CanonicalizePaths",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 293,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DuplicateEdgeWithMultipleOutputsError",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 333,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DuplicateEdgeInIncludedFile",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 346,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "PhonySelfReferenceIgnored",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 361,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "PhonySelfReferenceKept",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 371,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "ReservedWords",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 387,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Errors",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 395,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.001s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "MissingInput",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 824,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "MultipleOutputs",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 832,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "MultipleOutputsWithDeps",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 842,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "SubNinja",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 852,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "MissingSubNinja",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 877,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DuplicateRuleInDifferentSubninjas",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 887,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DuplicateRuleInDifferentSubninjasWithInclude",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 898,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Include",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 911,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "BrokenInclude",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 922,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Implicit",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 933,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "OrderOnly",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 943,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "Validations",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 952,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "ImplicitOutput",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 962,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "ImplicitOutputEmpty",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 973,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "ImplicitOutputDupeError",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 984,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "ImplicitOutputDupesError",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 995,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "NoExplicitOutput",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1006,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DefaultDefault",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1015,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DefaultDefaultCycle",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1028,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DefaultStatements",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1038,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "UTF8",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1058,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "CRLF",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1065,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DyndepNotSpecified",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1081,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DyndepNotInput",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1090,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DyndepExplicitInput",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1103,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DyndepImplicitInput",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1115,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DyndepOrderOnlyInput",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1127,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        },
+        {
+          "name": "DyndepRuleInput",
+          "file": "\/testbed\/src\/manifest_parser_test.cc",
+          "line": 1139,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ParserTest"
+        }
+      ]
+    },
+    {
+      "name": "Lexer",
+      "tests": 8,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "ReadVarValue",
+          "file": "\/testbed\/src\/lexer_test.cc",
+          "line": 22,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Lexer"
+        },
+        {
+          "name": "ReadEvalStringEscapes",
+          "file": "\/testbed\/src\/lexer_test.cc",
+          "line": 32,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Lexer"
+        },
+        {
+          "name": "ReadIdent",
+          "file": "\/testbed\/src\/lexer_test.cc",
+          "line": 42,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Lexer"
+        },
+        {
+          "name": "ReadIdentCurlies",
+          "file": "\/testbed\/src\/lexer_test.cc",
+          "line": 55,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Lexer"
+        },
+        {
+          "name": "Error",
+          "file": "\/testbed\/src\/lexer_test.cc",
+          "line": 71,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Lexer"
+        },
+        {
+          "name": "CommentEOF",
+          "file": "\/testbed\/src\/lexer_test.cc",
+          "line": 82,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Lexer"
+        },
+        {
+          "name": "Tabs",
+          "file": "\/testbed\/src\/lexer_test.cc",
+          "line": 90,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Lexer"
+        },
+        {
+          "name": "EscapedNewlines",
+          "file": "\/testbed\/src\/lexer_test.cc",
+          "line": 100,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Lexer"
+        }
+      ]
+    },
+    {
+      "name": "JSONTest",
+      "tests": 4,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "RegularAscii",
+          "file": "\/testbed\/src\/json_test.cc",
+          "line": 19,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "JSONTest"
+        },
+        {
+          "name": "EscapedChars",
+          "file": "\/testbed\/src\/json_test.cc",
+          "line": 23,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "JSONTest"
+        },
+        {
+          "name": "ControlChars",
+          "file": "\/testbed\/src\/json_test.cc",
+          "line": 31,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "JSONTest"
+        },
+        {
+          "name": "UTF8",
+          "file": "\/testbed\/src\/json_test.cc",
+          "line": 37,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "JSONTest"
+        }
+      ]
+    },
+    {
+      "name": "Jobserver",
+      "tests": 6,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.001s",
+      "testsuite": [
+        {
+          "name": "SlotTest",
+          "file": "\/testbed\/src\/jobserver_test.cc",
+          "line": 43,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Jobserver"
+        },
+        {
+          "name": "ParseMakeFlagsValue",
+          "file": "\/testbed\/src\/jobserver_test.cc",
+          "line": 81,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Jobserver"
+        },
+        {
+          "name": "ParseNativeMakeFlagsValue",
+          "file": "\/testbed\/src\/jobserver_test.cc",
+          "line": 183,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Jobserver"
+        },
+        {
+          "name": "NullJobserver",
+          "file": "\/testbed\/src\/jobserver_test.cc",
+          "line": 227,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Jobserver"
+        },
+        {
+          "name": "PosixFifoClient",
+          "file": "\/testbed\/src\/jobserver_test.cc",
+          "line": 319,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Jobserver"
+        },
+        {
+          "name": "PosixFifoClientWithWrongPath",
+          "file": "\/testbed\/src\/jobserver_test.cc",
+          "line": 372,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Jobserver"
+        }
+      ]
+    },
+    {
+      "name": "GraphTest",
+      "tests": 53,
+      "failures": 2,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.011s",
+      "testsuite": [
+        {
+          "name": "MissingImplicit",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 30,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "ModifiedImplicit",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 46,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "FunkyMakefilePath",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 62,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "ExplicitImplicit",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 83,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "ImplicitOutputParse",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 107,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "ImplicitOutputMissing",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 119,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "ImplicitOutputOutOfDate",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 133,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "ImplicitOutputOnlyParse",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 149,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "ImplicitOutputOnlyMissing",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 160,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "ImplicitOutputOnlyOutOfDate",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 172,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "PathWithCurrentDirectory",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 186,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "RootNodes",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 203,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "InputsCollector",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 219,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "InputsCollectorWithEscapes",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 286,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "CommandCollector",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 314,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "VarInOutPathEscaping",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 362,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DepfileWithCanonicalizablePath",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 377,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DepfileRemoved",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 395,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "RuleVariablesInScope",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 420,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DepfileOverride",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 431,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DepfileOverrideParent",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 443,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "NestedPhonyPrintsDone",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 455,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "PhonySelfReferenceError",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 472,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DependencyCycle",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 484,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "CycleInEdgesButNotInNodes1",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 496,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "CycleInEdgesButNotInNodes2",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 504,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "CycleInEdgesButNotInNodes3",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 512,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "CycleInEdgesButNotInNodes4",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 521,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "CycleWithLengthZeroFromDepfile",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 535,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "CycleWithLengthOneFromDepfile",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 557,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "CycleWithLengthOneFromDepfileOneHopAway",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 583,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepLoadTrivial",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 629,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepLoadImplicit",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 658,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepLoadMissingFile",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 689,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepLoadMissingEntry",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 703,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepLoadExtraEntry",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 720,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepLoadOutputWithMultipleRules1",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 741,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepLoadOutputWithMultipleRules2",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 760,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepLoadMultiple",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 787,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepFileMissing",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 843,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepFileError",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 856,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepImplicitInputNewer",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 872,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepOutputIsDependentInput",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 898,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest",
+          "failures": [
+            {
+              "failure": "\/testbed\/src\/graph_test.cc:927\nValue of: GetNode(\"out\")->dirty()\n  Actual: false\nExpected: true\n",
+              "type": ""
+            }
+          ]
+        },
+        {
+          "name": "DyndepOutputIsDependentInputFromDepfile",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 930,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest",
+          "failures": [
+            {
+              "failure": "\/testbed\/src\/graph_test.cc:961\nValue of: GetNode(\"out\")->dirty()\n  Actual: false\nExpected: true\n",
+              "type": ""
+            }
+          ]
+        },
+        {
+          "name": "DyndepFileReady",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 964,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepFileNotClean",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 993,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepFileNotReady",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 1018,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepFileSecondNotReady",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 1042,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "DyndepFileCircular",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 1072,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "Validation",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 1103,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "PhonyDepsMtimes",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 1122,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "EdgeQueuePriority",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 1159,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        },
+        {
+          "name": "PhonyOutputWithValidation",
+          "file": "\/testbed\/src\/graph_test.cc",
+          "line": 1209,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "GraphTest"
+        }
+      ]
+    },
+    {
+      "name": "Explanations",
+      "tests": 3,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "Explanations",
+          "file": "\/testbed\/src\/explanations_test.cc",
+          "line": 27,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Explanations"
+        },
+        {
+          "name": "OptionalExplanationsNonNull",
+          "file": "\/testbed\/src\/explanations_test.cc",
+          "line": 53,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Explanations"
+        },
+        {
+          "name": "OptionalExplanationsWithNullPointer",
+          "file": "\/testbed\/src\/explanations_test.cc",
+          "line": 80,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "Explanations"
+        }
+      ]
+    },
+    {
+      "name": "ElideMiddle",
+      "tests": 3,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "NothingToElide",
+          "file": "\/testbed\/src\/elide_middle_test.cc",
+          "line": 30,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ElideMiddle"
+        },
+        {
+          "name": "ElideInTheMiddle",
+          "file": "\/testbed\/src\/elide_middle_test.cc",
+          "line": 40,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ElideMiddle"
+        },
+        {
+          "name": "ElideAnsiEscapeCodes",
+          "file": "\/testbed\/src\/elide_middle_test.cc",
+          "line": 58,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "ElideMiddle"
+        }
+      ]
+    },
+    {
+      "name": "EditDistanceTest",
+      "tests": 4,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "TestEmpty",
+          "file": "\/testbed\/src\/edit_distance_test.cc",
+          "line": 19,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "EditDistanceTest"
+        },
+        {
+          "name": "TestMaxDistance",
+          "file": "\/testbed\/src\/edit_distance_test.cc",
+          "line": 25,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "EditDistanceTest"
+        },
+        {
+          "name": "TestAllowReplacements",
+          "file": "\/testbed\/src\/edit_distance_test.cc",
+          "line": 34,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "EditDistanceTest"
+        },
+        {
+          "name": "TestBasics",
+          "file": "\/testbed\/src\/edit_distance_test.cc",
+          "line": 44,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "EditDistanceTest"
+        }
+      ]
+    },
+    {
+      "name": "DyndepParserTest",
+      "tests": 42,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.003s",
+      "testsuite": [
+        {
+          "name": "Empty",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 47,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "Version1",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 56,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "Version1Extra",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 61,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "Version1_0",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 66,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "Version1_0Extra",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 71,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "CommentVersion",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 76,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "BlankLineVersion",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 82,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "VersionCRLF",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 88,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "CommentVersionCRLF",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 93,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "BlankLineVersionCRLF",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 99,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "VersionUnexpectedEOF",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 105,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "UnsupportedVersion0",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 116,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "UnsupportedVersion1_1",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 127,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "DuplicateVersion",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 138,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "MissingVersionOtherVar",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 148,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "MissingVersionBuild",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 159,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "UnexpectedEqual",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 168,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "UnexpectedIndent",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 177,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "OutDuplicate",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 186,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "OutDuplicateThroughOther",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 199,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "NoOutEOF",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 212,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "NoOutColon",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 224,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "OutNoStatement",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 236,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "OutEOF",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 248,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "OutNoRule",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 260,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "OutBadRule",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 272,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "BuildEOF",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 284,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "ExplicitOut",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 296,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "ExplicitIn",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 308,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "OrderOnlyIn",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 320,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "BadBinding",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 332,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "RestatTwice",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 345,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "NoImplicit",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 357,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "EmptyImplicit",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 370,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "ImplicitIn",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 383,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "ImplicitIns",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 397,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "ImplicitOut",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 412,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "ImplicitOuts",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 426,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "ImplicitInsAndOuts",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 441,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "Restat",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 458,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "OtherOutput",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 472,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        },
+        {
+          "name": "MultipleEdges",
+          "file": "\/testbed\/src\/dyndep_parser_test.cc",
+          "line": 485,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DyndepParserTest"
+        }
+      ]
+    },
+    {
+      "name": "DiskInterfaceTest",
+      "tests": 10,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.174s",
+      "testsuite": [
+        {
+          "name": "StatMissingFile",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 52,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "DiskInterfaceTest"
+        },
+        {
+          "name": "StatMissingFileWithCache",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 69,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "DiskInterfaceTest"
+        },
+        {
+          "name": "StatBadPath",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 80,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "DiskInterfaceTest"
+        },
+        {
+          "name": "StatExistingFile",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 93,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "DiskInterfaceTest"
+        },
+        {
+          "name": "StatSymlink",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 118,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "DiskInterfaceTest"
+        },
+        {
+          "name": "StatExistingDir",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 139,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "DiskInterfaceTest"
+        },
+        {
+          "name": "ReadFile",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 222,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "DiskInterfaceTest"
+        },
+        {
+          "name": "MakeDirs",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 244,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "DiskInterfaceTest"
+        },
+        {
+          "name": "RemoveFile",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 259,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.016s",
+          "classname": "DiskInterfaceTest"
+        },
+        {
+          "name": "RemoveDirectory",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 273,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "DiskInterfaceTest"
+        }
+      ]
+    },
+    {
+      "name": "StatTest",
+      "tests": 4,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.001s",
+      "testsuite": [
+        {
+          "name": "Simple",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 318,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StatTest"
+        },
+        {
+          "name": "TwoStep",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 333,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StatTest"
+        },
+        {
+          "name": "Tree",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 352,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StatTest"
+        },
+        {
+          "name": "Middle",
+          "file": "\/testbed\/src\/disk_interface_test.cc",
+          "line": 370,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "StatTest"
+        }
+      ]
+    },
+    {
+      "name": "DepsLogTest",
+      "tests": 9,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.163s",
+      "testsuite": [
+        {
+          "name": "WriteRead",
+          "file": "\/testbed\/src\/deps_log_test.cc",
+          "line": 41,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepsLogTest"
+        },
+        {
+          "name": "LotsOfDeps",
+          "file": "\/testbed\/src\/deps_log_test.cc",
+          "line": 91,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.16s",
+          "classname": "DepsLogTest"
+        },
+        {
+          "name": "DoubleEntry",
+          "file": "\/testbed\/src\/deps_log_test.cc",
+          "line": 125,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepsLogTest"
+        },
+        {
+          "name": "Recompact",
+          "file": "\/testbed\/src\/deps_log_test.cc",
+          "line": 179,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepsLogTest"
+        },
+        {
+          "name": "InvalidHeader",
+          "file": "\/testbed\/src\/deps_log_test.cc",
+          "line": 354,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepsLogTest"
+        },
+        {
+          "name": "Truncated",
+          "file": "\/testbed\/src\/deps_log_test.cc",
+          "line": 380,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepsLogTest"
+        },
+        {
+          "name": "TruncatedRecovery",
+          "file": "\/testbed\/src\/deps_log_test.cc",
+          "line": 444,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepsLogTest"
+        },
+        {
+          "name": "ReverseDepsNodes",
+          "file": "\/testbed\/src\/deps_log_test.cc",
+          "line": 517,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepsLogTest"
+        },
+        {
+          "name": "MalformedDepsLog",
+          "file": "\/testbed\/src\/deps_log_test.cc",
+          "line": 544,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepsLogTest"
+        }
+      ]
+    },
+    {
+      "name": "DepfileParserTest",
+      "tests": 29,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.002s",
+      "testsuite": [
+        {
+          "name": "Basic",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 33,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "EarlyNewlineAndWhitespace",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 44,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "Continuation",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 53,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "WindowsDrivePaths",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 65,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "AmpersandsAndQuotes",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 75,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "CarriageReturnContinuation",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 89,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "BackSlashes",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 101,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "Spaces",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 117,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "MultipleBackslashes",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 135,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "Escapes",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 157,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "EscapedColons",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 171,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "EscapedTargetColon",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 189,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "SpecialChars",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 206,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "UnifyMultipleOutputs",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 234,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "MultipleDifferentOutputs",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 246,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "MultipleEmptyRules",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 259,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "UnifyMultipleRulesLF",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 270,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "UnifyMultipleRulesCRLF",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 284,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "UnifyMixedRulesLF",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 298,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "UnifyMixedRulesCRLF",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 312,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "IndentedRulesLF",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 326,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "IndentedRulesCRLF",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 339,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "TolerateMP",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 352,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "MultipleRulesTolerateMP",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 366,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "MultipleRulesDifferentOutputs",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 382,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "BuggyMP",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 397,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "EmptyFile",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 406,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "EmptyLines",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 413,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        },
+        {
+          "name": "MissingColon",
+          "file": "\/testbed\/src\/depfile_parser_test.cc",
+          "line": 420,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "DepfileParserTest"
+        }
+      ]
+    },
+    {
+      "name": "CLParserTest",
+      "tests": 8,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "ShowIncludes",
+          "file": "\/testbed\/src\/clparser_test.cc",
+          "line": 22,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CLParserTest"
+        },
+        {
+          "name": "FilterInputFilename",
+          "file": "\/testbed\/src\/clparser_test.cc",
+          "line": 38,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CLParserTest"
+        },
+        {
+          "name": "ParseSimple",
+          "file": "\/testbed\/src\/clparser_test.cc",
+          "line": 49,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CLParserTest"
+        },
+        {
+          "name": "ParseFilenameFilter",
+          "file": "\/testbed\/src\/clparser_test.cc",
+          "line": 63,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CLParserTest"
+        },
+        {
+          "name": "NoFilenameFilterAfterShowIncludes",
+          "file": "\/testbed\/src\/clparser_test.cc",
+          "line": 73,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CLParserTest"
+        },
+        {
+          "name": "ParseSystemInclude",
+          "file": "\/testbed\/src\/clparser_test.cc",
+          "line": 84,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CLParserTest"
+        },
+        {
+          "name": "DuplicatedHeader",
+          "file": "\/testbed\/src\/clparser_test.cc",
+          "line": 99,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CLParserTest"
+        },
+        {
+          "name": "DuplicatedHeaderPathConverted",
+          "file": "\/testbed\/src\/clparser_test.cc",
+          "line": 112,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CLParserTest"
+        }
+      ]
+    },
+    {
+      "name": "CleanTest",
+      "tests": 17,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.003s",
+      "testsuite": [
+        {
+          "name": "CleanAll",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 39,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanAllDryRun",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 70,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanTarget",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 102,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanTargetDryRun",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 133,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanRule",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 165,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanRuleDryRun",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 198,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanRuleGenerator",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 232,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanDepFile",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 254,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanDepFileOnCleanTarget",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 269,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanDepFileOnCleanRule",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 284,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanDyndep",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 299,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanDyndepMissing",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 326,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanRspFile",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 348,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanRsp",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 365,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanFailure",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 406,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanPhony",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 414,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        },
+        {
+          "name": "CleanDepFileAndRspFileWithSpaces",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 440,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanTest"
+        }
+      ]
+    },
+    {
+      "name": "CleanDeadTest",
+      "tests": 2,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.002s",
+      "testsuite": [
+        {
+          "name": "CleanDead",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 481,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.001s",
+          "classname": "CleanDeadTest"
+        },
+        {
+          "name": "CleanDeadPreservesInputs",
+          "file": "\/testbed\/src\/clean_test.cc",
+          "line": 541,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "CleanDeadTest"
+        }
+      ]
+    },
+    {
+      "name": "PlanTest",
+      "tests": 10,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.003s",
+      "testsuite": [
+        {
+          "name": "Basic",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 67,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        },
+        {
+          "name": "DoubleOutputDirect",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 100,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        },
+        {
+          "name": "DoubleOutputIndirect",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 126,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        },
+        {
+          "name": "DoubleDependent",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 166,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        },
+        {
+          "name": "PoolWithDepthOne",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 242,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        },
+        {
+          "name": "ConsolePool",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 253,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        },
+        {
+          "name": "PoolsWithDepthTwo",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 262,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        },
+        {
+          "name": "PoolWithRedundantEdges",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 342,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        },
+        {
+          "name": "PoolWithFailingEdge",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 424,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        },
+        {
+          "name": "PriorityWithoutBuildLog",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 469,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "PlanTest"
+        }
+      ]
+    },
+    {
+      "name": "BuildTest",
+      "tests": 75,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.016s",
+      "testsuite": [
+        {
+          "name": "NoWork",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 826,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "OneStep",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 831,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "OneStep2",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 845,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "TwoStep",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 859,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "TwoOutputs",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 892,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "ImplicitOutput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 909,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "MultiOutIn",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 927,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "Chain",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 945,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "MissingInput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 981,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "MissingTarget",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 990,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "MissingInputTarget",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 997,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "MakeDirs",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1005,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DepFileMissing",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1025,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DepFileOK",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1038,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DepFileParseError",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1074,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "EncounterReadyTwice",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1085,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "OrderOnlyDeps",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1108,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "RebuildOrderOnlyDeps",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1178,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "Phony",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1256,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PhonyNoWork",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1273,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PhonySelfReference",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1289,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PhonyUseCase1",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1439,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PhonyUseCase2",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1440,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PhonyUseCase3",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1441,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PhonyUseCase4",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1442,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PhonyUseCase5",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1443,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PhonyUseCase6",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1444,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "Fail",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1446,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "SwallowFailures",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1461,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "SwallowFailuresLimit",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1482,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "SwallowFailuresPool",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1503,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PoolEdgesReadyButNotWanted",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1527,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "RspFileSuccess",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2066,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "RspFileFailure",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2119,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "InterruptCleanup",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2205,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "StatFailureAbortsBuild",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2239,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "PhonyWithNoInputs",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2254,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DepsGccWithEmptyDepfileErrorsOut",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2280,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "StatusFormatElapsed_e",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2298,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "StatusFormatElapsed_w",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2304,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "StatusFormatETA",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2310,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "StatusFormatTimeProgress",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2316,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "StatusFormatReplacePlaceholder",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2322,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "FailedDepsParse",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2327,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "RestatDepfileDependency",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2942,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "RestatMissingDepfile",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3238,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "WrongOutputInDepfileCausesRebuild",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3316,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "Console",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3336,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepMissingAndNoRule",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3353,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepReadyImplicitConnection",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3368,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepReadySyntaxError",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3396,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepReadyCircular",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3414,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuild",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3435,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildSyntaxError",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3471,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildUnrelatedOutput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3495,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverNewOutput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3527,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverNewOutputWithMultipleRules1",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3558,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverNewOutputWithMultipleRules2",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3589,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverNewInput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3629,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverNewInputWithValidation",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3661,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverNewInputWithTransitiveValidation",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3688,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverImplicitConnection",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3722,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverOutputAndDepfileInput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3754,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverNowWantEdge",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3796,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverNowWantEdgeAndDependent",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3828,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverCircular",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3859,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverScheduledEdge",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3943,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepTwoLevelDirect",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3991,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepTwoLevelIndirect",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 4038,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepTwoLevelDiscoveredReady",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 4083,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "DyndepTwoLevelDiscoveredDirty",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 4124,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "Validation",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 4165,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "ValidationDependsOnOutput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 4217,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "ValidationCircular",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 4346,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        },
+        {
+          "name": "ValidationWithCircularDependency",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 4396,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildTest"
+        }
+      ]
+    },
+    {
+      "name": "BuildWithLogTest",
+      "tests": 13,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.003s",
+      "testsuite": [
+        {
+          "name": "ImplicitGeneratedOutOfDate",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1560,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "ImplicitGeneratedOutOfDate2",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1578,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "NotInLogButOnDisk",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1632,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "RebuildAfterFailure",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1657,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "RebuildWithNoInputs",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1702,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "RestatTest",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1733,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "RestatMissingFile",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1798,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "RestatSingleDependentOutputDirty",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1839,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "RestatMissingInput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1881,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "RestatInputChangesDueToRule",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1933,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "GeneratedPlainDepfileMtime",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 1979,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "RspFileCmdLineChange",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2159,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        },
+        {
+          "name": "DyndepBuildDiscoverRestat",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3893,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithLogTest"
+        }
+      ]
+    },
+    {
+      "name": "BuildDryRun",
+      "tests": 2,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0s",
+      "testsuite": [
+        {
+          "name": "AllCommandsShown",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2012,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildDryRun"
+        },
+        {
+          "name": "WithDyndep",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2041,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildDryRun"
+        }
+      ]
+    },
+    {
+      "name": "BuildWithQueryDepsLogTest",
+      "tests": 6,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.002s",
+      "testsuite": [
+        {
+          "name": "TwoOutputsDepFileMSVC",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2370,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithQueryDepsLogTest"
+        },
+        {
+          "name": "TwoOutputsDepFileGCCOneLine",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2398,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithQueryDepsLogTest"
+        },
+        {
+          "name": "TwoOutputsDepFileGCCMultiLineInput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2429,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithQueryDepsLogTest"
+        },
+        {
+          "name": "TwoOutputsDepFileGCCMultiLineOutput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2460,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithQueryDepsLogTest"
+        },
+        {
+          "name": "TwoOutputsDepFileGCCOnlyMainOutput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2491,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithQueryDepsLogTest"
+        },
+        {
+          "name": "TwoOutputsDepFileGCCOnlySecondaryOutput",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2522,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0s",
+          "classname": "BuildWithQueryDepsLogTest"
+        }
+      ]
+    },
+    {
+      "name": "BuildWithDepsLogTest",
+      "tests": 10,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:01Z",
+      "time": "0.181s",
+      "testsuite": [
+        {
+          "name": "Straightforward",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2581,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.018s",
+          "classname": "BuildWithDepsLogTest"
+        },
+        {
+          "name": "ObsoleteDeps",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2648,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.018s",
+          "classname": "BuildWithDepsLogTest"
+        },
+        {
+          "name": "DepsIgnoredInDryRun",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2717,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "BuildWithDepsLogTest"
+        },
+        {
+          "name": "TestInputMtimeRaceCondition",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2745,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.018s",
+          "classname": "BuildWithDepsLogTest"
+        },
+        {
+          "name": "TestInputMtimeRaceConditionWithDepFile",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2822,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "BuildWithDepsLogTest"
+        },
+        {
+          "name": "RestatDepfileDependencyDepsLog",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 2965,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "BuildWithDepsLogTest"
+        },
+        {
+          "name": "DepFileOKDepsLog",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3027,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "BuildWithDepsLogTest"
+        },
+        {
+          "name": "DiscoveredDepDuringBuildChanged",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3088,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.017s",
+          "classname": "BuildWithDepsLogTest"
+        },
+        {
+          "name": "RestatMissingDepfileDepslog",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 3262,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:01Z",
+          "time": "0.019s",
+          "classname": "BuildWithDepsLogTest"
+        },
+        {
+          "name": "ValidationThroughDepfile",
+          "file": "\/testbed\/src\/build_test.cc",
+          "line": 4267,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0.018s",
+          "classname": "BuildWithDepsLogTest"
+        }
+      ]
+    },
+    {
+      "name": "BuildLogTest",
+      "tests": 10,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:02Z",
+      "time": "0.02s",
+      "testsuite": [
+        {
+          "name": "WriteRead",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 45,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0s",
+          "classname": "BuildLogTest"
+        },
+        {
+          "name": "FirstWriteAddsSignature",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 73,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0s",
+          "classname": "BuildLogTest"
+        },
+        {
+          "name": "DoubleEntry",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 103,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0s",
+          "classname": "BuildLogTest"
+        },
+        {
+          "name": "Truncate",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 122,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0.014s",
+          "classname": "BuildLogTest"
+        },
+        {
+          "name": "ObsoleteOldVersion",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 164,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0s",
+          "classname": "BuildLogTest"
+        },
+        {
+          "name": "SpacesInOutput",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 176,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0s",
+          "classname": "BuildLogTest"
+        },
+        {
+          "name": "DuplicateVersionHeader",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 196,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0s",
+          "classname": "BuildLogTest"
+        },
+        {
+          "name": "Restat",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 253,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0s",
+          "classname": "BuildLogTest"
+        },
+        {
+          "name": "VeryLongInputLine",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 279,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0.002s",
+          "classname": "BuildLogTest"
+        },
+        {
+          "name": "MultiTargetEdge",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 308,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0s",
+          "classname": "BuildLogTest"
+        }
+      ]
+    },
+    {
+      "name": "BuildLogRecompactTest",
+      "tests": 1,
+      "failures": 0,
+      "disabled": 0,
+      "errors": 0,
+      "timestamp": "2026-07-29T19:58:02Z",
+      "time": "0.001s",
+      "testsuite": [
+        {
+          "name": "Recompact",
+          "file": "\/testbed\/src\/build_log_test.cc",
+          "line": 332,
+          "status": "RUN",
+          "result": "COMPLETED",
+          "timestamp": "2026-07-29T19:58:02Z",
+          "time": "0.001s",
+          "classname": "BuildLogRecompactTest"
+        }
+      ]
+    }
+  ]
+}
+test_MAKEFLAGS_default (jobserver_pool_test.JobserverPool.test_MAKEFLAGS_default) ... ok
+test_MAKEFLAGS_with_10_jobs (jobserver_pool_test.JobserverPool.test_MAKEFLAGS_with_10_jobs) ... ok
+test_MAKEFLAGS_with_fifo (jobserver_pool_test.JobserverPool.test_MAKEFLAGS_with_fifo) ... ok
+test_MAKEFLAGS_with_name (jobserver_pool_test.JobserverPool.test_MAKEFLAGS_with_name) ... skipped '--name is not supported on Posix'
+test_MAKEFLAGS_with_no_jobs (jobserver_pool_test.JobserverPool.test_MAKEFLAGS_with_no_jobs) ... ok
+test_client_passes_MAKEFLAGS (jobserver_test.JobserverTest.test_client_passes_MAKEFLAGS) ... ok
+test_jobserver_client_with_posix_fifo (jobserver_test.JobserverTest.test_jobserver_client_with_posix_fifo) ... ninja: Entering directory `/tmp/tmpuoqby82x'
+ninja: Jobserver mode detected:  -j4 --jobserver-auth=fifo:/testbed/build/jobserver_pool
+[1/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out00
+[2/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out02
+[3/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out01
+[4/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out03
+Cleaning... 4 files.
+ninja: Entering directory `/tmp/tmpuoqby82x'
+ninja: Jobserver mode detected:  -j2 --jobserver-auth=fifo:/testbed/build/jobserver_pool
+[1/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out01
+[2/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out00
+[3/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out02
+[4/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out03
+Cleaning... 4 files.
+ninja: Entering directory `/tmp/tmpuoqby82x'
+ninja: Jobserver mode detected:  -j1 --jobserver-auth=fifo:/testbed/build/jobserver_pool
+[1/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out00
+[2/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out01
+[3/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out02
+[4/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out03
+Cleaning... 4 files.
+ninja: Entering directory `/tmp/tmpuoqby82x'
+[1/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out00
+[2/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out01
+[3/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out02
+[4/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out03
+Cleaning... 4 files.
+ninja: Entering directory `/tmp/tmpuoqby82x'
+[1/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out00
+[2/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out01
+[3/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out03
+[4/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out02
+Cleaning... 4 files.
+ninja: Entering directory `/tmp/tmpuoqby82x'
+ninja: Jobserver mode detected:  -j4 --jobserver-auth=fifo:/testbed/build/jobserver_pool
+[1/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out00
+[2/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out02
+[3/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out01
+[4/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out03
+ok
+test_jobserver_client_with_posix_pipe (jobserver_test.JobserverTest.test_jobserver_client_with_posix_pipe) ... Cleaning... 4 files.
+ok
+test_no_jobserver_client (jobserver_test.JobserverTest.test_no_jobserver_client) ... ninja: Entering directory `/tmp/tmp6sz7mvwp'
+[1/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out03
+[2/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out02
+[3/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out00
+[4/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out01
+Cleaning... 4 files.
+ninja: Entering directory `/tmp/tmp6sz7mvwp'
+[1/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out00
+[2/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out01
+[3/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out02
+[4/4] /usr/bin/python3 -S /testbed/misc/jobserver_test_helper.py --duration-ms=50 out03
+ok
+test_implicit_outputs (ninja_syntax_test.TestBuild.test_implicit_outputs) ... ok
+test_variables_dict (ninja_syntax_test.TestBuild.test_variables_dict) ... ok
+test_variables_list (ninja_syntax_test.TestBuild.test_variables_list) ... ok
+test_basic (ninja_syntax_test.TestExpand.test_basic) ... ok
+test_double (ninja_syntax_test.TestExpand.test_double) ... ok
+test_locals (ninja_syntax_test.TestExpand.test_locals) ... ok
+test_space (ninja_syntax_test.TestExpand.test_space) ... ok
+test_var (ninja_syntax_test.TestExpand.test_var) ... ok
+test_vars (ninja_syntax_test.TestExpand.test_vars) ... ok
+test_comment_wrap (ninja_syntax_test.TestLineWordWrap.test_comment_wrap) ... ok
+test_embedded_dollar_dollar (ninja_syntax_test.TestLineWordWrap.test_embedded_dollar_dollar) ... ok
+test_escaped_spaces (ninja_syntax_test.TestLineWordWrap.test_escaped_spaces) ... ok
+test_few_long_words (ninja_syntax_test.TestLineWordWrap.test_few_long_words) ... ok
+test_few_long_words_indented (ninja_syntax_test.TestLineWordWrap.test_few_long_words_indented) ... ok
+test_fit_many_words (ninja_syntax_test.TestLineWordWrap.test_fit_many_words) ... ok
+test_leading_dollar_dollar (ninja_syntax_test.TestLineWordWrap.test_leading_dollar_dollar) ... ok
+test_leading_space (ninja_syntax_test.TestLineWordWrap.test_leading_space) ... ok
+test_short_words_indented (ninja_syntax_test.TestLineWordWrap.test_short_words_indented) ... ok
+test_single_long_word (ninja_syntax_test.TestLineWordWrap.test_single_long_word) ... ok
+test_trailing_dollar_dollar (ninja_syntax_test.TestLineWordWrap.test_trailing_dollar_dollar) ... ok
+test_two_embedded_dollar_dollars (ninja_syntax_test.TestLineWordWrap.test_two_embedded_dollar_dollars) ... ok
+test_depfile_directory_creation (output_test.Output.test_depfile_directory_creation) ... ok
+test_entering_directory_on_stdout (output_test.Output.test_entering_directory_on_stdout) ... ok
+test_explain_output (output_test.Output.test_explain_output) ... ok
+test_issue_1214 (output_test.Output.test_issue_1214) ... ok
+test_issue_1418 (output_test.Output.test_issue_1418) ... ok
+test_issue_1966 (output_test.Output.test_issue_1966) ... ok
+test_issue_2048 (output_test.Output.test_issue_2048) ... ok
+test_issue_2499 (output_test.Output.test_issue_2499) ... ok
+test_issue_2586 (output_test.Output.test_issue_2586)
+This shouldn't hang ... ok
+test_issue_2621 (output_test.Output.test_issue_2621)
+Should result in "multiple rules generate" error ... ok
+test_issue_2681 (output_test.Output.test_issue_2681)
+Ninja should return a status code of 130 when interrupted. ... /testbed/misc/output_test.py:657: ResourceWarning: unclosed file <_io.BufferedReader name=3>
+  proc = subprocess.Popen([NINJA_PATH, "foo"], cwd=b.path, env=default_env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/testbed/misc/output_test.py:657: ResourceWarning: unclosed file <_io.BufferedReader name=5>
+  proc = subprocess.Popen([NINJA_PATH, "foo"], cwd=b.path, env=default_env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/testbed/misc/output_test.py:657: ResourceWarning: unclosed file <_io.BufferedReader name=4>
+  proc = subprocess.Popen([NINJA_PATH, "foo"], cwd=b.path, env=default_env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/testbed/misc/output_test.py:657: ResourceWarning: unclosed file <_io.BufferedReader name=7>
+  proc = subprocess.Popen([NINJA_PATH, "foo"], cwd=b.path, env=default_env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.12/unittest/case.py:589: ResourceWarning: unclosed file <_io.BufferedReader name=3>
+  if method() is not None:
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.12/unittest/case.py:589: ResourceWarning: unclosed file <_io.BufferedReader name=6>
+  if method() is not None:
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_ninja_status_default (output_test.Output.test_ninja_status_default)
+Do we show the default status by default? ... ok
+test_ninja_status_quiet (output_test.Output.test_ninja_status_quiet)
+Do we suppress the status information when --quiet is specified? ... ok
+test_pr_1685 (output_test.Output.test_pr_1685) ... ok
+test_pr_2540 (output_test.Output.test_pr_2540) ... ok
+test_status (output_test.Output.test_status) ... ok
+test_tool_compdb_targets (output_test.Output.test_tool_compdb_targets) ... ok
+test_tool_inputs (output_test.Output.test_tool_inputs) ... ok
+test_tool_multi_inputs (output_test.Output.test_tool_multi_inputs) ... ok
+
+----------------------------------------------------------------------
+Ran 49 tests in 8.631s
+
+OK (skipped=1)
+test_restat_with_builddir (test_restat_builddir.RestatBuildDirTest.test_restat_with_builddir)
+Test that ninja -t restat updates mtime in builddir/.ninja_log. ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.021s
+
+OK

@@ -1,0 +1,43 @@
+.pekko.actor.CoordinatedShutdown$$anon$3 -- jdk.internal.loader.ClassLoaders$AppClassLoader@5a07e868
+
+Gradle Test Executor 3 finished executing tests.
+
+> Task :instrumentation:guava-10.0:javaagent:compileTestJava
+Custom actions are attached to task ':instrumentation:guava-10.0:javaagent:compileTestJava'.
+Build cache key for task ':instrumentation:guava-10.0:javaagent:compileTestJava' is 9a54669f4712b17439413451e067f8dc
+Task ':instrumentation:guava-10.0:javaagent:compileTestJava' is not up-to-date because:
+  No history is available.
+The input changes require a full rebuild for incremental task ':instrumentation:guava-10.0:javaagent:compileTestJava'.
+Compilation mode: forking compiler
+Full recompilation is required because no incremental change information is available. This is usually caused by clean builds or changing compiler arguments.
+Compiling with toolchain '/opt/java/openjdk'.
+Compiling with JDK Java compiler API.
+
+> Task :instrumentation:camel-2.20:javaagent:test FAILED
+
+13 tests completed, 1 failed, 3 skipped
+Generating HTML test report...
+Finished generating test html results (0.307 secs) into: /testbed/instrumentation/camel-2.20/javaagent/build/reports/tests/test
+Finished generating test XML results (0.312 secs) into: /testbed/instrumentation/camel-2.20/javaagent/build/test-results/test
+
+> Task :instrumentation:guava-10.0:javaagent:compileTestJava
+Class dependency analysis for incremental compilation took 0.049 secs.
+Created classpath snapshot for incremental compilation in 0.351 secs.
+Stored cache entry for task ':instrumentation:guava-10.0:javaagent:compileTestJava' with cache key 9a54669f4712b17439413451e067f8dc
+Build a0b7a190-5175-4cb5-af51-a124bb43dab5 is closed
+Build 2d90fc00-ccd9-4f90-9b7f-74dd89039f61 is closed
+Build d6985998-49a7-46d1-a833-611548651d01 is closed
+
+Some tasks or features in this build are not compatible with the configuration cache.
+See the complete report at file:///testbed/build/reports/configuration-cache/1djd6187dxd2jt27ov0r4qygt/8ik8rdqrwjf3q8m8nfd90sztd/configuration-cache-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':instrumentation:camel-2.20:javaagent:test'.
+> There were failing tests. See the report at: file:///testbed/instrumentation/camel-2.20/javaagent/build/reports/tests/test/index.html
+
+BUILD FAILED in 9m 5s
+522 actionable tasks: 9 executed, 513 up-to-date
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.
+Configuration cache entry discarded because incompatible tasks were found: 'task `:instrumentation:quarkus-resteasy-reactive:quarkus2-testing:buildModel` of type `org.gradle.api.DefaultTask`', 'task `:instrumentation:quarkus-resteasy-reactive:quarkus3-testing:buildModel` of type `org.gradle.api.DefaultTask`'.

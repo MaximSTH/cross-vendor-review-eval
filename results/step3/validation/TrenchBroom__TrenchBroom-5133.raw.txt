@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KdLibTest" errors="0" failures="0" skipped="0" tests="3536" hostname="tbd" time="51.959" timestamp="2026-07-29T20:04:00Z">
+    <properties>
+      <property name="random-seed" value="31212618"/>
+    </properties>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.reverse" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="path_pop_front" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_contains" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_all_items_with_two_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="path_has_extension" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.size" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="task_manager" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="task_manager/run_task" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="task_manager/run_tasks" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="task_manager/run_tasks_and_wait" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_erase" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_slice_suffix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.constructor_initializer_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_set_test.constructor_default_with_capacity" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_erase_all" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.remove_front_item" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="dec_temp.dec_inc" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.size" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="PathTest.path_clip" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_clear_and_delete" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_first_item_with_two_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.find" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_ci_test.str_mismatch" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="path_add_extension" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.release" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="variant IO" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_sort" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk_by" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk_by/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk_by/iterator / sentinel/arithmetic (forward range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk_by/iterator / sentinel/arithmetic (bidirectional range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk_by/examples" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_pop_back" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.back" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="compact_trie_test.insert" time="0.002" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_is_numeric" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_cs_test.str_matches_glob" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.remove_single_item" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.release_all" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.insert_with_value_and_hint" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_back_one_item" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_cs_test.str_is_suffix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.erase_with_value" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.contains" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="map_utils_test.map_find_or_default" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.remove_all" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_at" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="inc_temp.inc_dec" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.operator_less_than" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.push_back" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.set_intersection" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="collection_utils_test.compare_cmp" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.col_total_size" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_one_item_into_last" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="filesystem_utils" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="filesystem_utils/with_stream" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="filesystem_utils/with_stream/with_istream" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="filesystem_utils/with_stream/with_ostream" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="filesystem_utils/read_file" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.capacity" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="map_utils_test.map_lexicographical_compare" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.insert_with_value" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_trim" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_set_test.assignment_from_initializer_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_one_item_into_mid" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="collection_utils_test.col_total_size" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="operator==" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_temp_test.set_unset" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="repeat" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="repeat/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="repeat/iterator / sentinel/arithmetic (bounded range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="repeat/iterator / sentinel/arithmetic (unbounded range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="repeat/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="repeat/iterator / sentinel/comparison (unbounded range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="repeat/iterator / sentinel/comparison (bounded range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="repeat/examples" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.wrap_set" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent/iterator / sentinel/arithmetic" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent/iterator / sentinel/comparison" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent/pairwise" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent/move-only values" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="path_to_lower" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.insert_right_range" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.insert_list_front" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.lower_bound" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="reflection_split_tokens" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.erase" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="path_length" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_clear_to_zero" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_last_and_first_items_with_two_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_ci_test.str_contains" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="range_utils.index_of" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.reverse_iterators" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.clear_with_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_last_two_items_into_mid" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_to_upper" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_last_item_with_two_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_all_items_with_all_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="range IO" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.operator_greater_than" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_mid_item_with_two_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="col_stable_remove_duplicates" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_ci_test.str_compare" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.constructor_default" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_is_blank" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="tuple IO" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="members" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_concat" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.clear_empty_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="compact_trie_test.find_matches_with_digit_suffix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_dynamic_cast" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.max_size" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_to_lower" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="compact_trie_test.remove" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.reverse_iterators" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.release_multiple" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="cartesian_product" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="cartesian_product/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="cartesian_product/iterator / sentinel/arithmetic" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="cartesian_product/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="cartesian_product/iterator / sentinel/comparison" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="cartesian_product/examples" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="cartesian_product/move-only values" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="collection_utils_test.range_lexicographical_compare" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_ci_test.str_matches_glob" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.upper_bound" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.equal_range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.count" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.set_difference" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="path_front" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_select" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="streamable_struct" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_set_test.constructor_with_initializer_list_and_capacity" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_ci_test.str_is_equal" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_two_items_into_empty_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.erase_with_range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="tup_suffix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.contains" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_mid_item_with_all_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_ci_test.str_is_suffix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_cs_test.str_mismatch" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="collection_utils_test.col_size" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_last_item_with_one_item" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_cs_test.str_contains" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="to" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="to/with specified collection type" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="to/with deduced collecion type" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="to/call wrapper with specified collection type" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="to/call wrapper with deduced collection type" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="to/pipe operator with specified collection type" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="to/pipe operator with specified collection type/when call wrapper is an rvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="to/pipe operator with specified collection type/when call wrapper is an lvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="to/pipe operator with specified collection type/when call wrapper is a const lvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="to/pipe operator with deduced collection type" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_plural_with_prefix_suffix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.constructor_intializer_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.constructor_default" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.emplace_back_subtype" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.operator_equal" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_all_items_into_last" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="compact_trie_test.find_matches_with_exact_pattern" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.count_right" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="void_success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.emplace_hint" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.emplace" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="tup_prefix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_cs_test.sort" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="path_has_prefix" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_first_two_items_with_two_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_sort_and_remove_duplicates" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_ci_test.str_is_prefix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip_transform" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip_transform/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip_transform/iterator / sentinel/arithmetic" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip_transform/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip_transform/iterator / sentinel/comparison" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip_transform/examples" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip_transform/move-only value types" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.operator_not_equal" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_last_two_items_into_front" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_all_items_into_mid" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="optional_and_then" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_last_two_items_with_two_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_set_test.constructor_with_range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_set_test.assignment_from_vector" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_cs_test.str_is_equal" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.clear" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.emplace_back" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.operator_assign_with_initializer_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.remove_back_item" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_cs_test.str_compare" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="collection_utils_test.col_delete_all" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_concat_move" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.release_single" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="invoke_test.invoke_later_lvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.erase_with_iterator" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="cmd_parse_args" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_cs_test.str_is_prefix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.iterators" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="slide" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="slide/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="slide/iterator / sentinel/arithmetic" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="slide/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="slide/iterator / sentinel/comparison" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="slide/examples" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_to_lower_char" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="member_names" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="as_rvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="as_rvalue/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="as_rvalue/iterator / sentinel/arithmetic" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="as_rvalue/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="as_rvalue/iterator / sentinel/comparison" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_slice" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.left_range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_push_back" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.remove_multiple" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.iterators" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_set_test.constructor_with_initializer_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="resource" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="resource/destructor calls deleter" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="resource/move constructor" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="resource/move assignment" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="resource/value assignment" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="resource/operator bool" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="resource/release" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_one_item_into_empty_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.right_range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="map_utils_test.map_merge" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="hash" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.append_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.release_data" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.insert_left_range" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="path_replace_extension" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.set_union" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.insert_with_range_and_count" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.set_has_shared_element" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_plural" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_slice_prefix" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="map_utils_test.map_union" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.insert_list_back" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="invoke_test.invoke_later_rvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.insert_values" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.operator_greater_than_or_equal" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_one_item_into_front" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_capitalize" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/iterator / sentinel/arithmetic (input range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/iterator / sentinel/arithmetic (random access range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/iterator / sentinel/subscript (random access range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/iterator / sentinel/comparison (random access range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/size (random access range)" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/size (random access range)/with non-empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/size (random access range)/with range having one incomplete element" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/size (random access range)/with empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="chunk/examples" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_all_items_into_front" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="collection_utils_test.range_delete_all" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_all_items_into_empty_list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="logical_or" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="logical_or/Lambdas" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="logical_or/std::function" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="stride" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="stride/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="stride/iterator / sentinel/arithmetic" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="stride/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="stride/iterator / sentinel/comparison" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="stride/examples" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_all_items_with_one_item" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_temp_test.set_unset_bool" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_set_test.constructor_default" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="map_utils_test.map_clear_and_delete" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.swap" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_static_cast" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_last_and_first_items_items_front" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.remove_single" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/iterator / sentinel/base" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/iterator / sentinel/arithmetic" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/iterator / sentinel/comparison" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/input ranges" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/input ranges/as lvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/bidirectional ranges" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/bidirectional ranges/as rvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/bidirectional ranges/as lvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/various underlying ranges" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/various underlying ranges/array" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/various underlying ranges/nested types" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/various underlying ranges/initializer list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="enumerate/various underlying ranges/move-only values" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.empty" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.create_set" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="path_remove_extension" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.get_data" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.front" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_later_test.set" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="logical_and" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="logical_and/Lambdas" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="logical_and/std::function" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_escape_if_necessary" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="operator!=" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_utils_test.vec_erase_at" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_first_item_with_one_item" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/constructor" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/constructor/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/constructor/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/constructor/const reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/constructor/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/constructor/void result with errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/constructor/void result without errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/converting_constructor" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/converting_constructor/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/converting_constructor/non-void result/from reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/converting_constructor/non-void result/from const reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/converting_constructor/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/converting_constructor/const reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/converting_constructor/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/converting_constructor/void result with errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/converting_constructor/void result without errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/visit" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/visit/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/visit/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/visit/const reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/visit/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/visit/void result with errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/visit/void result without errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/non-void result/with non void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/non-void result/with multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/reference result/non const lvalue reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/reference result/non const lvalue reference result/with non void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/reference result/const lvalue reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/reference result/const lvalue reference result/with non void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/reference result/with multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/multi-valued result/with non void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/join/multi-valued result/with multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/and_then" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/and_then/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/and_then/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/and_then/const reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/and_then/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/and_then/void result with errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/and_then/void result without errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/or_else" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/or_else/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/or_else/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/or_else/const reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/or_else/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/or_else/void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/non-void result/transform to value" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/non-void result/transform to void" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/reference result/transform to value" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/reference result/transform to void" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/const reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/const reference result/transform to value" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/const reference result/transform to void" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/multi-valued result/transform to value" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/multi-valued result/transform to void" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/void result with errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/void result with errors/transform to value" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/void result with errors/transform to void" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/void result without errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/void result without errors/transform to value" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform/void result without errors/transform to void" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform_error" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform_error/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform_error/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform_error/const reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform_error/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/transform_error/void result" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/if_error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/if_error/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/if_error/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/if_error/const reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/if_error/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/if_error/void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/fold_results" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/fold_results/with empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/fold_results/success case" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/fold_results/error case" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/and_then" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/and_then/const lvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/and_then/const lvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/and_then/rvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/and_then/rvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/and_then/void success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/or_else" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/or_else/const lvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/or_else/const lvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/or_else/rvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/or_else/rvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/or_else/void success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform/const lvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform/const lvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform/rvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform/rvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform/void success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform_error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform_error/const lvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform_error/const lvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform_error/rvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform_error/rvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/transform_error/void error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/non-void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/non-void result/with non void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/non-void result/with multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/reference result/non const lvalue reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/reference result/non const lvalue reference result/with non void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/reference result/const lvalue reference result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/reference result/const lvalue reference result/with non void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/reference result/with multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/multi-valued result/with non void result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/join/multi-valued result/with multi-valued result" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value/const lvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value/const lvalue error" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value/rvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value/rvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value_or" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value_or/const lvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value_or/const lvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value_or/rvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/value_or/rvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/error/const lvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/error/const lvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/error/rvalue success" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/error/rvalue error" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/fold" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/fold/with empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/fold/success case" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/fold/error case" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;int>" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;int>/empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;int>/non-empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;void, Error1, Error2>" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;void, Error1, Error2>/empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;void, Error1, Error2>/only success values" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;void, Error1, Error2>/only errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;void, Error1, Error2>/mixed results" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;int, Error1, Error2>" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;int, Error1, Error2>/empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;int, Error1, Error2>/only success values" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;int, Error1, Error2>/only errors" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/collect/result&lt;int, Error1, Error2>/mixed results" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/first" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/first/with empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/first/success case" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result/operator|/first/error case" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.count_left" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_unescape" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_replace_mid_item_with_one_item" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="optional_transform" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.insert_relation" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_escape" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="logical_not" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="logical_not/Lambdas" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="logical_not/std::function" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="parse_path" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_set_test.constructor_with_vector" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_last_two_items_into_last" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="optional IO" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.empty" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="compact_trie_test.find_matches_with_wildcards" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result&lt;void>" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result&lt;void>/fold_results" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result&lt;void>/fold_results/with empty range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result&lt;void>/fold_results/success case" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="result&lt;void>/fold_results/error case" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.wrap_set" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="collection_utils_test.col_is_equivalent" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.iterator" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="binary_relation_test.empty" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="operator&lt;" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils_ci_test.sort" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="collection_utils_test.range_remove_all" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/iterator / sentinel/arithmetic" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/iterator / sentinel/comparison" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/size" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/size/with non-empty sized ranges" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/size/with empty sized ranges" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/input ranges" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/input ranges/as lvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/bidirectional ranges" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/bidirectional ranges/as rvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/bidirectional ranges/as lvalue" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/various underlying ranges" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/various underlying ranges/array" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/various underlying ranges/map types" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/various underlying ranges/initializer list" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="zip/various underlying ranges/move-only value types" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/str_find_next_delimited_string" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/str_next_token" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/str_next_tokens" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/str_split" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/str_join" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/str_replace_every" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_to_string" time="0.001" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_to_int" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_to_long" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_to_long_long" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_to_u_long" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_to_u_long_long" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_to_size" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_to_float" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_to_double" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_utils/string_format_test.str_make_random" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="set_adapter_test.insert_with_range" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="vector_set_test.constructor_with_range_and_capacity" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="string_format_test.str_to_upper_char" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="const_set_adapter_test.operator_less_than_or_equal" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent_transform" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent_transform/iterator / sentinel" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent_transform/iterator / sentinel/arithmetic" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent_transform/iterator / sentinel/subscript" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent_transform/iterator / sentinel/comparison" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent_transform/pairwise_transform" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent_transform/examples" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="adjacent_transform/move-only values" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="map_utils_test.map_is_equivalent" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.splice_back_two_items" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="compact_trie_test.get_keys" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.destructor_cleanup" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="intrusive_circular_list_test.remove_mid_item" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="tup_slice" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="operator&lt;&lt;" time="0.000" status="run"/>
+    <testcase classname="KdLibTest.global" name="task_manager stress test" time="51.844" status="run"/>
+    <system-out/>
+    <system-err/>
+  </testsuite>
+</testsuites>
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="UpdateLibTest" errors="0" failures="2" skipped="0" tests="111" hostname="tbd" time="0.076" timestamp="2026-07-29T20:04:00Z">
+    <properties>
+      <property name="random-seed" value="1477116236"/>
+    </properties>
+    <testcase classname="UpdateLibTest.global" name="Unzip" time="0.009" status="run">
+      <failure message="readFileIntoString(destPath + &quot;/test1.txt&quot;) == &quot;test1&quot;" type="CHECK">
+FAILED:
+  CHECK( readFileIntoString(destPath + "/test1.txt") == "test1" )
+with expansion:
+  { } == "test1"
+at /testbed/lib/UpdateLib/test/src/tst_Unzip.cpp:42
+      </failure>
+      <failure message="readFileIntoString(destPath + &quot;/folder/test2.txt&quot;) == &quot;test2&quot;" type="CHECK">
+FAILED:
+  CHECK( readFileIntoString(destPath + "/folder/test2.txt") == "test2" )
+with expansion:
+  { } == "test2"
+at /testbed/lib/UpdateLib/test/src/tst_Unzip.cpp:43
+      </failure>
+    </testcase>
+    <testcase classname="UpdateLibTest.global" name="GithubApi" time="0.003" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/getLatestRelease" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/getLatestRelease/calls errorCallback if getReleases fails" time="0.001" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/getLatestRelease/passes expected release if getReleases succeeds" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/getReleases" time="0.001" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/getReleases/calls errorCallback if get fails" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/getReleases/calls errorCallback if get returns invalid JSON" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/getReleases/passes expected releases if get returns valid JSON" time="0.001" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/downloadAsset" time="0.003" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/downloadAsset/calls errorCallback if download fails" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="GithubApi/downloadAsset/passes file if download succeeds" time="0.003" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController" time="0.001" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is disabled" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled" time="0.001" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/checkForUpdates" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/checkForUpdates/state changes to UpdateErrorState when get fails" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/checkForUpdates/callback is called with result when get succeeds" time="0.001" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/checkForUpdates/calling again while check is pending does nothing" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/checkForUpdates/cancelPendingOperation" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/downloadAndPrepareUpdate" time="0.001" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/downloadAndPrepareUpdate/cancelPendingOperation" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/downloadAndPrepareUpdate/state changes to UpdateErrorState when download fails" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/downloadAndPrepareUpdate/state changes to PreparingUpdateState when download succeeds" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/downloadAndPrepareUpdate/state changes to PreparingUpdateState when download succeeds/state changes to UpdatePendingState when prepareUpdate fails" time="0.004" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/downloadAndPrepareUpdate/state changes to PreparingUpdateState when download succeeds/state changes to UpdatePendingState when prepareUpdate succeeds" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/downloadAndPrepareUpdate/state changes to PreparingUpdateState when download succeeds/state changes to UpdatePendingState when prepareUpdate succeeds/calls installUpdate when destroyed" time="0.000" status="run"/>
+    <testcase classname="UpdateLibTest.global" name="UpdateController/when updating is enabled/downloadAndPrepareUpdate/cancelPendingOperation" time="0.000" status="run"/>
+    <system-out/>
+    <system-err/>
+  </testsuite>
+</testsuites>

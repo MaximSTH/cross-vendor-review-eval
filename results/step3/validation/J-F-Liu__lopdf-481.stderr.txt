@@ -1,0 +1,69 @@
+nished in 3.75s
+
+     Running `/testbed/target/debug/deps/extract_test-053138c2b287d45c --test-threads=1`
+
+running 2 tests
+test extract_text_does_not_error_with_empty_bfrange_font1 ... ok
+test extract_text_does_not_error_with_empty_bfrange_font2 ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running `/testbed/target/debug/deps/font_test-df067377635493cb --test-threads=1`
+
+running 1 test
+test test_font_data_creation ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running `/testbed/target/debug/deps/incremental_document-01a53e28c94e1080 --test-threads=1`
+
+running 2 tests
+test load_incremental_file ... ok
+test load_incremental_file_as_linear_file ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+
+     Running `/testbed/target/debug/deps/linearized_objstm_test-6164c23284c55b06 --test-threads=1`
+
+running 1 test
+test test_conflicting_objstm_uses_xref_container ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+     Running `/testbed/target/debug/deps/load_options_test-b54c58075ed65eff --test-threads=1`
+
+running 18 tests
+test sync_tests::lenient_accepts_binary_bytes_on_header_line ... FAILED
+test sync_tests::load_from_with_options_default_matches_load_from ... ok
+test sync_tests::load_mem_with_options_default_matches_load_mem ... ok
+test sync_tests::load_mem_with_options_filter ... ok
+test sync_tests::load_mem_with_options_password_on_encrypted_pdf ... ok
+test sync_tests::load_options_debug_masks_password ... ok
+test sync_tests::load_options_debug_no_password ... ok
+test sync_tests::load_options_default ... ok
+test sync_tests::load_options_with_filter ... ok
+test sync_tests::load_options_with_password ... ok
+test sync_tests::load_with_options_combined_password_and_strict ... ok
+test sync_tests::load_with_options_default_matches_load ... ok
+test sync_tests::load_with_options_filter_removes_objects ... ok
+test sync_tests::load_with_options_nonexistent_file ... ok
+test sync_tests::load_with_options_password_on_encrypted_pdf ... ok
+test sync_tests::load_with_options_strict_false_loads_normally ... ok
+test sync_tests::load_with_options_strict_true_loads_valid_pdf ... ok
+test sync_tests::strict_rejects_binary_bytes_on_header_line ... ok
+
+failures:
+
+---- sync_tests::lenient_accepts_binary_bytes_on_header_line stdout ----
+
+thread 'sync_tests::lenient_accepts_binary_bytes_on_header_line' panicked at tests/load_options_test.rs:216:13:
+lenient mode should accept binary bytes on header line, got: couldn't parse input: invalid file header
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    sync_tests::lenient_accepts_binary_bytes_on_header_line
+
+test result: FAILED. 17 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.95s
+
+error: test failed, to rerun pass `--test load_options_test`

@@ -1,0 +1,87 @@
+x@2024-07-29#1
+    stduuid:x64-linux@1.2.3
+  * utfcpp:x64-linux@4.0.6
+  * vcpkg-cmake:x64-linux@2024-04-23
+  * vcpkg-cmake-config:x64-linux@2024-05-23
+  * vcpkg-cmake-get-vars:x64-linux@2025-05-29
+  * zlib:x64-linux@1.3.1
+  * zstd:x64-linux@1.5.7
+assimp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(assimp CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE assimp::assimp)
+
+assimp provides pkg-config modules:
+
+  # Import various well-known 3D model formats in an uniform manner.
+  assimp
+
+catch2 provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(Catch2 CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE Catch2::Catch2 Catch2::Catch2WithMain)
+
+catch2 provides pkg-config modules:
+
+  # A modern, C++-native test framework for C++14 and above (links in default main)
+  catch2-with-main
+
+  # A modern, C++-native, test framework for C++14 and above
+  catch2
+
+cpptrace provides CMake targets:
+
+  find_package(cpptrace CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE cpptrace::cpptrace)
+
+The package fmt provides CMake targets:
+
+    find_package(fmt CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE fmt::fmt)
+
+    # Or use the header-only version
+    find_package(fmt CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE fmt::fmt-header-only)
+
+miniz provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(miniz CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE miniz::miniz)
+
+miniz provides pkg-config modules:
+
+  # 
+  miniz
+
+stduuid provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(stduuid CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE stduuid)
+
+All requested installations completed successfully in: 1.31 ms
+-- Running vcpkg install - done
+fatal: No names found, cannot describe anything.
+CMake Warning at cmake/Utils.cmake:75 (message):
+  Unable to determine version description; using "unknown"
+Call Stack (most recent call first):
+  CMakeLists.txt:166 (get_git_describe)
+
+
+-- Configuring done (5.1s)
+-- Generating done (0.2s)
+-- Build files have been written to: /testbed/build
+[1/5] cd /testbed/build/lib/TbUiLib && /usr/bin/cmake -D UTILS="/testbed/cmake/Utils.cmake" -D APP_BUILD_TYPE="Release" -D SRC="/testbed/lib/TbUiLib/include/ui/Version.h.in" -D DST="/testbed/build/lib/TbUiLib/ui/Version.h" -D GIT_EXECUTABLE="/usr/local/bin/git" -P /testbed/lib/TbUiLib/cmake/GenerateVersion.cmake
+fatal: No names found, cannot describe anything.
+CMake Warning at /testbed/cmake/Utils.cmake:75 (message):
+  Unable to determine version description; using "unknown"
+Call Stack (most recent call first):
+  /testbed/lib/TbUiLib/cmake/GenerateVersion.cmake:4 (get_git_describe)
+
+
+[2/5] Automatic MOC for target TbUiLibTest
+[3/4] Building CXX object lib/TbUiLib/test/CMakeFiles/TbUiLibTest.dir/src/tst_MapWindow.cpp.o
+[4/4] Linking CXX executable lib/TbUiLib/test/TbUiLibTest

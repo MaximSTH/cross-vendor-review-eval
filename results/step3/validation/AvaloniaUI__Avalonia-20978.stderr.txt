@@ -1,0 +1,22 @@
+<stdin>:21: trailing whitespace.
+                
+warning: 1 line adds whitespace errors.
+onary`2<System.String,System.String>, System.String, Microsoft.Build.Execution.BuildParameters, Microsoft.Build.BackEnd.Logging.ILoggingService, Microsoft.Build.Framework.BuildEventContext, Microsoft.Build.BackEnd.SdkResolution.ISdkResolverService, Int32, System.Nullable`1<Microsoft.Build.Evaluation.ProjectLoadSettings>)
+   at Microsoft.Build.BackEnd.BuildRequestConfiguration+<>c__DisplayClass65_0.<LoadProjectIntoConfiguration>b__0()
+   at Microsoft.Build.BackEnd.BuildRequestConfiguration.InitializeProject(Microsoft.Build.Execution.BuildParameters, System.Func`1<Microsoft.Build.Execution.ProjectInstance>)
+   at Microsoft.Build.BackEnd.RequestBuilder+<BuildProject>d__67.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[[Microsoft.Build.BackEnd.RequestBuilder+<BuildProject>d__67, Microsoft.Build, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]](<BuildProject>d__67 ByRef)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1[[System.__Canon, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]].Start[[Microsoft.Build.BackEnd.RequestBuilder+<BuildProject>d__67, Microsoft.Build, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]](<BuildProject>d__67 ByRef)
+   at Microsoft.Build.BackEnd.RequestBuilder.BuildProject()
+   at Microsoft.Build.BackEnd.RequestBuilder+<RequestThreadProc>d__58.MoveNext()
+   at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[[Microsoft.Build.BackEnd.RequestBuilder+<RequestThreadProc>d__58, Microsoft.Build, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]](<RequestThreadProc>d__58 ByRef)
+   at System.Runtime.CompilerServices.AsyncTaskMethodBuilder.Start[[Microsoft.Build.BackEnd.RequestBuilder+<RequestThreadProc>d__58, Microsoft.Build, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]](<RequestThreadProc>d__58 ByRef)
+   at Microsoft.Build.BackEnd.RequestBuilder.RequestThreadProc(Boolean)
+   at System.Threading.Tasks.Task`1[[System.__Canon, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]].InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(System.Threading.Tasks.Task ByRef, System.Threading.Thread)
+   at System.Threading.Tasks.Task.ExecuteEntry()
+   at Microsoft.Build.BackEnd.RequestBuilder+DedicatedThreadsTaskScheduler.<InjectThread>b__6_0()
+   at System.Threading.Thread+StartHelper.Callback(System.Object)
+   at System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object)
+bash: line 7:   104 Aborted                 (core dumped) dotnet test --project /testbed/Avalonia.Desktop.slnf -c Release /p:SkipBun=true /p:TreatWarningsAsErrors=false /p:WarningsAsErrors= -- --report-trx --report-trx-filename results.trx

@@ -1,0 +1,50 @@
+<stdin>:32: trailing whitespace.
+  // CHECK-SAME: (i32 -2147483634, %dx.types.Handle %{{.*}}, i32 0, i32 0, i32 0, i32 4) 
+warning: 1 line adds whitespace errors.
+
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/CloneFunc.Subprogram (4513 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/CloneFunc.SubprogramInRightCU (4514 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/CloneInstruction.Attributes (4515 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/CloneInstruction.CallingConvention (4516 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/CloneInstruction.Exact (4517 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/CloneInstruction.Inbounds (4518 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/CloneInstruction.OverflowBits (4519 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/CloneModule.Verify (4520 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/IntegerDivision.SDiv (4521 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/IntegerDivision.SDiv64 (4522 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/IntegerDivision.SRem (4523 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/IntegerDivision.SRem64 (4524 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/IntegerDivision.UDiv (4525 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/IntegerDivision.UDiv64 (4526 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/IntegerDivision.URem (4527 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/IntegerDivision.URem64 (4528 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/Local.RecursivelyDeleteDeadPHINodes (4529 of 4531)
+PASS: LLVM-Unit :: Transforms/Utils/UtilsTests/ValueMapperTest.MapMetadataUnresolved (4530 of 4531)
+PASS: LLVM-Unit :: ADT/ADTTests/TripleTest.Normalization (4531 of 4531)
+
+2 warning(s) in tests.
+Testing Time: 542.40s
+********************
+Failing Tests (17):
+    Clang :: CodeGenDXIL/hlsl/linalg/builtins/matrixaccumulatetodescriptor/nominal.hlsl
+    Clang :: CodeGenDXIL/hlsl/linalg/builtins/matrixloadfromdescriptor/nominal.hlsl
+    Clang :: CodeGenDXIL/hlsl/linalg/builtins/matrixstoretodescriptor/nominal.hlsl
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-as.ll
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-cs.ll
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-ds.ll
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-gs.ll
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-hs.ll
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-ms.ll
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-node.ll
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-ps.ll
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-raytracing.ll
+    Clang :: LitDXILValidation/LinAlgMatrix/linalgmatrix-vs.ll
+    Clang :: SemaHLSL/hlsl/linalg/builtins/matrix-builtins-ast.hlsl
+    Clang :: SemaHLSL/hlsl/linalg/builtins/stage-errors.hlsl
+    Clang :: SemaHLSL/hlsl/linalg/builtins/unavailable_pre_sm610.hlsl
+    Clang-Unit :: HLSL/ClangHLSLTests/CompilerTest.BatchHLSL
+
+  Expected Passes    : 4470
+  Expected Failures  : 11
+  Unsupported Tests  : 33
+  Unexpected Failures: 17

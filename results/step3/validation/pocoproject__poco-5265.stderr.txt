@@ -1,0 +1,90 @@
+river 18 for SQL Server driver NOT found, tests not available.
+MySQL/MariaDB ODBC driver NOT found, tests not available.
+PostgreSQL ODBC driver NOT found, tests not available.
+SQLite3 ODBC Driver driver NOT found, tests not available.
+IBM DB2 ODBC DRIVER - DB2COPY1 driver NOT found, tests not available.
+Informix ODBC Driver driver NOT found, tests not available.
+
+
+OK (0 tests)
+
+Usage: driver [-all] [-ignore <file> ] [-long] [-print] [-wait] [name] ...
+       where name is the name of a test case class
+
+test 18
+      Start 18: ActiveRecord
+
+18: Test command: /testbed/build/bin/ActiveRecord-testrunner "-ignore" "/testbed/cppignore.lnx" "-all"
+18: Working Directory: /testbed/build/ActiveRecord/testsuite
+18: Test timeout computed to be: 1500
+18: 
+18: ActiveRecordTest::testInsert: 
+18: ActiveRecordTest::testFind: 
+18: ActiveRecordTest::testUpdate: 
+18: ActiveRecordTest::testDelete: 
+18: ActiveRecordTest::testRelations: 
+18: ActiveRecordTest::testQuery: 
+18: ActiveRecordTest::testQueryWhere: 
+18: ActiveRecordTest::testQueryWhereBind: 
+18: ActiveRecordTest::testQueryOrderBy: 
+18: ActiveRecordTest::testQueryFilter: 
+18: ActiveRecordTest::testQueryPaging: 
+18: 
+18: OK (11 tests)
+18: 
+18/19 Test #18: ActiveRecord .....................   Passed    0.17 sec
+test 19
+      Start 19: Zip
+
+19: Test command: /testbed/build/bin/Zip-testrunner "-ignore" "/testbed/cppignore.lnx" "-all"
+19: Working Directory: /testbed/build/Zip/testsuite
+19: Test timeout computed to be: 1500
+19: 
+19: CompressTest::testSingleFile: 
+19: CompressTest::testDirectory: 
+19: CompressTest::testManipulator: 
+19: CompressTest::testManipulatorDel: 
+19: CompressTest::testManipulatorReplace: 
+19: CompressTest::testSetZipComment: 
+19: CompressTest::testZip64: 
+19: 	createDataFile(data1.bin, 4194305);
+19: 	createDataFile(data2.bin, 16384);
+19: 	createDataFile(data3.bin, 4194303);
+19: 	addFile(data1.bin);
+19: 	addFile(data2.bin);
+19: 	addFile(data3.bin);
+19: 
+19: ZipTest::testSkipSingleFile: 
+19: ZipTest::testDecompressSingleFile: 
+19: ZipTest::testDecompressSingleFileInDir: 
+19: ZipTest::testDecompress: 
+19: ZipTest::testDecompressFlat: 
+19: ZipTest::testDecompressVuln: 
+19: ZipTest::testDecompressFlatVuln: 
+19: ZipTest::testCrcAndSizeAfterData: 
+19: ZipTest::testCrcAndSizeAfterDataWithArchive: 
+19: ZipTest::testCrcAndSizeAfterDataEncapsulated: 
+19: ZipTest::testDecompressZip64: 
+19: ZipTest::testValidPath: 
+19: ZipTest::testDecompressConsistency: 
+19: PartialStreamTest::testReading: 
+19: PartialStreamTest::testWriting: 
+19: PartialStreamTest::testWritingZero: 
+19: PartialStreamTest::testWritingOne: 
+19: PartialStreamTest::testAutoDetect: 
+19: 
+19: OK (25 tests)
+19: 
+19/19 Test #19: Zip ..............................   Passed    0.12 sec
+
+74% tests passed, 5 tests failed out of 19
+
+Total Test time (real) = 485.41 sec
+
+The following tests FAILED:
+	  7 - MongoDB (Failed)
+	  8 - Redis (Failed)
+	 15 - DataMySQL (Failed)
+	 16 - DataPostgreSQL (Failed)
+	 17 - DataODBC (Failed)
+Errors while running CTest

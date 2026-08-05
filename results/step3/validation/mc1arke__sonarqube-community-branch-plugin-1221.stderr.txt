@@ -1,0 +1,42 @@
+vopsClient
+  /testbed/src/test/java/com/github/mc1arke/sonarqube/plugin/ce/pullrequest/azuredevops/AzureDevOpsPullRequestDecoratorTest.java:517: error: cannot find symbol
+          when(pullRequest.doesSupportIterations()).thenReturn(false);
+                          ^
+    symbol:   method doesSupportIterations()
+    location: variable pullRequest of type PullRequest
+  /testbed/src/test/java/com/github/mc1arke/sonarqube/plugin/ce/pullrequest/azuredevops/AzureDevOpsPullRequestDecoratorTest.java:525: error: cannot find symbol
+          assertThat(statusCaptor.getValue().getIterationId()).isEqualTo(1);
+                                            ^
+    symbol:   method getIterationId()
+    location: class GitPullRequestStatus
+  /testbed/src/test/java/com/github/mc1arke/sonarqube/plugin/ce/pullrequest/azuredevops/AzureDevOpsPullRequestDecoratorTest.java:526: error: cannot find symbol
+          verify(azureDevopsClient, never()).retrievePullRequestIterationIdForCommit(any(), any(), anyInt(), any());
+                                            ^
+    symbol:   method retrievePullRequestIterationIdForCommit(Object,Object,int,Object)
+    location: interface AzureDevopsClient
+  /testbed/src/test/java/com/github/mc1arke/sonarqube/plugin/almclient/azuredevops/AzureDevopsRestClientTest.java:122: error: cannot find symbol
+          int result = underTest.retrievePullRequestIterationIdForCommit("projectId", "repository Name", 123, "sha-bbb");
+                                ^
+    symbol:   method retrievePullRequestIterationIdForCommit(String,String,int,String)
+    location: variable underTest of type AzureDevopsRestClient
+  /testbed/src/test/java/com/github/mc1arke/sonarqube/plugin/almclient/azuredevops/AzureDevopsRestClientTest.java:150: error: cannot find symbol
+          int result = underTest.retrievePullRequestIterationIdForCommit("projectId", "repository Name", 123, "sha-unknown");
+                                ^
+    symbol:   method retrievePullRequestIterationIdForCommit(String,String,int,String)
+    location: variable underTest of type AzureDevopsRestClient
+  23 errors
+  9 warnings
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.4.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 30s
+3 actionable tasks: 3 executed
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.

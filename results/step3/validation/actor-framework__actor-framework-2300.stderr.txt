@@ -1,0 +1,52 @@
+: caf.net.octet_stream.with
+219/240 Test #219: caf.net.octet_stream.with ...................   Passed    0.05 sec
+        Start 220: caf.net.pipe_socket
+220/240 Test #220: caf.net.pipe_socket .........................   Passed    0.03 sec
+        Start 221: caf.net.socket
+221/240 Test #221: caf.net.socket ..............................   Passed    0.03 sec
+        Start 222: caf.net.socket_guard
+222/240 Test #222: caf.net.socket_guard ........................   Passed    0.03 sec
+        Start 223: caf.net.socket_manager
+223/240 Test #223: caf.net.socket_manager ......................   Passed    0.12 sec
+        Start 224: caf.net.ssl.context
+224/240 Test #224: caf.net.ssl.context .........................   Passed    0.06 sec
+        Start 225: caf.net.stream_socket
+225/240 Test #225: caf.net.stream_socket .......................   Passed    0.04 sec
+        Start 226: caf.net.tcp_accept_socket
+226/240 Test #226: caf.net.tcp_accept_socket ...................   Passed    0.04 sec
+        Start 227: caf.net.tcp_stream_socket
+227/240 Test #227: caf.net.tcp_stream_socket ...................   Passed    0.20 sec
+        Start 228: caf.net.typed_actor_shell
+228/240 Test #228: caf.net.typed_actor_shell ...................   Passed    0.08 sec
+        Start 229: caf.net.udp_datagram_socket
+229/240 Test #229: caf.net.udp_datagram_socket .................   Passed    0.03 sec
+        Start 230: caf.net.web_socket.frame
+230/240 Test #230: caf.net.web_socket.frame ....................   Passed    0.03 sec
+        Start 231: caf.net.web_socket.handshake
+231/240 Test #231: caf.net.web_socket.handshake ................   Passed    0.03 sec
+        Start 232: caf.io.basp.connection_state
+232/240 Test #232: caf.io.basp.connection_state ................   Passed    0.02 sec
+        Start 233: caf.io.basp.header
+233/240 Test #233: caf.io.basp.header ..........................   Passed    0.02 sec
+        Start 234: caf.io.basp.message_queue
+234/240 Test #234: caf.io.basp.message_queue ...................   Passed    0.03 sec
+        Start 235: caf.io.middleman
+235/240 Test #235: caf.io.middleman ............................   Passed    0.02 sec
+        Start 236: caf.io.system_messages
+236/240 Test #236: caf.io.system_messages ......................   Passed    0.03 sec
+        Start 237: caf.io.network.ip_endpoint
+237/240 Test #237: caf.io.network.ip_endpoint ..................   Passed    0.02 sec
+        Start 238: caf.io.network.protocol
+238/240 Test #238: caf.io.network.protocol .....................   Passed    0.02 sec
+        Start 239: caf.io.network.receive_buffer
+239/240 Test #239: caf.io.network.receive_buffer ...............   Passed    0.02 sec
+        Start 240: examples.ping-pong
+240/240 Test #240: examples.ping-pong ..........................   Passed    0.03 sec
+
+99% tests passed, 1 tests failed out of 240
+
+Total Test time (real) =  13.87 sec
+
+The following tests FAILED:
+	201 - caf.net.actor_shell (Subprocess aborted)
+Errors while running CTest

@@ -1,0 +1,32 @@
+============================= test session starts ==============================
+collected 0 items / 2 errors
+
+==================================== ERRORS ====================================
+________________ ERROR collecting tests/hats/io/test_skymap.py _________________
+ImportError while importing test module '/testbed/tests/hats/io/test_skymap.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/conda/envs/testbed/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/hats/io/test_skymap.py:9: in <module>
+    from hats.io.skymap import read_skymap, skymap_coverage, write_skymap
+E   ImportError: cannot import name 'skymap_coverage' from 'hats.io.skymap' (/testbed/src/hats/io/skymap.py)
+------------------------------- Captured stderr --------------------------------
+<jemalloc>: MADV_DONTNEED does not work (memset will be used instead)
+<jemalloc>: (This is the expected behaviour if you are running under QEMU)
+________________ ERROR collecting tests/hats/io/test_skymap.py _________________
+ImportError while importing test module '/testbed/tests/hats/io/test_skymap.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/conda/envs/testbed/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/hats/io/test_skymap.py:9: in <module>
+    from hats.io.skymap import read_skymap, skymap_coverage, write_skymap
+E   ImportError: cannot import name 'skymap_coverage' from 'hats.io.skymap' (/testbed/src/hats/io/skymap.py)
+=========================== short test summary info ============================
+ERROR tests/hats/io/test_skymap.py
+ERROR tests/hats/io/test_skymap.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!
+============================== 2 errors in 1.06s ===============================

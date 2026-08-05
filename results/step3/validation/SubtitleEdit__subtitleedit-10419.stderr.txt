@@ -1,0 +1,29 @@
+Microsoft.NET.TargetFrameworkInference.targets(54,5): error MSB4184: The expression "[MSBuild]::GetTargetFrameworkIdentifier(net10.0)" cannot be evaluated. Exception has been thrown by the target of an invocation. [/testbed/src/seconv/SeConv.csproj]
+/usr/share/dotnet/sdk/10.0.203/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.TargetFrameworkInference.targets(54,5): error MSB4184: The expression "[MSBuild]::GetTargetFrameworkIdentifier(net10.0)" cannot be evaluated. Exception has been thrown by the target of an invocation. [/testbed/tests/UI/UITests.csproj]
+/usr/share/dotnet/sdk/10.0.203/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.Publish.targets(30,5): error MSB4184: The expression "[MSBuild]::GetTargetFrameworkVersion(net6.0)" cannot be evaluated. Exception has been thrown by the target of an invocation. [/testbed/src/libse/LibSE.csproj]
+    0 Warning(s)
+    5 Error(s)
+
+Time Elapsed 00:00:05.69
+Build started 07/29/2026 16:58:02.
+Process terminated.
+UnhandledException
+   at System.Environment.FailFast(System.Runtime.CompilerServices.StackCrawlMarkHandle, System.String, System.Runtime.CompilerServices.ObjectHandleOnStack, System.String)
+   at System.Environment.FailFast(System.Threading.StackCrawlMark ByRef, System.String, System.Exception, System.String)
+   at System.Environment.FailFast(System.String)
+   at System.Runtime.EH.FallbackFailFast(System.Runtime.RhFailFastReason, System.Object)
+   at System.Runtime.EH.UnhandledExceptionFailFastViaClasslib(System.Runtime.RhFailFastReason, System.Object, IntPtr, ExInfo ByRef)
+   at System.Runtime.EH.DispatchEx(System.Runtime.StackFrameIterator ByRef, ExInfo ByRef)
+   at DynamicClass.InvokeStub_Version.CompareTo(System.Object, System.Span`1<System.Object>)
+bash: line 7:   257 Aborted                 (core dumped) dotnet test tests/libse/LibSETests.csproj --configuration Release --no-build --logger "trx;LogFileName=libse.trx" --results-directory TestResults --verbosity normal
+Build started 07/29/2026 16:58:05.
+Process terminated.
+UnhandledException
+   at System.Environment.FailFast(System.Runtime.CompilerServices.StackCrawlMarkHandle, System.String, System.Runtime.CompilerServices.ObjectHandleOnStack, System.String)
+   at System.Environment.FailFast(System.Threading.StackCrawlMark ByRef, System.String, System.Exception, System.String)
+   at System.Environment.FailFast(System.String)
+   at System.Runtime.EH.FallbackFailFast(System.Runtime.RhFailFastReason, System.Object)
+   at System.Runtime.EH.UnhandledExceptionFailFastViaClasslib(System.Runtime.RhFailFastReason, System.Object, IntPtr, ExInfo ByRef)
+   at System.Runtime.EH.DispatchEx(System.Runtime.StackFrameIterator ByRef, ExInfo ByRef)
+   at DynamicClass.InvokeStub_CompatibilityProvider.IsCompatible(System.Object, System.Span`1<System.Object>)
+bash: line 7:   282 Aborted                 (core dumped) dotnet test tests/UI/UITests.csproj --configuration Release --no-build --logger "trx;LogFileName=ui.trx" --results-directory TestResults --verbosity normal

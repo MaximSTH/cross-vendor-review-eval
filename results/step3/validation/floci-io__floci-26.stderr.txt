@@ -1,0 +1,35 @@
+INFO  [io.github.hectorvent.floci.services.ssm.SsmService] (main) Put parameter: /app/key in region us-east-1 (version 3)
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m12[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.096 s -- in io.github.hectorvent.floci.services.ssm.[1mSsmServiceTest[m
+2026-07-30 00:18:26,939 INFO  [io.github.hectorvent.floci.lifecycle.EmulatorLifecycle] (main) === AWS Local Emulator Shutting Down ===
+2026-07-30 00:18:26,947 INFO  [io.github.hectorvent.floci.services.elasticache.proxy.ElastiCacheProxyManager] (main) Stopped all ElastiCache proxies
+2026-07-30 00:18:26,951 INFO  [io.github.hectorvent.floci.services.rds.proxy.RdsProxyManager] (main) Stopped all RDS proxies
+2026-07-30 00:18:26,952 INFO  [io.github.hectorvent.floci.lifecycle.EmulatorLifecycle] (main) === AWS Local Emulator Stopped ===
+2026-07-30 00:18:26,972 INFO  [io.github.hectorvent.floci.services.lambda.SqsEventSourcePoller] (main) SqsEventSourcePoller shut down, all timers cancelled
+2026-07-30 00:18:26,973 INFO  [io.github.hectorvent.floci.services.lambda.WarmPool] (main) Draining 0 container(s) for function: sns-subscriber-fn
+2026-07-30 00:18:27,018 INFO  [io.quarkus] (main) floci stopped in 0.181s
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Results:
+[[1;34mINFO[m] 
+[[1;31mERROR[m] [1;31mErrors: [m
+[[1;31mERROR[m] [1;31m  ImageResolverTest.resolvesKnownRuntimes:33 » Aws The runtime parameter ruby3.3 is not supported.[m
+[[1;31mERROR[m] [1;31m  ImageResolverTest.resolvesKnownRuntimes:33 » Aws The runtime parameter ruby3.2 is not supported.[m
+[[1;34mINFO[m] 
+[[1;31mERROR[m] [1;31mTests run: 521, Failures: 0, Errors: 2, Skipped: 0[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  01:29 min
+[[1;34mINFO[m] Finished at: 2026-07-30T00:18:27Z
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] Failed to execute goal [32morg.apache.maven.plugins:maven-surefire-plugin:3.5.2:test[m [1m(default-test)[m on project [36mfloci[m: [1;31m[m
+[[1;31mERROR[m] [1;31m[m
+[[1;31mERROR[m] [1;31mSee /testbed/target/surefire-reports for the individual test results.[m
+[[1;31mERROR[m] [1;31mSee dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.[m
+[[1;31mERROR[m] -> [1m[Help 1][m
+[[1;31mERROR[m] 
+[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

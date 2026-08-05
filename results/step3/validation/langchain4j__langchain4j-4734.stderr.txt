@@ -1,0 +1,41 @@
+ :: SQL 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Guardrails 1.13.0-beta23-SNAPSHOT ... SKIPPED
+[INFO] LangChain4j :: Experimental :: SQL 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Skills 1.13.0-beta23-SNAPSHOT ....... SKIPPED
+[INFO] LangChain4j :: Experimental :: Skills :: Shell 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Agentic Framework 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Agentic Framework :: A2A Integration 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Agentic Framework :: MCP Integration 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Agentic Framework :: Agentic Patterns 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Observability :: Micrometer 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Integration :: Observation API 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Integration Tests 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Integration Tests :: Class Instance Loader 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Integration Tests :: Class Instance Loader :: Spring 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Integration Tests :: Class Instance Loader :: Quarkus 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Integration Tests :: Class Metadata Provider 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Integration Tests :: Class Metadata Provider :: Spring 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Integration Tests :: Guardrails 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Internal :: Documentation Chatbot Updater 1.13.0-beta23-SNAPSHOT SKIPPED
+[INFO] LangChain4j :: Aggregator 1.13.0-beta23-SNAPSHOT ... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  07:58 min
+[INFO] Finished at: 2026-07-29T22:43:28Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:testCompile (java-test-compile) on project langchain4j-mcp: Compilation failure
+[ERROR] /testbed/langchain4j-mcp/src/test/java/dev/langchain4j/mcp/client/transport/StreamableHttpMcpTransportTest.java:[46,17] cannot find symbol
+[ERROR]   symbol:   method followRedirects(boolean)
+[ERROR]   location: class dev.langchain4j.mcp.client.transport.http.StreamableHttpMcpTransport.Builder
+[ERROR] 
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :langchain4j-mcp

@@ -66,6 +66,36 @@ make room; an unrelated project's containers on the shared VM were untouched.
 **Status:** RUNNING (launched 2026-07-29, background; order python → go → cs
 → cpp → java → rust). Per-language usable-rate table lands here when complete.
 
+**Pass-2 interim table (completed 2026-07-30 01:47; reconciled 2026-08-05
+after a supervision gap — the runner finished cleanly; its completion
+notification was lost with the local harness process, work was NOT
+interrupted).** PASS/FAIL/INFEASIBLE are settled; ERROR rows are VOID
+(harness/rig artifacts, never label verdicts) and re-run in pass 3:
+
+| language | PASS | FAIL | INFEASIBLE | ERROR (void) | usable so far |
+|---|---:|---:|---:|---:|---:|
+| python | 6 | 2 | 2 (crash: keras/TF AVX) | 0 | **6/10 settled** |
+| go | 3 | 4 | 1 (time: kyverno) | 2 | ≥3/10, 2 pending |
+| cs | 0 | 9 | 1 (time: SubtitleEdit) | 0 | **0/10 settled** |
+| cpp | 2 | 3 | 2 (time) | 3 | ≥2/10, 3 pending |
+| java | 1 | 9 | 0 | 0 | **1/10 settled** |
+| rust | 0 | 1 | 1 (time: ruffle) | 8 | 8 pending |
+
+**Pass-3 rig finding (logged before re-run):** the three INFEASIBLE(time)
+rows' images (kyverno 13.3 GB, organicmaps 42.3 GB, ruffle 37.5 GB) survived
+the per-row `docker rmi` (timeout-kill race) and filled the 100 GiB VM disk —
+**all 8 rust ERRORs and the ClickHouse cpp ERROR are disk-exhaustion pull
+failures**, void. Fixed by removing the stuck images (~93 GB reclaimed; no
+sweb containers were running — D-058 orphan check clean). Also added: a
+narrow Go-runtime-fatal signature (`fatal error:` + `runtime/mgc.go`, only
+with zero parsed tests) classifies as platform_infeasible(crash) — the
+envoy-gateway go row is a Go GC-worker crash under emulation. Two rows are
+flagged for **human adjudication as candidate D-049 `eval_harness_failure`**
+(feed-side, not our harness): cpp DirectXShaderCompiler (its suite ran —
+4470 passes visible in the build log — but the record's canonical print/parse
+path yields nothing) and cpp esphome-15060 (pytest dies at collection on the
+repo's own module).
+
 **Harness fixes logged mid-screen (2026-07-29, first pass; incoherence
 discipline).** The first pass surfaced two rig/harness issues, fixed in
 `screen-runner.py` and pushed before the resume: **(1) PATH clobbering** —

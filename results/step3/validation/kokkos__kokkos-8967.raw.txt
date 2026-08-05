@@ -1,0 +1,3299 @@
+Internal ctest changing into directory: /testbed/build
+UpdateCTestConfiguration  from :/testbed/build/DartConfiguration.tcl
+Parse Config file:/testbed/build/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/testbed/build/DartConfiguration.tcl
+Parse Config file:/testbed/build/DartConfiguration.tcl
+Test project /testbed/build
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+      Start  1: Kokkos_CoreUnitTest_Serial_ViewSupport
+
+1: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_Serial_ViewSupport
+1: Test timeout computed to be: 1500
+1: [==========] Running 28 tests from 1 test suite.
+1: [----------] Global test environment set-up.
+1: [----------] 28 tests from serial
+1: [ RUN      ] serial.basic_view_default_ctor
+1: [       OK ] serial.basic_view_default_ctor (0 ms)
+1: [ RUN      ] serial.basic_view_extents_ctor
+1: [       OK ] serial.basic_view_extents_ctor (1 ms)
+1: [ RUN      ] serial.basic_view_mapping_ctor_right
+1: [       OK ] serial.basic_view_mapping_ctor_right (0 ms)
+1: [ RUN      ] serial.basic_view_access
+1: [       OK ] serial.basic_view_access (1 ms)
+1: [ RUN      ] serial.basic_view_view_ctor
+1: [       OK ] serial.basic_view_view_ctor (0 ms)
+1: [ RUN      ] serial.basic_view_atomic_accessor
+1: [       OK ] serial.basic_view_atomic_accessor (1 ms)
+1: [ RUN      ] serial.RefCountedAcc_Typedefs
+1: [       OK ] serial.RefCountedAcc_Typedefs (0 ms)
+1: [ RUN      ] serial.RefCountedAcc_Ctors
+1: [       OK ] serial.RefCountedAcc_Ctors (0 ms)
+1: [ RUN      ] serial.RefCountedAcc_ConversionToDefaultAcc
+1: [       OK ] serial.RefCountedAcc_ConversionToDefaultAcc (0 ms)
+1: [ RUN      ] serial.RefCountedAcc_Access
+1: [       OK ] serial.RefCountedAcc_Access (0 ms)
+1: [ RUN      ] serial.RefCountedAcc_Conversion
+1: [       OK ] serial.RefCountedAcc_Conversion (0 ms)
+1: [ RUN      ] serial.RefCountedDataHandle_Typedefs
+1: [       OK ] serial.RefCountedDataHandle_Typedefs (0 ms)
+1: [ RUN      ] serial.RefCountedDataHandle
+1: [       OK ] serial.RefCountedDataHandle (0 ms)
+1: [ RUN      ] serial.RefCountedDataHandleAnonym
+1: [       OK ] serial.RefCountedDataHandleAnonym (0 ms)
+1: [ RUN      ] serial.RefCountedDataHandleConversion
+1: [       OK ] serial.RefCountedDataHandleConversion (0 ms)
+1: [ RUN      ] serial.view_required_span_size
+1: [       OK ] serial.view_required_span_size (69 ms)
+1: [ RUN      ] serial.view_equality_operator
+1: [       OK ] serial.view_equality_operator (0 ms)
+1: [ RUN      ] serial.view_legacy_layout_member
+1: [       OK ] serial.view_legacy_layout_member (893 ms)
+1: [ RUN      ] serial.view_customization_accessor_arg
+1: [       OK ] serial.view_customization_accessor_arg (0 ms)
+1: [ RUN      ] serial.view_customization_allocation_type
+1: [       OK ] serial.view_customization_allocation_type (0 ms)
+1: [ RUN      ] serial.view_customization_mirror
+1: [       OK ] serial.view_customization_mirror (0 ms)
+1: [ RUN      ] serial.view_customization_deep_copy
+1: [       OK ] serial.view_customization_deep_copy (1 ms)
+1: [ RUN      ] serial.view_customization_deep_copy_single_element_view
+1: [       OK ] serial.view_customization_deep_copy_single_element_view (0 ms)
+1: [ RUN      ] serial.view_customization_required_span_size
+1: [       OK ] serial.view_customization_required_span_size (63 ms)
+1: [ RUN      ] serial.view_customization_accessor_from_mapping
+1: [       OK ] serial.view_customization_accessor_from_mapping (0 ms)
+1: [ RUN      ] serial.view_customization_extra_int_arg
+1: [       OK ] serial.view_customization_extra_int_arg (2 ms)
+1: [ RUN      ] serial.view_customization_scratch_memory
+1: [       OK ] serial.view_customization_scratch_memory (0 ms)
+1: [ RUN      ] serial.view_ctor_data_handle
+1: [       OK ] serial.view_ctor_data_handle (0 ms)
+1: [----------] 28 tests from serial (1042 ms total)
+1: 
+1: [----------] Global test environment tear-down
+1: [==========] 28 tests from 1 test suite ran. (1043 ms total)
+1: [  PASSED  ] 28 tests.
+ 1/42 Test  #1: Kokkos_CoreUnitTest_Serial_ViewSupport .....................   Passed    1.07 sec
+test 2
+      Start  2: Kokkos_CoreUnitTest_Serial1
+
+2: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_Serial1
+2: Test timeout computed to be: 1500
+2: [==========] Running 279 tests from 4 test suites.
+2: [----------] Global test environment set-up.
+2: [----------] 12 tests from serial_DeathTest
+2: [ RUN      ] serial_DeathTest.abort_from_host
+2: [       OK ] serial_DeathTest.abort_from_host (64 ms)
+2: [ RUN      ] serial_DeathTest.abort_from_device
+2: [       OK ] serial_DeathTest.abort_from_device (54 ms)
+2: [ RUN      ] serial_DeathTest.checked_integer_operations_multiply_overflow_abort
+2: [       OK ] serial_DeathTest.checked_integer_operations_multiply_overflow_abort (48 ms)
+2: [ RUN      ] serial_DeathTest.md_range_policy_bounds_unsafe_narrowing_conversions
+2: [       OK ] serial_DeathTest.md_range_policy_bounds_unsafe_narrowing_conversions (53 ms)
+2: [ RUN      ] serial_DeathTest.md_range_policy_invalid_bounds
+2: [       OK ] serial_DeathTest.md_range_policy_invalid_bounds (48 ms)
+2: [ RUN      ] serial_DeathTest.md_range_policy_tile_dims_exceed_launch_bounds
+2: /testbed/core/unit_test/TestMDRangePolicyConstructors.hpp:120: Skipped
+2: LaunchBounds verification only applies to CUDA and HIP backends
+2: [  SKIPPED ] serial_DeathTest.md_range_policy_tile_dims_exceed_launch_bounds (0 ms)
+2: [ RUN      ] serial_DeathTest.range_policy_invalid_bounds
+2: [       OK ] serial_DeathTest.range_policy_invalid_bounds (97 ms)
+2: [ RUN      ] serial_DeathTest.range_policy_round_trip_conversion_fires
+2: [       OK ] serial_DeathTest.range_policy_round_trip_conversion_fires (47 ms)
+2: [ RUN      ] serial_DeathTest.range_policy_check_sign_changes
+2: [       OK ] serial_DeathTest.range_policy_check_sign_changes (91 ms)
+2: [ RUN      ] serial_DeathTest.range_policy_implicitly_converted_bounds
+2: [       OK ] serial_DeathTest.range_policy_implicitly_converted_bounds (202 ms)
+2: [ RUN      ] serial_DeathTest.mdspan_space_aware_accessor_invalid_access_from_host
+2: /testbed/core/unit_test/TestSpaceAwareAccessorAccessViolation.hpp:86: Skipped
+2: skipping since no memory access violation would occur
+2: [  SKIPPED ] serial_DeathTest.mdspan_space_aware_accessor_invalid_access_from_host (0 ms)
+2: [ RUN      ] serial_DeathTest.mdspan_space_aware_accessor_invalid_access_from_device
+2: /testbed/core/unit_test/TestSpaceAwareAccessorAccessViolation.hpp:101: Skipped
+2: skipping since no memory access violation would occur
+2: [  SKIPPED ] serial_DeathTest.mdspan_space_aware_accessor_invalid_access_from_device (0 ms)
+2: [----------] 12 tests from serial_DeathTest (709 ms total)
+2: 
+2: [----------] 1 test from serial_graph_DeathTest
+2: [ RUN      ] serial_graph_DeathTest.can_instantiate_only_once
+2: /testbed/core/unit_test/TestGraph.hpp:177: Skipped
+2: Preconditions are not checked.
+2: [  SKIPPED ] serial_graph_DeathTest.can_instantiate_only_once (1 ms)
+2: [----------] 1 test from serial_graph_DeathTest (1 ms total)
+2: 
+2: [----------] 248 tests from serial
+2: [ RUN      ] serial.array_capacity
+2: [       OK ] serial.array_capacity (0 ms)
+2: [ RUN      ] serial.array_element_access
+2: [       OK ] serial.array_element_access (0 ms)
+2: [ RUN      ] serial.array_operator_equal
+2: [       OK ] serial.array_operator_equal (0 ms)
+2: [ RUN      ] serial.array_zero_capacity
+2: [       OK ] serial.array_zero_capacity (0 ms)
+2: [ RUN      ] serial.array_zero_data_nullptr
+2: [       OK ] serial.array_zero_data_nullptr (0 ms)
+2: [ RUN      ] serial.array_stl_compatibility
+2: [       OK ] serial.array_stl_compatibility (0 ms)
+2: [ RUN      ] serial.atomic_operations_complexdouble
+2: [       OK ] serial.atomic_operations_complexdouble (2 ms)
+2: [ RUN      ] serial.atomic_operations_complexfloat
+2: [       OK ] serial.atomic_operations_complexfloat (2 ms)
+2: [ RUN      ] serial.atomic_operations_double
+2: [       OK ] serial.atomic_operations_double (2 ms)
+2: [ RUN      ] serial.atomic_operations_float
+2: [       OK ] serial.atomic_operations_float (0 ms)
+2: [ RUN      ] serial.atomic_operations_int8
+2: [       OK ] serial.atomic_operations_int8 (3 ms)
+2: [ RUN      ] serial.atomic_operations_int16
+2: [       OK ] serial.atomic_operations_int16 (4 ms)
+2: [ RUN      ] serial.atomic_operations_int
+2: [       OK ] serial.atomic_operations_int (3 ms)
+2: [ RUN      ] serial.atomic_operations_long
+2: [       OK ] serial.atomic_operations_long (3 ms)
+2: [ RUN      ] serial.atomic_operations_longlong
+2: [       OK ] serial.atomic_operations_longlong (4 ms)
+2: [ RUN      ] serial.atomic_shared
+2: [       OK ] serial.atomic_shared (0 ms)
+2: [ RUN      ] serial.atomic_operations_unsigned
+2: [       OK ] serial.atomic_operations_unsigned (3 ms)
+2: [ RUN      ] serial.atomic_operations_unsignedlong
+2: [       OK ] serial.atomic_operations_unsignedlong (3 ms)
+2: [ RUN      ] serial.atomics
+2: [       OK ] serial.atomics (8 ms)
+2: [ RUN      ] serial.atomics_tpetra_max_abs
+2: [       OK ] serial.atomics_tpetra_max_abs (0 ms)
+2: [ RUN      ] serial.atomic_views_integral
+2: [       OK ] serial.atomic_views_integral (102 ms)
+2: [ RUN      ] serial.atomic_views_nonintegral
+2: [       OK ] serial.atomic_views_nonintegral (68 ms)
+2: [ RUN      ] serial.atomic_view_api
+2: [       OK ] serial.atomic_view_api (1 ms)
+2: [ RUN      ] serial.bit_manip_countl_zero
+2: [       OK ] serial.bit_manip_countl_zero (0 ms)
+2: [ RUN      ] serial.bit_manip_countl_one
+2: [       OK ] serial.bit_manip_countl_one (0 ms)
+2: [ RUN      ] serial.bit_manip_countr_zero
+2: [       OK ] serial.bit_manip_countr_zero (0 ms)
+2: [ RUN      ] serial.bit_manip_countr_one
+2: [       OK ] serial.bit_manip_countr_one (0 ms)
+2: [ RUN      ] serial.bit_manip_popcount
+2: [       OK ] serial.bit_manip_popcount (0 ms)
+2: [ RUN      ] serial.bit_manip_has_single_bit
+2: [       OK ] serial.bit_manip_has_single_bit (0 ms)
+2: [ RUN      ] serial.bit_manip_bit_floor
+2: [       OK ] serial.bit_manip_bit_floor (0 ms)
+2: [ RUN      ] serial.bit_manip_bit_ceil
+2: [       OK ] serial.bit_manip_bit_ceil (0 ms)
+2: [ RUN      ] serial.bit_manip_bit_width
+2: [       OK ] serial.bit_manip_bit_width (0 ms)
+2: [ RUN      ] serial.bit_manip_rotl
+2: [       OK ] serial.bit_manip_rotl (0 ms)
+2: [ RUN      ] serial.bit_manip_rotr
+2: [       OK ] serial.bit_manip_rotr (0 ms)
+2: [ RUN      ] serial.bit_manip_byeswap
+2: [       OK ] serial.bit_manip_byeswap (0 ms)
+2: [ RUN      ] serial.bit_manip_bit_cast
+2: [       OK ] serial.bit_manip_bit_cast (0 ms)
+2: [ RUN      ] serial.test_block_deduction_bug_pr_3103
+2: [       OK ] serial.test_block_deduction_bug_pr_3103 (0 ms)
+2: [ RUN      ] serial.checked_integer_operations_multiply_overflow
+2: [       OK ] serial.checked_integer_operations_multiply_overflow (0 ms)
+2: [ RUN      ] serial.execution_policy_occupancy_and_hint
+2: [       OK ] serial.execution_policy_occupancy_and_hint (0 ms)
+2: [ RUN      ] serial.complex_construction
+2: [       OK ] serial.complex_construction (0 ms)
+2: [ RUN      ] serial.complex_basic_math
+2: [       OK ] serial.complex_basic_math (0 ms)
+2: [ RUN      ] serial.complex_special_funtions
+2: [       OK ] serial.complex_special_funtions (0 ms)
+2: [ RUN      ] serial.complex_io
+2: [       OK ] serial.complex_io (1 ms)
+2: [ RUN      ] serial.complex_issue_3865
+2: [       OK ] serial.complex_issue_3865 (0 ms)
+2: [ RUN      ] serial.complex_operations_arithmetic_types_overloads
+2: [       OK ] serial.complex_operations_arithmetic_types_overloads (0 ms)
+2: [ RUN      ] serial.complex_structured_bindings
+2: [       OK ] serial.complex_structured_bindings (0 ms)
+2: [ RUN      ] serial.crs_count_fill
+2: [       OK ] serial.crs_count_fill (2 ms)
+2: [ RUN      ] serial.crs_copy_constructor
+2: [       OK ] serial.crs_copy_constructor (6 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_0
+2: [       OK ] serial.deep_copy_assignable_types_rank_0 (1 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_1
+2: [       OK ] serial.deep_copy_assignable_types_rank_1 (0 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_2
+2: [       OK ] serial.deep_copy_assignable_types_rank_2 (0 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_3
+2: [       OK ] serial.deep_copy_assignable_types_rank_3 (1 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_4
+2: [       OK ] serial.deep_copy_assignable_types_rank_4 (1 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_5
+2: [       OK ] serial.deep_copy_assignable_types_rank_5 (1 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_6
+2: [       OK ] serial.deep_copy_assignable_types_rank_6 (1 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_7
+2: [       OK ] serial.deep_copy_assignable_types_rank_7 (1 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_8
+2: [       OK ] serial.deep_copy_assignable_types_rank_8 (1 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_1_half
+2: [       OK ] serial.deep_copy_assignable_types_rank_1_half (0 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_2_half
+2: [       OK ] serial.deep_copy_assignable_types_rank_2_half (0 ms)
+2: [ RUN      ] serial.deep_copy_assignable_types_rank_3_half
+2: [       OK ] serial.deep_copy_assignable_types_rank_3_half (0 ms)
+2: [ RUN      ] serial.deep_copy_narrowing_rank_0
+2: [       OK ] serial.deep_copy_narrowing_rank_0 (1 ms)
+2: [ RUN      ] serial.deep_copy_narrowing_rank_1
+2: [       OK ] serial.deep_copy_narrowing_rank_1 (1 ms)
+2: [ RUN      ] serial.deep_copy_narrowing_rank_2
+2: [       OK ] serial.deep_copy_narrowing_rank_2 (1 ms)
+2: [ RUN      ] serial.deep_copy_narrowing_rank_3
+2: [       OK ] serial.deep_copy_narrowing_rank_3 (1 ms)
+2: [ RUN      ] serial.deep_copy_narrowing_rank_4
+2: [       OK ] serial.deep_copy_narrowing_rank_4 (1 ms)
+2: [ RUN      ] serial.deep_copy_narrowing_rank_5
+2: [       OK ] serial.deep_copy_narrowing_rank_5 (1 ms)
+2: [ RUN      ] serial.deep_copy_narrowing_rank_6
+2: [       OK ] serial.deep_copy_narrowing_rank_6 (1 ms)
+2: [ RUN      ] serial.deep_copy_narrowing_rank_7
+2: [       OK ] serial.deep_copy_narrowing_rank_7 (1 ms)
+2: [ RUN      ] serial.deep_copy_narrowing_rank_8
+2: [       OK ] serial.deep_copy_narrowing_rank_8 (1 ms)
+2: [ RUN      ] serial.deep_copy_alignment
+2: [       OK ] serial.deep_copy_alignment (7 ms)
+2: [ RUN      ] serial.deep_copy_conversion
+2: [       OK ] serial.deep_copy_conversion (170 ms)
+2: [ RUN      ] serial.partitioning_by_args
+2: [       OK ] serial.partitioning_by_args (7 ms)
+2: [ RUN      ] serial.partitioning_by_args_with_structured_bindings
+2: [       OK ] serial.partitioning_by_args_with_structured_bindings (1 ms)
+2: [ RUN      ] serial.partitioning_by_vector
+2: [       OK ] serial.partitioning_by_vector (0 ms)
+2: [ RUN      ] serial.exec_space_thread_safety_range
+2: [       OK ] serial.exec_space_thread_safety_range (1029 ms)
+2: [ RUN      ] serial.exec_space_thread_safety_mdrange
+2: [       OK ] serial.exec_space_thread_safety_mdrange (104 ms)
+2: [ RUN      ] serial.exec_space_thread_safety_team_policy
+2: [       OK ] serial.exec_space_thread_safety_team_policy (82 ms)
+2: [ RUN      ] serial.exec_space_thread_safety_range_reduce
+2: [       OK ] serial.exec_space_thread_safety_range_reduce (104 ms)
+2: [ RUN      ] serial.exec_space_thread_safety_mdrange_reduce
+2: [       OK ] serial.exec_space_thread_safety_mdrange_reduce (104 ms)
+2: [ RUN      ] serial.exec_space_thread_safety_team_policy_reduce
+2: [       OK ] serial.exec_space_thread_safety_team_policy_reduce (83 ms)
+2: [ RUN      ] serial.exec_space_thread_safety_range_scan
+2: [       OK ] serial.exec_space_thread_safety_range_scan (104 ms)
+2: [ RUN      ] serial.execution_space_as_class_data_member
+2: [       OK ] serial.execution_space_as_class_data_member (0 ms)
+2: [ RUN      ] serial.execution_space_moved_from
+2: [       OK ] serial.execution_space_moved_from (0 ms)
+2: [ RUN      ] serial.execution_space_fence_on_destruction
+2: [       OK ] serial.execution_space_fence_on_destruction (0 ms)
+2: [ RUN      ] serial.functor_analysis
+2: [       OK ] serial.functor_analysis (0 ms)
+2: [ RUN      ] serial.when_all_type
+2: [       OK ] serial.when_all_type (1 ms)
+2: [ RUN      ] serial.graph_capture
+2: /testbed/core/unit_test/TestGraph.hpp:1117: Skipped
+2: The graph backend for Serial does not support capture.
+2: [  SKIPPED ] serial.graph_capture (0 ms)
+2: [ RUN      ] serial.graph_then
+2: [       OK ] serial.graph_then (1 ms)
+2: [ RUN      ] serial.then_host
+2: [       OK ] serial.then_host (0 ms)
+2: [ RUN      ] serial.mixed_then_host_device_nodes
+2: [       OK ] serial.mixed_then_host_device_nodes (0 ms)
+2: [ RUN      ] serial.execution_policy_with_default_execution_space_instance
+2: 
+2: [WARNING] /testbed/tpls/gtest/gtest/gtest-all.cc:9326:: Death tests use fork(), which is unsafe particularly in a threaded context. For this test, Google Test couldn't detect the number of threads. See https://github.com/google/googletest/blob/master/docs/advanced.md#death-tests-and-threads for more explanation and suggested solutions, especially if this is the last message you see before your test times out.
+2: [       OK ] serial.execution_policy_with_default_execution_space_instance (47 ms)
+2: [ RUN      ] serial.graph_then_tag
+2: [       OK ] serial.graph_then_tag (1 ms)
+2: [ RUN      ] serial.node_props_empty
+2: [       OK ] serial.node_props_empty (0 ms)
+2: [ RUN      ] serial.node_props_label
+2: [       OK ] serial.node_props_label (0 ms)
+2: [ RUN      ] serial.node_props_device_handle
+2: [       OK ] serial.node_props_device_handle (0 ms)
+2: [ RUN      ] serial.node_props_device_handle_label
+2: [       OK ] serial.node_props_device_handle_label (0 ms)
+2: [ RUN      ] serial.node_props_label_device_handle
+2: [       OK ] serial.node_props_label_device_handle (0 ms)
+2: [ RUN      ] serial.node_props_with_properties_if_unset
+2: [       OK ] serial.node_props_with_properties_if_unset (0 ms)
+2: [ RUN      ] serial.node_props_get_property
+2: [       OK ] serial.node_props_get_property (0 ms)
+2: [ RUN      ] serial.host_shared_ptr_use_count
+2: [       OK ] serial.host_shared_ptr_use_count (0 ms)
+2: [ RUN      ] serial.host_shared_ptr_get
+2: [       OK ] serial.host_shared_ptr_get (0 ms)
+2: [ RUN      ] serial.host_shared_ptr_dereference_on_device
+2: [       OK ] serial.host_shared_ptr_dereference_on_device (0 ms)
+2: [ RUN      ] serial.host_shared_ptr_special_members_on_device
+2: [       OK ] serial.host_shared_ptr_special_members_on_device (0 ms)
+2: [ RUN      ] serial.host_shared_ptr_tracking
+2: [       OK ] serial.host_shared_ptr_tracking (0 ms)
+2: [ RUN      ] serial.join_backward_compatibility
+2: [       OK ] serial.join_backward_compatibility (0 ms)
+2: [ RUN      ] serial.local_deepcopy_teampolicy_layoutleft
+2: [       OK ] serial.local_deepcopy_teampolicy_layoutleft (80 ms)
+2: [ RUN      ] serial.local_deepcopy_rangepolicy_layoutleft
+2: [       OK ] serial.local_deepcopy_rangepolicy_layoutleft (63 ms)
+2: [ RUN      ] serial.local_deepcopy_teampolicy_layoutright
+2: [       OK ] serial.local_deepcopy_teampolicy_layoutright (62 ms)
+2: [ RUN      ] serial.local_deepcopy_rangepolicy_layoutright
+2: [       OK ] serial.local_deepcopy_rangepolicy_layoutright (63 ms)
+2: [ RUN      ] serial.deep_copy_scratch
+2: [       OK ] serial.deep_copy_scratch (0 ms)
+2: [ RUN      ] serial.mathematical_constants_e
+2: [       OK ] serial.mathematical_constants_e (0 ms)
+2: [ RUN      ] serial.mathematical_constants_log2e
+2: [       OK ] serial.mathematical_constants_log2e (0 ms)
+2: [ RUN      ] serial.mathematical_constants_log10e
+2: [       OK ] serial.mathematical_constants_log10e (0 ms)
+2: [ RUN      ] serial.mathematical_constants_pi
+2: [       OK ] serial.mathematical_constants_pi (0 ms)
+2: [ RUN      ] serial.mathematical_constants_inv_pi
+2: [       OK ] serial.mathematical_constants_inv_pi (0 ms)
+2: [ RUN      ] serial.mathematical_constants_inv_sqrtpi
+2: [       OK ] serial.mathematical_constants_inv_sqrtpi (0 ms)
+2: [ RUN      ] serial.mathematical_constants_ln2
+2: [       OK ] serial.mathematical_constants_ln2 (0 ms)
+2: [ RUN      ] serial.mathematical_constants_ln10
+2: [       OK ] serial.mathematical_constants_ln10 (0 ms)
+2: [ RUN      ] serial.mathematical_constants_sqrt2
+2: [       OK ] serial.mathematical_constants_sqrt2 (0 ms)
+2: [ RUN      ] serial.mathematical_constants_sqrt3
+2: [       OK ] serial.mathematical_constants_sqrt3 (0 ms)
+2: [ RUN      ] serial.mathematical_constants_inv_sqrt3
+2: [       OK ] serial.mathematical_constants_inv_sqrt3 (0 ms)
+2: [ RUN      ] serial.mathematical_constants_egamma
+2: [       OK ] serial.mathematical_constants_egamma (0 ms)
+2: [ RUN      ] serial.mathematical_constants_phi
+2: [       OK ] serial.mathematical_constants_phi (0 ms)
+2: [ RUN      ] serial.mathematical_functions_trigonometric_functions
+2: [       OK ] serial.mathematical_functions_trigonometric_functions (9 ms)
+2: [ RUN      ] serial.mathematical_functions_hyperbolic_functions
+2: [       OK ] serial.mathematical_functions_hyperbolic_functions (7 ms)
+2: [ RUN      ] serial.mathematical_functions_non_standard
+2: [       OK ] serial.mathematical_functions_non_standard (2 ms)
+2: [ RUN      ] serial.mathematical_functions_power_functions
+2: [       OK ] serial.mathematical_functions_power_functions (5 ms)
+2: [ RUN      ] serial.mathematical_functions_modf
+2: [       OK ] serial.mathematical_functions_modf (0 ms)
+2: [ RUN      ] serial.mathematical_functions_frexp
+2: [       OK ] serial.mathematical_functions_frexp (0 ms)
+2: [ RUN      ] serial.mathematical_functions_fma
+2: [       OK ] serial.mathematical_functions_fma (0 ms)
+2: [ RUN      ] serial.mathematical_functions_remquo
+2: [       OK ] serial.mathematical_functions_remquo (0 ms)
+2: [ RUN      ] serial.mathematical_functions_fmax_fmin
+2: [       OK ] serial.mathematical_functions_fmax_fmin (0 ms)
+2: [ RUN      ] serial.mathematical_functions_error_and_gamma_functions
+2: [       OK ] serial.mathematical_functions_error_and_gamma_functions (6 ms)
+2: [ RUN      ] serial.mathematical_functions_nearest_interger_floating_point_operations
+2: [       OK ] serial.mathematical_functions_nearest_interger_floating_point_operations (10 ms)
+2: [ RUN      ] serial.mathematical_functions_floating_point_manipulation_functions
+2: [       OK ] serial.mathematical_functions_floating_point_manipulation_functions (3 ms)
+2: [ RUN      ] serial.mathematical_functions_absolute_value
+2: [       OK ] serial.mathematical_functions_absolute_value (0 ms)
+2: [ RUN      ] serial.mathematical_functions_floating_point_absolute_value
+2: [       OK ] serial.mathematical_functions_floating_point_absolute_value (0 ms)
+2: [ RUN      ] serial.mathematical_functions_remainder_function
+2: [       OK ] serial.mathematical_functions_remainder_function (0 ms)
+2: [ RUN      ] serial.mathematical_functions_ieee_remainder_function
+2: [       OK ] serial.mathematical_functions_ieee_remainder_function (0 ms)
+2: [ RUN      ] serial.mathematical_functions_isfinite
+2: [       OK ] serial.mathematical_functions_isfinite (0 ms)
+2: [ RUN      ] serial.mathematical_functions_isinf
+2: [       OK ] serial.mathematical_functions_isinf (0 ms)
+2: [ RUN      ] serial.mathematical_functions_fpclassify
+2: [       OK ] serial.mathematical_functions_fpclassify (0 ms)
+2: [ RUN      ] serial.mathematical_functions_isnan
+2: [       OK ] serial.mathematical_functions_isnan (0 ms)
+2: [ RUN      ] serial.mathematical_functions_isnormal
+2: [       OK ] serial.mathematical_functions_isnormal (0 ms)
+2: [ RUN      ] serial.mathematical_functions_signbit
+2: [       OK ] serial.mathematical_functions_signbit (0 ms)
+2: [ RUN      ] serial.mathematical_functions_binary_predicates
+2: [       OK ] serial.mathematical_functions_binary_predicates (1 ms)
+2: [ RUN      ] serial.mathematical_functions_impl_half_fallback
+2: [       OK ] serial.mathematical_functions_impl_half_fallback (0 ms)
+2: [ RUN      ] serial.mathematical_functions_nextafter_fp16
+2: /testbed/core/unit_test/TestMathematicalFunctions.hpp:3092: Skipped
+2: no 16-bit floating-point precision support
+2: [  SKIPPED ] serial.mathematical_functions_nextafter_fp16 (0 ms)
+2: [ RUN      ] serial.mathematical_functions_nexttoward
+2: [       OK ] serial.mathematical_functions_nexttoward (1 ms)
+2: [ RUN      ] serial.mathematical_functions_exponential_functions
+2: [       OK ] serial.mathematical_functions_exponential_functions (8 ms)
+2: [ RUN      ] serial.mathspecialfunc_expint1
+2: [       OK ] serial.mathspecialfunc_expint1 (0 ms)
+2: [ RUN      ] serial.mathspecialfunc_errorfunc
+2: [       OK ] serial.mathspecialfunc_errorfunc (3 ms)
+2: [ RUN      ] serial.mathspecialfunc_cbesselj0y0
+2: [       OK ] serial.mathspecialfunc_cbesselj0y0 (22 ms)
+2: [ RUN      ] serial.mathspecialfunc_cbesselj1y1
+2: [       OK ] serial.mathspecialfunc_cbesselj1y1 (22 ms)
+2: [ RUN      ] serial.mathspecialfunc_cbesseli0k0
+2: [       OK ] serial.mathspecialfunc_cbesseli0k0 (1 ms)
+2: [ RUN      ] serial.mathspecialfunc_cbesseli1k1
+2: [       OK ] serial.mathspecialfunc_cbesseli1k1 (1 ms)
+2: [ RUN      ] serial.mathspecialfunc_cbesselh1stkind
+2: [       OK ] serial.mathspecialfunc_cbesselh1stkind (1 ms)
+2: [ RUN      ] serial.mathspecialfunc_cbesselh2ndkind
+2: [       OK ] serial.mathspecialfunc_cbesselh2ndkind (1 ms)
+2: [ RUN      ] serial.mdrange_5d
+2: [       OK ] serial.mdrange_5d (191 ms)
+2: [ RUN      ] serial.mdrange_6d
+2: [       OK ] serial.mdrange_6d (528 ms)
+2: [ RUN      ] serial.mdrange_2d
+2: [       OK ] serial.mdrange_2d (10 ms)
+2: [ RUN      ] serial.mdrange_array_reduce
+2: [       OK ] serial.mdrange_array_reduce (1 ms)
+2: [ RUN      ] serial.mdrange_3d
+2: [       OK ] serial.mdrange_3d (49 ms)
+2: [ RUN      ] serial.mdrange_neg_idx
+2: [       OK ] serial.mdrange_neg_idx (432 ms)
+2: [ RUN      ] serial.mdrange_4d
+2: [       OK ] serial.mdrange_4d (65 ms)
+2: [ RUN      ] serial.mdrange_scalar
+2: [       OK ] serial.mdrange_scalar (0 ms)
+2: [ RUN      ] serial.mdrange_large_deep_copy
+2: [       OK ] serial.mdrange_large_deep_copy (6672 ms)
+2: [ RUN      ] serial.md_range_policy_construction_from_arrays
+2: [       OK ] serial.md_range_policy_construction_from_arrays (0 ms)
+2: [ RUN      ] serial.md_range_policy_get_tile_size
+2: [       OK ] serial.md_range_policy_get_tile_size (1 ms)
+2: [ RUN      ] serial.md_range_policy_default_tiles_respect_launch_bounds
+2: /testbed/core/unit_test/TestMDRangePolicyConstructors.hpp:254: Skipped
+2: LaunchBounds verification only applies to CUDA and HIP backends
+2: [  SKIPPED ] serial.md_range_policy_default_tiles_respect_launch_bounds (0 ms)
+2: [ RUN      ] serial.md_range_policy_default_space
+2: [       OK ] serial.md_range_policy_default_space (0 ms)
+2: [ RUN      ] serial.md_range_policy_impl_set_space
+2: [       OK ] serial.md_range_policy_impl_set_space (0 ms)
+2: [ RUN      ] serial.mdrange_parallel_reduce_primitive_types
+2: [       OK ] serial.mdrange_parallel_reduce_primitive_types (7762 ms)
+2: [ RUN      ] serial.mdspan_minimal_functional
+2: [       OK ] serial.mdspan_minimal_functional (0 ms)
+2: [ RUN      ] serial.mdspan_atomic_accessor
+2: [       OK ] serial.mdspan_atomic_accessor (0 ms)
+2: [ RUN      ] serial.view_mdspan_conversion
+2: [       OK ] serial.view_mdspan_conversion (12 ms)
+2: [ RUN      ] serial.view_mdspan_conversion_with_stride
+2: [       OK ] serial.view_mdspan_conversion_with_stride (0 ms)
+2: [ RUN      ] serial.max
+2: [       OK ] serial.max (0 ms)
+2: [ RUN      ] serial.max_within_parfor
+2: [       OK ] serial.max_within_parfor (0 ms)
+2: [ RUN      ] serial.min
+2: [       OK ] serial.min (0 ms)
+2: [ RUN      ] serial.min_within_parfor
+2: [       OK ] serial.min_within_parfor (0 ms)
+2: [ RUN      ] serial.minmax
+2: [       OK ] serial.minmax (0 ms)
+2: [ RUN      ] serial.minmax_within_parfor
+2: [       OK ] serial.minmax_within_parfor (0 ms)
+2: [ RUN      ] serial.clamp
+2: [       OK ] serial.clamp (0 ms)
+2: [ RUN      ] serial.clamp_within_parfor
+2: [       OK ] serial.clamp_within_parfor (0 ms)
+2: [ RUN      ] serial.numeric_traits_infinity
+2: [       OK ] serial.numeric_traits_infinity (0 ms)
+2: [ RUN      ] serial.numeric_traits_epsilon
+2: [       OK ] serial.numeric_traits_epsilon (0 ms)
+2: [ RUN      ] serial.numeric_traits_round_error
+2: [       OK ] serial.numeric_traits_round_error (0 ms)
+2: [ RUN      ] serial.numeric_traits_norm_min
+2: [       OK ] serial.numeric_traits_norm_min (0 ms)
+2: [ RUN      ] serial.numeric_traits_denorm_min
+2: [       OK ] serial.numeric_traits_denorm_min (0 ms)
+2: [ RUN      ] serial.numeric_traits_finite_min_max
+2: [       OK ] serial.numeric_traits_finite_min_max (4 ms)
+2: [ RUN      ] serial.numeric_traits_digits
+2: [       OK ] serial.numeric_traits_digits (1 ms)
+2: [ RUN      ] serial.numeric_traits_digits10
+2: [       OK ] serial.numeric_traits_digits10 (1 ms)
+2: [ RUN      ] serial.numeric_traits_max_digits10
+2: [       OK ] serial.numeric_traits_max_digits10 (0 ms)
+2: [ RUN      ] serial.numeric_traits_radix
+2: [       OK ] serial.numeric_traits_radix (1 ms)
+2: [ RUN      ] serial.numeric_traits_min_max_exponent
+2: [       OK ] serial.numeric_traits_min_max_exponent (0 ms)
+2: [ RUN      ] serial.numeric_traits_min_max_exponent10
+2: [       OK ] serial.numeric_traits_min_max_exponent10 (0 ms)
+2: [ RUN      ] serial.numeric_traits_quiet_and_signaling_nan
+2: [       OK ] serial.numeric_traits_quiet_and_signaling_nan (0 ms)
+2: [ RUN      ] serial.numeric_traits_sfinae_friendly
+2: [       OK ] serial.numeric_traits_sfinae_friendly (0 ms)
+2: [ RUN      ] serial.occupancy_control
+2: [       OK ] serial.occupancy_control (0 ms)
+2: [ RUN      ] serial.memory_pool
+2: [       OK ] serial.memory_pool (53 ms)
+2: [ RUN      ] serial.cxx11
+2: [       OK ] serial.cxx11 (2 ms)
+2: [ RUN      ] serial.parallel_scan_range_policy
+2: [       OK ] serial.parallel_scan_range_policy (46 ms)
+2: [ RUN      ] serial.customscalar_parallel_scan
+2: [       OK ] serial.customscalar_parallel_scan (291 ms)
+2: [ RUN      ] serial.kokkos_printf
+2: [       OK ] serial.kokkos_printf (0 ms)
+2: [ RUN      ] serial.range_for
+2: [       OK ] serial.range_for (2 ms)
+2: [ RUN      ] serial.range_reduce
+2: [       OK ] serial.range_reduce (1 ms)
+2: [ RUN      ] serial.range_dynamic_policy
+2: [       OK ] serial.range_dynamic_policy (48 ms)
+2: [ RUN      ] serial.large_parallel_for_reduce
+2: /testbed/core/unit_test/TestRange.hpp:410: Skipped
+2: Disabling for host backends
+2: [  SKIPPED ] serial.large_parallel_for_reduce (0 ms)
+2: [ RUN      ] serial.check_batch_size
+2: [       OK ] serial.check_batch_size (0 ms)
+2: [ RUN      ] serial.range_static_batch_size
+2: [       OK ] serial.range_static_batch_size (1 ms)
+2: [ RUN      ] serial.range_policy_runtime_parameters
+2: [       OK ] serial.range_policy_runtime_parameters (0 ms)
+2: [ RUN      ] serial.range_policy_one_way_convertible_bounds
+2: [       OK ] serial.range_policy_one_way_convertible_bounds (0 ms)
+2: [ RUN      ] serial.range_policy_default_space
+2: [       OK ] serial.range_policy_default_space (0 ms)
+2: [ RUN      ] serial.range_policy_impl_set_space
+2: [       OK ] serial.range_policy_impl_set_space (0 ms)
+2: [ RUN      ] serial.range_for_require
+2: [       OK ] serial.range_for_require (1 ms)
+2: [ RUN      ] serial.range_reduce_require
+2: [       OK ] serial.range_reduce_require (0 ms)
+2: [ RUN      ] serial.range_dynamic_policy_require
+2: [       OK ] serial.range_dynamic_policy_require (47 ms)
+2: [ RUN      ] serial.reducers_int
+2: [       OK ] serial.reducers_int (18 ms)
+2: [ RUN      ] serial.reducers_unsigned_int
+2: [       OK ] serial.reducers_unsigned_int (16 ms)
+2: [ RUN      ] serial.reducers_size_t
+2: [       OK ] serial.reducers_size_t (17 ms)
+2: [ RUN      ] serial.reducers_double
+2: [       OK ] serial.reducers_double (17 ms)
+2: [ RUN      ] serial.reducers_complex_double
+2: [       OK ] serial.reducers_complex_double (2 ms)
+2: [ RUN      ] serial.reducers_struct
+2: [       OK ] serial.reducers_struct (6 ms)
+2: [ RUN      ] serial.reducers_half_t
+2: [       OK ] serial.reducers_half_t (2 ms)
+2: [ RUN      ] serial.reducers_bhalf_t
+2: [       OK ] serial.reducers_bhalf_t (0 ms)
+2: [ RUN      ] serial.reducers_int8_t
+2: [       OK ] serial.reducers_int8_t (1 ms)
+2: [ RUN      ] serial.reducers_int16_t
+2: [       OK ] serial.reducers_int16_t (1 ms)
+2: [ RUN      ] serial.reducers_point_t
+2: [       OK ] serial.reducers_point_t (1 ms)
+2: [ RUN      ] serial.reducers_bool
+2: [       OK ] serial.reducers_bool (1 ms)
+2: [ RUN      ] serial.int64_t_reduce
+2: [       OK ] serial.int64_t_reduce (482 ms)
+2: [ RUN      ] serial.double_reduce
+2: [       OK ] serial.double_reduce (1619 ms)
+2: [ RUN      ] serial.int64_t_reduce_dynamic
+2: [       OK ] serial.int64_t_reduce_dynamic (4691 ms)
+2: [ RUN      ] serial.double_reduce_dynamic
+2: [       OK ] serial.double_reduce_dynamic (5796 ms)
+2: [ RUN      ] serial.int64_t_reduce_dynamic_view
+2: [       OK ] serial.int64_t_reduce_dynamic_view (1214 ms)
+2: [ RUN      ] serial.int_combined_reduce
+2: [       OK ] serial.int_combined_reduce (0 ms)
+2: [ RUN      ] serial.mdrange_combined_reduce
+2: [       OK ] serial.mdrange_combined_reduce (0 ms)
+2: [ RUN      ] serial.int_combined_reduce_mixed
+2: [       OK ] serial.int_combined_reduce_mixed (0 ms)
+2: [ RUN      ] serial.reduction_with_large_iteration_count
+2: /testbed/core/unit_test/TestReduce.hpp:647: Skipped
+2: Disabling for host backends
+2: [  SKIPPED ] serial.reduction_with_large_iteration_count (0 ms)
+2: [ RUN      ] serial.reduction_identity_min_max_floating_point_types
+2: [       OK ] serial.reduction_identity_min_max_floating_point_types (2 ms)
+2: [ RUN      ] serial.reduction_identity_bitwise_and_or_integral_types
+2: [       OK ] serial.reduction_identity_bitwise_and_or_integral_types (0 ms)
+2: [ RUN      ] serial.reduction_deduction
+2: [       OK ] serial.reduction_deduction (0 ms)
+2: [ RUN      ] serial.reduce_device_view_range_policy
+2: [       OK ] serial.reduce_device_view_range_policy (9 ms)
+2: [ RUN      ] serial.reduce_device_view_mdrange_policy
+2: [       OK ] serial.reduce_device_view_mdrange_policy (20743 ms)
+2: [ RUN      ] serial.reduce_device_view_team_policy
+2: [       OK ] serial.reduce_device_view_team_policy (6201 ms)
+2: [ RUN      ] serial.impl_shared_alloc
+2: [       OK ] serial.impl_shared_alloc (15 ms)
+2: [ RUN      ] serial.mdspan_space_aware_accessor
+2: [       OK ] serial.mdspan_space_aware_accessor (1 ms)
+2: [ RUN      ] serial.kokkos_swap
+2: [       OK ] serial.kokkos_swap (0 ms)
+2: [----------] 248 tests from serial (59638 ms total)
+2: 
+2: [----------] 18 tests from serial_graph
+2: [ RUN      ] serial_graph.submit_once
+2: [       OK ] serial_graph.submit_once (0 ms)
+2: [ RUN      ] serial_graph.submit_once_rvalue
+2: [       OK ] serial_graph.submit_once_rvalue (0 ms)
+2: [ RUN      ] serial_graph.instantiate_and_submit_once
+2: [       OK ] serial_graph.instantiate_and_submit_once (0 ms)
+2: [ RUN      ] serial_graph.submit_onto_another_execution_space_instance
+2: [       OK ] serial_graph.submit_onto_another_execution_space_instance (0 ms)
+2: [ RUN      ] serial_graph.create_graph_no_closure_with_device_handle
+2: [       OK ] serial_graph.create_graph_no_closure_with_device_handle (0 ms)
+2: [ RUN      ] serial_graph.create_graph_no_arg
+2: [       OK ] serial_graph.create_graph_no_arg (0 ms)
+2: [ RUN      ] serial_graph.submit_six
+2: [       OK ] serial_graph.submit_six (1 ms)
+2: [ RUN      ] serial_graph.when_all_cycle
+2: [       OK ] serial_graph.when_all_cycle (1 ms)
+2: [ RUN      ] serial_graph.repeat_chain
+2: [       OK ] serial_graph.repeat_chain (0 ms)
+2: [ RUN      ] serial_graph.zero_work_reduce
+2: [       OK ] serial_graph.zero_work_reduce (1 ms)
+2: [ RUN      ] serial_graph.empty_graph
+2: [       OK ] serial_graph.empty_graph (0 ms)
+2: [ RUN      ] serial_graph.force_global_launch
+2: /testbed/core/unit_test/TestGraph.hpp:444: Skipped
+2: This execution space does not support global launch.
+2: [  SKIPPED ] serial_graph.force_global_launch (0 ms)
+2: [ RUN      ] serial_graph.sized_functor_launch
+2: [       OK ] serial_graph.sized_functor_launch (2 ms)
+2: [ RUN      ] serial_graph.empty_graph_default_host_device_handle
+2: [       OK ] serial_graph.empty_graph_default_host_device_handle (0 ms)
+2: [ RUN      ] serial_graph.node_lifetime
+2: [       OK ] serial_graph.node_lifetime (0 ms)
+2: [ RUN      ] serial_graph.diamond
+2: [       OK ] serial_graph.diamond (1 ms)
+2: [ RUN      ] serial_graph.end_of_submit_control_flow
+2: [       OK ] serial_graph.end_of_submit_control_flow (1 ms)
+2: [ RUN      ] serial_graph.aggregate_is_awaitable
+2: [       OK ] serial_graph.aggregate_is_awaitable (1 ms)
+2: [----------] 18 tests from serial_graph (14 ms total)
+2: 
+2: [----------] Global test environment tear-down
+2: [==========] 279 tests from 4 test suites ran. (60366 ms total)
+2: [  PASSED  ] 269 tests.
+2: [  SKIPPED ] 10 tests, listed below:
+2: [  SKIPPED ] serial_DeathTest.md_range_policy_tile_dims_exceed_launch_bounds
+2: [  SKIPPED ] serial_DeathTest.mdspan_space_aware_accessor_invalid_access_from_host
+2: [  SKIPPED ] serial_DeathTest.mdspan_space_aware_accessor_invalid_access_from_device
+2: [  SKIPPED ] serial_graph_DeathTest.can_instantiate_only_once
+2: [  SKIPPED ] serial.graph_capture
+2: [  SKIPPED ] serial.mathematical_functions_nextafter_fp16
+2: [  SKIPPED ] serial.md_range_policy_default_tiles_respect_launch_bounds
+2: [  SKIPPED ] serial.large_parallel_for_reduce
+2: [  SKIPPED ] serial.reduction_with_large_iteration_count
+2: [  SKIPPED ] serial_graph.force_global_launch
+ 2/42 Test  #2: Kokkos_CoreUnitTest_Serial1 ................................   Passed   60.40 sec
+test 3
+      Start  3: Kokkos_CoreUnitTest_Serial2
+
+3: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_Serial2
+3: Test timeout computed to be: 1500
+3: [==========] Running 158 tests from 2 test suites.
+3: [----------] Global test environment set-up.
+3: [----------] 16 tests from serial_DeathTest
+3: [ RUN      ] serial_DeathTest.exceed_max_team_scratch_size_0
+3: [       OK ] serial_DeathTest.exceed_max_team_scratch_size_0 (2 ms)
+3: [ RUN      ] serial_DeathTest.exceed_max_team_scratch_size_1
+3: [       OK ] serial_DeathTest.exceed_max_team_scratch_size_1 (0 ms)
+3: [ RUN      ] serial_DeathTest.exceed_max_team_size
+3: [       OK ] serial_DeathTest.exceed_max_team_size (0 ms)
+3: [ RUN      ] serial_DeathTest.team_policy_invalid_league_size
+3: [       OK ] serial_DeathTest.team_policy_invalid_league_size (284 ms)
+3: [ RUN      ] serial_DeathTest.team_policy_invalid_team_size
+3: [       OK ] serial_DeathTest.team_policy_invalid_team_size (123 ms)
+3: [ RUN      ] serial_DeathTest.team_policy_invalid_vector_length
+3: [       OK ] serial_DeathTest.team_policy_invalid_vector_length (91 ms)
+3: [ RUN      ] serial_DeathTest.view_construction_with_wrong_params_dyn
+3: /testbed/core/unit_test/TestViewCtorDimMatch.hpp:95: Skipped
+3: only enforced when debug bound checks is enabled
+3: [  SKIPPED ] serial_DeathTest.view_construction_with_wrong_params_dyn (0 ms)
+3: [ RUN      ] serial_DeathTest.view_construction_with_wrong_params_stat
+3: /testbed/core/unit_test/TestViewCtorDimMatch.hpp:124: Skipped
+3: only enforced when debug bound checks is enabled
+3: [  SKIPPED ] serial_DeathTest.view_construction_with_wrong_params_stat (0 ms)
+3: [ RUN      ] serial_DeathTest.view_construction_with_wrong_params_mix
+3: /testbed/core/unit_test/TestViewCtorDimMatch.hpp:153: Skipped
+3: only enforced when debug bound checks is enabled
+3: [  SKIPPED ] serial_DeathTest.view_construction_with_wrong_params_mix (0 ms)
+3: [ RUN      ] serial_DeathTest.view_construction_with_wrong_static_extents
+3: /testbed/core/unit_test/TestViewCtorDimMatch.hpp:185: Skipped
+3: only enforced when debug bound checks is enabled
+3: [  SKIPPED ] serial_DeathTest.view_construction_with_wrong_static_extents (0 ms)
+3: [ RUN      ] serial_DeathTest.view_layoutstride_right_to_layoutleft_assignment
+3: [       OK ] serial_DeathTest.view_layoutstride_right_to_layoutleft_assignment (398 ms)
+3: [ RUN      ] serial_DeathTest.view_layoutstride_left_to_layoutright_assignment
+3: [       OK ] serial_DeathTest.view_layoutstride_left_to_layoutright_assignment (470 ms)
+3: [ RUN      ] serial_DeathTest.view_memory_access_violations_from_host
+3: /testbed/core/unit_test/TestViewMemoryAccessViolation.hpp:151: Skipped
+3: skipping since no memory access violation would occur
+3: [  SKIPPED ] serial_DeathTest.view_memory_access_violations_from_host (0 ms)
+3: [ RUN      ] serial_DeathTest.view_memory_access_violations_from_device
+3: /testbed/core/unit_test/TestViewMemoryAccessViolation.hpp:165: Skipped
+3: skipping since no memory access violation would occur
+3: [  SKIPPED ] serial_DeathTest.view_memory_access_violations_from_device (0 ms)
+3: [ RUN      ] serial_DeathTest.view_subview_wrong_extents
+3: /testbed/core/unit_test/TestSubView_a.hpp:68: Skipped
+3: only enforced when debug bound checks is enabled
+3: [  SKIPPED ] serial_DeathTest.view_subview_wrong_extents (0 ms)
+3: [ RUN      ] serial_DeathTest.view_subview_constructor_layout_compatibility
+3: [       OK ] serial_DeathTest.view_subview_constructor_layout_compatibility (98 ms)
+3: [----------] 16 tests from serial_DeathTest (1471 ms total)
+3: 
+3: [----------] 142 tests from serial
+3: [ RUN      ] serial.team_for
+3: [       OK ] serial.team_for (1 ms)
+3: [ RUN      ] serial.team_reduce
+3: [       OK ] serial.team_reduce (0 ms)
+3: [ RUN      ] serial.team_reduce_large
+3: [       OK ] serial.team_reduce_large (1072 ms)
+3: [ RUN      ] serial.team_parallel_single
+3: [       OK ] serial.team_parallel_single (18 ms)
+3: [ RUN      ] serial.large_team_scratch_size
+3: [       OK ] serial.large_team_scratch_size (0 ms)
+3: [ RUN      ] serial.team_broadcast_long
+3: [       OK ] serial.team_broadcast_long (1 ms)
+3: [ RUN      ] serial.team_broadcast_long_wrapper
+3: [       OK ] serial.team_broadcast_long_wrapper (0 ms)
+3: [ RUN      ] serial.team_broadcast_char
+3: [       OK ] serial.team_broadcast_char (0 ms)
+3: [ RUN      ] serial.team_broadcast_float
+3: [       OK ] serial.team_broadcast_float (0 ms)
+3: [ RUN      ] serial.team_broadcast_double
+3: [       OK ] serial.team_broadcast_double (0 ms)
+3: [ RUN      ] serial.team_broadcast_int_ptr
+3: [       OK ] serial.team_broadcast_int_ptr (0 ms)
+3: [ RUN      ] serial.team_single_thread_int_ptr
+3: [       OK ] serial.team_single_thread_int_ptr (0 ms)
+3: [ RUN      ] serial.team_single_team_int_ptr
+3: [       OK ] serial.team_single_team_int_ptr (0 ms)
+3: [ RUN      ] serial.team_handle_by_value
+3: [       OK ] serial.team_handle_by_value (0 ms)
+3: [ RUN      ] serial.team_vector
+3: [       OK ] serial.team_vector (33 ms)
+3: [ RUN      ] serial.triple_nested_parallelism
+3: [       OK ] serial.triple_nested_parallelism (1174 ms)
+3: [ RUN      ] serial.parallel_scan_with_reducers
+3: [       OK ] serial.parallel_scan_with_reducers (230 ms)
+3: [ RUN      ] serial.team_thread_range_combined_reducers
+3: [       OK ] serial.team_thread_range_combined_reducers (1 ms)
+3: [ RUN      ] serial.thread_vector_range_combined_reducers
+3: [       OK ] serial.thread_vector_range_combined_reducers (0 ms)
+3: [ RUN      ] serial.team_vector_range_combined_reducers
+3: [       OK ] serial.team_vector_range_combined_reducers (0 ms)
+3: [ RUN      ] serial.TeamThreadMDRangeParallelFor
+3: [       OK ] serial.TeamThreadMDRangeParallelFor (22 ms)
+3: [ RUN      ] serial.ThreadVectorMDRangeParallelFor
+3: [       OK ] serial.ThreadVectorMDRangeParallelFor (19 ms)
+3: [ RUN      ] serial.TeamVectorMDRangeParallelFor
+3: [       OK ] serial.TeamVectorMDRangeParallelFor (20 ms)
+3: [ RUN      ] serial.TeamThreadMDRangeParallelReduce
+3: [       OK ] serial.TeamThreadMDRangeParallelReduce (22 ms)
+3: [ RUN      ] serial.ThreadVectorMDRangeParallelReduce
+3: [       OK ] serial.ThreadVectorMDRangeParallelReduce (21 ms)
+3: [ RUN      ] serial.TeamVectorMDRangeParallelReduce
+3: [       OK ] serial.TeamVectorMDRangeParallelReduce (20 ms)
+3: [ RUN      ] serial.team_policy_runtime_parameters
+3: [       OK ] serial.team_policy_runtime_parameters (2 ms)
+3: [ RUN      ] serial.team_policy_default_space
+3: [       OK ] serial.team_policy_default_space (0 ms)
+3: [ RUN      ] serial.team_policy_impl_set_space
+3: [       OK ] serial.team_policy_impl_set_space (0 ms)
+3: [ RUN      ] serial.team_reduction_scan
+3: [       OK ] serial.team_reduction_scan (78 ms)
+3: [ RUN      ] serial.team_long_reduce
+3: [       OK ] serial.team_long_reduce (164 ms)
+3: [ RUN      ] serial.team_double_reduce
+3: [       OK ] serial.team_double_reduce (384 ms)
+3: [ RUN      ] serial.team_long_array_reduce
+3: [       OK ] serial.team_long_array_reduce (160 ms)
+3: [ RUN      ] serial.team_double_array_reduce
+3: [       OK ] serial.team_double_array_reduce (357 ms)
+3: [ RUN      ] serial.team_parallel_dummy_with_reducer_and_scratch_space
+3: [       OK ] serial.team_parallel_dummy_with_reducer_and_scratch_space (0 ms)
+3: [ RUN      ] serial.repeated_team_reduce
+3: [       OK ] serial.repeated_team_reduce (42257 ms)
+3: [ RUN      ] serial.nested_team_reduce_functor_as_reducer
+3: [       OK ] serial.nested_team_reduce_functor_as_reducer (1 ms)
+3: [ RUN      ] serial.team_scan
+3: [       OK ] serial.team_scan (342 ms)
+3: [ RUN      ] serial.team_scan_ret_val
+3: [       OK ] serial.team_scan_ret_val (342 ms)
+3: [ RUN      ] serial.team_shared_request
+3: [       OK ] serial.team_shared_request (75 ms)
+3: [ RUN      ] serial.team_scratch_request
+3: [       OK ] serial.team_scratch_request (13 ms)
+3: [ RUN      ] serial.team_lambda_shared_request
+3: [       OK ] serial.team_lambda_shared_request (61 ms)
+3: [ RUN      ] serial.scratch_align
+3: [       OK ] serial.scratch_align (0 ms)
+3: [ RUN      ] serial.shmem_size
+3: [       OK ] serial.shmem_size (0 ms)
+3: [ RUN      ] serial.multi_level_scratch
+3: [       OK ] serial.multi_level_scratch (66 ms)
+3: [ RUN      ] serial.team_scratch_memory_index_parallel_for
+3: [       OK ] serial.team_scratch_memory_index_parallel_for (0 ms)
+3: [ RUN      ] serial.team_policy_max_recommended
+3: [       OK ] serial.team_policy_max_recommended (18 ms)
+3: [ RUN      ] serial.team_policy_minmax_scalar_without_plus_equal_k
+3: [       OK ] serial.team_policy_minmax_scalar_without_plus_equal_k (0 ms)
+3: [ RUN      ] serial.team_teamvector_range
+3: [       OK ] serial.team_teamvector_range (11 ms)
+3: [ RUN      ] serial.timer
+3: [       OK ] serial.timer (24 ms)
+3: [ RUN      ] serial.unique_token_global
+3: [       OK ] serial.unique_token_global (0 ms)
+3: [ RUN      ] serial.unique_token_instance
+3: [       OK ] serial.unique_token_instance (0 ms)
+3: [ RUN      ] serial.unique_token_team_acquire
+3: [       OK ] serial.unique_token_team_acquire (0 ms)
+3: [ RUN      ] serial.view_api_a
+3: [       OK ] serial.view_api_a (25 ms)
+3: [ RUN      ] serial.view_layout_left_with_stride
+3: [       OK ] serial.view_layout_left_with_stride (0 ms)
+3: [ RUN      ] serial.view_layout_right_with_stride
+3: [       OK ] serial.view_layout_right_with_stride (0 ms)
+3: [ RUN      ] serial.view_api_b
+3: [       OK ] serial.view_api_b (13 ms)
+3: [ RUN      ] serial.view_api_c
+3: [       OK ] serial.view_api_c (1 ms)
+3: [ RUN      ] serial.view_api_d
+3: [       OK ] serial.view_api_d (4 ms)
+3: [ RUN      ] serial.view_remap
+3: [       OK ] serial.view_remap (1 ms)
+3: [ RUN      ] serial.view_mirror_nonconst
+3: [       OK ] serial.view_mirror_nonconst (0 ms)
+3: [ RUN      ] serial.view_stride_method
+3: [       OK ] serial.view_stride_method (5 ms)
+3: [ RUN      ] serial.anonymous_space
+3: [       OK ] serial.anonymous_space (0 ms)
+3: [ RUN      ] serial.view_overload_resolution
+3: [       OK ] serial.view_overload_resolution (0 ms)
+3: [ RUN      ] serial.view_allocation_large_rank
+3: [       OK ] serial.view_allocation_large_rank (2920 ms)
+3: [ RUN      ] serial.view_shmem_size_on_device
+3: [       OK ] serial.view_shmem_size_on_device (0 ms)
+3: [ RUN      ] serial.view_is_assignable
+3: [       OK ] serial.view_is_assignable (1 ms)
+3: [ RUN      ] serial.view_bad_alloc
+3: [       OK ] serial.view_bad_alloc (1 ms)
+3: [ RUN      ] serial.view_copy_tests
+3: [       OK ] serial.view_copy_tests (11 ms)
+3: [ RUN      ] serial.view_copy_tests_rank_0
+3: [       OK ] serial.view_copy_tests_rank_0 (1 ms)
+3: [ RUN      ] serial.view_copy_degenerated
+3: [       OK ] serial.view_copy_degenerated (0 ms)
+3: [ RUN      ] serial.view_fill_tests_layout_right
+3: [       OK ] serial.view_fill_tests_layout_right (8398 ms)
+3: [ RUN      ] serial.view_fill_tests_layout_left
+3: [       OK ] serial.view_fill_tests_layout_left (8792 ms)
+3: [ RUN      ] serial.vcp_empty_traits
+3: [       OK ] serial.vcp_empty_traits (0 ms)
+3: [ RUN      ] serial.is_view_label
+3: [       OK ] serial.is_view_label (0 ms)
+3: [ RUN      ] serial.vcp_label_base_traits
+3: [       OK ] serial.vcp_label_base_traits (0 ms)
+3: [ RUN      ] serial.vcp_label_traits
+3: [       OK ] serial.vcp_label_traits (0 ms)
+3: [ RUN      ] serial.view_alloc_can_perfect_forward_label
+3: [       OK ] serial.view_alloc_can_perfect_forward_label (0 ms)
+3: [ RUN      ] serial.vcp_label_copy_constructor
+3: [       OK ] serial.vcp_label_copy_constructor (0 ms)
+3: [ RUN      ] serial.vcp_pointer_add_property
+3: [       OK ] serial.vcp_pointer_add_property (0 ms)
+3: [ RUN      ] serial.view_empty_runtime_unmanaged
+3: [       OK ] serial.view_empty_runtime_unmanaged (0 ms)
+3: [ RUN      ] serial.view_hooks
+3: [       OK ] serial.view_hooks (0 ms)
+3: [ RUN      ] serial.view_layoutstride_left_to_layoutleft_assignment
+3: [       OK ] serial.view_layoutstride_left_to_layoutleft_assignment (144 ms)
+3: [ RUN      ] serial.view_layoutstride_right_to_layoutright_assignment
+3: [       OK ] serial.view_layoutstride_right_to_layoutright_assignment (136 ms)
+3: [ RUN      ] serial.view_mapping
+3: [       OK ] serial.view_mapping (219 ms)
+3: [ RUN      ] serial.view_mapping_operator
+3: [       OK ] serial.view_mapping_operator (14 ms)
+3: [ RUN      ] serial.static_extent
+3: [       OK ] serial.static_extent (0 ms)
+3: [ RUN      ] serial.view_mapping_atomic
+3: [       OK ] serial.view_mapping_atomic (1 ms)
+3: [ RUN      ] serial.view_mapping_class_value
+3: [       OK ] serial.view_mapping_class_value (0 ms)
+3: [ RUN      ] serial.view_mapping_assignable
+3: [       OK ] serial.view_mapping_assignable (0 ms)
+3: [ RUN      ] serial.view_mapping_trivially_copyable
+3: [       OK ] serial.view_mapping_trivially_copyable (0 ms)
+3: [ RUN      ] serial.view_mapping_subview
+3: [       OK ] serial.view_mapping_subview (3 ms)
+3: [ RUN      ] serial.view_move_use_count_and_label
+3: [       OK ] serial.view_move_use_count_and_label (0 ms)
+3: [ RUN      ] serial.view_moved_from
+3: [       OK ] serial.view_moved_from (0 ms)
+3: [ RUN      ] serial.view_nested_view
+3: [       OK ] serial.view_nested_view (0 ms)
+3: [ RUN      ] serial.view_of_views_default
+3: [       OK ] serial.view_of_views_default (1 ms)
+3: [ RUN      ] serial.view_of_views_without_initializing
+3: [       OK ] serial.view_of_views_without_initializing (0 ms)
+3: [ RUN      ] serial.test_view_of_views_sequential_host_init
+3: [       OK ] serial.test_view_of_views_sequential_host_init (0 ms)
+3: [ RUN      ] serial.append_formatted_multidimensional_index
+3: [       OK ] serial.append_formatted_multidimensional_index (0 ms)
+3: [ RUN      ] serial.view_resize
+3: [       OK ] serial.view_resize (25 ms)
+3: [ RUN      ] serial.view_realloc
+3: [       OK ] serial.view_realloc (4 ms)
+3: [ RUN      ] serial.workgraph_fib
+3: [       OK ] serial.workgraph_fib (80 ms)
+3: [ RUN      ] serial.resize_realloc_no_init
+3: [       OK ] serial.resize_realloc_no_init (2 ms)
+3: [ RUN      ] serial.resize_realloc_no_alloc
+3: [       OK ] serial.resize_realloc_no_alloc (0 ms)
+3: [ RUN      ] serial.realloc_exec_space
+3: [       OK ] serial.realloc_exec_space (0 ms)
+3: [ RUN      ] serial.view_alloc
+3: [       OK ] serial.view_alloc (0 ms)
+3: [ RUN      ] serial.view_alloc_exec_space
+3: [       OK ] serial.view_alloc_exec_space (0 ms)
+3: [ RUN      ] serial.view_alloc_int
+3: [       OK ] serial.view_alloc_int (0 ms)
+3: [ RUN      ] serial.view_alloc_exec_space_int
+3: [       OK ] serial.view_alloc_exec_space_int (0 ms)
+3: [ RUN      ] serial.deep_copy_zero_memset
+3: [       OK ] serial.deep_copy_zero_memset (0 ms)
+3: [ RUN      ] serial.resize_exec_space
+3: [       OK ] serial.resize_exec_space (0 ms)
+3: [ RUN      ] serial.view_allocation_int
+3: /testbed/core/unit_test/TestWithoutInitializing.hpp:278: Skipped
+3: skipping since the fence checked for isn't necessary
+3: [  SKIPPED ] serial.view_allocation_int (0 ms)
+3: [ RUN      ] serial.view_allocation_exec_space_int
+3: [       OK ] serial.view_allocation_exec_space_int (0 ms)
+3: [ RUN      ] serial.view_not_default_constructible
+3: [       OK ] serial.view_not_default_constructible (0 ms)
+3: [ RUN      ] serial.view_subview_auto_1d_left
+3: [       OK ] serial.view_subview_auto_1d_left (0 ms)
+3: [ RUN      ] serial.view_subview_auto_1d_right
+3: [       OK ] serial.view_subview_auto_1d_right (0 ms)
+3: [ RUN      ] serial.view_subview_auto_1d_stride
+3: [       OK ] serial.view_subview_auto_1d_stride (0 ms)
+3: [ RUN      ] serial.view_subview_assign_strided
+3: [       OK ] serial.view_subview_assign_strided (1 ms)
+3: [ RUN      ] serial.view_subview_left_0
+3: [       OK ] serial.view_subview_left_0 (0 ms)
+3: [ RUN      ] serial.view_subview_left_1
+3: [       OK ] serial.view_subview_left_1 (1 ms)
+3: [ RUN      ] serial.view_subview_left_2
+3: [       OK ] serial.view_subview_left_2 (0 ms)
+3: [ RUN      ] serial.view_subview_left_3
+3: [       OK ] serial.view_subview_left_3 (0 ms)
+3: [ RUN      ] serial.view_subview_right_0
+3: [       OK ] serial.view_subview_right_0 (0 ms)
+3: [ RUN      ] serial.view_subview_right_1
+3: [       OK ] serial.view_subview_right_1 (1 ms)
+3: [ RUN      ] serial.view_subview_right_3
+3: [       OK ] serial.view_subview_right_3 (0 ms)
+3: [ RUN      ] serial.view_static_tests
+3: [       OK ] serial.view_static_tests (0 ms)
+3: [ RUN      ] serial.view_subview_layoutleft_to_layoutleft
+3: [       OK ] serial.view_subview_layoutleft_to_layoutleft (2 ms)
+3: [ RUN      ] serial.view_subview_layoutright_to_layoutright
+3: [       OK ] serial.view_subview_layoutright_to_layoutright (2 ms)
+3: [ RUN      ] serial.view_subview_1d_assign
+3: [       OK ] serial.view_subview_1d_assign (3 ms)
+3: [ RUN      ] serial.view_subview_1d_assign_atomic
+3: [       OK ] serial.view_subview_1d_assign_atomic (4 ms)
+3: [ RUN      ] serial.view_subview_1d_assign_randomaccess
+3: [       OK ] serial.view_subview_1d_assign_randomaccess (3 ms)
+3: [ RUN      ] serial.view_subview_2d_from_3d
+3: [       OK ] serial.view_subview_2d_from_3d (51 ms)
+3: [ RUN      ] serial.view_subview_2d_from_3d_atomic
+3: [       OK ] serial.view_subview_2d_from_3d_atomic (52 ms)
+3: [ RUN      ] serial.view_subview_2d_from_3d_randomaccess
+3: [       OK ] serial.view_subview_2d_from_3d_randomaccess (50 ms)
+3: [ RUN      ] serial.view_subview_3d_from_5d_left
+3: [       OK ] serial.view_subview_3d_from_5d_left (375 ms)
+3: [ RUN      ] serial.view_subview_3d_from_5d_left_atomic
+3: [       OK ] serial.view_subview_3d_from_5d_left_atomic (383 ms)
+3: [ RUN      ] serial.view_subview_3d_from_5d_left_randomaccess
+3: [       OK ] serial.view_subview_3d_from_5d_left_randomaccess (374 ms)
+3: [ RUN      ] serial.view_subview_3d_from_5d_right
+3: [       OK ] serial.view_subview_3d_from_5d_right (456 ms)
+3: [ RUN      ] serial.view_subview_3d_from_5d_right_atomic
+3: [       OK ] serial.view_subview_3d_from_5d_right_atomic (435 ms)
+3: [ RUN      ] serial.view_subview_3d_from_5d_right_randomaccess
+3: [       OK ] serial.view_subview_3d_from_5d_right_randomaccess (433 ms)
+3: [ RUN      ] serial.view_test_unmanaged_subview_reset
+3: [       OK ] serial.view_test_unmanaged_subview_reset (0 ms)
+3: [ RUN      ] serial.view_subview_memory_traits_construction
+3: [       OK ] serial.view_subview_memory_traits_construction (2 ms)
+3: [----------] 142 tests from serial (70507 ms total)
+3: 
+3: [----------] Global test environment tear-down
+3: [==========] 158 tests from 2 test suites ran. (71980 ms total)
+3: [  PASSED  ] 150 tests.
+3: [  SKIPPED ] 8 tests, listed below:
+3: [  SKIPPED ] serial_DeathTest.view_construction_with_wrong_params_dyn
+3: [  SKIPPED ] serial_DeathTest.view_construction_with_wrong_params_stat
+3: [  SKIPPED ] serial_DeathTest.view_construction_with_wrong_params_mix
+3: [  SKIPPED ] serial_DeathTest.view_construction_with_wrong_static_extents
+3: [  SKIPPED ] serial_DeathTest.view_memory_access_violations_from_host
+3: [  SKIPPED ] serial_DeathTest.view_memory_access_violations_from_device
+3: [  SKIPPED ] serial_DeathTest.view_subview_wrong_extents
+3: [  SKIPPED ] serial.view_allocation_int
+ 3/42 Test  #3: Kokkos_CoreUnitTest_Serial2 ................................   Passed   72.01 sec
+test 4
+      Start  4: Kokkos_CoreUnitTest_Default
+
+4: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_Default
+4: Test timeout computed to be: 1500
+4: [==========] Running 59 tests from 41 test suites.
+4: [----------] Global test environment set-up.
+4: [----------] 19 tests from defaultdevicetype
+4: [ RUN      ] defaultdevicetype.c_style_memory_management_malloc_realloc_and_free
+4: [       OK ] defaultdevicetype.c_style_memory_management_malloc_realloc_and_free (0 ms)
+4: [ RUN      ] defaultdevicetype.c_style_memory_management_malloc_zero_byte_and_free
+4: [       OK ] defaultdevicetype.c_style_memory_management_malloc_zero_byte_and_free (0 ms)
+4: [ RUN      ] defaultdevicetype.shared_space
+4: /testbed/core/unit_test/TestSharedSpace.cpp:99: Skipped
+4: Skipping as host and device are the same space
+4: [  SKIPPED ] defaultdevicetype.shared_space (0 ms)
+4: [ RUN      ] defaultdevicetype.shared_host_pinned_space
+4: /testbed/core/unit_test/TestSharedHostPinnedSpace.cpp:57: Skipped
+4: Skipping as host and device are the same space
+4: [  SKIPPED ] defaultdevicetype.shared_host_pinned_space (0 ms)
+4: [ RUN      ] defaultdevicetype.compiler_macros
+4: [       OK ] defaultdevicetype.compiler_macros (1 ms)
+4: [ RUN      ] defaultdevicetype.half_conversion
+4: [       OK ] defaultdevicetype.half_conversion (2 ms)
+4: [ RUN      ] defaultdevicetype.bhalf_conversion
+4: [       OK ] defaultdevicetype.bhalf_conversion (1 ms)
+4: [ RUN      ] defaultdevicetype.half_operators
+4: [       OK ] defaultdevicetype.half_operators (2 ms)
+4: [ RUN      ] defaultdevicetype.bhalf_operators
+4: [       OK ] defaultdevicetype.bhalf_operators (0 ms)
+4: [ RUN      ] defaultdevicetype.host_space_access
+4: [       OK ] defaultdevicetype.host_space_access (0 ms)
+4: [ RUN      ] defaultdevicetype.reduce_instantiation_a1
+4: [       OK ] defaultdevicetype.reduce_instantiation_a1 (8 ms)
+4: [ RUN      ] defaultdevicetype.reduce_instantiation_b1
+4: [       OK ] defaultdevicetype.reduce_instantiation_b1 (9 ms)
+4: [ RUN      ] defaultdevicetype.reduce_instantiation_c1
+4: [       OK ] defaultdevicetype.reduce_instantiation_c1 (7 ms)
+4: [ RUN      ] defaultdevicetype.reduce_instantiation_a2
+4: [       OK ] defaultdevicetype.reduce_instantiation_a2 (8 ms)
+4: [ RUN      ] defaultdevicetype.reduce_instantiation_b2
+4: [       OK ] defaultdevicetype.reduce_instantiation_b2 (10 ms)
+4: [ RUN      ] defaultdevicetype.reduce_instantiation_c2
+4: [       OK ] defaultdevicetype.reduce_instantiation_c2 (9 ms)
+4: [ RUN      ] defaultdevicetype.reduce_instantiation_a3
+4: [       OK ] defaultdevicetype.reduce_instantiation_a3 (14 ms)
+4: [ RUN      ] defaultdevicetype.reduce_instantiation_b3
+4: [       OK ] defaultdevicetype.reduce_instantiation_b3 (15 ms)
+4: [ RUN      ] defaultdevicetype.reduce_instantiation_c3
+4: [       OK ] defaultdevicetype.reduce_instantiation_c3 (13 ms)
+4: [----------] 19 tests from defaultdevicetype (105 ms total)
+4: 
+4: [----------] 1 test from kokkosresize
+4: [ RUN      ] kokkosresize.host_space_access
+4: [       OK ] kokkosresize.host_space_access (28 ms)
+4: [----------] 1 test from kokkosresize (28 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/0, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/0.sizes
+4: [       OK ] TestViewAPI/0.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/0 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/1, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/1.sizes
+4: [       OK ] TestViewAPI/1.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/1 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/2, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/2.sizes
+4: [       OK ] TestViewAPI/2.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/2 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/3, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/3.sizes
+4: [       OK ] TestViewAPI/3.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/3 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/4, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/4.sizes
+4: [       OK ] TestViewAPI/4.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/4 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/5, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/5.sizes
+4: [       OK ] TestViewAPI/5.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/5 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/6, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/6.sizes
+4: [       OK ] TestViewAPI/6.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/6 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/7, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/7.sizes
+4: [       OK ] TestViewAPI/7.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/7 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/8, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/8.sizes
+4: [       OK ] TestViewAPI/8.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/8 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/9, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/9.sizes
+4: [       OK ] TestViewAPI/9.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/9 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/10, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/10.sizes
+4: [       OK ] TestViewAPI/10.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/10 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/11, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/11.sizes
+4: [       OK ] TestViewAPI/11.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/11 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/12, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/12.sizes
+4: [       OK ] TestViewAPI/12.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/12 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/13, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/13.sizes
+4: [       OK ] TestViewAPI/13.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/13 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/14, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/14.sizes
+4: [       OK ] TestViewAPI/14.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/14 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/15, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/15.sizes
+4: [       OK ] TestViewAPI/15.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/15 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/16, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/16.sizes
+4: [       OK ] TestViewAPI/16.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/16 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/17, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/17.sizes
+4: [       OK ] TestViewAPI/17.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/17 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/18, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/18.sizes
+4: [       OK ] TestViewAPI/18.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/18 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/19, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/19.sizes
+4: [       OK ] TestViewAPI/19.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/19 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/20, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/20.sizes
+4: [       OK ] TestViewAPI/20.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/20 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/21, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/21.sizes
+4: [       OK ] TestViewAPI/21.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/21 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/22, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/22.sizes
+4: [       OK ] TestViewAPI/22.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/22 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/23, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/23.sizes
+4: [       OK ] TestViewAPI/23.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/23 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/24, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/24.sizes
+4: [       OK ] TestViewAPI/24.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/24 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/25, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/25.sizes
+4: [       OK ] TestViewAPI/25.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/25 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/26, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/26.sizes
+4: [       OK ] TestViewAPI/26.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/26 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/27, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/27.sizes
+4: [       OK ] TestViewAPI/27.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/27 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/28, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/28.sizes
+4: [       OK ] TestViewAPI/28.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/28 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/29, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/29.sizes
+4: [       OK ] TestViewAPI/29.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/29 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/30, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/30.sizes
+4: [       OK ] TestViewAPI/30.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/30 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/31, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/31.sizes
+4: [       OK ] TestViewAPI/31.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/31 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/32, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/32.sizes
+4: [       OK ] TestViewAPI/32.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/32 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/33, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/33.sizes
+4: [       OK ] TestViewAPI/33.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/33 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/34, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/34.sizes
+4: [       OK ] TestViewAPI/34.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/34 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/35, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/35.sizes
+4: [       OK ] TestViewAPI/35.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/35 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/36, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/36.sizes
+4: [       OK ] TestViewAPI/36.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/36 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/37, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/37.sizes
+4: [       OK ] TestViewAPI/37.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/37 (0 ms total)
+4: 
+4: [----------] 1 test from TestViewAPI/38, where TypeParam = <type>
+4: [ RUN      ] TestViewAPI/38.sizes
+4: [       OK ] TestViewAPI/38.sizes (0 ms)
+4: [----------] 1 test from TestViewAPI/38 (0 ms total)
+4: 
+4: [----------] Global test environment tear-down
+4: [==========] 59 tests from 41 test suites ran. (139 ms total)
+4: [  PASSED  ] 57 tests.
+4: [  SKIPPED ] 2 tests, listed below:
+4: [  SKIPPED ] defaultdevicetype.shared_space
+4: [  SKIPPED ] defaultdevicetype.shared_host_pinned_space
+ 4/42 Test  #4: Kokkos_CoreUnitTest_Default ................................   Passed    0.18 sec
+test 5
+      Start  5: Kokkos_CoreUnitTest_InitializeFinalize
+
+5: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_InitializeFinalize
+5: Test timeout computed to be: 1500
+5: [==========] Running 35 tests from 7 test suites.
+5: [----------] Global test environment set-up.
+5: [----------] 8 tests from ExecutionEnvironmentNonInitializedOrFinalized_DeathTest
+5: [ RUN      ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.default_constructed_views
+5: [       OK ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.default_constructed_views (67 ms)
+5: [ RUN      ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.views
+5: [       OK ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.views (153 ms)
+5: [ RUN      ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.c_style_memory_management
+5: [       OK ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.c_style_memory_management (207 ms)
+5: [ RUN      ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.parallel_for
+5: [       OK ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.parallel_for (102 ms)
+5: [ RUN      ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.parallel_reduce
+5: [       OK ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.parallel_reduce (278 ms)
+5: [ RUN      ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.parallel_scan
+5: [       OK ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.parallel_scan (205 ms)
+5: [ RUN      ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.execution_space
+5: [       OK ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.execution_space (100 ms)
+5: [ RUN      ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.static_execution_space
+5: [       OK ] ExecutionEnvironmentNonInitializedOrFinalized_DeathTest.static_execution_space (22 ms)
+5: [----------] 8 tests from ExecutionEnvironmentNonInitializedOrFinalized_DeathTest (1137 ms total)
+5: 
+5: [----------] 4 tests from InitializeFinalize_DeathTest
+5: [ RUN      ] InitializeFinalize_DeathTest.initialize
+5: [       OK ] InitializeFinalize_DeathTest.initialize (90 ms)
+5: [ RUN      ] InitializeFinalize_DeathTest.finalize
+5: [       OK ] InitializeFinalize_DeathTest.finalize (88 ms)
+5: [ RUN      ] InitializeFinalize_DeathTest.is_initialized
+5: [       OK ] InitializeFinalize_DeathTest.is_initialized (22 ms)
+5: [ RUN      ] InitializeFinalize_DeathTest.is_finalized
+5: [       OK ] InitializeFinalize_DeathTest.is_finalized (21 ms)
+5: [----------] 4 tests from InitializeFinalize_DeathTest (223 ms total)
+5: 
+5: [----------] 1 test from KokkosHelpCausesNormalProgramTermination_DeathTest
+5: [ RUN      ] KokkosHelpCausesNormalProgramTermination_DeathTest.print_help_and_exit_early
+5: [       OK ] KokkosHelpCausesNormalProgramTermination_DeathTest.print_help_and_exit_early (20 ms)
+5: [----------] 1 test from KokkosHelpCausesNormalProgramTermination_DeathTest (20 ms total)
+5: 
+5: [----------] 1 test from Legion_DeathTest
+5: [ RUN      ] Legion_DeathTest.individual_backend_initialization
+5: [       OK ] Legion_DeathTest.individual_backend_initialization (22 ms)
+5: [----------] 1 test from Legion_DeathTest (22 ms total)
+5: 
+5: [----------] 2 tests from PushFinalizeHook_DeathTest
+5: [ RUN      ] PushFinalizeHook_DeathTest.called_in_reverse_order
+5: [       OK ] PushFinalizeHook_DeathTest.called_in_reverse_order (20 ms)
+5: [ RUN      ] PushFinalizeHook_DeathTest.terminate_on_throw
+5: [       OK ] PushFinalizeHook_DeathTest.terminate_on_throw (29 ms)
+5: [----------] 2 tests from PushFinalizeHook_DeathTest (50 ms total)
+5: 
+5: [----------] 6 tests from ScopeGuard_DeathTest
+5: [ RUN      ] ScopeGuard_DeathTest.create
+5: [       OK ] ScopeGuard_DeathTest.create (21 ms)
+5: [ RUN      ] ScopeGuard_DeathTest.create_argument
+5: [       OK ] ScopeGuard_DeathTest.create_argument (20 ms)
+5: [ RUN      ] ScopeGuard_DeathTest.create_while_initialize
+5: [       OK ] ScopeGuard_DeathTest.create_while_initialize (31 ms)
+5: [ RUN      ] ScopeGuard_DeathTest.create_after_initialize
+5: [       OK ] ScopeGuard_DeathTest.create_after_initialize (44 ms)
+5: [ RUN      ] ScopeGuard_DeathTest.create_after_finalize
+5: [       OK ] ScopeGuard_DeathTest.create_after_finalize (32 ms)
+5: [ RUN      ] ScopeGuard_DeathTest.destroy_after_finalize
+5: [       OK ] ScopeGuard_DeathTest.destroy_after_finalize (31 ms)
+5: [----------] 6 tests from ScopeGuard_DeathTest (182 ms total)
+5: 
+5: [----------] 13 tests from defaultdevicetype
+5: [ RUN      ] defaultdevicetype.initialization_settings
+5: [       OK ] defaultdevicetype.initialization_settings (0 ms)
+5: [ RUN      ] defaultdevicetype.cmd_line_args_num_threads
+5: [       OK ] defaultdevicetype.cmd_line_args_num_threads (1 ms)
+5: [ RUN      ] defaultdevicetype.cmd_line_args_device_id
+5: [       OK ] defaultdevicetype.cmd_line_args_device_id (0 ms)
+5: [ RUN      ] defaultdevicetype.cmd_line_args_disable_warning
+5: [       OK ] defaultdevicetype.cmd_line_args_disable_warning (0 ms)
+5: [ RUN      ] defaultdevicetype.cmd_line_args_tune_internals
+5: [       OK ] defaultdevicetype.cmd_line_args_tune_internals (0 ms)
+5: [ RUN      ] defaultdevicetype.cmd_line_args_help
+5: [       OK ] defaultdevicetype.cmd_line_args_help (1 ms)
+5: [ RUN      ] defaultdevicetype.cmd_line_args_tools_arguments
+5: [       OK ] defaultdevicetype.cmd_line_args_tools_arguments (0 ms)
+5: [ RUN      ] defaultdevicetype.cmd_line_args_unrecognized_flag
+5: [       OK ] defaultdevicetype.cmd_line_args_unrecognized_flag (1 ms)
+5: [ RUN      ] defaultdevicetype.env_vars_num_threads
+5: [       OK ] defaultdevicetype.env_vars_num_threads (1 ms)
+5: [ RUN      ] defaultdevicetype.env_vars_device_id
+5: [       OK ] defaultdevicetype.env_vars_device_id (0 ms)
+5: [ RUN      ] defaultdevicetype.env_vars_disable_warnings
+5: [       OK ] defaultdevicetype.env_vars_disable_warnings (0 ms)
+5: [ RUN      ] defaultdevicetype.env_vars_tune_internals
+5: [       OK ] defaultdevicetype.env_vars_tune_internals (0 ms)
+5: [ RUN      ] defaultdevicetype.visible_devices
+5: [       OK ] defaultdevicetype.visible_devices (0 ms)
+5: [----------] 13 tests from defaultdevicetype (7 ms total)
+5: 
+5: [----------] Global test environment tear-down
+5: [==========] 35 tests from 7 test suites ran. (1646 ms total)
+5: [  PASSED  ] 35 tests.
+ 5/42 Test  #5: Kokkos_CoreUnitTest_InitializeFinalize .....................   Passed    1.67 sec
+test 6
+      Start  6: Kokkos_CoreUnitTest_Develop
+
+6: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_Develop
+6: Test timeout computed to be: 1500
+6: [==========] Running 1 test from 1 test suite.
+6: [----------] Global test environment set-up.
+6: [----------] 1 test from defaultdevicetype
+6: [ RUN      ] defaultdevicetype.development_test
+6: [       OK ] defaultdevicetype.development_test (0 ms)
+6: [----------] 1 test from defaultdevicetype (0 ms total)
+6: 
+6: [----------] Global test environment tear-down
+6: [==========] 1 test from 1 test suite ran. (1 ms total)
+6: [  PASSED  ] 1 test.
+ 6/42 Test  #6: Kokkos_CoreUnitTest_Develop ................................   Passed    0.02 sec
+test 7
+      Start  7: Kokkos_CoreUnitTest_KokkosP
+
+7: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_KokkosP
+7: Test timeout computed to be: 1500
+7: [==========] Running 31 tests from 1 test suite.
+7: [----------] Global test environment set-up.
+7: [----------] 31 tests from kokkosp
+7: [ RUN      ] kokkosp.test_named_instance_fence
+7: [       OK ] kokkosp.test_named_instance_fence (0 ms)
+7: [ RUN      ] kokkosp.test_unnamed_instance_fence
+7: [       OK ] kokkosp.test_unnamed_instance_fence (0 ms)
+7: [ RUN      ] kokkosp.test_named_global_fence
+7: [       OK ] kokkosp.test_named_global_fence (0 ms)
+7: [ RUN      ] kokkosp.test_unnamed_global_fence
+7: [       OK ] kokkosp.test_unnamed_global_fence (0 ms)
+7: [ RUN      ] kokkosp.test_multiple_default_instances
+7: [       OK ] kokkosp.test_multiple_default_instances (0 ms)
+7: [ RUN      ] kokkosp.test_id_gen
+7: [       OK ] kokkosp.test_id_gen (0 ms)
+7: [ RUN      ] kokkosp.test_kernel_sequence
+7: [       OK ] kokkosp.test_kernel_sequence (0 ms)
+7: [ RUN      ] kokkosp.async_deep_copy
+7: [       OK ] kokkosp.async_deep_copy (0 ms)
+7: [ RUN      ] kokkosp.parallel_for
+7: [       OK ] kokkosp.parallel_for (0 ms)
+7: [ RUN      ] kokkosp.parallel_reduce
+7: [       OK ] kokkosp.parallel_reduce (0 ms)
+7: [ RUN      ] kokkosp.parallel_scan
+7: [       OK ] kokkosp.parallel_scan (0 ms)
+7: [ RUN      ] kokkosp.parallel_scan_no_fence
+7: [       OK ] kokkosp.parallel_scan_no_fence (0 ms)
+7: [ RUN      ] kokkosp.parallel_scan_no_fence_view
+7: [       OK ] kokkosp.parallel_scan_no_fence_view (0 ms)
+7: [ RUN      ] kokkosp.regions
+7: [       OK ] kokkosp.regions (0 ms)
+7: [ RUN      ] kokkosp.fences
+7: [       OK ] kokkosp.fences (0 ms)
+7: [ RUN      ] kokkosp.raw_allocation
+7: [       OK ] kokkosp.raw_allocation (0 ms)
+7: [ RUN      ] kokkosp.view
+7: [       OK ] kokkosp.view (0 ms)
+7: [ RUN      ] kokkosp.sections
+7: [       OK ] kokkosp.sections (0 ms)
+7: [ RUN      ] kokkosp.metadata
+7: [       OK ] kokkosp.metadata (0 ms)
+7: [ RUN      ] kokkosp.profile_events
+7: [       OK ] kokkosp.profile_events (0 ms)
+7: [ RUN      ] kokkosp.no_init_kernel
+7: [       OK ] kokkosp.no_init_kernel (0 ms)
+7: [ RUN      ] kokkosp.get_events
+7: [       OK ] kokkosp.get_events (0 ms)
+7: [ RUN      ] kokkosp.kernel_name_parallel_for
+7: [       OK ] kokkosp.kernel_name_parallel_for (0 ms)
+7: [ RUN      ] kokkosp.kernel_name_parallel_reduce
+7: [       OK ] kokkosp.kernel_name_parallel_reduce (0 ms)
+7: [ RUN      ] kokkosp.kernel_name_parallel_scan
+7: [       OK ] kokkosp.kernel_name_parallel_scan (0 ms)
+7: [ RUN      ] kokkosp.kernel_name_internal
+7: [       OK ] kokkosp.kernel_name_internal (0 ms)
+7: [ RUN      ] kokkosp.profiling_section
+7: [       OK ] kokkosp.profiling_section (0 ms)
+7: [ RUN      ] kokkosp.scoped_profile_region
+7: [       OK ] kokkosp.scoped_profile_region (0 ms)
+7: [ RUN      ] kokkosp.create_mirror_no_init
+7: [       OK ] kokkosp.create_mirror_no_init (0 ms)
+7: [ RUN      ] kokkosp.create_mirror_no_init_view_ctor
+7: [       OK ] kokkosp.create_mirror_no_init_view_ctor (0 ms)
+7: [ RUN      ] kokkosp.create_mirror_view_and_copy
+7: [       OK ] kokkosp.create_mirror_view_and_copy (0 ms)
+7: [----------] 31 tests from kokkosp (8 ms total)
+7: 
+7: [----------] Global test environment tear-down
+7: [==========] 31 tests from 1 test suite ran. (9 ms total)
+7: [  PASSED  ] 31 tests.
+ 7/42 Test  #7: Kokkos_CoreUnitTest_KokkosP ................................   Passed    0.03 sec
+test 8
+      Start  8: Kokkos_CoreUnitTest_ToolIndependence
+
+8: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_ToolIndependence
+8: Test timeout computed to be: 1500
+ 8/42 Test  #8: Kokkos_CoreUnitTest_ToolIndependence .......................   Passed    0.01 sec
+test 9
+      Start  9: Kokkos_ProfilingTestLibraryLoadHelp
+
+9: Test command: /testbed/build/core/unit_test/Kokkos_ProfilingAllCalls "--kokkos-tools-help"
+9: Environment variables: 
+9:  KOKKOS_TOOLS_LIBS=/testbed/build/core/unit_test/libkokkosprinter-tool.so
+9: Test timeout computed to be: 1500
+9: kokkosp_init_library::kokkosp_print_help:Kokkos_ProfilingAllCalls::kokkosp_finalize_library::
+ 9/42 Test  #9: Kokkos_ProfilingTestLibraryLoadHelp ........................   Passed    0.02 sec
+test 10
+      Start 10: Kokkos_ProfilingTestLibraryCmdLineHelp
+
+10: Test command: /testbed/build/core/unit_test/Kokkos_ProfilingAllCalls "--kokkos-tools-help" "--kokkos-tools-libs=/testbed/build/core/unit_test/libkokkosprinter-tool.so"
+10: Test timeout computed to be: 1500
+10: kokkosp_init_library::kokkosp_print_help:Kokkos_ProfilingAllCalls::kokkosp_finalize_library::
+10/42 Test #10: Kokkos_ProfilingTestLibraryCmdLineHelp .....................   Passed    0.02 sec
+test 11
+      Start 11: Kokkos_ProfilingTestLibraryLoad
+
+11: Test command: /testbed/build/core/unit_test/Kokkos_ProfilingAllCalls "--kokkos-tools-args="-c test delimit""
+11: Environment variables: 
+11:  KOKKOS_TOOLS_LIBS=/testbed/build/core/unit_test/libkokkosprinter-tool.so
+11: Test timeout computed to be: 1500
+11: kokkosp_init_library::kokkosp_parse_args:4:Kokkos_ProfilingAllCalls:-c:test:delimit::kokkosp_parse_args:4:Kokkos_ProfilingAllCalls:-c:test:delimit::kokkosp_declare_metadata:CPU architecture:none::kokkosp_declare_metadata:Default Device:Serial::kokkosp_declare_metadata:GPU architecture:none::kokkosp_declare_metadata:platform:64bit::kokkosp_declare_metadata:desul atomics version:5e8dd8b549c0de391acb77535a40aa5668c35d01::kokkosp_declare_metadata:KOKKOS_COMPILER_GNU:1140::kokkosp_declare_metadata:KOKKOS_ENABLE_ASM:yes::kokkosp_declare_metadata:KOKKOS_ENABLE_CXX20:yes::kokkosp_declare_metadata:KOKKOS_ENABLE_CXX23:no::kokkosp_declare_metadata:KOKKOS_ENABLE_CXX26:no::kokkosp_declare_metadata:KOKKOS_ENABLE_DEBUG_BOUNDS_CHECK:no::kokkosp_declare_metadata:KOKKOS_ENABLE_HWLOC:no::kokkosp_declare_metadata:KOKKOS_ENABLE_LIBDL:yes::kokkosp_declare_metadata:compiler_family:gnu::kokkosp_declare_metadata:KOKKOS_ENABLE_PRAGMA_IVDEP:no::kokkosp_declare_metadata:KOKKOS_ENABLE_PRAGMA_LOOPCOUNT:no::kokkosp_declare_metadata:KOKKOS_ENABLE_PRAGMA_UNROLL:no::kokkosp_declare_metadata:KOKKOS_ENABLE_PRAGMA_VECTOR:no::kokkosp_declare_metadata:Kokkos Version:5.1.99::kokkosp_declare_metadata:mdspan:enabled::kokkosp_declare_metadata:mdspan version:5d4eb209c77f4744980c0b0c2af44636cc81b08b::kokkosp_allocate_data:Host:source:0x40000a9b00:40::kokkosp_begin_parallel_for:Kokkos::View::initialization [source] via memset:1:0::kokkosp_end_parallel_for:0::kokkosp_allocate_data:Host:destination:0x40000a9d40:40::kokkosp_begin_parallel_for:Kokkos::View::initialization [destination] via memset:1:0::kokkosp_end_parallel_for:0::kokkosp_begin_deep_copy:Host:destination:0x40000a9dc0:Host:source:0x40000a9b80:40::kokkosp_end_deep_copy::kokkosp_begin_parallel_for:parallel_for:1:0::kokkosp_end_parallel_for:0::kokkosp_begin_parallel_reduce:parallel_reduce:1:1::kokkosp_allocate_data:Host:Kokkos::Serial::scratch_mem:0x40000a9e80:11264::kokkosp_end_parallel_reduce:1::kokkosp_begin_parallel_scan:parallel_scan:1:2::kokkosp_end_parallel_scan:2::kokkosp_push_profile_region:push_region::kokkosp_pop_profile_region::kokkosp_create_profile_section:created_section:3::kokkosp_start_profile_section:3::kokkosp_stop_profile_section:3::kokkosp_destroy_profile_section:3::kokkosp_profile_event:profiling_event::kokkosp_declare_metadata:dogs:good::kokkosp_deallocate_data:Host:destination:0x40000a9d40:40::kokkosp_deallocate_data:Host:source:0x40000a9b00:40::kokkosp_finalize_library::
+11/42 Test #11: Kokkos_ProfilingTestLibraryLoad ............................   Passed    0.02 sec
+test 12
+      Start 12: Kokkos_ProfilingTestLibraryCmdLine
+
+12: Test command: /testbed/build/core/unit_test/Kokkos_ProfilingAllCalls "--kokkos-tools-args=-c test delimit" "--kokkos-tools-libs=/testbed/build/core/unit_test/libkokkosprinter-tool.so"
+12: Test timeout computed to be: 1500
+12: kokkosp_init_library::kokkosp_parse_args:4:Kokkos_ProfilingAllCalls:-c:test:delimit::kokkosp_parse_args:4:Kokkos_ProfilingAllCalls:-c:test:delimit::kokkosp_declare_metadata:CPU architecture:none::kokkosp_declare_metadata:Default Device:Serial::kokkosp_declare_metadata:GPU architecture:none::kokkosp_declare_metadata:platform:64bit::kokkosp_declare_metadata:desul atomics version:5e8dd8b549c0de391acb77535a40aa5668c35d01::kokkosp_declare_metadata:KOKKOS_COMPILER_GNU:1140::kokkosp_declare_metadata:KOKKOS_ENABLE_ASM:yes::kokkosp_declare_metadata:KOKKOS_ENABLE_CXX20:yes::kokkosp_declare_metadata:KOKKOS_ENABLE_CXX23:no::kokkosp_declare_metadata:KOKKOS_ENABLE_CXX26:no::kokkosp_declare_metadata:KOKKOS_ENABLE_DEBUG_BOUNDS_CHECK:no::kokkosp_declare_metadata:KOKKOS_ENABLE_HWLOC:no::kokkosp_declare_metadata:KOKKOS_ENABLE_LIBDL:yes::kokkosp_declare_metadata:compiler_family:gnu::kokkosp_declare_metadata:KOKKOS_ENABLE_PRAGMA_IVDEP:no::kokkosp_declare_metadata:KOKKOS_ENABLE_PRAGMA_LOOPCOUNT:no::kokkosp_declare_metadata:KOKKOS_ENABLE_PRAGMA_UNROLL:no::kokkosp_declare_metadata:KOKKOS_ENABLE_PRAGMA_VECTOR:no::kokkosp_declare_metadata:Kokkos Version:5.1.99::kokkosp_declare_metadata:mdspan:enabled::kokkosp_declare_metadata:mdspan version:5d4eb209c77f4744980c0b0c2af44636cc81b08b::kokkosp_allocate_data:Host:source:0x40000a9b00:40::kokkosp_begin_parallel_for:Kokkos::View::initialization [source] via memset:1:0::kokkosp_end_parallel_for:0::kokkosp_allocate_data:Host:destination:0x40000a9d40:40::kokkosp_begin_parallel_for:Kokkos::View::initialization [destination] via memset:1:0::kokkosp_end_parallel_for:0::kokkosp_begin_deep_copy:Host:destination:0x40000a9dc0:Host:source:0x40000a9b80:40::kokkosp_end_deep_copy::kokkosp_begin_parallel_for:parallel_for:1:0::kokkosp_end_parallel_for:0::kokkosp_begin_parallel_reduce:parallel_reduce:1:1::kokkosp_allocate_data:Host:Kokkos::Serial::scratch_mem:0x40000a9e80:11264::kokkosp_end_parallel_reduce:1::kokkosp_begin_parallel_scan:parallel_scan:1:2::kokkosp_end_parallel_scan:2::kokkosp_push_profile_region:push_region::kokkosp_pop_profile_region::kokkosp_create_profile_section:created_section:3::kokkosp_start_profile_section:3::kokkosp_stop_profile_section:3::kokkosp_destroy_profile_section:3::kokkosp_profile_event:profiling_event::kokkosp_declare_metadata:dogs:good::kokkosp_deallocate_data:Host:destination:0x40000a9d40:40::kokkosp_deallocate_data:Host:source:0x40000a9b00:40::kokkosp_finalize_library::
+12/42 Test #12: Kokkos_ProfilingTestLibraryCmdLine .........................   Passed    0.02 sec
+test 13
+      Start 13: Kokkos_CoreUnitTest_StackTraceTest
+
+13: Test command: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec
+13: Test timeout computed to be: 1500
+13: [==========] Running 3 tests from 2 test suites.
+13: [----------] Global test environment set-up.
+13: [----------] 2 tests from defaultdevicetype_DeathTest
+13: [ RUN      ] defaultdevicetype_DeathTest.stacktrace_terminate
+13: Top of f1
+13: Top of f0
+13: Top of f0
+13: test_f1:
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN6Kokkos4Impl15save_stacktraceEv+0x19) [0x40000a7ce9]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test18stacktrace_test_f1ERSo+0x5f) [0x400004596f]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test15test_stacktraceEbb+0x66) [0x400003e4c6]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test53defaultdevicetype_DeathTest_stacktrace_terminate_Test8TestBodyEv+0x41f) [0x4000040d3f]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal35HandleExceptionsInMethodIfSupportedINS_4TestEvEET0_PT_MS4_FS3_vEPKc+0x51) [0x4000085c01]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x74ee5) [0x4000074ee5]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x75635) [0x4000075635]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x76161) [0x4000076161]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal12UnitTestImpl11RunAllTestsEv+0x137c) [0x4000077b7c]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8UnitTest3RunEv+0x98) [0x4000075b18]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(main+0x37) [0x400003ce97]
+13: /lib/x86_64-linux-gnu/libc.so.6(+0x29d90) [0x4002cc3d90]
+13: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80) [0x4002cc3e40]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_start+0x25) [0x400003e2d5]
+13:  
+13: demangled test_f1:
+13: [0x40000a7ce9] Kokkos::Impl::save_stacktrace()
+13: [0x400004596f] Test::stacktrace_test_f1(std::ostream&)
+13: [0x400003e4c6] Test::test_stacktrace(bool, bool)
+13: [0x4000040d3f] Test::defaultdevicetype_DeathTest_stacktrace_terminate_Test::TestBody()
+13: [0x4000085c01] void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*)
+13: [0x4000074ee5] 
+13: [0x4000075635] 
+13: [0x4000076161] 
+13: [0x4000077b7c] testing::internal::UnitTestImpl::RunAllTests()
+13: [0x4000075b18] testing::UnitTest::Run()
+13: [0x400003ce97] main
+13: [0x4002cc3d90] 
+13: [0x4002cc3e40] __libc_start_main
+13: [0x400003e2d5] _start
+13:  
+13: Top of f3
+13: Top of f3
+13: Top of f3
+13: Top of f3
+13: Top of f3
+13: Top of f1
+13: Top of f0
+13: Top of f0
+13: StackTrace f3(std::cout, 4) returned: 110
+13: test_f3:
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN6Kokkos4Impl15save_stacktraceEv+0x19) [0x40000a7ce9]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test18stacktrace_test_f1ERSo+0x5f) [0x400004596f]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test18stacktrace_test_f3ERSoi+0xa8) [0x4000045b98]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test15test_stacktraceEbb+0x8db) [0x400003ed3b]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test53defaultdevicetype_DeathTest_stacktrace_terminate_Test8TestBodyEv+0x41f) [0x4000040d3f]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal35HandleExceptionsInMethodIfSupportedINS_4TestEvEET0_PT_MS4_FS3_vEPKc+0x51) [0x4000085c01]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x74ee5) [0x4000074ee5]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x75635) [0x4000075635]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x76161) [0x4000076161]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal12UnitTestImpl11RunAllTestsEv+0x137c) [0x4000077b7c]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8UnitTest3RunEv+0x98) [0x4000075b18]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(main+0x37) [0x400003ce97]
+13: /lib/x86_64-linux-gnu/libc.so.6(+0x29d90) [0x4002cc3d90]
+13: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80) [0x4002cc3e40]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_start+0x25) [0x400003e2d5]
+13:  
+13: demangled test_f3:
+13: [0x40000a7ce9] Kokkos::Impl::save_stacktrace()
+13: [0x400004596f] Test::stacktrace_test_f1(std::ostream&)
+13: [0x4000045b98] Test::stacktrace_test_f3(std::ostream&, int)
+13: [0x400003ed3b] Test::test_stacktrace(bool, bool)
+13: [0x4000040d3f] Test::defaultdevicetype_DeathTest_stacktrace_terminate_Test::TestBody()
+13: [0x4000085c01] void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*)
+13: [0x4000074ee5] 
+13: [0x4000075635] 
+13: [0x4000076161] 
+13: [0x4000077b7c] testing::internal::UnitTestImpl::RunAllTests()
+13: [0x4000075b18] testing::UnitTest::Run()
+13: [0x400003ce97] main
+13: [0x4002cc3d90] 
+13: [0x4002cc3e40] __libc_start_main
+13: [0x400003e2d5] _start
+13:  
+13: Test setting std::terminate handler that prints the last saved stack trace
+13: [       OK ] defaultdevicetype_DeathTest.stacktrace_terminate (38 ms)
+13: [ RUN      ] defaultdevicetype_DeathTest.stacktrace_generic_term
+13: Top of f1
+13: Top of f0
+13: Top of f0
+13: test_f1:
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN6Kokkos4Impl15save_stacktraceEv+0x19) [0x40000a7ce9]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test18stacktrace_test_f1ERSo+0x5f) [0x400004596f]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test15test_stacktraceEbb+0x66) [0x400003e4c6]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test56defaultdevicetype_DeathTest_stacktrace_generic_term_Test8TestBodyEv+0x41c) [0x400004121c]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal35HandleExceptionsInMethodIfSupportedINS_4TestEvEET0_PT_MS4_FS3_vEPKc+0x51) [0x4000085c01]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x74ee5) [0x4000074ee5]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x75635) [0x4000075635]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x76161) [0x4000076161]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal12UnitTestImpl11RunAllTestsEv+0x137c) [0x4000077b7c]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8UnitTest3RunEv+0x98) [0x4000075b18]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(main+0x37) [0x400003ce97]
+13: /lib/x86_64-linux-gnu/libc.so.6(+0x29d90) [0x4002cc3d90]
+13: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80) [0x4002cc3e40]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_start+0x25) [0x400003e2d5]
+13:  
+13: demangled test_f1:
+13: [0x40000a7ce9] Kokkos::Impl::save_stacktrace()
+13: [0x400004596f] Test::stacktrace_test_f1(std::ostream&)
+13: [0x400003e4c6] Test::test_stacktrace(bool, bool)
+13: [0x400004121c] Test::defaultdevicetype_DeathTest_stacktrace_generic_term_Test::TestBody()
+13: [0x4000085c01] void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*)
+13: [0x4000074ee5] 
+13: [0x4000075635] 
+13: [0x4000076161] 
+13: [0x4000077b7c] testing::internal::UnitTestImpl::RunAllTests()
+13: [0x4000075b18] testing::UnitTest::Run()
+13: [0x400003ce97] main
+13: [0x4002cc3d90] 
+13: [0x4002cc3e40] __libc_start_main
+13: [0x400003e2d5] _start
+13:  
+13: Top of f3
+13: Top of f3
+13: Top of f3
+13: Top of f3
+13: Top of f3
+13: Top of f1
+13: Top of f0
+13: Top of f0
+13: StackTrace f3(std::cout, 4) returned: 110
+13: test_f3:
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN6Kokkos4Impl15save_stacktraceEv+0x19) [0x40000a7ce9]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test18stacktrace_test_f1ERSo+0x5f) [0x400004596f]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test18stacktrace_test_f3ERSoi+0xa8) [0x4000045b98]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test15test_stacktraceEbb+0x8db) [0x400003ed3b]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test56defaultdevicetype_DeathTest_stacktrace_generic_term_Test8TestBodyEv+0x41c) [0x400004121c]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal35HandleExceptionsInMethodIfSupportedINS_4TestEvEET0_PT_MS4_FS3_vEPKc+0x51) [0x4000085c01]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x74ee5) [0x4000074ee5]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x75635) [0x4000075635]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x76161) [0x4000076161]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal12UnitTestImpl11RunAllTestsEv+0x137c) [0x4000077b7c]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8UnitTest3RunEv+0x98) [0x4000075b18]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(main+0x37) [0x400003ce97]
+13: /lib/x86_64-linux-gnu/libc.so.6(+0x29d90) [0x4002cc3d90]
+13: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80) [0x4002cc3e40]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_start+0x25) [0x400003e2d5]
+13:  
+13: demangled test_f3:
+13: [0x40000a7ce9] Kokkos::Impl::save_stacktrace()
+13: [0x400004596f] Test::stacktrace_test_f1(std::ostream&)
+13: [0x4000045b98] Test::stacktrace_test_f3(std::ostream&, int)
+13: [0x400003ed3b] Test::test_stacktrace(bool, bool)
+13: [0x400004121c] Test::defaultdevicetype_DeathTest_stacktrace_generic_term_Test::TestBody()
+13: [0x4000085c01] void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*)
+13: [0x4000074ee5] 
+13: [0x4000075635] 
+13: [0x4000076161] 
+13: [0x4000077b7c] testing::internal::UnitTestImpl::RunAllTests()
+13: [0x4000075b18] testing::UnitTest::Run()
+13: [0x400003ce97] main
+13: [0x4002cc3d90] 
+13: [0x4002cc3e40] __libc_start_main
+13: [0x400003e2d5] _start
+13:  
+13: Test setting std::terminate handler that prints the last saved stack trace
+13: [       OK ] defaultdevicetype_DeathTest.stacktrace_generic_term (35 ms)
+13: [----------] 2 tests from defaultdevicetype_DeathTest (74 ms total)
+13: 
+13: [----------] 1 test from defaultdevicetype
+13: [ RUN      ] defaultdevicetype.stacktrace_normal
+13: Top of f1
+13: Top of f0
+13: Top of f0
+13: test_f1:
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN6Kokkos4Impl15save_stacktraceEv+0x19) [0x40000a7ce9]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test18stacktrace_test_f1ERSo+0x5f) [0x400004596f]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test15test_stacktraceEbb+0x66) [0x400003e4c6]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal35HandleExceptionsInMethodIfSupportedINS_4TestEvEET0_PT_MS4_FS3_vEPKc+0x51) [0x4000085c01]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x74ee5) [0x4000074ee5]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x75635) [0x4000075635]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x76161) [0x4000076161]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal12UnitTestImpl11RunAllTestsEv+0x137c) [0x4000077b7c]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8UnitTest3RunEv+0x98) [0x4000075b18]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(main+0x37) [0x400003ce97]
+13: /lib/x86_64-linux-gnu/libc.so.6(+0x29d90) [0x4002cc3d90]
+13: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80) [0x4002cc3e40]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_start+0x25) [0x400003e2d5]
+13:  
+13: demangled test_f1:
+13: [0x40000a7ce9] Kokkos::Impl::save_stacktrace()
+13: [0x400004596f] Test::stacktrace_test_f1(std::ostream&)
+13: [0x400003e4c6] Test::test_stacktrace(bool, bool)
+13: [0x4000085c01] void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*)
+13: [0x4000074ee5] 
+13: [0x4000075635] 
+13: [0x4000076161] 
+13: [0x4000077b7c] testing::internal::UnitTestImpl::RunAllTests()
+13: [0x4000075b18] testing::UnitTest::Run()
+13: [0x400003ce97] main
+13: [0x4002cc3d90] 
+13: [0x4002cc3e40] __libc_start_main
+13: [0x400003e2d5] _start
+13:  
+13: Top of f3
+13: Top of f3
+13: Top of f3
+13: Top of f3
+13: Top of f3
+13: Top of f1
+13: Top of f0
+13: Top of f0
+13: StackTrace f3(std::cout, 4) returned: 110
+13: test_f3:
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN6Kokkos4Impl15save_stacktraceEv+0x19) [0x40000a7ce9]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test18stacktrace_test_f1ERSo+0x5f) [0x400004596f]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test18stacktrace_test_f3ERSoi+0xa8) [0x4000045b98]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN4Test15test_stacktraceEbb+0x8db) [0x400003ed3b]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal35HandleExceptionsInMethodIfSupportedINS_4TestEvEET0_PT_MS4_FS3_vEPKc+0x51) [0x4000085c01]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x74ee5) [0x4000074ee5]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x75635) [0x4000075635]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(+0x76161) [0x4000076161]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8internal12UnitTestImpl11RunAllTestsEv+0x137c) [0x4000077b7c]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_ZN7testing8UnitTest3RunEv+0x98) [0x4000075b18]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(main+0x37) [0x400003ce97]
+13: /lib/x86_64-linux-gnu/libc.so.6(+0x29d90) [0x4002cc3d90]
+13: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80) [0x4002cc3e40]
+13: /testbed/build/core/unit_test/Kokkos_StackTraceTestExec(_start+0x25) [0x400003e2d5]
+13:  
+13: demangled test_f3:
+13: [0x40000a7ce9] Kokkos::Impl::save_stacktrace()
+13: [0x400004596f] Test::stacktrace_test_f1(std::ostream&)
+13: [0x4000045b98] Test::stacktrace_test_f3(std::ostream&, int)
+13: [0x400003ed3b] Test::test_stacktrace(bool, bool)
+13: [0x4000085c01] void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*)
+13: [0x4000074ee5] 
+13: [0x4000075635] 
+13: [0x4000076161] 
+13: [0x4000077b7c] testing::internal::UnitTestImpl::RunAllTests()
+13: [0x4000075b18] testing::UnitTest::Run()
+13: [0x400003ce97] main
+13: [0x4002cc3d90] 
+13: [0x4002cc3e40] __libc_start_main
+13: [0x400003e2d5] _start
+13:  
+13: Test setting std::terminate handler that prints the last saved stack trace
+13: [       OK ] defaultdevicetype.stacktrace_normal (6 ms)
+13: [----------] 1 test from defaultdevicetype (6 ms total)
+13: 
+13: [----------] Global test environment tear-down
+13: [==========] 3 tests from 2 test suites ran. (81 ms total)
+13: [  PASSED  ] 3 tests.
+13/42 Test #13: Kokkos_CoreUnitTest_StackTraceTest .........................   Passed    0.10 sec
+test 14
+      Start 14: Kokkos_IncrementalTest_SERIAL
+
+14: Test command: /testbed/build/core/unit_test/Kokkos_IncrementalTest_SERIAL
+14: Test timeout computed to be: 1500
+14: [==========] Running 28 tests from 1 test suite.
+14: [----------] Global test environment set-up.
+14: [----------] 28 tests from SERIAL
+14: [ RUN      ] SERIAL.IncrTest_01_execspace_typedef
+14: [       OK ] SERIAL.IncrTest_01_execspace_typedef (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_01_execspace
+14: Host Serial Execution Space:
+14:   KOKKOS_ENABLE_SERIAL: yes
+14: 
+14: Serial Runtime Configuration:
+14: Serial
+14: [       OK ] SERIAL.IncrTest_01_execspace (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_02_AtomicExchange
+14: [       OK ] SERIAL.IncrTest_02_AtomicExchange (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_02_AtomicAdd
+14: [       OK ] SERIAL.IncrTest_02_AtomicAdd (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_02_AtomicSub
+14: [       OK ] SERIAL.IncrTest_02_AtomicSub (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_03a_memspace_malloc
+14: [       OK ] SERIAL.IncrTest_03a_memspace_malloc (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_03b_memspace_free
+14: [       OK ] SERIAL.IncrTest_03b_memspace_free (70 ms)
+14: [ RUN      ] SERIAL.IncrTest_04_simple_parallelFor
+14: [       OK ] SERIAL.IncrTest_04_simple_parallelFor (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_04_RangePolicy_parallelFor
+14: [       OK ] SERIAL.IncrTest_04_RangePolicy_parallelFor (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_05_reduction
+14: [       OK ] SERIAL.IncrTest_05_reduction (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_06_mdrange2D
+14: [       OK ] SERIAL.IncrTest_06_mdrange2D (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_06_mdrange3D
+14: [       OK ] SERIAL.IncrTest_06_mdrange3D (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_06_mdrange4D
+14: [       OK ] SERIAL.IncrTest_06_mdrange4D (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_08_deep_copy_2D
+14: [       OK ] SERIAL.IncrTest_08_deep_copy_2D (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_08_deep_copy_3D
+14: [       OK ] SERIAL.IncrTest_08_deep_copy_3D (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_08_deep_copy_4D
+14: [       OK ] SERIAL.IncrTest_08_deep_copy_4D (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_10_Hierarchical_Basics
+14: [       OK ] SERIAL.IncrTest_10_Hierarchical_Basics (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_11a_Hierarchical_ForLoop
+14: [       OK ] SERIAL.IncrTest_11a_Hierarchical_ForLoop (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_11b_Hierarchical_ForLoop
+14: [       OK ] SERIAL.IncrTest_11b_Hierarchical_ForLoop (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_11c_Hierarchical_ForLoop
+14: [       OK ] SERIAL.IncrTest_11c_Hierarchical_ForLoop (326 ms)
+14: [ RUN      ] SERIAL.IncrTest_12a_ThreadScratch
+14: [       OK ] SERIAL.IncrTest_12a_ThreadScratch (3 ms)
+14: [ RUN      ] SERIAL.IncrTest_12b_TeamScratch
+14: [       OK ] SERIAL.IncrTest_12b_TeamScratch (4 ms)
+14: [ RUN      ] SERIAL.IncrTest_13a_Hierarchical_Red
+14: [       OK ] SERIAL.IncrTest_13a_Hierarchical_Red (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_13b_Hierarchical_Red
+14: [       OK ] SERIAL.IncrTest_13b_Hierarchical_Red (0 ms)
+14: [ RUN      ] SERIAL.IncrTest_13c_Hierarchical_Red
+14: [       OK ] SERIAL.IncrTest_13c_Hierarchical_Red (0 ms)
+14: [ RUN      ] SERIAL.incr_14_MDrangeReduce
+14: [       OK ] SERIAL.incr_14_MDrangeReduce (1 ms)
+14: [ RUN      ] SERIAL.IncrTest_16_parallelscan
+14: [       OK ] SERIAL.IncrTest_16_parallelscan (1 ms)
+14: [ RUN      ] SERIAL.incr_17_atomicView
+14: [       OK ] SERIAL.incr_17_atomicView (0 ms)
+14: [----------] 28 tests from SERIAL (418 ms total)
+14: 
+14: [----------] Global test environment tear-down
+14: [==========] 28 tests from 1 test suite ran. (419 ms total)
+14: [  PASSED  ] 28 tests.
+14/42 Test #14: Kokkos_IncrementalTest_SERIAL ..............................   Passed    0.44 sec
+test 15
+      Start 15: Kokkos_CoreUnitTest_CTestDevice
+
+15: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_CTestDevice
+15: Test timeout computed to be: 1500
+15: [==========] Running 8 tests from 2 test suites.
+15: [----------] Global test environment set-up.
+15: [----------] 5 tests from ctest_environment_DeathTest
+15: [ RUN      ] ctest_environment_DeathTest.invalid_rank
+15: [       OK ] ctest_environment_DeathTest.invalid_rank (34 ms)
+15: [ RUN      ] ctest_environment_DeathTest.no_type_str
+15: [       OK ] ctest_environment_DeathTest.no_type_str (30 ms)
+15: [ RUN      ] ctest_environment_DeathTest.missing_type
+15: [       OK ] ctest_environment_DeathTest.missing_type (105 ms)
+15: [ RUN      ] ctest_environment_DeathTest.no_id_str
+15: [       OK ] ctest_environment_DeathTest.no_id_str (50 ms)
+15: [ RUN      ] ctest_environment_DeathTest.invalid_id_str
+15: [       OK ] ctest_environment_DeathTest.invalid_id_str (70 ms)
+15: [----------] 5 tests from ctest_environment_DeathTest (291 ms total)
+15: 
+15: [----------] 3 tests from ctest_environment
+15: [ RUN      ] ctest_environment.no_device_type
+15: [       OK ] ctest_environment.no_device_type (0 ms)
+15: [ RUN      ] ctest_environment.no_process_count
+15: [       OK ] ctest_environment.no_process_count (0 ms)
+15: [ RUN      ] ctest_environment.good
+15: [       OK ] ctest_environment.good (0 ms)
+15: [----------] 3 tests from ctest_environment (1 ms total)
+15: 
+15: [----------] Global test environment tear-down
+15: [==========] 8 tests from 2 test suites ran. (294 ms total)
+15: [  PASSED  ] 8 tests.
+15/42 Test #15: Kokkos_CoreUnitTest_CTestDevice ............................   Passed    0.32 sec
+test 16
+      Start 16: Kokkos_CoreUnitTest_CMakePassCmdLineArgs0
+
+16: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_CMakePassCmdLineArgs "one" "2" "THREE"
+16: Test timeout computed to be: 1500
+16/42 Test #16: Kokkos_CoreUnitTest_CMakePassCmdLineArgs0 ..................   Passed    0.01 sec
+test 17
+      Start 17: Kokkos_CoreUnitTest_CMakeTriBITSCompatibilityWillFail
+
+17: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_CMakeTriBITSCompatibility
+17: Test timeout computed to be: 1500
+17: must be called with `KOKKOS_TEST_TRIBITS_COMPATIBILITY` environment variable set or pass `--kokkos-test-tribits-compatibility` as command line argument
+17/42 Test #17: Kokkos_CoreUnitTest_CMakeTriBITSCompatibilityWillFail ......   Passed    0.01 sec
+test 18
+      Start 18: Kokkos_CoreUnitTest_CMakeTriBITSCompatibilityExtraArgs
+
+18: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_CMakeTriBITSCompatibility "--kokkos-test-tribits-compatibility=1"
+18: Test timeout computed to be: 1500
+18/42 Test #18: Kokkos_CoreUnitTest_CMakeTriBITSCompatibilityExtraArgs .....   Passed    0.01 sec
+test 19
+      Start 19: Kokkos_CoreUnitTest_CMakeTriBITSCompatibilityEnvironment
+
+19: Test command: /testbed/build/core/unit_test/Kokkos_CoreUnitTest_CMakeTriBITSCompatibility
+19: Environment variables: 
+19:  KOKKOS_TEST_TRIBITS_COMPATIBILITY=1
+19: Test timeout computed to be: 1500
+19/42 Test #19: Kokkos_CoreUnitTest_CMakeTriBITSCompatibilityEnvironment ...   Passed    0.01 sec
+test 20
+      Start 20: Kokkos_CoreUnitTest_DeviceAndThreads
+
+20: Test command: /usr/bin/python3.10 "/testbed/build/core/unit_test/TestDeviceAndThreads.py" "-v"
+20: Test timeout computed to be: 1500
+20: test_device_id (__main__.KokkosInitializationTestCase) ... skipped 'no device backend enabled'
+20: test_disable_warnings (__main__.KokkosInitializationTestCase) ... ok
+20: test_num_devices (__main__.KokkosInitializationTestCase) ... skipped 'no device backend enabled'
+20: test_num_threads (__main__.KokkosInitializationTestCase) ... skipped 'no host parallel backend enabled'
+20: test_tune_internals (__main__.KokkosInitializationTestCase) ... ok
+20: 
+20: ----------------------------------------------------------------------
+20: Ran 5 tests in 0.173s
+20: 
+20: OK (skipped=3)
+20/42 Test #20: Kokkos_CoreUnitTest_DeviceAndThreads .......................   Passed    0.56 sec
+test 21
+      Start 21: Kokkos_ContainersUnitTest_Serial
+
+21: Test command: /testbed/build/containers/unit_tests/Kokkos_ContainersUnitTest_Serial
+21: Test timeout computed to be: 1500
+21: [==========] Running 76 tests from 2 test suites.
+21: [----------] Global test environment set-up.
+21: [----------] 2 tests from serial_DeathTest
+21: [ RUN      ] serial_DeathTest.dualview_external_view_construction
+21: [       OK ] serial_DeathTest.dualview_external_view_construction (40 ms)
+21: [ RUN      ] serial_DeathTest.offsetview_unmanaged_construction
+21: [       OK ] serial_DeathTest.offsetview_unmanaged_construction (459 ms)
+21: [----------] 2 tests from serial_DeathTest (500 ms total)
+21: 
+21: [----------] 74 tests from serial
+21: [ RUN      ] serial.bitset
+21: [       OK ] serial.bitset (1241 ms)
+21: [ RUN      ] serial.bitset_default_constructor_no_alloc
+21: [       OK ] serial.bitset_default_constructor_no_alloc (0 ms)
+21: [ RUN      ] serial.dualview_combination
+21: [       OK ] serial.dualview_combination (1 ms)
+21: [ RUN      ] serial.dualview_alloc
+21: [       OK ] serial.dualview_alloc (0 ms)
+21: [ RUN      ] serial.test_dualview_copy_construction_and_assignment
+21: [       OK ] serial.test_dualview_copy_construction_and_assignment (0 ms)
+21: [ RUN      ] serial.dualview_combinations_without_init
+21: [       OK ] serial.dualview_combinations_without_init (0 ms)
+21: [ RUN      ] serial.dualview_deep_copy
+21: [       OK ] serial.dualview_deep_copy (1 ms)
+21: [ RUN      ] serial.dualview_sync_should_fence
+21: [       OK ] serial.dualview_sync_should_fence (0 ms)
+21: [ RUN      ] serial.dualview_realloc
+21: [       OK ] serial.dualview_realloc (1 ms)
+21: [ RUN      ] serial.dualview_resize
+21: [       OK ] serial.dualview_resize (2 ms)
+21: [ RUN      ] serial.dualview_device_correct_kokkos_device
+21: [       OK ] serial.dualview_device_correct_kokkos_device (0 ms)
+21: [ RUN      ] serial.dualview_host_correct_kokkos_device
+21: [       OK ] serial.dualview_host_correct_kokkos_device (0 ms)
+21: [ RUN      ] serial.dualview_host_modify_template_device_sync
+21: [       OK ] serial.dualview_host_modify_template_device_sync (0 ms)
+21: [ RUN      ] serial.dualview_host_modify_template_device_execspace_sync
+21: [       OK ] serial.dualview_host_modify_template_device_execspace_sync (0 ms)
+21: [ RUN      ] serial.dualview_device_modify_template_host_sync
+21: [       OK ] serial.dualview_device_modify_template_host_sync (0 ms)
+21: [ RUN      ] serial.dualview_device_modify_template_host_execspace_sync
+21: [       OK ] serial.dualview_device_modify_template_host_execspace_sync (0 ms)
+21: [ RUN      ] serial.dualview_template_views_return_correct_executionspace_views
+21: [       OK ] serial.dualview_template_views_return_correct_executionspace_views (0 ms)
+21: [ RUN      ] serial.dualview_template_views_return_correct_views_from_const_dual_view
+21: [       OK ] serial.dualview_template_views_return_correct_views_from_const_dual_view (0 ms)
+21: [ RUN      ] serial.dualview_sequential_host_init
+21: [       OK ] serial.dualview_sequential_host_init (1 ms)
+21: [ RUN      ] serial.dualview_default_constructed
+21: [       OK ] serial.dualview_default_constructed (0 ms)
+21: [ RUN      ] serial.dualview_resize_single_device
+21: [       OK ] serial.dualview_resize_single_device (0 ms)
+21: [ RUN      ] serial.dynamic_view
+21: [       OK ] serial.dynamic_view (39 ms)
+21: [ RUN      ] serial.dyn_rank_view_api_generic
+21: [       OK ] serial.dyn_rank_view_api_generic (39 ms)
+21: [ RUN      ] serial.dyn_rank_view_api_operator_rank12345
+21: [       OK ] serial.dyn_rank_view_api_operator_rank12345 (2 ms)
+21: [ RUN      ] serial.dyn_rank_view_check_fence_resize_realloc
+21: [       OK ] serial.dyn_rank_view_check_fence_resize_realloc (0 ms)
+21: [ RUN      ] serial.dyn_rank_view_api_operator_rank67
+21: [       OK ] serial.dyn_rank_view_api_operator_rank67 (0 ms)
+21: [ RUN      ] serial.dyn_rank_view_ctor_from_members
+21: [       OK ] serial.dyn_rank_view_ctor_from_members (0 ms)
+21: [ RUN      ] serial.dyn_rank_view_ctor_from_layout_stride
+21: [       OK ] serial.dyn_rank_view_ctor_from_layout_stride (0 ms)
+21: [ RUN      ] serial.dyn_rank_view_layout_member
+21: [       OK ] serial.dyn_rank_view_layout_member (0 ms)
+21: [ RUN      ] serial.dyn_rank_view_layout_bug
+21: [       OK ] serial.dyn_rank_view_layout_bug (0 ms)
+21: [ RUN      ] serial.dyn_rank_view_team_scratch
+21: [       OK ] serial.dyn_rank_view_team_scratch (0 ms)
+21: [ RUN      ] serial.view_customization_extra_int_arg
+21: [       OK ] serial.view_customization_extra_int_arg (2 ms)
+21: [ RUN      ] serial.ErrorReporterViaLambda
+21: [       OK ] serial.ErrorReporterViaLambda (1 ms)
+21: [ RUN      ] serial.ErrorReporter
+21: [       OK ] serial.ErrorReporter (1 ms)
+21: [ RUN      ] serial.ErrorReporter_label_ctor
+21: [       OK ] serial.ErrorReporter_label_ctor (0 ms)
+21: [ RUN      ] serial.ErrorReporter_resize
+21: [       OK ] serial.ErrorReporter_resize (0 ms)
+21: [ RUN      ] serial.offsetview_construction
+21: [       OK ] serial.offsetview_construction (43 ms)
+21: [ RUN      ] serial.offsetview_unmanaged_construction
+21: [       OK ] serial.offsetview_unmanaged_construction (0 ms)
+21: [ RUN      ] serial.offsetview_subview
+21: [       OK ] serial.offsetview_subview (33 ms)
+21: [ RUN      ] serial.offsetview_offsets_rank1
+21: [       OK ] serial.offsetview_offsets_rank1 (0 ms)
+21: [ RUN      ] serial.offsetview_offsets_rank2
+21: [       OK ] serial.offsetview_offsets_rank2 (0 ms)
+21: [ RUN      ] serial.offsetview_offsets_rank3
+21: [       OK ] serial.offsetview_offsets_rank3 (0 ms)
+21: [ RUN      ] serial.scatterview
+21: [       OK ] serial.scatterview (3683 ms)
+21: [ RUN      ] serial.scatterview_devicetype
+21: [       OK ] serial.scatterview_devicetype (19 ms)
+21: [ RUN      ] serial.resize_realloc_no_init_dualview
+21: [       OK ] serial.resize_realloc_no_init_dualview (3 ms)
+21: [ RUN      ] serial.resize_realloc_no_alloc_dualview
+21: [       OK ] serial.resize_realloc_no_alloc_dualview (0 ms)
+21: [ RUN      ] serial.resize_exec_space_dualview
+21: [       OK ] serial.resize_exec_space_dualview (1 ms)
+21: [ RUN      ] serial.realloc_exec_space_dualview
+21: [       OK ] serial.realloc_exec_space_dualview (0 ms)
+21: [ RUN      ] serial.resize_realloc_no_init_dynrankview
+21: [       OK ] serial.resize_realloc_no_init_dynrankview (0 ms)
+21: [ RUN      ] serial.resize_exec_space_dynrankview
+21: [       OK ] serial.resize_exec_space_dynrankview (0 ms)
+21: [ RUN      ] serial.realloc_exec_space_dynrankview
+21: [       OK ] serial.realloc_exec_space_dynrankview (0 ms)
+21: [ RUN      ] serial.resize_realloc_no_init_scatterview
+21: [       OK ] serial.resize_realloc_no_init_scatterview (1 ms)
+21: [ RUN      ] serial.resize_realloc_no_alloc_scatterview
+21: [       OK ] serial.resize_realloc_no_alloc_scatterview (0 ms)
+21: [ RUN      ] serial.resize_exec_space_scatterview
+21: [       OK ] serial.resize_exec_space_scatterview (0 ms)
+21: [ RUN      ] serial.realloc_exec_space_scatterview
+21: [       OK ] serial.realloc_exec_space_scatterview (0 ms)
+21: [ RUN      ] serial.create_mirror_no_init_dynrankview
+21: [       OK ] serial.create_mirror_no_init_dynrankview (0 ms)
+21: [ RUN      ] serial.create_mirror_no_init_dynrankview_viewctor
+21: [       OK ] serial.create_mirror_no_init_dynrankview_viewctor (0 ms)
+21: [ RUN      ] serial.create_mirror_view_and_copy_dynrankview
+21: [       OK ] serial.create_mirror_view_and_copy_dynrankview (0 ms)
+21: [ RUN      ] serial.create_mirror_no_init_offsetview
+21: [       OK ] serial.create_mirror_no_init_offsetview (0 ms)
+21: [ RUN      ] serial.create_mirror_no_init_offsetview_view_ctor
+21: [       OK ] serial.create_mirror_no_init_offsetview_view_ctor (0 ms)
+21: [ RUN      ] serial.create_mirror_view_and_copy_offsetview
+21: [       OK ] serial.create_mirror_view_and_copy_offsetview (0 ms)
+21: [ RUN      ] serial.create_mirror_no_init_dynamicview
+21: [       OK ] serial.create_mirror_no_init_dynamicview (0 ms)
+21: [ RUN      ] serial.create_mirror_view_and_copy_dynamicview
+21: [       OK ] serial.create_mirror_view_and_copy_dynamicview (0 ms)
+21: [ RUN      ] serial.create_mirror_no_init_dynamicview_view_ctor
+21: [       OK ] serial.create_mirror_no_init_dynamicview_view_ctor (0 ms)
+21: [ RUN      ] serial.UnorderedMap_insert
+21: [       OK ] serial.UnorderedMap_insert (11667 ms)
+21: [ RUN      ] serial.UnorderedMap_failed_insert
+21: [       OK ] serial.UnorderedMap_failed_insert (4007 ms)
+21: [ RUN      ] serial.UnorderedMap_deep_copy
+21: [       OK ] serial.UnorderedMap_deep_copy (4 ms)
+21: [ RUN      ] serial.UnorderedMap_valid_empty
+21: [       OK ] serial.UnorderedMap_valid_empty (1 ms)
+21: [ RUN      ] serial.UnorderedMap_clear_zero_size
+21: [       OK ] serial.UnorderedMap_clear_zero_size (1 ms)
+21: [ RUN      ] serial.UnorderedMap_consistent_size
+21: [       OK ] serial.UnorderedMap_consistent_size (0 ms)
+21: [ RUN      ] serial.UnorderedMap_shallow_copyable_on_device
+21: [       OK ] serial.UnorderedMap_shallow_copyable_on_device (0 ms)
+21: [ RUN      ] serial.UnorderedMap_lambda_capturable
+21: [       OK ] serial.UnorderedMap_lambda_capturable (0 ms)
+21: [ RUN      ] serial.UnorderedMap_constructor_view_alloc
+21: [       OK ] serial.UnorderedMap_constructor_view_alloc (1 ms)
+21: [ RUN      ] serial.UnorderedMap_View_as_value
+21: [       OK ] serial.UnorderedMap_View_as_value (1 ms)
+21: [----------] 74 tests from serial (20826 ms total)
+21: 
+21: [----------] Global test environment tear-down
+21: [==========] 76 tests from 2 test suites ran. (21328 ms total)
+21: [  PASSED  ] 76 tests.
+21/42 Test #21: Kokkos_ContainersUnitTest_Serial ...........................   Passed   21.38 sec
+test 22
+      Start 22: Kokkos_UnitTest_Sort
+
+22: Test command: /testbed/build/algorithms/unit_tests/Kokkos_UnitTest_Sort
+22: Test timeout computed to be: 1500
+22: [==========] Running 17 tests from 2 test suites.
+22: [----------] Global test environment set-up.
+22: [----------] 1 test from serial_DeathTest
+22: [ RUN      ] serial_DeathTest.SortByKeyKeysLargerThanValues
+22: [       OK ] serial_DeathTest.SortByKeyKeysLargerThanValues (80 ms)
+22: [----------] 1 test from serial_DeathTest (80 ms total)
+22: 
+22: [----------] 16 tests from serial
+22: [ RUN      ] serial.SortUnsignedValueType
+22: [       OK ] serial.SortUnsignedValueType (676 ms)
+22: [ RUN      ] serial.SortEmptyView
+22: [       OK ] serial.SortEmptyView (0 ms)
+22: [ RUN      ] serial.SortByKeyEmptyView
+22: [       OK ] serial.SortByKeyEmptyView (0 ms)
+22: [ RUN      ] serial.SortByKeyEmptyViewHost
+22: [       OK ] serial.SortByKeyEmptyViewHost (0 ms)
+22: [ RUN      ] serial.SortByKey
+22: [       OK ] serial.SortByKey (1 ms)
+22: [ RUN      ] serial.SortByKeyWithComparator
+22: [       OK ] serial.SortByKeyWithComparator (0 ms)
+22: [ RUN      ] serial.SortByKeyStaticExtents
+22: [       OK ] serial.SortByKeyStaticExtents (0 ms)
+22: [ RUN      ] serial.SortByKeyWithStrides
+22: [       OK ] serial.SortByKeyWithStrides (2 ms)
+22: [ RUN      ] serial.SortWithCustomComparator
+22: [       OK ] serial.SortWithCustomComparator (171 ms)
+22: [ RUN      ] serial.BinSortGenericTests
+22: [       OK ] serial.BinSortGenericTests (2010 ms)
+22: [ RUN      ] serial.BinSortEmptyView
+22: [       OK ] serial.BinSortEmptyView (0 ms)
+22: [ RUN      ] serial.BinSortEmptyKeysView
+22: [       OK ] serial.BinSortEmptyKeysView (0 ms)
+22: [ RUN      ] serial.BinSort_issue_7221
+22: [       OK ] serial.BinSort_issue_7221 (0 ms)
+22: [ RUN      ] serial.BinSortUnsignedKeyLayoutStrideValues
+22: [       OK ] serial.BinSortUnsignedKeyLayoutStrideValues (27145 ms)
+22: [ RUN      ] serial.NestedSort
+22: [       OK ] serial.NestedSort (18 ms)
+22: [ RUN      ] serial.NestedSortByKey
+22: [       OK ] serial.NestedSortByKey (204 ms)
+22: [----------] 16 tests from serial (30234 ms total)
+22: 
+22: [----------] Global test environment tear-down
+22: [==========] 17 tests from 2 test suites ran. (30315 ms total)
+22: [  PASSED  ] 17 tests.
+22/42 Test #22: Kokkos_UnitTest_Sort .......................................   Passed   30.34 sec
+test 23
+      Start 23: Kokkos_UnitTest_Random
+
+23: Test command: /testbed/build/algorithms/unit_tests/Kokkos_UnitTest_Random
+23: Test timeout computed to be: 1500
+23: [==========] Running 3 tests from 1 test suite.
+23: [----------] Global test environment set-up.
+23: [----------] 3 tests from serial
+23: [ RUN      ] serial.Random_XorShift64
+23: Test Seed:1785344632178977315
+23: Test Scalar=int
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 0.0182424 -0.000327739 || 0.051031 2047 2398 || 2182.25 2222.06 || -4.53067 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 0.00193615 0.000309043 || 0.051031 1e+64 -1e+64
+23: Test Scalar=unsigned int
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 0.00128718 0.00175457 || 0.051031 2042 2398 || 2219.2 2222.06 || 24.2551 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 0.0150665 0.000496035 || 0.051031 1e+64 -1e+64
+23: Test Scalar=int64_t
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 -0.00569023 0.000257331 || 0.051031 2055 2416 || 2234.78 2222.06 || 3.55734 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 -0.0284356 0.000876682 || 0.051031 1e+64 -1e+64
+23: Test Scalar=uint64_t
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 -0.00966458 -0.000774486 || 0.051031 2033 2422 || 2243.75 2222.06 || -10.7065 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 -0.00171958 -0.000398717 || 0.051031 1e+64 -1e+64
+23: Test Scalar=half
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 -0.00814605 -7.73076e-05 || 0.051031 1982 2424 || 2240.31 2222.06 || -1.0687 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 0.0116843 0.000320233 || 0.051031 1e+64 -1e+64
+23: Test Scalar=bhalf
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 1.30208e-07 -0.0137763 -0.000526301 || 0.051031 2053 2394 || 2253.1 2222.06 || -7.27558 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 3.90625e-07 0.00900131 4.17162e-05 || 0.051031 1e+64 -1e+64
+23: Test Scalar=float
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 0.00822691 0.00168423 || 0.051031 2042 2402 || 2203.93 2222.06 || 23.2828 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 -0.0140253 0.000820076 || 0.051031 1e+64 -1e+64
+23: Test Scalar=double
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 0.0154176 0.00277181 || 0.051031 2052 2413 || 2188.32 2222.06 || 38.3174 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 -0.00431071 -0.000319859 || 0.051031 1e+64 -1e+64
+23: Test Seed:1785344642764837249
+23: Test Scalar=int
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 -0.00143501 0.000613805 || 0.051031 2032 2412 || 2225.25 2222.06 || 8.48524 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 0.0147509 -3.28723e-05 || 0.051031 1e+64 -1e+64
+23: Test Scalar=unsigned int
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 -0.0160219 0.00114694 || 0.051031 2045 2405 || 2258.24 2222.06 || 15.8553 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 0.0130876 -0.000450324 || 0.051031 1e+64 -1e+64
+23: Test Scalar=int64_t
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 0.00152902 -0.00132278 || 0.051031 2043 2420 || 2218.67 2222.06 || -18.2861 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 0.0190959 0.000179089 || 0.051031 1e+64 -1e+64
+23: Test Scalar=uint64_t
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 -0.0114876 -0.00041286 || 0.051031 2058 2402 || 2247.88 2222.06 || -5.70738 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 -0.00015014 -0.000690745 || 0.051031 1e+64 -1e+64
+23: Test Scalar=half
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 6.51042e-08 -0.0106904 0.000462126 || 0.051031 2003 2416 || 2246.07 2222.06 || 6.38844 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 1.95313e-07 0.0133272 0.000558159 || 0.051031 1e+64 -1e+64
+23: Test Scalar=bhalf
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 3.25521e-08 -0.00946171 0.000823482 || 0.051031 2032 2412 || 2243.29 2222.06 || 11.3838 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 9.76563e-08 0.0114358 0.000101666 || 0.051031 1e+64 -1e+64
+23: Test Scalar=float
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 3.25521e-08 0.00874125 6.22431e-05 || 0.051031 2039 2426 || 2202.81 2222.06 || 0.860448 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 9.76563e-08 -0.0103312 0.000169164 || 0.051031 1e+64 -1e+64
+23: Test Scalar=double
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 0 0.00465571 0.000735173 || 0.051031 2057 2439 || 2211.76 2222.06 || 10.163 -0.160751
+23:  -- Testing 3-D histogram
+23: Density 3D: 0 -0.00917044 -0.000578969 || 0.051031 1e+64 -1e+64
+23: [       OK ] serial.Random_XorShift64 (21384 ms)
+23: [ RUN      ] serial.Random_XorShift1024_0
+23: Test Seed:1785344653562541772
+23: Test Scalar=int
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 0.0114713 0.00038138 || 0.051031 2015 2383 || 2173.29 2198.22 || 5.2722 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 0.0206997 -0.000464425 || 0.051031 1e+64 -1e+64
+23: Test Scalar=unsigned int
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 -1.69267e-05 0.000506926 || 0.051031 2033 2370 || 2198.26 2198.22 || 7.00775 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 -0.00264848 -0.000100871 || 0.051031 1e+64 -1e+64
+23: Test Scalar=int64_t
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 0.0071669 -0.00196849 || 0.051031 2012 2380 || 2182.58 2198.22 || -27.2124 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 -0.0121044 7.45241e-05 || 0.051031 1e+64 -1e+64
+23: Test Scalar=uint64_t
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 -0.0160341 -0.000350696 || 0.051031 1990 2396 || 2234.04 2198.22 || -4.84802 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 -0.00553211 0.000101416 || 0.051031 1e+64 -1e+64
+23: Test Scalar=half
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.27255e-05 -0.0037601 0.000537048 || 0.051031 2038 2376 || 2206.52 2198.22 || 7.42415 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.28572e-05 0.00696747 0.000280773 || 0.051031 1e+64 -1e+64
+23: Test Scalar=bhalf
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26926e-05 0.00097006 -0.00210592 || 0.051031 2028 2383 || 2196.09 2198.22 || -29.1123 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.27585e-05 -0.00140909 9.4003e-06 || 0.051031 1e+64 -1e+64
+23: Test Scalar=float
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.27255e-05 0.0047928 0.000503706 || 0.051031 2015 2388 || 2187.74 2198.22 || 6.96323 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.28572e-05 0.0268422 -0.000350598 || 0.051031 1e+64 -1e+64
+23: Test Scalar=double
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 0.00170143 -0.00178771 || 0.051031 2035 2379 || 2194.49 2198.22 || -24.7133 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 -0.00433623 0.000162386 || 0.051031 1e+64 -1e+64
+23: Test Seed:1785344664292694040
+23: Test Scalar=int
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 0.00863793 -0.00066228 || 0.051031 1986 2380 || 2179.4 2198.22 || -9.15536 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 0.0132135 -0.000745248 || 0.051031 1e+64 -1e+64
+23: Test Scalar=unsigned int
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 0.00620905 -0.000527589 || 0.051031 1970 2386 || 2184.66 2198.22 || -7.29339 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 0.00698481 0.000458309 || 0.051031 1e+64 -1e+64
+23: Test Scalar=int64_t
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 -0.00317652 -0.0024158 || 0.051031 2019 2384 || 2205.23 2198.22 || -33.396 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 0.00717865 0.00138826 || 0.051031 1e+64 -1e+64
+23: Test Scalar=uint64_t
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 -0.0170068 0.000136593 || 0.051031 2018 2384 || 2236.25 2198.22 || 1.88826 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 -0.00289019 5.34268e-05 || 0.051031 1e+64 -1e+64
+23: Test Scalar=half
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 0.0110287 -0.00140798 || 0.051031 2014 2364 || 2174.24 2198.22 || -19.464 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 0.0250832 -0.000143662 || 0.051031 1e+64 -1e+64
+23: Test Scalar=bhalf
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26926e-05 -0.0270057 0.000280082 || 0.051031 2023 2398 || 2259.24 2198.22 || 3.87186 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.27585e-05 0.00634787 -0.000762788 || 0.051031 1e+64 -1e+64
+23: Test Scalar=float
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 0.0206519 -0.00127283 || 0.051031 2019 2388 || 2153.74 2198.22 || -17.5956 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 -0.0163401 -0.000151996 || 0.051031 1e+64 -1e+64
+23: Test Scalar=double
+23:  -- Testing randomness properties
+23:  -- Testing 1-D histogram
+23: Density 1D: 7.26597e-05 -0.00105359 -0.00045633 || 0.051031 2013 2423 || 2200.54 2198.22 || -6.30831 -0.159026
+23:  -- Testing 3-D histogram
+23: Density 3D: 7.26597e-05 -0.00335561 -0.000125087 || 0.051031 1e+64 -1e+64
+23: [       OK ] serial.Random_XorShift1024_0 (21282 ms)
+23: [ RUN      ] serial.Multi_streams
+23: [       OK ] serial.Multi_streams (8 ms)
+23: [----------] 3 tests from serial (42676 ms total)
+23: 
+23: [----------] Global test environment tear-down
+23: [==========] 3 tests from 1 test suite ran. (42677 ms total)
+23: [  PASSED  ] 3 tests.
+23/42 Test #23: Kokkos_UnitTest_Random .....................................   Passed   42.70 sec
+test 24
+      Start 24: Kokkos_AlgorithmsUnitTest_StdSet_A
+
+24: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_A
+24: Test timeout computed to be: 1500
+24: [==========] Running 16 tests from 4 test suites.
+24: [----------] Global test environment set-up.
+24: [----------] 1 test from std_algorithms_DeathTest
+24: [ RUN      ] std_algorithms_DeathTest.expect_no_overlap
+24: [       OK ] std_algorithms_DeathTest.expect_no_overlap (1 ms)
+24: [----------] 1 test from std_algorithms_DeathTest (1 ms total)
+24: 
+24: [----------] 3 tests from std_algorithms_reducers
+24: [ RUN      ] std_algorithms_reducers.max_first_loc
+24: [       OK ] std_algorithms_reducers.max_first_loc (0 ms)
+24: [ RUN      ] std_algorithms_reducers.min_first_loc
+24: [       OK ] std_algorithms_reducers.min_first_loc (0 ms)
+24: [ RUN      ] std_algorithms_reducers.min_max_first_last_loc
+24: [       OK ] std_algorithms_reducers.min_max_first_last_loc (0 ms)
+24: [----------] 3 tests from std_algorithms_reducers (0 ms total)
+24: 
+24: [----------] 1 test from std_algorithms
+24: [ RUN      ] std_algorithms.is_admissible_to_std_algorithms
+24: [       OK ] std_algorithms.is_admissible_to_std_algorithms (0 ms)
+24: [----------] 1 test from std_algorithms (0 ms total)
+24: 
+24: [----------] 11 tests from random_access_iterator_test
+24: [ RUN      ] random_access_iterator_test.constructor
+24: [       OK ] random_access_iterator_test.constructor (0 ms)
+24: [ RUN      ] random_access_iterator_test.constructiblity
+24: [       OK ] random_access_iterator_test.constructiblity (0 ms)
+24: [ RUN      ] random_access_iterator_test.dereference
+24: [       OK ] random_access_iterator_test.dereference (0 ms)
+24: [ RUN      ] random_access_iterator_test.subscript_operator
+24: [       OK ] random_access_iterator_test.subscript_operator (0 ms)
+24: [ RUN      ] random_access_iterator_test.operatorsSet1
+24: [       OK ] random_access_iterator_test.operatorsSet1 (0 ms)
+24: [ RUN      ] random_access_iterator_test.operatorsSet2
+24: [       OK ] random_access_iterator_test.operatorsSet2 (0 ms)
+24: [ RUN      ] random_access_iterator_test.operatorsSet3
+24: [       OK ] random_access_iterator_test.operatorsSet3 (0 ms)
+24: [ RUN      ] random_access_iterator_test.operatorsSet4
+24: [       OK ] random_access_iterator_test.operatorsSet4 (0 ms)
+24: [ RUN      ] random_access_iterator_test.assignment_operator
+24: [       OK ] random_access_iterator_test.assignment_operator (0 ms)
+24: [ RUN      ] random_access_iterator_test.distance
+24: [       OK ] random_access_iterator_test.distance (0 ms)
+24: [ RUN      ] random_access_iterator_test.traits_helpers
+24: [       OK ] random_access_iterator_test.traits_helpers (0 ms)
+24: [----------] 11 tests from random_access_iterator_test (2 ms total)
+24: 
+24: [----------] Global test environment tear-down
+24: [==========] 16 tests from 4 test suites ran. (6 ms total)
+24: [  PASSED  ] 16 tests.
+24/42 Test #24: Kokkos_AlgorithmsUnitTest_StdSet_A .........................   Passed    0.03 sec
+test 25
+      Start 25: Kokkos_AlgorithmsUnitTest_StdSet_B
+
+25: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_B
+25: Test timeout computed to be: 1500
+25: [==========] Running 9 tests from 1 test suite.
+25: [----------] Global test environment set-up.
+25: [----------] 9 tests from std_algorithms_min_max_element_test
+25: [ RUN      ] std_algorithms_min_max_element_test.min_element_empty_range
+25: [       OK ] std_algorithms_min_max_element_test.min_element_empty_range (1 ms)
+25: [ RUN      ] std_algorithms_min_max_element_test.max_element_empty_range
+25: [       OK ] std_algorithms_min_max_element_test.max_element_empty_range (0 ms)
+25: [ RUN      ] std_algorithms_min_max_element_test.min_element_non_trivial_data
+25: [       OK ] std_algorithms_min_max_element_test.min_element_non_trivial_data (2 ms)
+25: [ RUN      ] std_algorithms_min_max_element_test.max_element_non_trivial_data
+25: [       OK ] std_algorithms_min_max_element_test.max_element_non_trivial_data (1 ms)
+25: [ RUN      ] std_algorithms_min_max_element_test.min_element_non_trivial_data_custom_comp
+25: [       OK ] std_algorithms_min_max_element_test.min_element_non_trivial_data_custom_comp (1 ms)
+25: [ RUN      ] std_algorithms_min_max_element_test.max_element_non_trivial_data_custom_comp
+25: [       OK ] std_algorithms_min_max_element_test.max_element_non_trivial_data_custom_comp (1 ms)
+25: [ RUN      ] std_algorithms_min_max_element_test.minmax_element_empty_range
+25: [       OK ] std_algorithms_min_max_element_test.minmax_element_empty_range (0 ms)
+25: [ RUN      ] std_algorithms_min_max_element_test.minmax_element_non_trivial_data
+25: [       OK ] std_algorithms_min_max_element_test.minmax_element_non_trivial_data (1 ms)
+25: [ RUN      ] std_algorithms_min_max_element_test.minmax_element_non_trivial_data_custom_comp
+25: [       OK ] std_algorithms_min_max_element_test.minmax_element_non_trivial_data_custom_comp (1 ms)
+25: [----------] 9 tests from std_algorithms_min_max_element_test (11 ms total)
+25: 
+25: [----------] Global test environment tear-down
+25: [==========] 9 tests from 1 test suite ran. (12 ms total)
+25: [  PASSED  ] 9 tests.
+25/42 Test #25: Kokkos_AlgorithmsUnitTest_StdSet_B .........................   Passed    0.03 sec
+test 26
+      Start 26: Kokkos_AlgorithmsUnitTest_StdSet_C
+
+26: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_C
+26: Test timeout computed to be: 1500
+26: [==========] Running 13 tests from 10 test suites.
+26: [----------] Global test environment set-up.
+26: [----------] 1 test from std_algorithms_lexicographical_compare_test
+26: [ RUN      ] std_algorithms_lexicographical_compare_test.test
+26: [       OK ] std_algorithms_lexicographical_compare_test.test (44 ms)
+26: [----------] 1 test from std_algorithms_lexicographical_compare_test (44 ms total)
+26: 
+26: [----------] 1 test from std_algorithms_for_each_test
+26: [ RUN      ] std_algorithms_for_each_test.test
+26: [       OK ] std_algorithms_for_each_test.test (114 ms)
+26: [----------] 1 test from std_algorithms_for_each_test (114 ms total)
+26: 
+26: [----------] 1 test from std_algorithms_find_test
+26: [ RUN      ] std_algorithms_find_test.test
+26: [       OK ] std_algorithms_find_test.test (78 ms)
+26: [----------] 1 test from std_algorithms_find_test (78 ms total)
+26: 
+26: [----------] 4 tests from std_algorithms_non_mod_seq_ops
+26: [ RUN      ] std_algorithms_non_mod_seq_ops.find_first_of
+26: [       OK ] std_algorithms_non_mod_seq_ops.find_first_of (6975 ms)
+26: [ RUN      ] std_algorithms_non_mod_seq_ops.find_end
+26: [       OK ] std_algorithms_non_mod_seq_ops.find_end (661 ms)
+26: [ RUN      ] std_algorithms_non_mod_seq_ops.search
+26: [       OK ] std_algorithms_non_mod_seq_ops.search (641 ms)
+26: [ RUN      ] std_algorithms_non_mod_seq_ops.search_n
+26: [       OK ] std_algorithms_non_mod_seq_ops.search_n (584 ms)
+26: [----------] 4 tests from std_algorithms_non_mod_seq_ops (8862 ms total)
+26: 
+26: [----------] 1 test from std_algorithms_count_test
+26: [ RUN      ] std_algorithms_count_test.test
+26: [       OK ] std_algorithms_count_test.test (46 ms)
+26: [----------] 1 test from std_algorithms_count_test (46 ms total)
+26: 
+26: [----------] 1 test from std_algorithms_equal_test
+26: [ RUN      ] std_algorithms_equal_test.test
+26: [       OK ] std_algorithms_equal_test.test (33 ms)
+26: [----------] 1 test from std_algorithms_equal_test (33 ms total)
+26: 
+26: [----------] 1 test from std_algorithms_all_any_none_of_test
+26: [ RUN      ] std_algorithms_all_any_none_of_test.test
+26: [       OK ] std_algorithms_all_any_none_of_test.test (68 ms)
+26: [----------] 1 test from std_algorithms_all_any_none_of_test (68 ms total)
+26: 
+26: [----------] 1 test from std_algorithms_nonmod_seq_ops
+26: [ RUN      ] std_algorithms_nonmod_seq_ops.adjacent_find
+26: [       OK ] std_algorithms_nonmod_seq_ops.adjacent_find (96 ms)
+26: [----------] 1 test from std_algorithms_nonmod_seq_ops (96 ms total)
+26: 
+26: [----------] 1 test from std_algorithms_mismatch_test
+26: [ RUN      ] std_algorithms_mismatch_test.test
+26: [       OK ] std_algorithms_mismatch_test.test (121 ms)
+26: [----------] 1 test from std_algorithms_mismatch_test (121 ms total)
+26: 
+26: [----------] 1 test from std_algorithms_mod_seq_ops
+26: [ RUN      ] std_algorithms_mod_seq_ops.move_backward
+26: [       OK ] std_algorithms_mod_seq_ops.move_backward (85 ms)
+26: [----------] 1 test from std_algorithms_mod_seq_ops (85 ms total)
+26: 
+26: [----------] Global test environment tear-down
+26: [==========] 13 tests from 10 test suites ran. (9555 ms total)
+26: [  PASSED  ] 13 tests.
+26/42 Test #26: Kokkos_AlgorithmsUnitTest_StdSet_C .........................   Passed    9.58 sec
+test 27
+      Start 27: Kokkos_AlgorithmsUnitTest_StdSet_D
+
+27: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_D
+27: Test timeout computed to be: 1500
+27: [==========] Running 31 tests from 5 test suites.
+27: [----------] Global test environment set-up.
+27: [----------] 3 tests from std_algorithms_mod_ops_test
+27: [ RUN      ] std_algorithms_mod_ops_test.move
+27: [       OK ] std_algorithms_mod_ops_test.move (0 ms)
+27: [ RUN      ] std_algorithms_mod_ops_test.move_within_parfor
+27: [       OK ] std_algorithms_mod_ops_test.move_within_parfor (0 ms)
+27: [ RUN      ] std_algorithms_mod_ops_test.iter_swap_static_view
+27: [       OK ] std_algorithms_mod_ops_test.iter_swap_static_view (1 ms)
+27: [----------] 3 tests from std_algorithms_mod_ops_test (2 ms total)
+27: 
+27: [----------] 12 tests from std_algorithms_mod_seq_ops_test
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.copy
+27: [       OK ] std_algorithms_mod_seq_ops_test.copy (1 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.copy_view
+27: [       OK ] std_algorithms_mod_seq_ops_test.copy_view (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.copy_n
+27: [       OK ] std_algorithms_mod_seq_ops_test.copy_n (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.copy_backward
+27: [       OK ] std_algorithms_mod_seq_ops_test.copy_backward (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.reverse_copy
+27: [       OK ] std_algorithms_mod_seq_ops_test.reverse_copy (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.fill
+27: [       OK ] std_algorithms_mod_seq_ops_test.fill (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.fill_n
+27: [       OK ] std_algorithms_mod_seq_ops_test.fill_n (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.transform_from_fixture_unary_op
+27: [       OK ] std_algorithms_mod_seq_ops_test.transform_from_fixture_unary_op (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.transform_from_fixture_binary_op
+27: [       OK ] std_algorithms_mod_seq_ops_test.transform_from_fixture_binary_op (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.generate
+27: [       OK ] std_algorithms_mod_seq_ops_test.generate (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.generate_n
+27: [       OK ] std_algorithms_mod_seq_ops_test.generate_n (0 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops_test.swap_ranges
+27: [       OK ] std_algorithms_mod_seq_ops_test.swap_ranges (1 ms)
+27: [----------] 12 tests from std_algorithms_mod_seq_ops_test (6 ms total)
+27: 
+27: [----------] 4 tests from std_algorithms_replace_ops_test
+27: [ RUN      ] std_algorithms_replace_ops_test.replace
+27: [       OK ] std_algorithms_replace_ops_test.replace (71 ms)
+27: [ RUN      ] std_algorithms_replace_ops_test.replace_if
+27: [       OK ] std_algorithms_replace_ops_test.replace_if (157 ms)
+27: [ RUN      ] std_algorithms_replace_ops_test.replace_copy
+27: [       OK ] std_algorithms_replace_ops_test.replace_copy (142 ms)
+27: [ RUN      ] std_algorithms_replace_ops_test.replace_copy_if
+27: [       OK ] std_algorithms_replace_ops_test.replace_copy_if (132 ms)
+27: [----------] 4 tests from std_algorithms_replace_ops_test (503 ms total)
+27: 
+27: [----------] 11 tests from std_algorithms_mod_seq_ops
+27: [ RUN      ] std_algorithms_mod_seq_ops.copy_if
+27: [       OK ] std_algorithms_mod_seq_ops.copy_if (60 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.unique
+27: [       OK ] std_algorithms_mod_seq_ops.unique (157 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.unique_copy
+27: [       OK ] std_algorithms_mod_seq_ops.unique_copy (119 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.remove
+27: [       OK ] std_algorithms_mod_seq_ops.remove (48 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.remove_if
+27: [       OK ] std_algorithms_mod_seq_ops.remove_if (57 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.remove_copy
+27: [       OK ] std_algorithms_mod_seq_ops.remove_copy (172 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.remove_copy_if
+27: [       OK ] std_algorithms_mod_seq_ops.remove_copy_if (60 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.rotate
+27: [       OK ] std_algorithms_mod_seq_ops.rotate (1251 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.rotate_copy
+27: [       OK ] std_algorithms_mod_seq_ops.rotate_copy (801 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.shift_left
+27: [       OK ] std_algorithms_mod_seq_ops.shift_left (1255 ms)
+27: [ RUN      ] std_algorithms_mod_seq_ops.shift_right
+27: [       OK ] std_algorithms_mod_seq_ops.shift_right (1191 ms)
+27: [----------] 11 tests from std_algorithms_mod_seq_ops (5175 ms total)
+27: 
+27: [----------] 1 test from std_algorithms_modseq_test
+27: [ RUN      ] std_algorithms_modseq_test.reverse
+27: [       OK ] std_algorithms_modseq_test.reverse (75 ms)
+27: [----------] 1 test from std_algorithms_modseq_test (75 ms total)
+27: 
+27: [----------] Global test environment tear-down
+27: [==========] 31 tests from 5 test suites ran. (5764 ms total)
+27: [  PASSED  ] 31 tests.
+27/42 Test #27: Kokkos_AlgorithmsUnitTest_StdSet_D .........................   Passed    5.79 sec
+test 28
+      Start 28: Kokkos_AlgorithmsUnitTest_StdSet_E
+
+28: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_E
+28: Test timeout computed to be: 1500
+28: [==========] Running 29 tests from 7 test suites.
+28: [----------] Global test environment set-up.
+28: [----------] 2 tests from std_algorithms_sorting_ops_test
+28: [ RUN      ] std_algorithms_sorting_ops_test.is_sorted
+28: [       OK ] std_algorithms_sorting_ops_test.is_sorted (37 ms)
+28: [ RUN      ] std_algorithms_sorting_ops_test.is_sorted_until
+28: [       OK ] std_algorithms_sorting_ops_test.is_sorted_until (37 ms)
+28: [----------] 2 tests from std_algorithms_sorting_ops_test (75 ms total)
+28: 
+28: [----------] 4 tests from std_algorithms_partitioning_test
+28: [ RUN      ] std_algorithms_partitioning_test.is_partitioned_trivial
+28: [       OK ] std_algorithms_partitioning_test.is_partitioned_trivial (0 ms)
+28: [ RUN      ] std_algorithms_partitioning_test.is_partitioned_accepting_iterators
+28: [       OK ] std_algorithms_partitioning_test.is_partitioned_accepting_iterators (1 ms)
+28: [ RUN      ] std_algorithms_partitioning_test.is_partitioned_accepting_view
+28: [       OK ] std_algorithms_partitioning_test.is_partitioned_accepting_view (0 ms)
+28: [ RUN      ] std_algorithms_partitioning_test.partition_point
+28: [       OK ] std_algorithms_partitioning_test.partition_point (0 ms)
+28: [----------] 4 tests from std_algorithms_partitioning_test (2 ms total)
+28: 
+28: [----------] 1 test from std_algorithms_partitioning_ops
+28: [ RUN      ] std_algorithms_partitioning_ops.partition_copy
+28: [       OK ] std_algorithms_partitioning_ops.partition_copy (5 ms)
+28: [----------] 1 test from std_algorithms_partitioning_ops (5 ms total)
+28: 
+28: [----------] 12 tests from std_algorithms_numerics_test
+28: [ RUN      ] std_algorithms_numerics_test.transform_reduce_default_functors_using_pod_value_type
+28: [       OK ] std_algorithms_numerics_test.transform_reduce_default_functors_using_pod_value_type (3 ms)
+28: [ RUN      ] std_algorithms_numerics_test.transform_reduce_default_functors_using_custom_value_type
+28: [       OK ] std_algorithms_numerics_test.transform_reduce_default_functors_using_custom_value_type (1 ms)
+28: [ RUN      ] std_algorithms_numerics_test.transform_reduce_custom_functors_overloadA_using_pod_value_type
+28: [       OK ] std_algorithms_numerics_test.transform_reduce_custom_functors_overloadA_using_pod_value_type (1 ms)
+28: [ RUN      ] std_algorithms_numerics_test.transform_reduce_custom_functors_overloadA_using_custom_value_type
+28: [       OK ] std_algorithms_numerics_test.transform_reduce_custom_functors_overloadA_using_custom_value_type (1 ms)
+28: [ RUN      ] std_algorithms_numerics_test.transform_reduce_custom_functors_overloadB_using_pod_value_type
+28: [       OK ] std_algorithms_numerics_test.transform_reduce_custom_functors_overloadB_using_pod_value_type (1 ms)
+28: [ RUN      ] std_algorithms_numerics_test.transform_reduce_custom_functors_overloadB_using_custom_value_type
+28: [       OK ] std_algorithms_numerics_test.transform_reduce_custom_functors_overloadB_using_custom_value_type (0 ms)
+28: [ RUN      ] std_algorithms_numerics_test.reduce_default_functors_overloadA_using_pod_value_type
+28: [       OK ] std_algorithms_numerics_test.reduce_default_functors_overloadA_using_pod_value_type (0 ms)
+28: [ RUN      ] std_algorithms_numerics_test.reduce_default_functors_overloadA_using_custom_value_type
+28: [       OK ] std_algorithms_numerics_test.reduce_default_functors_overloadA_using_custom_value_type (1 ms)
+28: [ RUN      ] std_algorithms_numerics_test.reduce_default_functors_overloadB_using_pod_value_type
+28: [       OK ] std_algorithms_numerics_test.reduce_default_functors_overloadB_using_pod_value_type (0 ms)
+28: [ RUN      ] std_algorithms_numerics_test.reduce_default_functors_overloadB_using_custom_value_type
+28: [       OK ] std_algorithms_numerics_test.reduce_default_functors_overloadB_using_custom_value_type (0 ms)
+28: [ RUN      ] std_algorithms_numerics_test.reduce_custom_functors_using_pod_value_type
+28: [       OK ] std_algorithms_numerics_test.reduce_custom_functors_using_pod_value_type (0 ms)
+28: [ RUN      ] std_algorithms_numerics_test.reduce_custom_functors_using_custom_value_type
+28: [       OK ] std_algorithms_numerics_test.reduce_custom_functors_using_custom_value_type (1 ms)
+28: [----------] 12 tests from std_algorithms_numerics_test (14 ms total)
+28: 
+28: [----------] 1 test from std_algorithms_numerics_ops_test
+28: [ RUN      ] std_algorithms_numerics_ops_test.adjecent_difference
+28: [       OK ] std_algorithms_numerics_ops_test.adjecent_difference (238 ms)
+28: [----------] 1 test from std_algorithms_numerics_ops_test (238 ms total)
+28: 
+28: [----------] 8 tests from std_algorithms_numeric_ops_test
+28: [ RUN      ] std_algorithms_numeric_ops_test.exclusive_scan
+28: [       OK ] std_algorithms_numeric_ops_test.exclusive_scan (290 ms)
+28: [ RUN      ] std_algorithms_numeric_ops_test.exclusive_scan_functor
+28: [       OK ] std_algorithms_numeric_ops_test.exclusive_scan_functor (0 ms)
+28: [ RUN      ] std_algorithms_numeric_ops_test.inclusive_scan
+28: [       OK ] std_algorithms_numeric_ops_test.inclusive_scan (243 ms)
+28: [ RUN      ] std_algorithms_numeric_ops_test.inclusive_scan_functor
+28: [       OK ] std_algorithms_numeric_ops_test.inclusive_scan_functor (0 ms)
+28: [ RUN      ] std_algorithms_numeric_ops_test.transform_exclusive_scan
+28: [       OK ] std_algorithms_numeric_ops_test.transform_exclusive_scan (83 ms)
+28: [ RUN      ] std_algorithms_numeric_ops_test.transform_exclusive_scan_functor
+28: [       OK ] std_algorithms_numeric_ops_test.transform_exclusive_scan_functor (0 ms)
+28: [ RUN      ] std_algorithms_numeric_ops_test.transform_inclusive_scan
+28: [       OK ] std_algorithms_numeric_ops_test.transform_inclusive_scan (140 ms)
+28: [ RUN      ] std_algorithms_numeric_ops_test.transform_inclusive_scan_functor
+28: [       OK ] std_algorithms_numeric_ops_test.transform_inclusive_scan_functor (0 ms)
+28: [----------] 8 tests from std_algorithms_numeric_ops_test (759 ms total)
+28: 
+28: [----------] 1 test from std_algorithms_transform_ops_test
+28: [ RUN      ] std_algorithms_transform_ops_test.transform_unary_op
+28: [       OK ] std_algorithms_transform_ops_test.transform_unary_op (62 ms)
+28: [----------] 1 test from std_algorithms_transform_ops_test (62 ms total)
+28: 
+28: [----------] Global test environment tear-down
+28: [==========] 29 tests from 7 test suites ran. (1159 ms total)
+28: [  PASSED  ] 29 tests.
+28/42 Test #28: Kokkos_AlgorithmsUnitTest_StdSet_E .........................   Passed    1.19 sec
+test 29
+      Start 29: Kokkos_AlgorithmsUnitTest_StdSet_Team_A
+
+29: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_A
+29: Test timeout computed to be: 1500
+29: [==========] Running 12 tests from 7 test suites.
+29: [----------] Global test environment set-up.
+29: [----------] 2 tests from std_algorithms_adjacent_find_team_test
+29: [ RUN      ] std_algorithms_adjacent_find_team_test.two_consecutive_equal_elements_exist
+29: [       OK ] std_algorithms_adjacent_find_team_test.two_consecutive_equal_elements_exist (1076 ms)
+29: [ RUN      ] std_algorithms_adjacent_find_team_test.two_consecutive_equal_elements_might_exist
+29: [       OK ] std_algorithms_adjacent_find_team_test.two_consecutive_equal_elements_might_exist (1058 ms)
+29: [----------] 2 tests from std_algorithms_adjacent_find_team_test (2134 ms total)
+29: 
+29: [----------] 2 tests from std_algorithms_count_team_test
+29: [ RUN      ] std_algorithms_count_team_test.count_returns_nonzero
+29: [       OK ] std_algorithms_count_team_test.count_returns_nonzero (413 ms)
+29: [ RUN      ] std_algorithms_count_team_test.count_returns_zero
+29: [       OK ] std_algorithms_count_team_test.count_returns_zero (360 ms)
+29: [----------] 2 tests from std_algorithms_count_team_test (773 ms total)
+29: 
+29: [----------] 1 test from std_algorithms_count_if_team_test
+29: [ RUN      ] std_algorithms_count_if_team_test.test
+29: [       OK ] std_algorithms_count_if_team_test.test (418 ms)
+29: [----------] 1 test from std_algorithms_count_if_team_test (418 ms total)
+29: 
+29: [----------] 1 test from std_algorithms_for_each_team_test
+29: [ RUN      ] std_algorithms_for_each_team_test.test
+29: [       OK ] std_algorithms_for_each_team_test.test (912 ms)
+29: [----------] 1 test from std_algorithms_for_each_team_test (912 ms total)
+29: 
+29: [----------] 1 test from std_algorithms_for_each_n_team_test
+29: [ RUN      ] std_algorithms_for_each_n_team_test.test
+29: [       OK ] std_algorithms_for_each_n_team_test.test (899 ms)
+29: [----------] 1 test from std_algorithms_for_each_n_team_test (899 ms total)
+29: 
+29: [----------] 3 tests from std_algorithms_lexicographical_compare_team_test
+29: [ RUN      ] std_algorithms_lexicographical_compare_team_test.views_are_equal
+29: [       OK ] std_algorithms_lexicographical_compare_team_test.views_are_equal (1077 ms)
+29: [ RUN      ] std_algorithms_lexicographical_compare_team_test.first_view_is_less
+29: [       OK ] std_algorithms_lexicographical_compare_team_test.first_view_is_less (1023 ms)
+29: [ RUN      ] std_algorithms_lexicographical_compare_team_test.first_view_is_greater
+29: [       OK ] std_algorithms_lexicographical_compare_team_test.first_view_is_greater (1029 ms)
+29: [----------] 3 tests from std_algorithms_lexicographical_compare_team_test (3131 ms total)
+29: 
+29: [----------] 2 tests from std_algorithms_mismatch_team_test
+29: [ RUN      ] std_algorithms_mismatch_team_test.views_are_equal
+29: [       OK ] std_algorithms_mismatch_team_test.views_are_equal (1069 ms)
+29: [ RUN      ] std_algorithms_mismatch_team_test.views_are_not_equal
+29: [       OK ] std_algorithms_mismatch_team_test.views_are_not_equal (1262 ms)
+29: [----------] 2 tests from std_algorithms_mismatch_team_test (2332 ms total)
+29: 
+29: [----------] Global test environment tear-down
+29: [==========] 12 tests from 7 test suites ran. (10604 ms total)
+29: [  PASSED  ] 12 tests.
+29/42 Test #29: Kokkos_AlgorithmsUnitTest_StdSet_Team_A ....................   Passed   10.63 sec
+test 30
+      Start 30: Kokkos_AlgorithmsUnitTest_StdSet_Team_B
+
+30: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_B
+30: Test timeout computed to be: 1500
+30: [==========] Running 8 tests from 4 test suites.
+30: [----------] Global test environment set-up.
+30: [----------] 2 tests from std_algorithms_equal_team_test
+30: [ RUN      ] std_algorithms_equal_team_test.views_are_equal
+30: [       OK ] std_algorithms_equal_team_test.views_are_equal (1794 ms)
+30: [ RUN      ] std_algorithms_equal_team_test.views_are_not_equal
+30: [       OK ] std_algorithms_equal_team_test.views_are_not_equal (1878 ms)
+30: [----------] 2 tests from std_algorithms_equal_team_test (3672 ms total)
+30: 
+30: [----------] 2 tests from std_algorithms_search_team_test
+30: [ RUN      ] std_algorithms_search_team_test.sequences_exist
+30: [       OK ] std_algorithms_search_team_test.sequences_exist (843 ms)
+30: [ RUN      ] std_algorithms_search_team_test.sequences_do_not_exist
+30: [       OK ] std_algorithms_search_team_test.sequences_do_not_exist (856 ms)
+30: [----------] 2 tests from std_algorithms_search_team_test (1699 ms total)
+30: 
+30: [----------] 2 tests from std_algorithms_find_end_team_test
+30: [ RUN      ] std_algorithms_find_end_team_test.sequences_exist
+30: [       OK ] std_algorithms_find_end_team_test.sequences_exist (882 ms)
+30: [ RUN      ] std_algorithms_find_end_team_test.sequences_do_not_exist
+30: [       OK ] std_algorithms_find_end_team_test.sequences_do_not_exist (902 ms)
+30: [----------] 2 tests from std_algorithms_find_end_team_test (1785 ms total)
+30: 
+30: [----------] 2 tests from std_algorithms_find_first_of_team_test
+30: [ RUN      ] std_algorithms_find_first_of_team_test.sequences_exist
+30: [       OK ] std_algorithms_find_first_of_team_test.sequences_exist (1503 ms)
+30: [ RUN      ] std_algorithms_find_first_of_team_test.sequences_do_not_exist
+30: [       OK ] std_algorithms_find_first_of_team_test.sequences_do_not_exist (1754 ms)
+30: [----------] 2 tests from std_algorithms_find_first_of_team_test (3257 ms total)
+30: 
+30: [----------] Global test environment tear-down
+30: [==========] 8 tests from 4 test suites ran. (10417 ms total)
+30: [  PASSED  ] 8 tests.
+30/42 Test #30: Kokkos_AlgorithmsUnitTest_StdSet_Team_B ....................   Passed   10.44 sec
+test 31
+      Start 31: Kokkos_AlgorithmsUnitTest_StdSet_Team_C
+
+31: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_C
+31: Test timeout computed to be: 1500
+31: [==========] Running 11 tests from 7 test suites.
+31: [----------] Global test environment set-up.
+31: [----------] 2 tests from std_algorithms_find_team_test
+31: [ RUN      ] std_algorithms_find_team_test.searched_values_exist
+31: [       OK ] std_algorithms_find_team_test.searched_values_exist (417 ms)
+31: [ RUN      ] std_algorithms_find_team_test.searched_values_do_not_exist
+31: [       OK ] std_algorithms_find_team_test.searched_values_do_not_exist (401 ms)
+31: [----------] 2 tests from std_algorithms_find_team_test (819 ms total)
+31: 
+31: [----------] 2 tests from std_algorithms_find_if_team_test
+31: [ RUN      ] std_algorithms_find_if_team_test.predicates_return_true
+31: [       OK ] std_algorithms_find_if_team_test.predicates_return_true (430 ms)
+31: [ RUN      ] std_algorithms_find_if_team_test.predicates_return_false
+31: [       OK ] std_algorithms_find_if_team_test.predicates_return_false (406 ms)
+31: [----------] 2 tests from std_algorithms_find_if_team_test (837 ms total)
+31: 
+31: [----------] 2 tests from std_algorithms_find_if_not_team_test
+31: [ RUN      ] std_algorithms_find_if_not_team_test.predicates_return_true
+31: [       OK ] std_algorithms_find_if_not_team_test.predicates_return_true (430 ms)
+31: [ RUN      ] std_algorithms_find_if_not_team_test.predicates_return_false
+31: [       OK ] std_algorithms_find_if_not_team_test.predicates_return_false (370 ms)
+31: [----------] 2 tests from std_algorithms_find_if_not_team_test (801 ms total)
+31: 
+31: [----------] 1 test from std_algorithms_all_of_team_test
+31: [ RUN      ] std_algorithms_all_of_team_test.test
+31: [       OK ] std_algorithms_all_of_team_test.test (381 ms)
+31: [----------] 1 test from std_algorithms_all_of_team_test (381 ms total)
+31: 
+31: [----------] 1 test from std_algorithms_any_of_team_test
+31: [ RUN      ] std_algorithms_any_of_team_test.test
+31: [       OK ] std_algorithms_any_of_team_test.test (370 ms)
+31: [----------] 1 test from std_algorithms_any_of_team_test (370 ms total)
+31: 
+31: [----------] 1 test from std_algorithms_none_of_team_test
+31: [ RUN      ] std_algorithms_none_of_team_test.test
+31: [       OK ] std_algorithms_none_of_team_test.test (391 ms)
+31: [----------] 1 test from std_algorithms_none_of_team_test (391 ms total)
+31: 
+31: [----------] 2 tests from std_algorithms_search_n_team_test
+31: [ RUN      ] std_algorithms_search_n_team_test.sequences_of_equal_elements_exist
+31: [       OK ] std_algorithms_search_n_team_test.sequences_of_equal_elements_exist (851 ms)
+31: [ RUN      ] std_algorithms_search_n_team_test.sequences_of_equal_elements_probably_does_not_exist
+31: [       OK ] std_algorithms_search_n_team_test.sequences_of_equal_elements_probably_does_not_exist (444 ms)
+31: [----------] 2 tests from std_algorithms_search_n_team_test (1295 ms total)
+31: 
+31: [----------] Global test environment tear-down
+31: [==========] 11 tests from 7 test suites ran. (4898 ms total)
+31: [  PASSED  ] 11 tests.
+31/42 Test #31: Kokkos_AlgorithmsUnitTest_StdSet_Team_C ....................   Passed    4.92 sec
+test 32
+      Start 32: Kokkos_AlgorithmsUnitTest_StdSet_Team_D
+
+32: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_D
+32: Test timeout computed to be: 1500
+32: [==========] Running 3 tests from 3 test suites.
+32: [----------] Global test environment set-up.
+32: [----------] 1 test from std_algorithms_min_element_team_test
+32: [ RUN      ] std_algorithms_min_element_team_test.test
+32: [       OK ] std_algorithms_min_element_team_test.test (1082 ms)
+32: [----------] 1 test from std_algorithms_min_element_team_test (1083 ms total)
+32: 
+32: [----------] 1 test from std_algorithms_max_element_team_test
+32: [ RUN      ] std_algorithms_max_element_team_test.test
+32: [       OK ] std_algorithms_max_element_team_test.test (1052 ms)
+32: [----------] 1 test from std_algorithms_max_element_team_test (1052 ms total)
+32: 
+32: [----------] 1 test from std_algorithms_minmax_element_team_test
+32: [ RUN      ] std_algorithms_minmax_element_team_test.test
+32: [       OK ] std_algorithms_minmax_element_team_test.test (1143 ms)
+32: [----------] 1 test from std_algorithms_minmax_element_team_test (1143 ms total)
+32: 
+32: [----------] Global test environment tear-down
+32: [==========] 3 tests from 3 test suites ran. (3280 ms total)
+32: [  PASSED  ] 3 tests.
+32/42 Test #32: Kokkos_AlgorithmsUnitTest_StdSet_Team_D ....................   Passed    3.31 sec
+test 33
+      Start 33: Kokkos_AlgorithmsUnitTest_StdSet_Team_E
+
+33: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_E
+33: Test timeout computed to be: 1500
+33: [==========] Running 6 tests from 6 test suites.
+33: [----------] Global test environment set-up.
+33: [----------] 1 test from std_algorithms_fill_team_test
+33: [ RUN      ] std_algorithms_fill_team_test.test
+33: [       OK ] std_algorithms_fill_team_test.test (537 ms)
+33: [----------] 1 test from std_algorithms_fill_team_test (538 ms total)
+33: 
+33: [----------] 1 test from std_algorithms_fill_n_team_test
+33: [ RUN      ] std_algorithms_fill_n_team_test.test
+33: [       OK ] std_algorithms_fill_n_team_test.test (105 ms)
+33: [----------] 1 test from std_algorithms_fill_n_team_test (105 ms total)
+33: 
+33: [----------] 1 test from std_algorithms_replace_team_test
+33: [ RUN      ] std_algorithms_replace_team_test.test
+33: [       OK ] std_algorithms_replace_team_test.test (992 ms)
+33: [----------] 1 test from std_algorithms_replace_team_test (992 ms total)
+33: 
+33: [----------] 1 test from std_algorithms_replace_if_team_test
+33: [ RUN      ] std_algorithms_replace_if_team_test.test
+33: [       OK ] std_algorithms_replace_if_team_test.test (892 ms)
+33: [----------] 1 test from std_algorithms_replace_if_team_test (892 ms total)
+33: 
+33: [----------] 1 test from std_algorithms_replace_copy_team_test
+33: [ RUN      ] std_algorithms_replace_copy_team_test.test
+33: [       OK ] std_algorithms_replace_copy_team_test.test (1213 ms)
+33: [----------] 1 test from std_algorithms_replace_copy_team_test (1213 ms total)
+33: 
+33: [----------] 1 test from std_algorithms_replace_copy_if_team_test
+33: [ RUN      ] std_algorithms_replace_copy_if_team_test.test
+33: [       OK ] std_algorithms_replace_copy_if_team_test.test (861 ms)
+33: [----------] 1 test from std_algorithms_replace_copy_if_team_test (861 ms total)
+33: 
+33: [----------] Global test environment tear-down
+33: [==========] 6 tests from 6 test suites ran. (4605 ms total)
+33: [  PASSED  ] 6 tests.
+33/42 Test #33: Kokkos_AlgorithmsUnitTest_StdSet_Team_E ....................   Passed    4.63 sec
+test 34
+      Start 34: Kokkos_AlgorithmsUnitTest_StdSet_Team_F
+
+34: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_F
+34: Test timeout computed to be: 1500
+34: [==========] Running 4 tests from 4 test suites.
+34: [----------] Global test environment set-up.
+34: [----------] 1 test from std_algorithms_reverse_team_test
+34: [ RUN      ] std_algorithms_reverse_team_test.test
+34: [       OK ] std_algorithms_reverse_team_test.test (534 ms)
+34: [----------] 1 test from std_algorithms_reverse_team_test (535 ms total)
+34: 
+34: [----------] 1 test from std_algorithms_reverse_copy_team_test
+34: [ RUN      ] std_algorithms_reverse_copy_team_test.test
+34: [       OK ] std_algorithms_reverse_copy_team_test.test (565 ms)
+34: [----------] 1 test from std_algorithms_reverse_copy_team_test (565 ms total)
+34: 
+34: [----------] 1 test from std_algorithms_rotate_team_test
+34: [ RUN      ] std_algorithms_rotate_team_test.test
+34: [       OK ] std_algorithms_rotate_team_test.test (477 ms)
+34: [----------] 1 test from std_algorithms_rotate_team_test (477 ms total)
+34: 
+34: [----------] 1 test from std_algorithms_rotate_copy_team_test
+34: [ RUN      ] std_algorithms_rotate_copy_team_test.test
+34: [       OK ] std_algorithms_rotate_copy_team_test.test (538 ms)
+34: [----------] 1 test from std_algorithms_rotate_copy_team_test (538 ms total)
+34: 
+34: [----------] Global test environment tear-down
+34: [==========] 4 tests from 4 test suites ran. (2117 ms total)
+34: [  PASSED  ] 4 tests.
+34/42 Test #34: Kokkos_AlgorithmsUnitTest_StdSet_Team_F ....................   Passed    2.14 sec
+test 35
+      Start 35: Kokkos_AlgorithmsUnitTest_StdSet_Team_G
+
+35: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_G
+35: Test timeout computed to be: 1500
+35: [==========] Running 4 tests from 4 test suites.
+35: [----------] Global test environment set-up.
+35: [----------] 1 test from std_algorithms_move_team_test
+35: [ RUN      ] std_algorithms_move_team_test.test
+35: [       OK ] std_algorithms_move_team_test.test (1026 ms)
+35: [----------] 1 test from std_algorithms_move_team_test (1026 ms total)
+35: 
+35: [----------] 1 test from std_algorithms_move_backward_team_test
+35: [ RUN      ] std_algorithms_move_backward_team_test.test
+35: [       OK ] std_algorithms_move_backward_team_test.test (899 ms)
+35: [----------] 1 test from std_algorithms_move_backward_team_test (899 ms total)
+35: 
+35: [----------] 1 test from std_algorithms_shift_left_team_test
+35: [ RUN      ] std_algorithms_shift_left_team_test.test
+35: [       OK ] std_algorithms_shift_left_team_test.test (2063 ms)
+35: [----------] 1 test from std_algorithms_shift_left_team_test (2063 ms total)
+35: 
+35: [----------] 1 test from std_algorithms_shift_right_team_test
+35: [ RUN      ] std_algorithms_shift_right_team_test.test
+35: [       OK ] std_algorithms_shift_right_team_test.test (2032 ms)
+35: [----------] 1 test from std_algorithms_shift_right_team_test (2032 ms total)
+35: 
+35: [----------] Global test environment tear-down
+35: [==========] 4 tests from 4 test suites ran. (6022 ms total)
+35: [  PASSED  ] 4 tests.
+35/42 Test #35: Kokkos_AlgorithmsUnitTest_StdSet_Team_G ....................   Passed    6.05 sec
+test 36
+      Start 36: Kokkos_AlgorithmsUnitTest_StdSet_Team_H
+
+36: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_H
+36: Test timeout computed to be: 1500
+36: [==========] Running 9 tests from 9 test suites.
+36: [----------] Global test environment set-up.
+36: [----------] 1 test from std_algorithms_copy_team_test
+36: [ RUN      ] std_algorithms_copy_team_test.test
+36: [       OK ] std_algorithms_copy_team_test.test (1296 ms)
+36: [----------] 1 test from std_algorithms_copy_team_test (1296 ms total)
+36: 
+36: [----------] 1 test from std_algorithms_copy_n_team_test
+36: [ RUN      ] std_algorithms_copy_n_team_test.test
+36: [       OK ] std_algorithms_copy_n_team_test.test (124 ms)
+36: [----------] 1 test from std_algorithms_copy_n_team_test (124 ms total)
+36: 
+36: [----------] 1 test from std_algorithms_copy_backward_team_test
+36: [ RUN      ] std_algorithms_copy_backward_team_test.test
+36: [       OK ] std_algorithms_copy_backward_team_test.test (879 ms)
+36: [----------] 1 test from std_algorithms_copy_backward_team_test (880 ms total)
+36: 
+36: [----------] 1 test from std_algorithms_copy_if_team_test
+36: [ RUN      ] std_algorithms_copy_if_team_test.test
+36: [       OK ] std_algorithms_copy_if_team_test.test (893 ms)
+36: [----------] 1 test from std_algorithms_copy_if_team_test (893 ms total)
+36: 
+36: [----------] 1 test from std_algorithms_unique_copy_team_test
+36: [ RUN      ] std_algorithms_unique_copy_team_test.test
+36: [       OK ] std_algorithms_unique_copy_team_test.test (862 ms)
+36: [----------] 1 test from std_algorithms_unique_copy_team_test (862 ms total)
+36: 
+36: [----------] 1 test from std_algorithms_remove_team_test
+36: [ RUN      ] std_algorithms_remove_team_test.test
+36: [       OK ] std_algorithms_remove_team_test.test (779 ms)
+36: [----------] 1 test from std_algorithms_remove_team_test (779 ms total)
+36: 
+36: [----------] 1 test from std_algorithms_remove_if_team_test
+36: [ RUN      ] std_algorithms_remove_if_team_test.test
+36: [       OK ] std_algorithms_remove_if_team_test.test (578 ms)
+36: [----------] 1 test from std_algorithms_remove_if_team_test (578 ms total)
+36: 
+36: [----------] 1 test from std_algorithms_remove_copy_team_test
+36: [ RUN      ] std_algorithms_remove_copy_team_test.test
+36: [       OK ] std_algorithms_remove_copy_team_test.test (936 ms)
+36: [----------] 1 test from std_algorithms_remove_copy_team_test (937 ms total)
+36: 
+36: [----------] 1 test from std_algorithms_remove_copy_if_team_test
+36: [ RUN      ] std_algorithms_remove_copy_if_team_test.test
+36: [       OK ] std_algorithms_remove_copy_if_team_test.test (669 ms)
+36: [----------] 1 test from std_algorithms_remove_copy_if_team_test (670 ms total)
+36: 
+36: [----------] Global test environment tear-down
+36: [==========] 9 tests from 9 test suites ran. (7023 ms total)
+36: [  PASSED  ] 9 tests.
+36/42 Test #36: Kokkos_AlgorithmsUnitTest_StdSet_Team_H ....................   Passed    7.05 sec
+test 37
+      Start 37: Kokkos_AlgorithmsUnitTest_StdSet_Team_I
+
+37: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_I
+37: Test timeout computed to be: 1500
+37: [==========] Running 4 tests from 4 test suites.
+37: [----------] Global test environment set-up.
+37: [----------] 1 test from std_algorithms_unique_team_test
+37: [ RUN      ] std_algorithms_unique_team_test.test_default_predicate
+37: [       OK ] std_algorithms_unique_team_test.test_default_predicate (738 ms)
+37: [----------] 1 test from std_algorithms_unique_team_test (738 ms total)
+37: 
+37: [----------] 1 test from std_algorithms_adjacent_difference_team_test
+37: [ RUN      ] std_algorithms_adjacent_difference_team_test.test
+37: [       OK ] std_algorithms_adjacent_difference_team_test.test (1628 ms)
+37: [----------] 1 test from std_algorithms_adjacent_difference_team_test (1628 ms total)
+37: 
+37: [----------] 1 test from std_algorithms_reduce_team_test
+37: [ RUN      ] std_algorithms_reduce_team_test.test
+37: [       OK ] std_algorithms_reduce_team_test.test (1152 ms)
+37: [----------] 1 test from std_algorithms_reduce_team_test (1152 ms total)
+37: 
+37: [----------] 1 test from std_algorithms_transform_reduce_team_test
+37: [ RUN      ] std_algorithms_transform_reduce_team_test.test
+37: [       OK ] std_algorithms_transform_reduce_team_test.test (2183 ms)
+37: [----------] 1 test from std_algorithms_transform_reduce_team_test (2183 ms total)
+37: 
+37: [----------] Global test environment tear-down
+37: [==========] 4 tests from 4 test suites ran. (5704 ms total)
+37: [  PASSED  ] 4 tests.
+37/42 Test #37: Kokkos_AlgorithmsUnitTest_StdSet_Team_I ....................   Passed    5.73 sec
+test 38
+      Start 38: Kokkos_AlgorithmsUnitTest_StdSet_Team_L
+
+38: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_L
+38: Test timeout computed to be: 1500
+38: [==========] Running 18 tests from 5 test suites.
+38: [----------] Global test environment set-up.
+38: [----------] 2 tests from std_algorithms_is_sorted_team_test
+38: [ RUN      ] std_algorithms_is_sorted_team_test.test_data_almost_certainly_not_sorted
+38: [       OK ] std_algorithms_is_sorted_team_test.test_data_almost_certainly_not_sorted (1279 ms)
+38: [ RUN      ] std_algorithms_is_sorted_team_test.test_data_certainly_sorted
+38: [       OK ] std_algorithms_is_sorted_team_test.test_data_certainly_sorted (1024 ms)
+38: [----------] 2 tests from std_algorithms_is_sorted_team_test (2303 ms total)
+38: 
+38: [----------] 4 tests from std_algorithms_is_sorted_until_team_test
+38: [ RUN      ] std_algorithms_is_sorted_until_team_test.test_trivialA
+38: [       OK ] std_algorithms_is_sorted_until_team_test.test_trivialA (5 ms)
+38: [ RUN      ] std_algorithms_is_sorted_until_team_test.test_trivialB
+38: [       OK ] std_algorithms_is_sorted_until_team_test.test_trivialB (2 ms)
+38: [ RUN      ] std_algorithms_is_sorted_until_team_test.test_nontrivialA
+38: [       OK ] std_algorithms_is_sorted_until_team_test.test_nontrivialA (1050 ms)
+38: [ RUN      ] std_algorithms_is_sorted_until_team_test.test_nontrivialB
+38: [       OK ] std_algorithms_is_sorted_until_team_test.test_nontrivialB (1272 ms)
+38: [----------] 4 tests from std_algorithms_is_sorted_until_team_test (2331 ms total)
+38: 
+38: [----------] 4 tests from std_algorithms_is_partitioned_team_test
+38: [ RUN      ] std_algorithms_is_partitioned_team_test.empty
+38: [       OK ] std_algorithms_is_partitioned_team_test.empty (3 ms)
+38: [ RUN      ] std_algorithms_is_partitioned_team_test.all_true
+38: [       OK ] std_algorithms_is_partitioned_team_test.all_true (624 ms)
+38: [ RUN      ] std_algorithms_is_partitioned_team_test.all_false
+38: [       OK ] std_algorithms_is_partitioned_team_test.all_false (629 ms)
+38: [ RUN      ] std_algorithms_is_partitioned_team_test.random
+38: [       OK ] std_algorithms_is_partitioned_team_test.random (505 ms)
+38: [----------] 4 tests from std_algorithms_is_partitioned_team_test (1763 ms total)
+38: 
+38: [----------] 4 tests from std_algorithms_partition_copy_team_test
+38: [ RUN      ] std_algorithms_partition_copy_team_test.empty
+38: [       OK ] std_algorithms_partition_copy_team_test.empty (6 ms)
+38: [ RUN      ] std_algorithms_partition_copy_team_test.all_true
+38: [       OK ] std_algorithms_partition_copy_team_test.all_true (1354 ms)
+38: [ RUN      ] std_algorithms_partition_copy_team_test.all_false
+38: [       OK ] std_algorithms_partition_copy_team_test.all_false (1399 ms)
+38: [ RUN      ] std_algorithms_partition_copy_team_test.random
+38: [       OK ] std_algorithms_partition_copy_team_test.random (1228 ms)
+38: [----------] 4 tests from std_algorithms_partition_copy_team_test (3989 ms total)
+38: 
+38: [----------] 4 tests from std_algorithms_partition_point_team_test
+38: [ RUN      ] std_algorithms_partition_point_team_test.empty
+38: [       OK ] std_algorithms_partition_point_team_test.empty (4 ms)
+38: [ RUN      ] std_algorithms_partition_point_team_test.all_true
+38: [       OK ] std_algorithms_partition_point_team_test.all_true (610 ms)
+38: [ RUN      ] std_algorithms_partition_point_team_test.all_false
+38: [       OK ] std_algorithms_partition_point_team_test.all_false (613 ms)
+38: [ RUN      ] std_algorithms_partition_point_team_test.random
+38: [       OK ] std_algorithms_partition_point_team_test.random (477 ms)
+38: [----------] 4 tests from std_algorithms_partition_point_team_test (1705 ms total)
+38: 
+38: [----------] Global test environment tear-down
+38: [==========] 18 tests from 5 test suites ran. (12095 ms total)
+38: [  PASSED  ] 18 tests.
+38/42 Test #38: Kokkos_AlgorithmsUnitTest_StdSet_Team_L ....................   Passed   12.12 sec
+test 39
+      Start 39: Kokkos_AlgorithmsUnitTest_StdSet_Team_M
+
+39: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_M
+39: Test timeout computed to be: 1500
+39: [==========] Running 5 tests from 4 test suites.
+39: [----------] Global test environment set-up.
+39: [----------] 2 tests from std_algorithms_transform_team_test
+39: [ RUN      ] std_algorithms_transform_team_test.test_unary_op
+39: [       OK ] std_algorithms_transform_team_test.test_unary_op (1532 ms)
+39: [ RUN      ] std_algorithms_transform_team_test.test_binary_op
+39: [       OK ] std_algorithms_transform_team_test.test_binary_op (1738 ms)
+39: [----------] 2 tests from std_algorithms_transform_team_test (3270 ms total)
+39: 
+39: [----------] 1 test from std_algorithms_generate_team_test
+39: [ RUN      ] std_algorithms_generate_team_test.test_unary_op
+39: [       OK ] std_algorithms_generate_team_test.test_unary_op (4041 ms)
+39: [----------] 1 test from std_algorithms_generate_team_test (4041 ms total)
+39: 
+39: [----------] 1 test from std_algorithms_generate_n_team_test
+39: [ RUN      ] std_algorithms_generate_n_team_test.test
+39: [       OK ] std_algorithms_generate_n_team_test.test (106 ms)
+39: [----------] 1 test from std_algorithms_generate_n_team_test (106 ms total)
+39: 
+39: [----------] 1 test from std_algorithms_swap_ranges_team_test
+39: [ RUN      ] std_algorithms_swap_ranges_team_test.test
+39: [       OK ] std_algorithms_swap_ranges_team_test.test (1598 ms)
+39: [----------] 1 test from std_algorithms_swap_ranges_team_test (1598 ms total)
+39: 
+39: [----------] Global test environment tear-down
+39: [==========] 5 tests from 4 test suites ran. (9018 ms total)
+39: [  PASSED  ] 5 tests.
+39/42 Test #39: Kokkos_AlgorithmsUnitTest_StdSet_Team_M ....................   Passed    9.05 sec
+test 40
+      Start 40: Kokkos_AlgorithmsUnitTest_StdSet_Team_P
+
+40: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_P
+40: Test timeout computed to be: 1500
+40: [==========] Running 2 tests from 2 test suites.
+40: [----------] Global test environment set-up.
+40: [----------] 1 test from std_algorithms_exclusive_scan_team_test
+40: [ RUN      ] std_algorithms_exclusive_scan_team_test.test
+40: [       OK ] std_algorithms_exclusive_scan_team_test.test (3465 ms)
+40: [----------] 1 test from std_algorithms_exclusive_scan_team_test (3465 ms total)
+40: 
+40: [----------] 1 test from std_algorithms_transform_exclusive_scan_team_test
+40: [ RUN      ] std_algorithms_transform_exclusive_scan_team_test.test
+40: [       OK ] std_algorithms_transform_exclusive_scan_team_test.test (1727 ms)
+40: [----------] 1 test from std_algorithms_transform_exclusive_scan_team_test (1727 ms total)
+40: 
+40: [----------] Global test environment tear-down
+40: [==========] 2 tests from 2 test suites ran. (5194 ms total)
+40: [  PASSED  ] 2 tests.
+40/42 Test #40: Kokkos_AlgorithmsUnitTest_StdSet_Team_P ....................   Passed    5.22 sec
+test 41
+      Start 41: Kokkos_AlgorithmsUnitTest_StdSet_Team_Q
+
+41: Test command: /testbed/build/algorithms/unit_tests/Kokkos_AlgorithmsUnitTest_StdSet_Team_Q
+41: Test timeout computed to be: 1500
+41: [==========] Running 2 tests from 2 test suites.
+41: [----------] Global test environment set-up.
+41: [----------] 1 test from std_algorithms_inclusive_scan_team_test
+41: [ RUN      ] std_algorithms_inclusive_scan_team_test.test
+41: [       OK ] std_algorithms_inclusive_scan_team_test.test (5028 ms)
+41: [----------] 1 test from std_algorithms_inclusive_scan_team_test (5028 ms total)
+41: 
+41: [----------] 1 test from std_algorithms_transform_inclusive_scan_team_test
+41: [ RUN      ] std_algorithms_transform_inclusive_scan_team_test.test
+41: [       OK ] std_algorithms_transform_inclusive_scan_team_test.test (3337 ms)
+41: [----------] 1 test from std_algorithms_transform_inclusive_scan_team_test (3337 ms total)
+41: 
+41: [----------] Global test environment tear-down
+41: [==========] 2 tests from 2 test suites ran. (8367 ms total)
+41: [  PASSED  ] 2 tests.
+41/42 Test #41: Kokkos_AlgorithmsUnitTest_StdSet_Team_Q ....................   Passed    8.39 sec
+test 42
+      Start 42: Kokkos_UnitTest_SIMD
+
+42: Test command: /testbed/build/simd/unit_tests/Kokkos_UnitTest_SIMD
+42: Test timeout computed to be: 1500
+42: [==========] Running 28 tests from 1 test suite.
+42: [----------] Global test environment set-up.
+42: [----------] 28 tests from simd
+42: [ RUN      ] simd.host_math_ops
+42: [       OK ] simd.host_math_ops (16 ms)
+42: [ RUN      ] simd.device_math_ops
+42: [       OK ] simd.device_math_ops (8 ms)
+42: [ RUN      ] simd.host_mask_ops
+42: [       OK ] simd.host_mask_ops (0 ms)
+42: [ RUN      ] simd.device_mask_ops
+42: [       OK ] simd.device_mask_ops (0 ms)
+42: [ RUN      ] simd.host_conversions
+42: [       OK ] simd.host_conversions (1 ms)
+42: [ RUN      ] simd.device_conversions
+42: [       OK ] simd.device_conversions (0 ms)
+42: [ RUN      ] simd.host_shift_ops
+42: [       OK ] simd.host_shift_ops (0 ms)
+42: [ RUN      ] simd.device_shift_ops
+42: [       OK ] simd.device_shift_ops (0 ms)
+42: [ RUN      ] simd.host_bitwise_ops
+42: [       OK ] simd.host_bitwise_ops (1 ms)
+42: [ RUN      ] simd.host_mask_bitwise_ops
+42: [       OK ] simd.host_mask_bitwise_ops (0 ms)
+42: [ RUN      ] simd.device_bitwise_ops
+42: [       OK ] simd.device_bitwise_ops (0 ms)
+42: [ RUN      ] simd.device_mask_bitwise_ops
+42: [       OK ] simd.device_mask_bitwise_ops (0 ms)
+42: [ RUN      ] simd.host_comparison_ops
+42: [       OK ] simd.host_comparison_ops (1 ms)
+42: [ RUN      ] simd.host_mask_comparison_ops
+42: [       OK ] simd.host_mask_comparison_ops (0 ms)
+42: [ RUN      ] simd.device_comparison_ops
+42: [       OK ] simd.device_comparison_ops (0 ms)
+42: [ RUN      ] simd.device_mask_comparison_ops
+42: [       OK ] simd.device_mask_comparison_ops (0 ms)
+42: [ RUN      ] simd.host_condition
+42: [       OK ] simd.host_condition (0 ms)
+42: [ RUN      ] simd.device_condition
+42: [       OK ] simd.device_condition (0 ms)
+42: [ RUN      ] simd.host_gen_ctors
+42: [       OK ] simd.host_gen_ctors (0 ms)
+42: [ RUN      ] simd.device_gen_ctors
+42: [       OK ] simd.device_gen_ctors (0 ms)
+42: [ RUN      ] simd.host_reductions
+42: [       OK ] simd.host_reductions (1 ms)
+42: [ RUN      ] simd.device_reductions
+42: [       OK ] simd.device_reductions (0 ms)
+42: [ RUN      ] simd.host_construction
+42: [       OK ] simd.host_construction (0 ms)
+42: [ RUN      ] simd.device_construction
+42: [       OK ] simd.device_construction (0 ms)
+42: [ RUN      ] simd.host_loadstore
+42: [       OK ] simd.host_loadstore (0 ms)
+42: [ RUN      ] simd.device_loadstore
+42: [       OK ] simd.device_loadstore (0 ms)
+42: [ RUN      ] simd.host_memory_permute
+42: [       OK ] simd.host_memory_permute (0 ms)
+42: [ RUN      ] simd.device_memory_permute
+42: [       OK ] simd.device_memory_permute (0 ms)
+42: [----------] 28 tests from simd (34 ms total)
+42: 
+42: [----------] Global test environment tear-down
+42: [==========] 28 tests from 1 test suite ran. (35 ms total)
+42: [  PASSED  ] 28 tests.
+42/42 Test #42: Kokkos_UnitTest_SIMD .......................................   Passed    0.06 sec
+
+100% tests passed, 0 tests failed out of 42
+
+Label Time Summary:
+Kokkos    = 337.17 sec*proc (41 tests)
+
+Total Test time (real) = 337.79 sec

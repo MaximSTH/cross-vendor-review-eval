@@ -165,6 +165,9 @@ def run_row(lang, iid, results):
     p2p_bad = [t for t in p2p if t in parsed and parsed[t] != "pass"]
     crashed = any(sig in proc.stderr for sig in
                   ("core dumped", "Illegal instruction", "Segmentation fault"))
+    # Go runtime fatal (e.g. GC worker crash under emulation): only when the
+    # parser saw nothing — a test-level panic would still yield parsed output.
+    crashed = crashed or ("fatal error:" in proc.stderr and "runtime/mgc.go" in proc.stderr)
     if not parsed and crashed:
         verdict, reason = "INFEASIBLE", ("platform_infeasible(crash): test command died under "
                                          "amd64 emulation (D-048/D-030 bun precedent)")

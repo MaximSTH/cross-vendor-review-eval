@@ -1,0 +1,129 @@
+============================= test session starts ==============================
+collected 44 items
+
+tests/integration/account_create_transaction_e2e_test.py EEE.E.EEEEEEEEE [ 34%]
+                                                                         [ 34%]
+tests/integration/account_update_transaction_e2e_test.py EEEEEEEEEE      [ 56%]
+tests/unit/account_info_test.py ..F..F.FF.FFF.FFFFF                      [100%]
+
+==================================== ERRORS ====================================
+__ ERROR at setup of test_integration_account_create_transaction_can_execute ___
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_____________ ERROR at setup of test_create_account_without_alias ______________
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+___ ERROR at setup of test_create_account_with_alias_derived_from_ecdsa_key ____
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+___ ERROR at setup of test_create_account_with_alias_from_seperate_ecdsa_key ___
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_create_account_with_alias_from_seperate_ecdsa_key_when_not_sign _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+____________ ERROR at setup of test_create_account_with_same_alias _____________
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_________ ERROR at setup of test_create_account_with_staked_account_id _________
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+__________ ERROR at setup of test_create_account_with_staked_node_id ___________
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+__________ ERROR at setup of test_create_account_with_decline_reward ___________
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_integration_account_create_transaction_can_execute_with_private_key _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+__________ ERROR at setup of test_proto_includes_alias_from_ecdsa_key __________
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+__________ ERROR at setup of test_proto_includes_alias_from_main_key ___________
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+___________ ERROR at setup of test_proto_excludes_alias_when_not_set ___________
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+__ ERROR at setup of test_integration_account_update_transaction_can_execute ___
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_integration_account_update_transaction_fails_with_invalid_account_id _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_integration_account_update_transaction_fails_with_invalid_signature _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_integration_account_update_transaction_partial_update _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_integration_account_update_transaction_invalid_auto_renew_period _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_account_update_insufficient_fee_with_valid_expiration_bump _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_integration_account_update_transaction_with_only_account_id _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_integration_account_update_transaction_with_max_automatic_token_associations _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_integration_account_update_transaction_with_staking_fields _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+_ ERROR at setup of test_integration_account_update_transaction_with_staked_node_id _
+E   ValueError: OPERATOR_ID and OPERATOR_KEY must be set for integration tests
+=================================== FAILURES ===================================
+E   AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+/testbed/tests/unit/account_info_test.py:114: AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+E   assert False is True
+     +  where False = .decline_reward
+     +    where  = accountID {\n  accountNum: 100\n}\ncontractAccountID: "0.0.100"\nproxyReceived: 1000\nkey {\n  ed25519: "hZy{{C\t\216\234\33...  seconds: 1625097600\n}\nautoRenewPeriod {\n  seconds: 7776000\n}\nmemo: "Test account memo"\nownedNfts: 5\nstaking_info {\n}\n.staking_info
+/testbed/tests/unit/account_info_test.py:169: assert False is True
+E   AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+/testbed/tests/unit/account_info_test.py:225: AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+E   TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+/testbed/tests/unit/account_info_test.py:230: TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+E   TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+/testbed/tests/unit/account_info_test.py:283: TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+E   TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+/testbed/tests/unit/account_info_test.py:283: TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+E   TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+/testbed/tests/unit/account_info_test.py:283: TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+E   AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+/testbed/tests/unit/account_info_test.py:330: AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+E   AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+/testbed/tests/unit/account_info_test.py:340: AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+E   AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+/testbed/tests/unit/account_info_test.py:350: AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+E   TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+/testbed/tests/unit/account_info_test.py:362: TypeError: AccountInfo.__init__() got an unexpected keyword argument 'staking_info'
+E   AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+/testbed/tests/unit/account_info_test.py:382: AttributeError: 'AccountInfo' object has no attribute 'staking_info'
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/integration/account_create_transaction_e2e_test.py::test_create_account_with_alias_derived_from_non_ecdsa_key
+PASSED tests/integration/account_create_transaction_e2e_test.py::test_create_account_with_alias_from_seperate_non_ecdsa_key
+PASSED tests/unit/account_info_test.py::test_account_info_initialization
+PASSED tests/unit/account_info_test.py::test_account_info_default_initialization
+PASSED tests/unit/account_info_test.py::test_from_proto_with_token_relationships
+PASSED tests/unit/account_info_test.py::test_from_proto_none_raises_error
+PASSED tests/unit/account_info_test.py::test_to_proto_with_none_values
+PASSED tests/unit/account_info_test.py::test_str_and_repr
+PASSED tests/unit/account_info_test.py::TestDeprecatedProperties::test_deprecated_properties_return_none_without_staking_info
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_integration_account_create_transaction_can_execute
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_create_account_without_alias
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_create_account_with_alias_derived_from_ecdsa_key
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_create_account_with_alias_from_seperate_ecdsa_key
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_create_account_with_alias_from_seperate_ecdsa_key_when_not_sign
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_create_account_with_same_alias
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_create_account_with_staked_account_id
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_create_account_with_staked_node_id
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_create_account_with_decline_reward
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_integration_account_create_transaction_can_execute_with_private_key
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_proto_includes_alias_from_ecdsa_key
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_proto_includes_alias_from_main_key
+ERROR tests/integration/account_create_transaction_e2e_test.py::test_proto_excludes_alias_when_not_set
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_integration_account_update_transaction_can_execute
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_integration_account_update_transaction_fails_with_invalid_account_id
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_integration_account_update_transaction_fails_with_invalid_signature
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_integration_account_update_transaction_partial_update
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_integration_account_update_transaction_invalid_auto_renew_period
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_account_update_insufficient_fee_with_valid_expiration_bump
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_integration_account_update_transaction_with_only_account_id
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_integration_account_update_transaction_with_max_automatic_token_associations
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_integration_account_update_transaction_with_staking_fields
+ERROR tests/integration/account_update_transaction_e2e_test.py::test_integration_account_update_transaction_with_staked_node_id
+FAILED tests/unit/account_info_test.py::test_from_proto - AttributeError: 'Ac...
+FAILED tests/unit/account_info_test.py::test_to_proto - assert False is True
+FAILED tests/unit/account_info_test.py::test_proto_conversion - AttributeErro...
+FAILED tests/unit/account_info_test.py::test_proto_conversion_with_staking_info
+FAILED tests/unit/account_info_test.py::TestDeprecatedProperties::test_staked_account_id_deprecated
+FAILED tests/unit/account_info_test.py::TestDeprecatedProperties::test_staked_node_id_deprecated
+FAILED tests/unit/account_info_test.py::TestDeprecatedProperties::test_decline_staking_reward_deprecated
+FAILED tests/unit/account_info_test.py::TestDeprecatedProperties::test_staked_account_id_setter
+FAILED tests/unit/account_info_test.py::TestDeprecatedProperties::test_staked_node_id_setter
+FAILED tests/unit/account_info_test.py::TestDeprecatedProperties::test_decline_staking_reward_setter
+FAILED tests/unit/account_info_test.py::TestDeprecatedProperties::test_setters_preserve_other_staking_fields
+FAILED tests/unit/account_info_test.py::TestDeprecatedProperties::test_constructor_legacy_kwargs_deprecated
+=================== 12 failed, 9 passed, 23 errors in 7.02s ====================

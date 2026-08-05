@@ -1,0 +1,106 @@
+{"ImportPath":"net","Action":"build-output","Output":"net: gcc: signal: segmentation fault (core dumped)\n"}
+{"ImportPath":"net","Action":"build-fail"}
+{"ImportPath":"github.com/onsi/ginkgo/v2/internal/reporters","Action":"build-output","Output":"github.com/onsi/ginkgo/v2/internal/reporters: /usr/local/go/pkg/tool/linux_amd64/vet: signal: segmentation fault (core dumped)\n"}
+{"ImportPath":"github.com/onsi/ginkgo/v2/internal/reporters","Action":"build-fail"}
+{"Time":"2026-07-29T16:44:10.893945482Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7"}
+{"Time":"2026-07-29T16:44:10.894838869Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/ip"}
+{"Time":"2026-07-29T16:44:10.894979025Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/ip","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/ip [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.89541603Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/ip","Elapsed":0.001,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.896021797Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/middleware"}
+{"Time":"2026-07-29T16:44:10.89604009Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/middleware","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/middleware [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.896070869Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/middleware","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.895176103Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7 [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.896747299Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7","Elapsed":0.003,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.897134815Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options"}
+{"Time":"2026-07-29T16:44:10.897151937Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.897170271Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.897300404Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options/testutil"}
+{"Time":"2026-07-29T16:44:10.897314561Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options/testutil","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options/testutil [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.89733206Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options/testutil","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.897444652Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options/util"}
+{"Time":"2026-07-29T16:44:10.89745764Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options/util","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options/util [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.897471923Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/options/util","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.897568144Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/sessions"}
+{"Time":"2026-07-29T16:44:10.897585392Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/sessions","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/sessions [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.897597211Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/apis/sessions","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.897705711Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/app/pagewriter"}
+{"Time":"2026-07-29T16:44:10.897734235Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/app/pagewriter","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/app/pagewriter [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.897746471Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/app/pagewriter","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.897854636Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/app/redirect"}
+{"Time":"2026-07-29T16:44:10.897867833Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/app/redirect","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/app/redirect [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.897879276Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/app/redirect","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.897988402Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/authentication/basic"}
+{"Time":"2026-07-29T16:44:10.898001599Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/authentication/basic","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/authentication/basic [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.898012875Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/authentication/basic","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.898104461Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/authentication/hmacauth"}
+{"Time":"2026-07-29T16:44:10.898116823Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/authentication/hmacauth","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/authentication/hmacauth [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.898128224Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/authentication/hmacauth","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.89824637Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/cookies"}
+{"Time":"2026-07-29T16:44:10.898258983Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/cookies","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/cookies [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.898270175Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/cookies","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.89836506Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/encryption"}
+{"Time":"2026-07-29T16:44:10.898377881Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/encryption","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/encryption [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.898389324Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/encryption","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.898470511Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/header"}
+{"Time":"2026-07-29T16:44:10.898487341Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/header","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/header [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.898500705Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/header","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.898571535Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/ip"}
+{"Time":"2026-07-29T16:44:10.898582852Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/ip","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/ip [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.89859346Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/ip","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:10.89866976Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/logger"}
+{"Time":"2026-07-29T16:44:10.898681663Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/logger","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/logger [build failed]\n"}
+{"Time":"2026-07-29T16:44:10.898694484Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/logger","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:11.523499507Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/middleware"}
+{"Time":"2026-07-29T16:44:11.523630946Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/middleware","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/middleware [build failed]\n"}
+{"Time":"2026-07-29T16:44:11.523696833Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/middleware","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:11.523765601Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/providers/oidc"}
+{"Time":"2026-07-29T16:44:11.523839629Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/providers/oidc","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/providers/oidc [build failed]\n"}
+{"Time":"2026-07-29T16:44:11.523885683Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/providers/oidc","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:11.523948731Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/providers/util"}
+{"Time":"2026-07-29T16:44:11.523966267Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/providers/util","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/providers/util [build failed]\n"}
+{"Time":"2026-07-29T16:44:11.523979879Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/providers/util","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:12.003230326Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/proxyhttp"}
+{"Time":"2026-07-29T16:44:12.003369504Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/proxyhttp","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/proxyhttp [build failed]\n"}
+{"Time":"2026-07-29T16:44:12.003400187Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/proxyhttp","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:12.003483677Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/requests"}
+{"Time":"2026-07-29T16:44:12.003538154Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/requests","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/requests [build failed]\n"}
+{"Time":"2026-07-29T16:44:12.003563702Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/requests","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:12.003613671Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/requests/util"}
+{"Time":"2026-07-29T16:44:12.003632039Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/requests/util","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/requests/util [build failed]\n"}
+{"Time":"2026-07-29T16:44:12.003645397Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/requests/util","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:12.003748675Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions"}
+{"Time":"2026-07-29T16:44:12.003766333Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions [build failed]\n"}
+{"Time":"2026-07-29T16:44:12.003779817Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:12.003816302Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/cookie"}
+{"Time":"2026-07-29T16:44:12.003831121Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/cookie","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/cookie [build failed]\n"}
+{"Time":"2026-07-29T16:44:12.003850199Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/cookie","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:12.003905135Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/persistence"}
+{"Time":"2026-07-29T16:44:12.003920581Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/persistence","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/persistence [build failed]\n"}
+{"Time":"2026-07-29T16:44:12.003938657Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/persistence","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:19.482873084Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/redis"}
+{"Time":"2026-07-29T16:44:19.482957214Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/redis","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/redis [build failed]\n"}
+{"Time":"2026-07-29T16:44:19.482988246Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/redis","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:19.483215441Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/tests"}
+{"Time":"2026-07-29T16:44:19.483231708Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/tests","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/tests [build failed]\n"}
+{"Time":"2026-07-29T16:44:19.483245847Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/sessions/tests","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:19.483286515Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/upstream"}
+{"Time":"2026-07-29T16:44:19.483299278Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/upstream","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/upstream [build failed]\n"}
+{"Time":"2026-07-29T16:44:19.483310456Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/upstream","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:19.48342616Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/util"}
+{"Time":"2026-07-29T16:44:19.483439424Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/util","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/util [build failed]\n"}
+{"Time":"2026-07-29T16:44:19.483452187Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/util","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:19.483561635Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/util/ptr"}
+{"Time":"2026-07-29T16:44:19.483578194Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/util/ptr","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/util/ptr [build failed]\n"}
+{"Time":"2026-07-29T16:44:19.483589414Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/util/ptr","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:19.483652938Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/validation"}
+{"Time":"2026-07-29T16:44:19.483703699Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/validation","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/validation [build failed]\n"}
+{"Time":"2026-07-29T16:44:19.483733355Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/validation","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:19.483742073Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/version"}
+{"Time":"2026-07-29T16:44:19.48388226Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/watcher"}
+{"Time":"2026-07-29T16:44:19.483899028Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/watcher","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/watcher [build failed]\n"}
+{"Time":"2026-07-29T16:44:19.48391542Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/watcher","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-07-29T16:44:19.48394078Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/version","Output":"?   \tgithub.com/oauth2-proxy/oauth2-proxy/v7/pkg/version\t[no test files]\n"}
+{"Time":"2026-07-29T16:44:19.483954544Z","Action":"start","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/providers"}
+{"Time":"2026-07-29T16:44:19.483966515Z","Action":"output","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/providers","Output":"FAIL\tgithub.com/oauth2-proxy/oauth2-proxy/v7/providers [build failed]\n"}
+{"Time":"2026-07-29T16:44:19.483982865Z","Action":"skip","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/version","Elapsed":0}
+{"Time":"2026-07-29T16:44:19.483988412Z","Action":"fail","Package":"github.com/oauth2-proxy/oauth2-proxy/v7/providers","Elapsed":0,"FailedBuild":"net"}

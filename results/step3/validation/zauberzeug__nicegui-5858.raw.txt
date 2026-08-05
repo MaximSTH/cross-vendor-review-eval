@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+collected 5 items
+
+tests/test_xterm.py EEEEE                                                [100%]
+
+==================================== ERRORS ====================================
+_________________________ ERROR at setup of test_init __________________________
+E   RuntimeError: Could not start Chrome WebDriver.
+------------------------------ Captured log setup ------------------------------
+WARNING  selenium.webdriver.common.selenium_manager:selenium_manager.py:163 The chromedriver version (148.0.7778.167) detected in PATH at /usr/bin/chromedriver might not be compatible with the detected chrome version (151.0.7922.47); currently, chromedriver 151.0.7922.47 is recommended for chrome 151.*, so it is advised to delete the driver in PATH and retry
+_________________________ ERROR at setup of test_write _________________________
+E   RuntimeError: Could not start Chrome WebDriver.
+_________________ ERROR at setup of test_bell_and_data_events __________________
+E   RuntimeError: Could not start Chrome WebDriver.
+_________________ ERROR at setup of test_fit_and_resize_event __________________
+E   RuntimeError: Could not start Chrome WebDriver.
+__________________ ERROR at setup of test_run_terminal_method __________________
+E   RuntimeError: Could not start Chrome WebDriver.
+=========================== short test summary info ============================
+ERROR tests/test_xterm.py::test_init - RuntimeError: Could not start Chrome W...
+ERROR tests/test_xterm.py::test_write - RuntimeError: Could not start Chrome ...
+ERROR tests/test_xterm.py::test_bell_and_data_events - RuntimeError: Could no...
+ERROR tests/test_xterm.py::test_fit_and_resize_event - RuntimeError: Could no...
+ERROR tests/test_xterm.py::test_run_terminal_method - RuntimeError: Could not...
+======================== 5 errors in 128.51s (0:02:08) =========================

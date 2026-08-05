@@ -1,0 +1,7 @@
+# github.com/gentleman-programming/gentle-ai/internal/installcmd
+internal/installcmd/testhelper.go:11:10: undefined: cmdGoVersion
+internal/installcmd/testhelper.go:12:2: undefined: cmdGoVersion
+internal/installcmd/testhelper.go:13:18: undefined: cmdGoVersion
+internal/installcmd/testhelper.go:26:10: undefined: osGetenv
+internal/installcmd/testhelper.go:27:2: undefined: osGetenv
+internal/installcmd/testhelper.go:28:18: undefined: osGetenv
