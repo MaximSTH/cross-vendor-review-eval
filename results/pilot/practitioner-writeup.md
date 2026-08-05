@@ -7,168 +7,212 @@ author: Maxim St-Hilaire
 
 # When an AI reviewer grades the diff instead of finding the bug
 
-*A small, careful pilot on cross-vendor AI code review — what it found, and
-what it did not claim.*
+*I ran a small, careful pilot on cross-vendor AI code review. Every "catch" my
+metric recorded turned out to be hollow — and the reviewers missed every real
+bug.*
 
-## The question
+## Start with one bug
 
-AI code review is **advocated and publicly tooled** — this work grows out of
-the `meta-layer-starter` operating layer, and it is motivated by two published
-results on review bias: rating-based self-review blindness on SWE-bench
-(arXiv:2603.04582) and ~31.7% silent self-endorsement of defective outputs
-(arXiv:2605.21537). A load-bearing premise behind "route your review to a
-*different* vendor" is that a cross-vendor reviewer catches defects the author
-missed. This pilot tests that premise mechanically, on **AI-authored,
-test-confirmed** defects, with **no LLM judge in the primary metric** — the
-catch/no-catch decision is a deterministic file+line coordinate match against
-the known defect location.
+An AI coding agent was asked to fix a real security issue in a real open-source
+project: an API key was being passed on the command line, where any process on
+the machine could read it. The same leak existed in **four** places in the
+codebase. The agent fixed **one** of them.
 
-We make **no claim about industry adoption.** The practice is advocated and
-tooled; whether teams use it is not something this data speaks to.
+Then three AI reviewers examined the change. One flagged an unrelated
+error-handling nitpick — on the fixed line. Another argued that the *correct*
+fix was itself a bug; following that advice would have put the leak back. The
+third found nothing at all. **None of the three pointed at the three places
+where the key was still leaking.**
 
-## The setup, briefly
+Two of those reviewer comments landed on the right line of code, so a
+naive scorecard would say the defect was "caught" twice. A human reading the
+comments would say it was caught zero times.
 
-An AI agent (Claude Code or OpenAI Codex, as shipped on consumer subscriptions)
-authors a fix for a real, recent GitHub issue. A hidden test suite decides
-whether the fix actually worked. Then three reviewers examine the change, blind
-to authorship, with an identical bare prompt:
+That case is not an outlier. It is the pattern this pilot found, three times
+out of three.
 
-- **A1** — the same agent session that wrote the fix (self-review),
-- **A2** — a fresh session of the same vendor (fresh eyes, same model),
-- **B** — a fresh session of a *different* vendor (cross-vendor).
+## The question I was testing
 
-A reviewer "catches" the defect if it names the right file and line. That's it —
-no semantic credit, no judge, by design.
+A popular idea in AI-assisted development goes like this: models are known to
+be too kind to their own output, so route the review to a *different* vendor's
+model — fresh eyes from a rival should catch what the author missed. Two recent
+papers documented the self-kindness half of that idea (models rating their own
+work too favorably; models silently endorsing their own defective outputs).
+The routing half — does a second vendor actually catch more real bugs? — is the
+premise I set out to test, on a small, honest scale.
 
-**Scale caveat, stated up front:** this is a **pilot**. Six end-to-end cases
-(one P0 + five P1), of which **three carried a confirmed defect**. Every number
-below is reported with its n. Nothing here is an established rate; the value is
-in the **patterns and the failure modes**, which are sharp even at small n.
+**One claim I am not making:** I don't know how many teams actually do this
+today. The practice is advocated and the tooling exists; adoption is out of
+scope here.
+
+## The setup, in plain terms
+
+1. An AI agent — Claude Code or OpenAI's Codex, the ordinary consumer versions,
+   as shipped — writes a fix for a recent, real GitHub issue.
+2. A hidden test suite (which no agent ever sees or runs) decides whether the
+   fix actually worked. This is the ground truth.
+3. Three reviewers then examine the change, without being told who wrote it,
+   all given the same one-paragraph instruction — review this change, report
+   any defect with its file and line:
+   - **A1 — self-review:** the same session that wrote the fix looks it over.
+   - **A2 — fresh same-vendor:** a brand-new session of the *same* vendor's
+     tool.
+   - **B — cross-vendor:** a brand-new session of the *other* vendor's tool.
+4. A reviewer scores a "catch" if it names the right file and roughly the right
+   line. Nothing else counts. No AI judges the answers; it's a coordinate
+   match against the known defect location — deliberately dumb, deliberately
+   reproducible, immune to any accusation of judge bias.
+
+**What the reviewers did *not* get matters as much as what they got.** This
+project grew out of a supervision framework I build and use
+(`meta-layer-starter`), but none of that framework was in the loop here. No
+special prompts, no briefs, no protocols, no scaffolding — the reviewers were
+bare, stock CLI tools given one short instruction, identical across all three
+arms. My harness only did logistics: pick the tasks, apply the patch, collect
+the answers, grade them against the hidden tests. It's the exam proctor, not
+the exam. If you install the same tools and ask them to review a change, you
+are running this experiment.
+
+**Scale, stated up front:** this is a pilot. Six end-to-end cases, of which
+**three carried a confirmed defect**. Every number below comes with its n.
+Nothing here is an established rate; the value is in the patterns and the
+failure modes, which are sharp even at this size — and in the fact that every
+transcript, decision, and script is public, so anyone can rerun it.
 
 ## Finding 1 — "diff-anchoring": reviewers grade the change, not the bug
 
 The clearest pattern, and the practitioner takeaway:
 
-> **When the authored fix lands in a different location than the true defect,
-> reviewers critique the change in front of them and miss the real bug
-> elsewhere.**
+> **When the fix lands in a different place than the actual bug, reviewers
+> critique the change in front of them and miss the real bug elsewhere.**
 
-All three confirmed-defect cases show it:
+All three confirmed-defect cases showed it:
 
-- **A credential leak** (an API key passed as a command-line argument, visible
-  in the process list) appeared in **four** places in the code; the author fixed
-  **one**. Both non-authoring reviewers commented on the one fixed spot — one
-  flagged an unrelated error-handling nit at that line; the other argued the
-  *correct* fix was itself a bug. **Neither pointed at the three unfixed
-  locations.** A human audit ruled both "catches" as non-catches.
+- **The credential leak** above: four leak sites, one fixed. Both non-authoring
+  reviewers commented on the fixed site; neither found the other three.
+- **A stale-translation bug** in a React app: the real defect was an effect
+  hook missing a dependency in one file; the author "fixed" a *different file
+  entirely*. All three reviewers critiqued the author's file. None located the
+  real defect. Unanimous miss.
+- **The earliest case:** the author's patch was confirmed broken by the hidden
+  tests, and all three reviewers — including the rival vendor — returned zero
+  findings. Unanimous miss.
 
-- **A stale-translation bug** lived in a React effect missing a dependency; the
-  author fixed a **different file entirely**. All three reviewers critiqued the
-  author's file. **None** located the real defect. Unanimous miss.
+The mechanism is consistent. Hand an AI reviewer a diff and it tends to answer
+"is this change good?" rather than "is the bug this change was supposed to fix
+actually gone?" — and those are different questions precisely when the fix is
+incomplete or in the wrong place, which are among the most dangerous defect
+shapes a team can ship.
 
-- In the earliest case, the author's patch was confirmed broken and **all three
-  reviewers returned zero findings.** Unanimous miss.
+I call this **diff-anchoring**. At this sample size it is a hypothesis, not a
+rate — but it reproduced in every defective case, in both vendor directions,
+and cross-vendor review did not rescue it. Whether richer review instructions
+or supervision scaffolding *can* rescue it is exactly the follow-up this result
+motivates; this pilot tested the floor — the bare tools as shipped — on
+purpose.
 
-The mechanism is consistent: an AI reviewer handed a diff tends to **evaluate
-that diff** — is this change good? — rather than **hunt the defect** the change
-was supposed to fix, when the defect sits outside what it was shown. For a team
-routing review work, that is the caveat worth internalizing: a reviewer's
-silence, or its approval of a change, is **not** evidence the underlying bug is
-gone — especially when the fix and the bug are not in the same place.
+## Finding 2 — a "catch" on paper can be empty, and you have to check
 
-We call this **diff-anchoring.** At this n it is a hypothesis, not a rate — but
-it reproduced in every defective case we ran, across both vendor directions.
+Because the official metric is a coordinate match, a reviewer comment scores a
+catch whenever its file and line land near the defect — *regardless of what
+the comment actually says.* Knowing that, I pre-committed to a human audit of
+every mechanical catch, with one question: **would a busy engineer who read
+this comment actually find and fix the bug?**
 
-## Finding 2 — the mechanical "catch" can be empty, and you have to check
+**Result: both mechanical catches in the pilot failed the audit — 0 of 2.**
 
-Because the primary metric is a coordinate match, a claim scores a **catch** if
-its file+line fall near the defect — *regardless of what the claim says.* The
-pilot pre-registered a human audit of every mechanical catch against a
-**reader-actionability** standard: *would a busy engineer following this claim
-actually find and fix the bug?*
+Two named ways a coordinate match can be hollow, both observed:
 
-**Result: both mechanical catches in the pilot failed the audit (0 of 2).**
-Two named ways a coordinate-match can be hollow:
+- **Coincidental localization** — a comment about something unrelated that
+  happens to sit on the right line (the error-handling nitpick above).
+- **Inverted claim** — a comment at the right place arguing that the *correct*
+  approach is the bug; following it would reintroduce the defect.
 
-- **Coincidental localization** — a semantically-unrelated claim that happens
-  to land on the right line (the error-handling nit above).
-- **Inverted claim** — a claim at the right place that asserts the *correct*
-  approach is the bug; following it would **reintroduce** the defect.
-
-The lesson is methodological and transferable: **a localization-based catch rate
-is an upper bound.** Coordinate matching is reproducible and bias-free — which
-is exactly why it is the right primary metric — but it counts diff-anchoring
-artifacts as catches. If you benchmark AI reviewers this way, you need a
-validity layer (human audit, or a calibrated semantic check) to know how many
-"catches" are real. In this pilot, at face value the catch rate was inflated by
-**every** catch it recorded.
+The transferable lesson: **a location-based catch rate is an upper bound.**
+Coordinate matching is the right primary metric — reproducible, no AI judging
+AI — but it counts diff-anchoring artifacts as successes. If you benchmark AI
+reviewers this way (and most current benchmarks do something like it), you need
+a validity layer — a human audit of a sample, at minimum — to know how many of
+your "catches" are real. In this pilot, at face value, the catch rate was
+inflated by every single catch it recorded.
 
 ## Finding 3 — a curated benchmark feed was ~29% usable, in five distinct ways
 
-To run the study we screened a recency-gated slice of a maintained,
-externally-provenanced SWE-bench-style feed. To fill our handful of task slots
-we walked **17 candidate tasks and found 5 usable — about 29%.** The
-unusable majority failed in **five distinct, diagnosable ways**, four of them
-defects in the *feed's own labels or artifacts*:
+To get real tasks, I used a maintained, publicly distributed SWE-bench-style
+dataset: real GitHub issues, each shipped with a container image, the official
+fix, and labels saying which tests should fail before the fix and pass after.
+Before trusting any task, I ran a cheap admission screen — execute the task at
+its starting commit and check that the labels are actually true.
 
-1. **Whole-suite mislabelling** — the entire test suite tagged as the "must now
-   pass" set, with no "must still pass" set at all.
-2. **Phantom test names** — the declared failing tests do not exist in the suite
-   after the feed's own test patch is applied.
-3. **Already-passing "failing" tests** — the tests that are supposed to fail
-   before the fix already pass at the base commit, so there is no defect to
-   confirm.
-4. **Missing container images** — the declared Docker image 404s from the
-   registry.
-5. **Non-running test commands** — the shipped test command executes no tests
-   (a missing runner; invalid flags; a failing pre-test typecheck).
+**Of 17 candidate tasks screened, 5 were usable — about 29%.** The rest failed
+in five distinct, diagnosable ways, four of them defects in the dataset's own
+labels or artifacts:
 
-(A sixth category — tasks that only fail to run under CPU emulation on Apple
-Silicon — is **not** a feed defect; those run fine on native hardware and are
-excluded rig-relatively.)
+1. **Whole-suite mislabelling** — the entire test suite tagged as
+   "should-fail-before-fix," with nothing in the "should-still-pass" set.
+2. **Phantom test names** — the declared failing tests don't exist in the
+   suite at all.
+3. **Already-passing "failing" tests** — tests that are supposed to prove the
+   bug exists already pass before any fix, so there is no confirmable defect.
+4. **Missing container images** — the declared Docker image simply isn't in
+   the registry anymore.
+5. **Non-running test commands** — the shipped test command executes zero
+   tests (missing test runner, invalid flags, a broken pre-test step).
 
-The transferable point: **a benchmark instance that "exists" in a dataset is not
-a benchmark instance that runs and means what its labels claim.** We caught all
-of these with a cheap admission screen — execute the task at its base commit and
-verify that the declared-failing tests actually fail and the declared-passing
-tests actually pass, *before* trusting any label. Any evaluation built on a
-SWE-bench-derived feed that skips this step is, at some rate, scoring against
-labels that do not hold. Ours held for 29% of what we screened.
+(A sixth category — tasks that only fail under CPU emulation on Apple Silicon —
+is my rig's limitation, not the dataset's, and was tracked separately.)
 
-We also drew a hard line worth stating: **we never repaired a task's broken test
-command to make it run.** Repairing the oracle is authoring the benchmark — it
-would manufacture a passing instance and destroy the task's status as an
-independent artifact. A non-running task is a *recorded finding about the feed*,
-not a task to fix into shape.
+The transferable point: **a benchmark task that "exists" in a dataset is not a
+benchmark task that runs and means what its labels claim.** The screen that
+caught all of this is cheap — run the tests once before believing the labels.
+Any evaluation built on a SWE-bench-derived feed that skips that step is, at
+some unknown rate, scoring against labels that don't hold.
+
+One line I refused to cross, worth stating as a principle: **I never repaired a
+broken task to make it run.** Fixing a dataset's broken test command is
+authoring the benchmark — it manufactures a passing instance and quietly makes
+the dataset grade *your* work instead of the model's. A task that won't run is
+a finding about the dataset, not a task to fix into shape.
 
 ## What this pilot deliberately does not say
 
-- It does **not** report a catch rate for cross-vendor vs same-vendor review —
-  the confirmed-defect n (three) is far too small, and every mechanical catch
-  it saw was an audit artifact. It reports the **direction and the mechanism**
-  (diff-anchoring), not a number.
-- It does **not** claim AI code review is or is not adopted by teams. The
-  practice is advocated and publicly tooled; usage is out of scope.
-- It does **not** generalize beyond JavaScript/TypeScript tasks, nor beyond the
-  specific shipped vendor stacks and versions it logged (a Claude opus+haiku
-  stack; an OpenAI GPT-5.6-Sol stack). It is a **field snapshot** of consumer
-  tools as operated, not a pinned-model comparison.
+- It does **not** report a catch rate for cross-vendor vs. same-vendor review.
+  Three confirmed defects is far too few, and every mechanical catch observed
+  was a scoring artifact. It reports a direction and a mechanism
+  (diff-anchoring), not a number. A pre-registered sequential study to put a
+  number on it is underway; its full design is public in the same repository.
+- It does **not** claim teams do or don't use cross-vendor review. Out of
+  scope.
+- It does **not** generalize beyond the JavaScript/TypeScript tasks it ran, nor
+  beyond the specific shipped tools it logged (a Claude Opus-class stack; an
+  OpenAI GPT-5.6 stack). It is a field snapshot of consumer tools as actually
+  operated — not a pinned-model laboratory comparison, and that is a feature:
+  it's the configuration practitioners actually run.
 
-## The takeaways a practitioner can use today
+## The takeaways you can use today
 
 1. **Don't read reviewer silence — or reviewer approval of a change — as "the
-   bug is fixed."** In every defective case here, reviewers anchored on the diff
-   and missed a defect that lived elsewhere. Cross-vendor did not rescue this.
-2. **If you score AI reviewers by whether they name the right location, audit a
-   sample of the "catches."** A coordinate match can be a coincidence or an
-   inverted claim; treat the raw catch rate as an upper bound.
-3. **If you build on a SWE-bench-style feed, run an execution-based admission
-   screen first.** A meaningful fraction of curated instances carry labels that
-   do not survive running them. Do not repair the oracle to boost yield.
+   bug is fixed."** In every defective case here, reviewers anchored on the
+   diff and missed a defect living outside it. A second vendor did not change
+   that. Tests, not reviews, caught every real defect in this pilot —
+   instantly.
+2. **If you score AI reviewers by whether they name the right location, audit
+   a sample of the "catches" by hand.** A coordinate match can be a
+   coincidence or an actively misleading claim. Treat any raw catch rate as an
+   upper bound until audited.
+3. **If you build anything on a SWE-bench-style dataset, run an
+   execution-based admission screen first** — and never repair the tasks to
+   boost your yield. A meaningful fraction of curated instances carry labels
+   that do not survive being run.
 
 ---
 
-*Method, full decision log, and every session transcript are public
-(MIT-licensed) at the project repository. Motivating prior art:
-arXiv:2603.04582, arXiv:2605.21537, arXiv:2603.26130. This write-up states
-findings at pilot scale with n reported throughout; it makes no adoption claim.*
+*Every method decision, session transcript, and script behind this pilot is
+public (MIT-licensed) in the project repository, including the pre-registered
+design of the follow-up study. Motivating prior work: arXiv:2603.04582,
+arXiv:2605.21537, arXiv:2603.26130. Findings are stated at pilot scale with n
+reported throughout; no adoption claims are made.*
+
+*Maxim St-Hilaire is a Staff Product Manager who builds and operates
+production agentic workflows; this pilot grew out of the supervision layer he
+maintains for multi-vendor AI development.*
