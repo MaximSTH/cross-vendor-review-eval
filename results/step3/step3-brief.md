@@ -225,6 +225,18 @@ committed under `results/step3/looks/`.
 |---:|---|---|---|---:|
 | 2 | pallets__click-3239 | anthropic | **authoring success** — 4/4 F2P pass, 740 parsed, no P2P regressions → not defective, no reviews | 1 |
 | 3 | tobymao__sqlglot-7187 | openai | **authoring success** — 1/1 F2P pass, 39 parsed → not defective, no reviews | 1 |
+| 5 | tox-dev__tox-3846 | openai | **authoring success** — 7/7 F2P pass, 117 parsed → not defective, no reviews | 1 |
+| 6 | go-task__task-2716 | anthropic | **authoring success** — 1/1 F2P pass, 625 parsed (eval attempt 3; attempts 1–2 were QEMU toolchain crashes — run-1's false DEFECTIVE quarantined `.INVALID-run1`, evaluator hardened, D-030/D-038) | 1 |
+
+**Accrual state after 2026-08-05:** 4 positions complete, **4 authoring
+successes, 0 confirmed-defective**, m = 0 discordant pairs; 4 sessions spent
+this week (sizing 15/wk, D-057). Cumulative screened rows toward the D-065.3
+own-harvest trigger: 21 (validation) + 0 new. Observed defect yield 0/4
+(Wilson 95% [0, 0.49]) vs the pilot's 2/5 — watched, recompute fires at 60
+screened rows. **Watch item (not yet an OQ):** go evals crash nondeterministically
+in the emulated toolchain (vet/cgo segfaults; 2 of 3 attempts on pos006) —
+retries sufficed; if retries stop sufficing, a `-vet=off`-style mitigation
+touches the feed's canonical test command and needs a supervisor ruling.
 
 ## 5. Skip trail
 

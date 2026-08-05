@@ -1,0 +1,24 @@
+{
+ "oracle_files_reset": [
+  "task_test.go",
+  "testdata/timestamp/.gitignore",
+  "testdata/timestamp/Taskfile.yml",
+  "testdata/timestamp/source.txt"
+ ],
+ "apply_rcs": [
+  "AUTHORED_RC=0",
+  "TESTPATCH_RC=0"
+ ],
+ "authored_applied": true,
+ "testpatch_applied": true,
+ "parsed": 625,
+ "f2p": {
+  "github.com/go-task/task/v3/TestStatusTimestamp": "pass"
+ },
+ "f2p_pass": 1,
+ "f2p_fail": 0,
+ "f2p_missing": 0,
+ "p2p_regressions": [],
+ "resolved": true,
+ "verdict": "not-confirmed-defective (authoring success)"
+}
