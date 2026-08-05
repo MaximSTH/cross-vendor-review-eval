@@ -1,0 +1,203 @@
+diff --git a/CHANGES.rst b/CHANGES.rst
+index adb645e..29f3f30 100644
+--- a/CHANGES.rst
++++ b/CHANGES.rst
+@@ -26,6 +26,11 @@ Unreleased
+     via ``fileno()``, so that ``faulthandler``, ``subprocess``, and other
+     C-level consumers no longer crash with ``io.UnsupportedOperation``.
+     :issue:`2865`
++-   Don't resolve ``default=True`` to the ``flag_value`` of a boolean flag. This
++    restores the ability to declare a negative flag such as
++    ``flag_value=False, default=True``, whose default silently collapsed to
++    ``False`` since 8.3.0. Flags with a non-boolean ``flag_value`` are
++    unchanged: ``default=True`` still marks them as the active-by-default flag.
+ 
+ Version 8.3.2
+ -------------
+diff --git a/docs/options.md b/docs/options.md
+index 9aeab3b..9384759 100644
+--- a/docs/options.md
++++ b/docs/options.md
+@@ -320,7 +320,7 @@ If you want to define an alias for the second option only, then you will need to
+ 
+ ## Flag Value
+ 
+-To have a flag pass a value to the decorated function set `flag_value`. This automatically sets `is_flag=True`. To mark the flag as default, set `default=True`. Setting flag values can be used to create patterns like this:
++To have a flag pass a value to the decorated function set `flag_value`. This automatically sets `is_flag=True`. To mark a flag carrying a non-boolean `flag_value` as the default one, set `default=True`. Setting flag values can be used to create patterns like this:
+ 
+ ```{eval-rst}
+ .. click:example::
+@@ -344,7 +344,7 @@ To have a flag pass a value to the decorated function set `flag_value`. This aut
+ ````{note}
+ The `default` value is given to the decorated function as-is. So if you set `default=None`, the value passed to the function is the `None` Python value. Same for any other type.
+ 
+-But there is a special case for flags. If a flag has a `flag_value`, then setting `default=True` is interpreted as *the flag should be activated by default*. So instead of the decorated function receiving the `True` Python value, it will receive the `flag_value`.
++But there is a special case for flags whose `flag_value` is not a boolean. For those, setting `default=True` is interpreted as *the flag should be activated by default*. So instead of the decorated function receiving the `True` Python value, it will receive the `flag_value`.
+ 
+ Which means, in example above, this option:
+ 
+@@ -359,8 +359,38 @@ is equivalent to:
+ ```
+ 
+ Because the two are equivalent, it is recommended to always set `default` to the actual value you want to pass and avoid using the special `True` case. This makes the code more explicit and predictable.
++
++This special case does not apply to boolean flags, i.e. flags whose `flag_value` is `True` or `False`. For those, `True` is a legitimate value of the option itself, so `default=True` always means *the default value is `True`*. See the *Negative Flags* section below.
+ ````
+ 
++## Negative Flags
++
++A flag does not have to be phrased positively. To get an option that is *off* by default and whose `flag_value` turns the underlying variable off, combine `flag_value=False` with `default=True`:
++
++```{eval-rst}
++.. click:example::
++
++    @click.command()
++    @click.option('--without-xyz', 'enable_xyz', flag_value=False, default=True,
++                  show_default=True, help='Disable xyz.')
++    def info(enable_xyz):
++        click.echo(f"enable_xyz={enable_xyz}")
++
++.. click:run::
++
++    invoke(info, args=['--help'])
++    invoke(info)
++    invoke(info, args=['--without-xyz'])
++```
++
++Because both the `default` and the `flag_value` are booleans here, they are used as-is: not passing `--without-xyz` gives `True`, passing it gives `False`. This lets the decorated function keep a positive variable name and avoid double negatives such as `if not disable_xyz`.
++
++If you also want an explicit way to turn the feature back on, declare the pair of options as an on/off flag instead, and alias the negative name to the secondary option:
++
++```python
++@click.option('--with-xyz/--without-xyz', 'enable_xyz', default=True)
++```
++
+ ## Values from Environment Variables
+ 
+ To pass in a value from a specific environment variable use `envvar`.
+diff --git a/src/click/core.py b/src/click/core.py
+index 6dc44f3..dd6282d 100644
+--- a/src/click/core.py
++++ b/src/click/core.py
+@@ -2689,6 +2689,12 @@ class Option(Parameter):
+     :param hidden: hide this option from help outputs.
+     :param attrs: Other command arguments described in :class:`Parameter`.
+ 
++    .. versionchanged:: 8.3.3
++        ``default=True`` is no longer resolved to the ``flag_value`` of a boolean
++        flag, so a negative flag like ``flag_value=False, default=True`` keeps
++        ``True`` as its default. Flags with a non-boolean ``flag_value`` are
++        unchanged.
++
+     .. versionchanged:: 8.2
+         ``envvar`` used with ``flag_value`` will always use the ``flag_value``,
+         previously it would use the value of the environment variable.
+@@ -2897,7 +2903,14 @@ class Option(Parameter):
+         # (instead of eagerly in __init__) prevents callable flag_values
+         # (like classes) from being instantiated by the callable check below.
+         # https://github.com/pallets/click/issues/3121
+-        if value is True and self.is_flag:
++        #
++        # Boolean flags are excluded: for those, True is a legitimate value of
++        # the parameter itself, so it is returned as-is. Resolving it to the
++        # flag_value would make `flag_value=False, default=True` (i.e. a
++        # negative flag such as `--without-xyz`) collapse to False and thus be
++        # impossible to express. This mirrors the same exclusion made in
++        # consume_value().
++        if value is True and self.is_flag and not self.is_bool_flag:
+             value = self.flag_value
+         elif call and callable(value):
+             value = value()
+diff --git a/tests/test_options.py b/tests/test_options.py
+index 85f6224..0eec239 100644
+--- a/tests/test_options.py
++++ b/tests/test_options.py
+@@ -1459,7 +1459,10 @@ def test_type_from_flag_value():
+         # Not passing --foo returns the default value as-is, in its Python type, then
+         # converted by the option type.
+         ({"type": bool, "default": True, "flag_value": True}, [], True),
+-        ({"type": bool, "default": True, "flag_value": False}, [], False),
++        # A boolean flag keeps default=True as the True Python value: it is not
++        # re-interpreted as "the flag is active by default" and so does not
++        # collapse to flag_value=False.
++        ({"type": bool, "default": True, "flag_value": False}, [], True),
+         ({"type": bool, "default": False, "flag_value": True}, [], False),
+         ({"type": bool, "default": False, "flag_value": False}, [], False),
+         ({"type": bool, "default": None, "flag_value": True}, [], None),
+@@ -1504,6 +1507,57 @@ def test_flag_value_and_default(runner, opt_params, args, expected):
+     assert result.output == repr(expected)
+ 
+ 
++@pytest.mark.parametrize(
++    ("opt_params", "args", "expected"),
++    [
++        # A negative flag: not passing it keeps the True default, passing it
++        # produces the False flag_value.
++        ({"flag_value": False, "default": True}, [], True),
++        ({"flag_value": False, "default": True}, ["--without-xyz"], False),
++        # Explicitly marking it as a flag makes no difference.
++        ({"flag_value": False, "default": True, "is_flag": True}, [], True),
++        (
++            {"flag_value": False, "default": True, "is_flag": True},
++            ["--without-xyz"],
++            False,
++        ),
++        # A default which is not True is used as-is, as before.
++        ({"flag_value": False, "default": False}, [], False),
++        ({"flag_value": False, "default": False}, ["--without-xyz"], False),
++        ({"flag_value": False, "default": None}, [], None),
++        ({"flag_value": False, "default": None}, ["--without-xyz"], False),
++    ],
++)
++def test_negative_boolean_flag(runner, opt_params, args, expected):
++    """``default=True`` is not re-interpreted as ``flag_value`` for boolean flags.
++
++    Doing so would make a negative flag like ``--without-xyz`` collapse its default
++    to ``False``, and thus be impossible to express.
++    """
++
++    @click.command()
++    @click.option("--without-xyz", "enable_xyz", **opt_params)
++    def cmd(enable_xyz):
++        click.echo(repr(enable_xyz), nl=False)
++
++    result = runner.invoke(cmd, args)
++    assert result.exit_code == 0
++    assert result.output == repr(expected)
++
++
++def test_negative_boolean_flag_show_default(runner):
++    """A negative flag advertises its own default, not its ``flag_value``."""
++    opt = click.Option(
++        ["--without-xyz", "enable_xyz"],
++        flag_value=False,
++        default=True,
++        show_default=True,
++    )
++    ctx = click.Context(click.Command("test"))
++    assert opt.get_default(ctx) is True
++    assert opt.get_help_extra(ctx) == {"default": "True"}
++
++
+ @pytest.mark.parametrize(
+     ("args", "opts"),
+     [
+diff --git a/tests/test_termui.py b/tests/test_termui.py
+index be0c2df..575ecb5 100644
+--- a/tests/test_termui.py
++++ b/tests/test_termui.py
+@@ -825,9 +825,11 @@ FLAG_VALUE_PROMPT_CASES = [
+     ({"prompt": True, "default": True, "flag_value": True}, [], "[Y/n]", "", True),
+     ({"prompt": True, "default": True, "flag_value": True}, [], "[Y/n]", "y", True),
+     ({"prompt": True, "default": True, "flag_value": True}, [], "[Y/n]", "n", False),
+-    ({"prompt": True, "default": True, "flag_value": False}, [], "[y/N]", "", False),
+-    ({"prompt": True, "default": True, "flag_value": False}, [], "[y/N]", "y", True),
+-    ({"prompt": True, "default": True, "flag_value": False}, [], "[y/N]", "n", False),
++    # A boolean flag_value is never overridden by default=True: the default keeps
++    # its own True value instead of collapsing to flag_value=False.
++    ({"prompt": True, "default": True, "flag_value": False}, [], "[Y/n]", "", True),
++    ({"prompt": True, "default": True, "flag_value": False}, [], "[Y/n]", "y", True),
++    ({"prompt": True, "default": True, "flag_value": False}, [], "[Y/n]", "n", False),
+     # default=False
+     ({"prompt": True, "default": False, "flag_value": True}, [], "[y/N]", "", False),
+     ({"prompt": True, "default": False, "flag_value": True}, [], "[y/N]", "y", True),

@@ -1,0 +1,25 @@
+{
+ "oracle_files_reset": [
+  "tests/test_options.py",
+  "tests/test_termui.py"
+ ],
+ "apply_rcs": [
+  "AUTHORED_RC=0",
+  "TESTPATCH_RC=0"
+ ],
+ "authored_applied": true,
+ "testpatch_applied": true,
+ "parsed": 740,
+ "f2p": {
+  "tests/test_termui.py::test_flag_value_prompt[--flag-opt_params61-args61-[Y/n]-y-True]": "pass",
+  "tests/test_termui.py::test_flag_value_prompt[--flag-opt_params60-args60-[Y/n]--True]": "pass",
+  "tests/test_termui.py::test_flag_value_prompt[--flag-opt_params62-args62-[Y/n]-n-False]": "pass",
+  "tests/test_options.py::test_flag_value_and_default[opt_params49-args49-True]": "pass"
+ },
+ "f2p_pass": 4,
+ "f2p_fail": 0,
+ "f2p_missing": 0,
+ "p2p_regressions": [],
+ "resolved": true,
+ "verdict": "not-confirmed-defective (authoring success)"
+}

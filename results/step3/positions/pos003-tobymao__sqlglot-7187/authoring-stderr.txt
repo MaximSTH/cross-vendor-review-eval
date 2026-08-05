@@ -1,0 +1,224 @@
+2026-08-05T20:34:45.663403Z ERROR codex_models_manager::cache: failed to load models cache: missing field `supports_reasoning_summaries` at line 86 column 5
+OpenAI Codex v0.144.5
+--------
+workdir: /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos003/authoring
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019fd3a2-bea1-77b2-bfcd-624b9da9e631
+--------
+user
+DuckDB dialect parse error: `window function IGNORE NULLS`
+**Fully reproducible code snippet**
+```python
+from sqlglot import parse_one
+sql='''with 
+ids as ( select * as idx from generate_series( 1, 4 ) ),
+data as ( select *, ( case when idx != 3 then idx * 1.0 else null end ) as value from ids )
+select value, 
+       last_value( value order by idx ignore nulls ) over ( order by idx rows between unbounded preceding and 0 following ) last_value
+from data'''
+parse_one( sql, dialect = 'duckdb' )
+```
+```
+Expecting ). Line 5, Col: 44.
+   idx * 1.0 else null end ) as value from ids )
+select value, 
+       last_value( value order by idx ignore nulls ) over ( order by idx rows between unbounded preceding and 0 following ) last_value
+from data
+```
+**Official Documentation**
+[Nulls](https://duckdb.org/docs/stable/sql/functions/window_functions#nulls)
+
+**Package Version**
+sqlglot 29.0.1
+sqlglotc 29.0.1
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.
+codex
+I’ll trace DuckDB window-function parsing, add the smallest dialect-specific grammar fix, and cover the reported query with parser tests. I’ll leave the worktree uncommitted and report the exact validation run.
+  → Inspect repository guidance and existing window-function parsing/tests
+  • Implement DuckDB IGNORE NULLS parsing support
+  • Add regression tests and run focused validation
+  • Review diff and confirm uncommitted state
+exec
+/bin/zsh -lc "pwd && rg --files -g 'AGENTS.md' -g '"'!node_modules'"' -g '"'!target'"' -g '"'!dist'"' | sed -n '1,20p' && rg -n \"IGNORE NULLS|RESPECT NULLS|last_value|Window\" sqlglot tests | sed -n '1,240p'" in /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos003/authoring
+ succeeded in 0ms:
+/private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos003/authoring
+tests/test_transpile.py:516:SOME_FUNC(arg IGNORE NULLS)
+tests/test_transpile.py:518:            "SOME_FUNC(arg IGNORE NULLS) OVER (PARTITION BY foo ORDER BY bla) AS col /* comment */",
+sqlglot/transforms.py:158:        window = exp.Window(this=exp.RowNumber(), partition_by=distinct_cols)
+sqlglot/transforms.py:231:        select_candidates = exp.Window if expression.is_star else (exp.Window, exp.Column)
+sqlglot/transforms.py:233:            if isinstance(select_candidate, exp.Window):
+sqlglot/transforms.py:1000:        for window in find_all_in_scope(expression, exp.Window):
+sqlglot/optimizer/scope.py:321:                            isinstance(ancestor.parent, (exp.Window, exp.WithinGroup))
+sqlglot/optimizer/pushdown_predicates.py:204:                select for select in node.selects if select.find(exp.Window)
+sqlglot/optimizer/qualify_columns.py:359:                    and not isinstance(column.find_ancestor(exp.Window, exp.Select), exp.Window)
+sqlglot/optimizer/merge_subqueries.py:132:        window_aliases = {s.alias_or_name for s in inner_select.selects if s.find(exp.Window)}
+tests/dialects/test_duckdb.py:67:            "SELECT FIRST_VALUE(c IGNORE NULLS) OVER (PARTITION BY gb ORDER BY ob) FROM t",
+tests/dialects/test_duckdb.py:69:                "duckdb": "SELECT FIRST_VALUE(c IGNORE NULLS) OVER (PARTITION BY gb ORDER BY ob) FROM t",
+tests/dialects/test_duckdb.py:76:            "SELECT FIRST_VALUE(c RESPECT NULLS) OVER (PARTITION BY gb ORDER BY ob) FROM t",
+tests/dialects/test_duckdb.py:78:                "duckdb": "SELECT FIRST_VALUE(c RESPECT NULLS) OVER (PARTITION BY gb ORDER BY ob) FROM t",
+tests/dialects/test_duckdb.py:80:                "mysql": "SELECT FIRST_VALUE(c) RESPECT NULLS OVER (PARTITION BY gb ORDER BY CASE WHEN ob IS NULL THEN 1 ELSE 0 END, ob) FROM t",
+tests/dialects/test_duckdb.py:701:                "spark": "SELECT ANY_VALUE(sample_column) IGNORE NULLS FROM sample_table",
+tests/dialects/test_duckdb.py:842:            "SELECT NTH_VALUE(is_deleted, 2 IGNORE NULLS) OVER (PARTITION BY id) AS nth_is_deleted FROM my_table"
+tests/dialects/test_duckdb.py:2130:            windowed_ignore_null = exp.Window(this=ignore_null)
+tests/dialects/test_duckdb.py:2133:                self.assertIn("IGNORE NULLS", windowed_ignore_null.sql("duckdb"))
+tests/dialects/test_duckdb.py:2137:                    self.assertNotIn("IGNORE NULLS", windowed_ignore_null.sql("duckdb"))
+tests/dialects/test_duckdb.py:2141:                    "WARNING:sqlglot:IGNORE NULLS is not supported for non-window functions.",
+sqlglot/typing/__init__.py:259:            exp.Window,
+sqlglot/diff.py:158:    exp.Window,
+tests/dialects/test_hive.py:954:            "SELECT FIRST(sample_col) IGNORE NULLS",
+sqlglot/dialects/mysql.py:158:    # behavior on Linux systems. For MacOS and Windows systems, one can override this
+sqlglot/dialects/mysql.py:1122:            "last_value",
+sqlglot/dialects/mysql.py:1437:            self.unsupported("MySQL does not support IGNORE NULLS.")
+sqlglot/expressions/query.py:1476:            into=Window,
+sqlglot/expressions/query.py:1742:class Window(Expression, Condition):
+sqlglot/expressions/query.py:1754:class WindowSpec(Expression):
+tests/fixtures/optimizer/qualify_columns.sql:869:-- Window functions
+sqlglot/dialects/sqlite.py:378:            self.unsupported("SQLite does not support IGNORE NULLS.")
+sqlglot/dialects/sqlite.py:384:        def windowspec_sql(self, expression: exp.WindowSpec) -> str:
+sqlglot/parser.py:963:        exp.Window: lambda self: self._parse_named_window(),
+sqlglot/parser.py:6157:            if isinstance(field, (exp.Func, exp.Window)) and this:
+sqlglot/parser.py:6173:            elif isinstance(field, exp.Window):
+sqlglot/parser.py:7611:        #   SELECT FIRST_VALUE(TABLE.COLUMN IGNORE|RESPECT NULLS) OVER ...
+sqlglot/parser.py:7614:        #   SELECT FIRST_VALUE(TABLE.COLUMN) IGNORE|RESPECT NULLS OVER ...
+sqlglot/parser.py:7643:                exp.Window,
+sqlglot/parser.py:7673:                exp.WindowSpec,
+sqlglot/parser.py:7687:            exp.Window,
+sqlglot/dialects/starrocks.py:366:            "last_value",
+sqlglot/dialects/postgres.py:955:            self.unsupported("PostgreSQL does not support IGNORE NULLS.")
+sqlglot/dialects/postgres.py:960:            self.unsupported("PostgreSQL does not support RESPECT NULLS.")
+tests/fixtures/identity.sql:371:SELECT LAST_VALUE(a) IGNORE NULLS OVER () + 1
+tests/fixtures/identity.sql:944:SELECT LAST_VALUE(CASE WHEN interval <> 'foo' THEN interval END) IGNORE NULLS FROM t
+sqlglot/helper.py:46:    def _generate_next_value_(name, _start, _count, _last_values):
+sqlglot/expressions/core.py:2892:    # We don't set the "alias" arg for Window expressions, because that would add an IDENTIFIER node in
+sqlglot/expressions/core.py:2894:    # for the complete Window expression.
+sqlglot/expressions/core.py:2898:    if "alias" in exp.arg_types and type(exp).__name__ != "Window":
+sqlglot/dialects/clickhouse.py:446:            "last_value",
+sqlglot/dialects/clickhouse.py:928:            func = expr.this if isinstance(expr, exp.Window) else expr
+sqlglot/dialects/clickhouse.py:956:                if isinstance(expr, exp.Window):
+sqlglot/dialects/singlestore.py:1165:            "last_value",
+sqlglot/dialects/duckdb.py:728:        or (isinstance(ancestor, exp.Order) and isinstance(ancestor.parent, exp.Window))
+sqlglot/dialects/duckdb.py:1315:    expression: t.Union[exp.Filter, exp.Window, exp.Corr],
+sqlglot/dialects/duckdb.py:1316:) -> t.Optional[t.Union[exp.Filter, exp.Window, exp.Corr]]:
+sqlglot/dialects/duckdb.py:1318:    while isinstance(corr, (exp.Window, exp.Filter)):
+sqlglot/dialects/duckdb.py:3767:                # DuckDB should render IGNORE NULLS only for the general-purpose
+sqlglot/dialects/duckdb.py:3768:                # window functions that accept it e.g. FIRST_VALUE(... IGNORE NULLS) OVER (...)
+sqlglot/dialects/duckdb.py:3775:                self.unsupported("IGNORE NULLS is not supported for non-window functions.")
+sqlglot/dialects/duckdb.py:3781:                # DuckDB should render RESPECT NULLS only for the general-purpose
+sqlglot/dialects/duckdb.py:3782:                # window functions that accept it e.g. FIRST_VALUE(... RESPECT NULLS) OVER (...)
+sqlglot/dialects/duckdb.py:3785:            self.unsupported("RESPECT NULLS is not supported for non-window functions.")
+sqlglot/dialects/duckdb.py:4162:            support RESPECT NULLS.
+sqlglot/dialects/duckdb.py:4216:        def window_sql(self, expression: exp.Window) -> str:
+sqlglot/dialects/duckdb.py:4233:            expression: t.Union[exp.Filter, exp.Window, exp.Corr],
+sqlglot/dialects/duckdb.py:4242:                if isinstance(expression, exp.Window):
+tests/dialects/test_spark.py:295:        self.validate_identity("any_value(col, true)", "ANY_VALUE(col) IGNORE NULLS")
+tests/dialects/test_spark.py:296:        self.validate_identity("first(col, true)", "FIRST(col) IGNORE NULLS")
+tests/dialects/test_spark.py:297:        self.validate_identity("first_value(col, true)", "FIRST_VALUE(col) IGNORE NULLS")
+tests/dialects/test_spark.py:298:        self.validate_identity("last(col, true)", "LAST(col) IGNORE NULLS")
+tests/dialects/test_spark.py:299:        self.validate_identity("last_value(col, true)", "LAST_VALUE(col) IGNORE NULLS")
+tests/dialects/test_spark.py:919:                "duckdb": "SELECT ANY_VALUE(col), ANY_VALUE(col), FIRST_VALUE(col IGNORE NULLS) OVER ()"
+tests/dialects/test_bigquery.py:127:        self.validate_identity("ARRAY_AGG(x IGNORE NULLS LIMIT 1)")
+tests/dialects/test_bigquery.py:128:        self.validate_identity("ARRAY_AGG(x IGNORE NULLS ORDER BY x LIMIT 1)")
+tests/dialects/test_bigquery.py:129:        self.validate_identity("ARRAY_AGG(DISTINCT x IGNORE NULLS ORDER BY x LIMIT 1)")
+tests/dialects/test_bigquery.py:130:        self.validate_identity("ARRAY_AGG(x IGNORE NULLS)")
+tests/dialects/test_bigquery.py:131:        self.validate_identity("ARRAY_AGG(DISTINCT x IGNORE NULLS HAVING MAX x ORDER BY x LIMIT 1)")
+tests/dialects/test_bigquery.py:215:        self.validate_identity("SELECT COUNT(x RESPECT NULLS)")
+tests/dialects/test_bigquery.py:216:        self.validate_identity("SELECT LAST_VALUE(x IGNORE NULLS) OVER y AS x")
+tests/dialects/test_bigquery.py:262:            "SELECT LAST_VALUE(a IGNORE NULLS) OVER y FROM x WINDOW y AS (PARTITION BY CATEGORY)",
+tests/dialects/test_bigquery.py:275:            "--c\nARRAY_AGG(v IGNORE NULLS)",
+tests/dialects/test_bigquery.py:276:            "ARRAY_AGG(v IGNORE NULLS) /* c */",
+tests/dialects/test_bigquery.py:582:            "SELECT SUM(x IGNORE NULLS) AS x",
+tests/dialects/test_bigquery.py:584:                "bigquery": "SELECT SUM(x IGNORE NULLS) AS x",
+tests/dialects/test_bigquery.py:585:                "duckdb": "SELECT SUM(x IGNORE NULLS) AS x",
+tests/dialects/test_bigquery.py:586:                "spark": "SELECT SUM(x) IGNORE NULLS AS x",
+tests/dialects/test_bigquery.py:587:                "snowflake": "SELECT SUM(x) IGNORE NULLS AS x",
+tests/dialects/test_bigquery.py:590:                "bigquery": "SELECT SUM(x IGNORE NULLS) AS x",
+tests/dialects/test_bigquery.py:593:                "spark": "SELECT SUM(x) IGNORE NULLS AS x",
+tests/dialects/test_bigquery.py:594:                "snowflake": "SELECT SUM(x) IGNORE NULLS AS x",
+tests/dialects/test_bigquery.py:598:            "SELECT SUM(x RESPECT NULLS) AS x",
+tests/dialects/test_bigquery.py:600:                "bigquery": "SELECT SUM(x RESPECT NULLS) AS x",
+tests/dialects/test_bigquery.py:601:                "spark": "SELECT SUM(x) RESPECT NULLS AS x",
+tests/dialects/test_bigquery.py:602:                "snowflake": "SELECT SUM(x) RESPECT NULLS AS x",
+tests/dialects/test_bigquery.py:605:                "bigquery": "SELECT SUM(x RESPECT NULLS) AS x",
+tests/dialects/test_bigquery.py:608:                "spark": "SELECT SUM(x) RESPECT NULLS AS x",
+tests/dialects/test_bigquery.py:609:                "snowflake": "SELECT SUM(x) RESPECT NULLS AS x",
+tests/dialects/test_bigquery.py:613:            "SELECT PERCENTILE_CONT(x, 0.5 RESPECT NULLS) OVER ()",
+tests/dialects/test_bigquery.py:615:                "bigquery": "SELECT PERCENTILE_CONT(x, 0.5 RESPECT NULLS) OVER ()",
+tests/dialects/test_bigquery.py:617:                "spark": "SELECT PERCENTILE_CONT(x, 0.5) RESPECT NULLS OVER ()",
+tests/dialects/test_bigquery.py:621:            "SELECT ARRAY_AGG(DISTINCT x IGNORE NULLS ORDER BY a, b DESC LIMIT 10) AS x",
+tests/dialects/test_bigquery.py:623:                "bigquery": "SELECT ARRAY_AGG(DISTINCT x IGNORE NULLS ORDER BY a, b DESC LIMIT 10) AS x",
+tests/dialects/test_bigquery.py:625:                "spark": "SELECT COLLECT_LIST(DISTINCT x ORDER BY a, b DESC LIMIT 10) IGNORE NULLS AS x",
+tests/dialects/test_bigquery.py:629:            "SELECT ARRAY_AGG(DISTINCT x IGNORE NULLS ORDER BY a, b DESC LIMIT 1, 10) AS x",
+tests/dialects/test_bigquery.py:631:                "bigquery": "SELECT ARRAY_AGG(DISTINCT x IGNORE NULLS ORDER BY a, b DESC LIMIT 1, 10) AS x",
+tests/dialects/test_bigquery.py:633:                "spark": "SELECT COLLECT_LIST(DISTINCT x ORDER BY a, b DESC LIMIT 1, 10) IGNORE NULLS AS x",
+tests/dialects/test_bigquery.py:3123:        for nulls in ("", " IGNORE NULLS", " RESPECT NULLS"):
+tests/dialects/test_bigquery.py:3348:        self.validate_identity("APPROX_QUANTILES(DISTINCT foo, 2 RESPECT NULLS)")
+tests/dialects/test_bigquery.py:3349:        self.validate_identity("APPROX_QUANTILES(DISTINCT foo, 2 IGNORE NULLS)")
+tests/dialects/test_bigquery.py:3587:        self.validate_identity("APPROX_QUANTILES(x, 2 RESPECT NULLS)")
+tests/dialects/test_bigquery.py:3588:        self.validate_identity("APPROX_QUANTILES(x, 2 IGNORE NULLS)")
+tests/dialects/test_bigquery.py:3589:        self.validate_identity("APPROX_QUANTILES(DISTINCT x, 2 RESPECT NULLS)")
+tests/dialects/test_bigquery.py:3655:        with self.subTest("APPROX_QUANTILES IGNORE NULLS"):
+tests/dialects/test_bigquery.py:3656:            # No warning: IGNORE NULLS is the default behavior in DuckDB
+tests/dialects/test_bigquery.py:3661:                    "APPROX_QUANTILES(x, 2 IGNORE NULLS)",
+tests/dialects/test_bigquery.py:3666:        with self.subTest("APPROX_QUANTILES RESPECT NULLS"):
+tests/dialects/test_bigquery.py:3668:                self.parse_one("APPROX_QUANTILES(x, 2 RESPECT NULLS)").sql(
+tests/fixtures/optimizer/annotate_functions.sql:1607:FIRST_VALUE(tbl.bigint_col RESPECT NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1611:FIRST_VALUE(tbl.bigint_col IGNORE NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1615:FIRST_VALUE(tbl.str_col RESPECT NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1619:FIRST_VALUE(tbl.str_col IGNORE NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1631:NTH_VALUE(tbl.bigint_col, 2 RESPECT NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1635:NTH_VALUE(tbl.str_col, 2 RESPECT NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1639:NTH_VALUE(tbl.bigint_col, 2 IGNORE NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1643:NTH_VALUE(tbl.str_col, 2 IGNORE NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1655:PERCENTILE_DISC(tbl.bigint_col, 0.5 RESPECT NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1659:PERCENTILE_DISC(tbl.str_col, 0.5 RESPECT NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1663:PERCENTILE_DISC(tbl.bigint_col, 0.5 IGNORE NULLS) OVER (ORDER BY 1);
+tests/fixtures/optimizer/annotate_functions.sql:1667:PERCENTILE_DISC(tbl.str_col, 0.5 IGNORE NULLS) OVER (ORDER BY 1);
+sqlglot/generator.py:257:    # FIRST(x IGNORE NULLS) OVER vs FIRST (x) IGNORE NULLS OVER
+sqlglot/generator.py:2818:            window = expression.find_ancestor(exp.Window, exp.Select)
+sqlglot/generator.py:2819:            if isinstance(window, exp.Window) and window.args.get("spec"):
+sqlglot/generator.py:2830:                ancestor = expression.find_ancestor(exp.AggFunc, exp.Window, exp.Select)
+sqlglot/generator.py:2832:                if isinstance(ancestor, exp.Window):
+sqlglot/generator.py:3117:    def window_sql(self, expression: exp.Window) -> str:
+sqlglot/generator.py:3142:    def partition_by_sql(self, expression: exp.Window | exp.MatchRecognize) -> str:
+sqlglot/generator.py:3146:    def windowspec_sql(self, expression: exp.WindowSpec) -> str:
+sqlglot/generator.py:3936:        return self._embed_ignore_nulls(expression, "IGNORE NULLS")
+sqlglot/generator.py:3939:        return self._embed_ignore_nulls(expression, "RESPECT NULLS")
+sqlglot/generator.py:4808:                f"RESPECT/IGNORE NULLS is not supported for {type(this).key} in {self.dialect.__class__.__name__}"
+tests/dialects/test_snowflake.py:1358:            "SELECT NTH_VALUE(is_deleted, 2) FROM FIRST IGNORE NULLS OVER (PARTITION BY id) AS nth_is_deleted FROM my_table",
+tests/dialects/test_snowflake.py:1360:                "snowflake": "SELECT NTH_VALUE(is_deleted, 2) FROM FIRST IGNORE NULLS OVER (PARTITION BY id) AS nth_is_deleted FROM my_table",
+tests/dialects/test_snowflake.py:1361:                "duckdb": "SELECT NTH_VALUE(is_deleted, 2 IGNORE NULLS) OVER (PARTITION BY id) AS nth_is_deleted FROM my_table",
+tests/dialects/test_snowflake.py:1366:            "SELECT NTH_VALUE(is_deleted, 2) FROM LAST RESPECT NULLS OVER (PARTITION BY id) AS nth_is_deleted FROM my_table",
+tests/dialects/test_snowflake.py:1368:                "snowflake": "SELECT NTH_VALUE(is_deleted, 2) FROM LAST RESPECT NULLS OVER (PARTITION BY id) AS nth_is_deleted FROM my_table",
+tests/dialects/test_snowflake.py:1369:                "duckdb": "SELECT NTH_VALUE(is_deleted, 2 RESPECT NULLS) OVER (PARTITION BY id) AS nth_is_deleted FROM my_table",
+tests/dialects/test_snowflake.py:1382:            "SELECT FIRST_VALUE(is_deleted) RESPECT NULLS OVER (PARTITION BY id ORDER BY c ASC) AS f FROM my_table",
+tests/dialects/test_snowflake.py:1384:                "snowflake": "SELECT FIRST_VALUE(is_deleted) RESPECT NULLS OVER (PARTITION BY id ORDER BY c ASC) AS f FROM my_table",
+tests/dialects/test_snowflake.py:1385:                "duckdb": "SELECT FIRST_VALUE(is_deleted RESPECT NULLS) OVER (PARTITION BY id ORDER BY c ASC) AS f FROM my_table",
+tests/dialects/test_snowflake.py:1398:            "SELECT LAST_VALUE(is_deleted) RESPECT NULLS OVER (PARTITION BY id ORDER BY c ASC) AS f FROM my_table",
+tests/dialects/test_snowflake.py:1400:                "snowflake": "SELECT LAST_VALUE(is_deleted) RESPECT NULLS OVER (PARTITION BY id ORDER BY c ASC) AS f FROM my_table",
+tests/dialects/test_snowflake.py:1401:                "duckdb": "SELECT LAST_VALUE(is_deleted RESPECT NULLS) OVER (PARTITION BY id ORDER BY c ASC) AS f FROM my_table",
+tests/dialects/test_snowflake.py:1414:            "SELECT LEAD(is_deleted, 2, -10) RESPECT NULLS OVER (PARTITION BY id) AS nth_is_deleted FROM my_table",
+tests/dialects/test_snowflake.py:1416:                "snowflake": "SELECT LEAD(is_deleted, 2, -10) RESPECT NULLS OVER (PARTITION BY id) AS nth_is_deleted FROM my_table",
+tests/dialects/test_snowflake.py:1417:                "duckdb": "SELECT LEAD(is_deleted, 2, -10 RESPECT NULLS) OVER (PARTITION BY id) AS nth_is_deleted FROM my_table",
+tests/dialects/test_snowflake.py:1438:            "SELECT LAG(amount, 2) IGNORE NULLS OVER (PARTITION BY category ORDER BY seq) AS lag_offset_ignore_nulls",
+tests/dialects/test_snowflake.py:1440:                "snowflake": "SELECT LAG(amount, 2) IGNORE NULLS OVER (PARTITION BY category ORDER BY seq) AS lag_offset_ignore_nulls",
+tests/dialects/test_snowflake.py:1441:                "duckdb": "SELECT LAG(amount, 2 IGNORE NULLS) OVER (PARTITION BY category ORDER BY seq) AS lag_offset_ignore_nulls",
+tests/dialects/test_snowflake.py:1446:            "SELECT LAG(amount, 2, -777) RESPECT NULLS OVER (PARTITION BY category ORDER BY seq ASC) AS lag_full_ignore_nulls",
+tests/dialects/test_snowflake.py:1448:                "snowflake": "SELECT LAG(amount, 2, -777) RESPECT NULLS OVER (PARTITION BY category ORDER BY seq ASC) AS lag_full_ignore_nulls",
+tests/dialects/test_snowflake.py:1449:                "duckdb": "SELECT LAG(amount, 2, -777 RESPECT NULLS) OVER (PARTITION BY category ORDER BY seq ASC) AS lag_full_ignore_nulls",
+tests/dialects/test_snowflake.py:3135:            r"SELECT FIRST_VALUE(TABLE1.COLUMN1 RESPECT NULLS) OVER (PARTITION BY RANDOM_COLUMN1, RANDOM_COLUMN2 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS MY_ALIAS FROM TABLE1",
+tests/dialects/test_snowflake.py:3137:                "snowflake": r"SELECT FIRST_VALUE(TABLE1.COLUMN1) RESPECT NULLS OVER (PARTITION BY RANDOM_COLUMN1, RANDOM_COLUMN2 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS MY_ALIAS FROM TABLE1"
+tests/dialects/test_snowflake.py:3141:            r"SELECT FIRST_VALUE(TABLE1.COLUMN1) RESPECT NULLS OVER (PARTITION BY RANDOM_COLUMN1, RANDOM_COLUMN2 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS MY_ALIAS FROM TABLE1",
+tests/dialects/test_snowflake.py:3143:                "snowflake": r"SELECT FIRST_VALUE(TABLE1.COLUMN1) RESPECT NULLS OVER (PARTITION BY RANDOM_COLUMN1, RANDOM_COLUMN2 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS MY_ALIAS FROM TABLE1"
+tests/dialects/test_snowflake.py:3147:            r"SELECT FIRST_VALUE(TABLE1.COLUMN1 IGNORE NULLS) OVER (PARTITION BY RANDOM_COLUMN1, RANDOM_COLUMN2 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS MY_ALIAS FROM TABLE1",
+tests/dialects/test_snowflake.py:3149:                "snowflake": r"SELECT FIRST_VALUE(TABLE1.COLUMN1) IGNORE NULLS OVER (PARTITION BY RANDOM_COLUMN1, RANDOM_COLUMN2 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS MY_ALIAS FROM TABLE1"
+tests/dialects/test_snowflake.py:3153:            r"SELECT FIRST_VALUE(TABLE1.COLUMN1) IGNORE NULLS OVER (PARTITION BY RANDOM_COLUMN1, RANDOM_COLUMN2 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS MY_ALIAS FROM TABLE1",
+tests/dialects/test_snowflake.py:3155:                "snowflake": r"SELECT FIRST_VALUE(TABLE1.COLUMN1) IGNORE NULLS OVER (PARTITION BY RANDOM_COLUMN1, RANDOM_COLUMN2 ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS MY_ALIAS FROM TABLE1"
+tests/dialects/test_snowflake.py:5440:        window = ast.find(exp.Window)
+

@@ -1,0 +1,6 @@
+{
+ "task": "tobymao__sqlglot-7187",
+ "rule": "prereg 4.4 (D-035b)",
+ "removed": [],
+ "note": "no fix-pointing references (hints empty, no PR/commit refs)"
+}
