@@ -1,0 +1,145 @@
+{"ImportPath":"net","Action":"build-output","Output":"net: /usr/local/go/pkg/tool/linux_amd64/cgo: exit status 2\n"}
+{"ImportPath":"net","Action":"build-fail"}
+{"ImportPath":"crypto/rsa","Action":"build-output","Output":"crypto/rsa: /usr/local/go/pkg/tool/linux_amd64/vet: signal: segmentation fault (core dumped)\n"}
+{"ImportPath":"crypto/rsa","Action":"build-fail"}
+{"ImportPath":"google.golang.org/grpc/balancer/pickfirst/internal","Action":"build-output","Output":"google.golang.org/grpc/balancer/pickfirst/internal: /usr/local/go/pkg/tool/linux_amd64/vet: signal: segmentation fault (core dumped)\n"}
+{"ImportPath":"google.golang.org/grpc/balancer/pickfirst/internal","Action":"build-fail"}
+{"ImportPath":"google.golang.org/protobuf/types/known/wrapperspb","Action":"build-output","Output":"google.golang.org/protobuf/types/known/wrapperspb: /usr/local/go/pkg/tool/linux_amd64/vet: signal: segmentation fault (core dumped)\n"}
+{"ImportPath":"google.golang.org/protobuf/types/known/wrapperspb","Action":"build-fail"}
+{"Time":"2026-08-05T20:56:58.587197227Z","Action":"start","Package":"github.com/go-task/task/v3"}
+{"Time":"2026-08-05T20:56:58.587795893Z","Action":"start","Package":"github.com/go-task/task/v3/args"}
+{"Time":"2026-08-05T20:56:58.587886745Z","Action":"output","Package":"github.com/go-task/task/v3","Output":"FAIL\tgithub.com/go-task/task/v3 [build failed]\n"}
+{"Time":"2026-08-05T20:56:58.588152675Z","Action":"output","Package":"github.com/go-task/task/v3/args","Output":"FAIL\tgithub.com/go-task/task/v3/args [build failed]\n"}
+{"Time":"2026-08-05T20:56:58.588504831Z","Action":"fail","Package":"github.com/go-task/task/v3","Elapsed":0.001,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:58.588520126Z","Action":"fail","Package":"github.com/go-task/task/v3/args","Elapsed":0.001,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:58.590371551Z","Action":"start","Package":"github.com/go-task/task/v3/cmd/release"}
+{"Time":"2026-08-05T20:56:58.590389763Z","Action":"output","Package":"github.com/go-task/task/v3/cmd/release","Output":"FAIL\tgithub.com/go-task/task/v3/cmd/release [build failed]\n"}
+{"Time":"2026-08-05T20:56:58.590410267Z","Action":"fail","Package":"github.com/go-task/task/v3/cmd/release","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.018661815Z","Action":"start","Package":"github.com/go-task/task/v3/cmd/sleepit"}
+{"Time":"2026-08-05T20:56:59.018810846Z","Action":"start","Package":"github.com/go-task/task/v3/cmd/task"}
+{"Time":"2026-08-05T20:56:59.018852438Z","Action":"output","Package":"github.com/go-task/task/v3/cmd/task","Output":"FAIL\tgithub.com/go-task/task/v3/cmd/task [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.018885278Z","Action":"fail","Package":"github.com/go-task/task/v3/cmd/task","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.018903949Z","Action":"output","Package":"github.com/go-task/task/v3/cmd/sleepit","Output":"?   \tgithub.com/go-task/task/v3/cmd/sleepit\t[no test files]\n"}
+{"Time":"2026-08-05T20:56:59.018921994Z","Action":"start","Package":"github.com/go-task/task/v3/errors"}
+{"Time":"2026-08-05T20:56:59.018934955Z","Action":"output","Package":"github.com/go-task/task/v3/errors","Output":"FAIL\tgithub.com/go-task/task/v3/errors [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.018941748Z","Action":"skip","Package":"github.com/go-task/task/v3/cmd/sleepit","Elapsed":0}
+{"Time":"2026-08-05T20:56:59.018947499Z","Action":"fail","Package":"github.com/go-task/task/v3/errors","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.018994718Z","Action":"start","Package":"github.com/go-task/task/v3/experiments"}
+{"Time":"2026-08-05T20:56:59.019011846Z","Action":"output","Package":"github.com/go-task/task/v3/experiments","Output":"FAIL\tgithub.com/go-task/task/v3/experiments [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.019026766Z","Action":"fail","Package":"github.com/go-task/task/v3/experiments","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.019102698Z","Action":"start","Package":"github.com/go-task/task/v3/internal/deepcopy"}
+{"Time":"2026-08-05T20:56:59.019117451Z","Action":"output","Package":"github.com/go-task/task/v3/internal/deepcopy","Output":"?   \tgithub.com/go-task/task/v3/internal/deepcopy\t[no test files]\n"}
+{"Time":"2026-08-05T20:56:59.019141415Z","Action":"skip","Package":"github.com/go-task/task/v3/internal/deepcopy","Elapsed":0}
+{"Time":"2026-08-05T20:56:59.019158377Z","Action":"start","Package":"github.com/go-task/task/v3/internal/editors"}
+{"Time":"2026-08-05T20:56:59.019177547Z","Action":"output","Package":"github.com/go-task/task/v3/internal/editors","Output":"FAIL\tgithub.com/go-task/task/v3/internal/editors [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.019190717Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/editors","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.019215847Z","Action":"start","Package":"github.com/go-task/task/v3/internal/env"}
+{"Time":"2026-08-05T20:56:59.019227224Z","Action":"output","Package":"github.com/go-task/task/v3/internal/env","Output":"FAIL\tgithub.com/go-task/task/v3/internal/env [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.01923706Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/env","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.019264482Z","Action":"start","Package":"github.com/go-task/task/v3/internal/execext"}
+{"Time":"2026-08-05T20:56:59.01927936Z","Action":"output","Package":"github.com/go-task/task/v3/internal/execext","Output":"FAIL\tgithub.com/go-task/task/v3/internal/execext [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.019300489Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/execext","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.019343665Z","Action":"start","Package":"github.com/go-task/task/v3/internal/filepathext"}
+{"Time":"2026-08-05T20:56:59.019355959Z","Action":"output","Package":"github.com/go-task/task/v3/internal/filepathext","Output":"?   \tgithub.com/go-task/task/v3/internal/filepathext\t[no test files]\n"}
+{"Time":"2026-08-05T20:56:59.019366711Z","Action":"skip","Package":"github.com/go-task/task/v3/internal/filepathext","Elapsed":0}
+{"Time":"2026-08-05T20:56:59.019393467Z","Action":"start","Package":"github.com/go-task/task/v3/internal/fingerprint"}
+{"Time":"2026-08-05T20:56:59.019404928Z","Action":"output","Package":"github.com/go-task/task/v3/internal/fingerprint","Output":"FAIL\tgithub.com/go-task/task/v3/internal/fingerprint [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.019415055Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/fingerprint","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.019499281Z","Action":"start","Package":"github.com/go-task/task/v3/internal/flags"}
+{"Time":"2026-08-05T20:56:59.019516951Z","Action":"output","Package":"github.com/go-task/task/v3/internal/flags","Output":"FAIL\tgithub.com/go-task/task/v3/internal/flags [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.019527453Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/flags","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.019550458Z","Action":"start","Package":"github.com/go-task/task/v3/internal/fsext"}
+{"Time":"2026-08-05T20:56:59.019561752Z","Action":"output","Package":"github.com/go-task/task/v3/internal/fsext","Output":"FAIL\tgithub.com/go-task/task/v3/internal/fsext [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.019571379Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/fsext","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.019611512Z","Action":"start","Package":"github.com/go-task/task/v3/internal/fsnotifyext"}
+{"Time":"2026-08-05T20:56:59.019626974Z","Action":"output","Package":"github.com/go-task/task/v3/internal/fsnotifyext","Output":"?   \tgithub.com/go-task/task/v3/internal/fsnotifyext\t[no test files]\n"}
+{"Time":"2026-08-05T20:56:59.019638309Z","Action":"skip","Package":"github.com/go-task/task/v3/internal/fsnotifyext","Elapsed":0}
+{"Time":"2026-08-05T20:56:59.019644269Z","Action":"start","Package":"github.com/go-task/task/v3/internal/goext"}
+{"Time":"2026-08-05T20:56:59.019662398Z","Action":"output","Package":"github.com/go-task/task/v3/internal/goext","Output":"?   \tgithub.com/go-task/task/v3/internal/goext\t[no test files]\n"}
+{"Time":"2026-08-05T20:56:59.019673859Z","Action":"skip","Package":"github.com/go-task/task/v3/internal/goext","Elapsed":0}
+{"Time":"2026-08-05T20:56:59.019694821Z","Action":"start","Package":"github.com/go-task/task/v3/internal/hash"}
+{"Time":"2026-08-05T20:56:59.019708199Z","Action":"output","Package":"github.com/go-task/task/v3/internal/hash","Output":"FAIL\tgithub.com/go-task/task/v3/internal/hash [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.019718743Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/hash","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.019737538Z","Action":"start","Package":"github.com/go-task/task/v3/internal/input"}
+{"Time":"2026-08-05T20:56:59.019747957Z","Action":"output","Package":"github.com/go-task/task/v3/internal/input","Output":"FAIL\tgithub.com/go-task/task/v3/internal/input [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.019757709Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/input","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.019788632Z","Action":"start","Package":"github.com/go-task/task/v3/internal/logger"}
+{"Time":"2026-08-05T20:56:59.019798884Z","Action":"output","Package":"github.com/go-task/task/v3/internal/logger","Output":"FAIL\tgithub.com/go-task/task/v3/internal/logger [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.019813471Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/logger","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:56:59.020060189Z","Action":"start","Package":"github.com/go-task/task/v3/internal/output"}
+{"Time":"2026-08-05T20:56:59.020087903Z","Action":"output","Package":"github.com/go-task/task/v3/internal/output","Output":"FAIL\tgithub.com/go-task/task/v3/internal/output [build failed]\n"}
+{"Time":"2026-08-05T20:56:59.020101989Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/output","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:57:00.283976936Z","Action":"start","Package":"github.com/go-task/task/v3/internal/slicesext"}
+{"Time":"2026-08-05T20:57:00.284109589Z","Action":"start","Package":"github.com/go-task/task/v3/internal/sort"}
+{"Time":"2026-08-05T20:57:00.284169018Z","Action":"output","Package":"github.com/go-task/task/v3/internal/sort","Output":"FAIL\tgithub.com/go-task/task/v3/internal/sort [build failed]\n"}
+{"Time":"2026-08-05T20:57:00.284196315Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/sort","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:57:00.284373102Z","Action":"start","Package":"github.com/go-task/task/v3/internal/summary"}
+{"Time":"2026-08-05T20:57:00.284387522Z","Action":"output","Package":"github.com/go-task/task/v3/internal/summary","Output":"FAIL\tgithub.com/go-task/task/v3/internal/summary [build failed]\n"}
+{"Time":"2026-08-05T20:57:00.284401358Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/summary","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:57:00.284478374Z","Action":"start","Package":"github.com/go-task/task/v3/internal/sysinfo"}
+{"Time":"2026-08-05T20:57:00.284493961Z","Action":"output","Package":"github.com/go-task/task/v3/internal/sysinfo","Output":"?   \tgithub.com/go-task/task/v3/internal/sysinfo\t[no test files]\n"}
+{"Time":"2026-08-05T20:57:00.284507505Z","Action":"skip","Package":"github.com/go-task/task/v3/internal/sysinfo","Elapsed":0}
+{"Time":"2026-08-05T20:57:00.284526676Z","Action":"start","Package":"github.com/go-task/task/v3/internal/templater"}
+{"Time":"2026-08-05T20:57:00.284537636Z","Action":"output","Package":"github.com/go-task/task/v3/internal/templater","Output":"FAIL\tgithub.com/go-task/task/v3/internal/templater [build failed]\n"}
+{"Time":"2026-08-05T20:57:00.284548097Z","Action":"fail","Package":"github.com/go-task/task/v3/internal/templater","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:57:00.284563517Z","Action":"start","Package":"github.com/go-task/task/v3/internal/term"}
+{"Time":"2026-08-05T20:57:00.284574436Z","Action":"output","Package":"github.com/go-task/task/v3/internal/term","Output":"?   \tgithub.com/go-task/task/v3/internal/term\t[no test files]\n"}
+{"Time":"2026-08-05T20:57:00.28458698Z","Action":"skip","Package":"github.com/go-task/task/v3/internal/term","Elapsed":0}
+{"Time":"2026-08-05T20:57:00.284614736Z","Action":"start","Package":"github.com/go-task/task/v3/internal/version"}
+{"Time":"2026-08-05T20:57:00.284625946Z","Action":"output","Package":"github.com/go-task/task/v3/internal/version","Output":"?   \tgithub.com/go-task/task/v3/internal/version\t[no test files]\n"}
+{"Time":"2026-08-05T20:57:00.284636157Z","Action":"skip","Package":"github.com/go-task/task/v3/internal/version","Elapsed":0}
+{"Time":"2026-08-05T20:57:00.284668872Z","Action":"start","Package":"github.com/go-task/task/v3/taskfile"}
+{"Time":"2026-08-05T20:57:00.284679291Z","Action":"output","Package":"github.com/go-task/task/v3/taskfile","Output":"FAIL\tgithub.com/go-task/task/v3/taskfile [build failed]\n"}
+{"Time":"2026-08-05T20:57:00.28468921Z","Action":"fail","Package":"github.com/go-task/task/v3/taskfile","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:57:00.28477356Z","Action":"start","Package":"github.com/go-task/task/v3/taskfile/ast"}
+{"Time":"2026-08-05T20:57:00.284784563Z","Action":"output","Package":"github.com/go-task/task/v3/taskfile/ast","Output":"FAIL\tgithub.com/go-task/task/v3/taskfile/ast [build failed]\n"}
+{"Time":"2026-08-05T20:57:00.284795065Z","Action":"fail","Package":"github.com/go-task/task/v3/taskfile/ast","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:57:00.284877582Z","Action":"start","Package":"github.com/go-task/task/v3/taskrc"}
+{"Time":"2026-08-05T20:57:00.284889084Z","Action":"output","Package":"github.com/go-task/task/v3/taskrc","Output":"FAIL\tgithub.com/go-task/task/v3/taskrc [build failed]\n"}
+{"Time":"2026-08-05T20:57:00.284901129Z","Action":"fail","Package":"github.com/go-task/task/v3/taskrc","Elapsed":0,"FailedBuild":"net"}
+{"Time":"2026-08-05T20:57:00.284965892Z","Action":"start","Package":"github.com/go-task/task/v3/taskrc/ast"}
+{"Time":"2026-08-05T20:57:00.28497752Z","Action":"output","Package":"github.com/go-task/task/v3/taskrc/ast","Output":"?   \tgithub.com/go-task/task/v3/taskrc/ast\t[no test files]\n"}
+{"Time":"2026-08-05T20:57:00.284987522Z","Action":"skip","Package":"github.com/go-task/task/v3/taskrc/ast","Elapsed":0}
+{"Time":"2026-08-05T20:57:00.313553093Z","Action":"run","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertIntToString"}
+{"Time":"2026-08-05T20:57:00.313603187Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertIntToString","Output":"=== RUN   TestConvertIntToString\n"}
+{"Time":"2026-08-05T20:57:00.313766262Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertIntToString","Output":"=== PAUSE TestConvertIntToString\n"}
+{"Time":"2026-08-05T20:57:00.313780307Z","Action":"pause","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertIntToString"}
+{"Time":"2026-08-05T20:57:00.313927504Z","Action":"run","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertStringToInt"}
+{"Time":"2026-08-05T20:57:00.313938256Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertStringToInt","Output":"=== RUN   TestConvertStringToInt\n"}
+{"Time":"2026-08-05T20:57:00.31395676Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertStringToInt","Output":"=== PAUSE TestConvertStringToInt\n"}
+{"Time":"2026-08-05T20:57:00.313965929Z","Action":"pause","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertStringToInt"}
+{"Time":"2026-08-05T20:57:00.313981474Z","Action":"run","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertFloatToInt"}
+{"Time":"2026-08-05T20:57:00.313990601Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertFloatToInt","Output":"=== RUN   TestConvertFloatToInt\n"}
+{"Time":"2026-08-05T20:57:00.314016314Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertFloatToInt","Output":"=== PAUSE TestConvertFloatToInt\n"}
+{"Time":"2026-08-05T20:57:00.314025358Z","Action":"pause","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertFloatToInt"}
+{"Time":"2026-08-05T20:57:00.314038069Z","Action":"run","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertEmptySlice"}
+{"Time":"2026-08-05T20:57:00.314046821Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertEmptySlice","Output":"=== RUN   TestConvertEmptySlice\n"}
+{"Time":"2026-08-05T20:57:00.314061449Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertEmptySlice","Output":"=== PAUSE TestConvertEmptySlice\n"}
+{"Time":"2026-08-05T20:57:00.314070284Z","Action":"pause","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertEmptySlice"}
+{"Time":"2026-08-05T20:57:00.314085204Z","Action":"run","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertNilSlice"}
+{"Time":"2026-08-05T20:57:00.314095498Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertNilSlice","Output":"=== RUN   TestConvertNilSlice\n"}
+{"Time":"2026-08-05T20:57:00.314108667Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertNilSlice","Output":"=== PAUSE TestConvertNilSlice\n"}
+{"Time":"2026-08-05T20:57:00.31411746Z","Action":"pause","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertNilSlice"}
+{"Time":"2026-08-05T20:57:00.314374556Z","Action":"cont","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertIntToString"}
+{"Time":"2026-08-05T20:57:00.314384391Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertIntToString","Output":"=== CONT  TestConvertIntToString\n"}
+{"Time":"2026-08-05T20:57:00.314609146Z","Action":"cont","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertEmptySlice"}
+{"Time":"2026-08-05T20:57:00.314619898Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertEmptySlice","Output":"=== CONT  TestConvertEmptySlice\n"}
+{"Time":"2026-08-05T20:57:00.316206479Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertIntToString","Output":"--- PASS: TestConvertIntToString (0.00s)\n"}
+{"Time":"2026-08-05T20:57:00.316242028Z","Action":"pass","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertIntToString","Elapsed":0}
+{"Time":"2026-08-05T20:57:00.316261907Z","Action":"cont","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertFloatToInt"}
+{"Time":"2026-08-05T20:57:00.31627145Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertFloatToInt","Output":"=== CONT  TestConvertFloatToInt\n"}
+{"Time":"2026-08-05T20:57:00.31629283Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertFloatToInt","Output":"--- PASS: TestConvertFloatToInt (0.00s)\n"}
+{"Time":"2026-08-05T20:57:00.316304457Z","Action":"pass","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertFloatToInt","Elapsed":0}
+{"Time":"2026-08-05T20:57:00.316313376Z","Action":"cont","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertStringToInt"}
+{"Time":"2026-08-05T20:57:00.316322003Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertStringToInt","Output":"=== CONT  TestConvertStringToInt\n"}
+{"Time":"2026-08-05T20:57:00.316339756Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertStringToInt","Output":"--- PASS: TestConvertStringToInt (0.00s)\n"}
+{"Time":"2026-08-05T20:57:00.316350175Z","Action":"pass","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertStringToInt","Elapsed":0}
+{"Time":"2026-08-05T20:57:00.316360886Z","Action":"cont","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertNilSlice"}
+{"Time":"2026-08-05T20:57:00.316369638Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertNilSlice","Output":"=== CONT  TestConvertNilSlice\n"}
+{"Time":"2026-08-05T20:57:00.316380598Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertNilSlice","Output":"--- PASS: TestConvertNilSlice (0.00s)\n"}
+{"Time":"2026-08-05T20:57:00.31713188Z","Action":"pass","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertNilSlice","Elapsed":0}
+{"Time":"2026-08-05T20:57:00.31714384Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertEmptySlice","Output":"--- PASS: TestConvertEmptySlice (0.00s)\n"}
+{"Time":"2026-08-05T20:57:00.31716772Z","Action":"pass","Package":"github.com/go-task/task/v3/internal/slicesext","Test":"TestConvertEmptySlice","Elapsed":0}
+{"Time":"2026-08-05T20:57:00.317176806Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Output":"PASS\n"}
+{"Time":"2026-08-05T20:57:00.318074117Z","Action":"output","Package":"github.com/go-task/task/v3/internal/slicesext","Output":"ok  \tgithub.com/go-task/task/v3/internal/slicesext\t0.032s\n"}
+{"Time":"2026-08-05T20:57:00.319447612Z","Action":"pass","Package":"github.com/go-task/task/v3/internal/slicesext","Elapsed":0.035}

@@ -1,0 +1,406 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 93543769..6b3db1d4 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -10,6 +10,8 @@
+   `$GO_TASK_PROGNAME` for experiments cache (#2730, #2727 by @SergioChan).
+ - Fixed watch mode ignoring SIGHUP signal, causing the watcher to exit instead
+   of restarting (#2764, #2642).
++- Fixed tasks using `method: timestamp` being reported as up-to-date when their
++  `generates` files were missing, so they would not run again after a clean.
+ 
+ ## v3.49.1 - 2026-03-08
+ 
+diff --git a/internal/fingerprint/sources.go b/internal/fingerprint/sources.go
+index 34d3a04b..f50c6f40 100644
+--- a/internal/fingerprint/sources.go
++++ b/internal/fingerprint/sources.go
+@@ -1,6 +1,11 @@
+ package fingerprint
+ 
+-import "fmt"
++import (
++	"fmt"
++	"os"
++
++	"github.com/go-task/task/v3/taskfile/ast"
++)
+ 
+ func NewSourcesChecker(method, tempDir string, dry bool) (SourcesCheckable, error) {
+ 	switch method {
+@@ -14,3 +19,26 @@ func NewSourcesChecker(method, tempDir string, dry bool) (SourcesCheckable, erro
+ 		return nil, fmt.Errorf(`task: invalid method "%s"`, method)
+ 	}
+ }
++
++// allGeneratesExist reports whether every non-negated 'generates' entry of the
++// task matches at least one existing file. A task whose generated files are
++// gone (after a clean, for example) can never be considered up-to-date, no
++// matter what its sources look like.
++func allGeneratesExist(t *ast.Task) (bool, error) {
++	for _, g := range t.Generates {
++		if g.Negate {
++			continue
++		}
++		generates, err := glob(t.Dir, g.Glob)
++		if os.IsNotExist(err) {
++			return false, nil
++		}
++		if err != nil {
++			return false, err
++		}
++		if len(generates) == 0 {
++			return false, nil
++		}
++	}
++	return true, nil
++}
+diff --git a/internal/fingerprint/sources_checksum.go b/internal/fingerprint/sources_checksum.go
+index 16a98c16..2cc0b4f3 100644
+--- a/internal/fingerprint/sources_checksum.go
++++ b/internal/fingerprint/sources_checksum.go
+@@ -50,23 +50,13 @@ func (checker *ChecksumChecker) IsUpToDate(t *ast.Task) (bool, error) {
+ 		}
+ 	}
+ 
+-	if len(t.Generates) > 0 {
+-		// For each specified 'generates' field, check whether the files actually exist
+-		for _, g := range t.Generates {
+-			if g.Negate {
+-				continue
+-			}
+-			generates, err := glob(t.Dir, g.Glob)
+-			if os.IsNotExist(err) {
+-				return false, nil
+-			}
+-			if err != nil {
+-				return false, err
+-			}
+-			if len(generates) == 0 {
+-				return false, nil
+-			}
+-		}
++	// For each specified 'generates' field, check whether the files actually exist
++	generatesExist, err := allGeneratesExist(t)
++	if err != nil {
++		return false, err
++	}
++	if !generatesExist {
++		return false, nil
+ 	}
+ 
+ 	return oldHash == newHash, nil
+diff --git a/internal/fingerprint/sources_timestamp.go b/internal/fingerprint/sources_timestamp.go
+index b1a6f299..b1da5640 100644
+--- a/internal/fingerprint/sources_timestamp.go
++++ b/internal/fingerprint/sources_timestamp.go
+@@ -28,6 +28,18 @@ func (checker *TimestampChecker) IsUpToDate(t *ast.Task) (bool, error) {
+ 		return false, nil
+ 	}
+ 
++	// If any of the 'generates' files is missing, the task must run again, even
++	// if the sources are older than the last execution. Otherwise the internal
++	// timestamp file alone would keep reporting the task as up-to-date after
++	// the generated files have been removed.
++	generatesExist, err := allGeneratesExist(t)
++	if err != nil {
++		return false, err
++	}
++	if !generatesExist {
++		return false, nil
++	}
++
+ 	sources, err := Globs(t.Dir, t.Sources)
+ 	if err != nil {
+ 		return false, nil
+diff --git a/internal/fingerprint/sources_timestamp_test.go b/internal/fingerprint/sources_timestamp_test.go
+new file mode 100644
+index 00000000..a74c78c7
+--- /dev/null
++++ b/internal/fingerprint/sources_timestamp_test.go
+@@ -0,0 +1,150 @@
++package fingerprint
++
++import (
++	"os"
++	"path/filepath"
++	"testing"
++
++	"github.com/stretchr/testify/assert"
++	"github.com/stretchr/testify/require"
++
++	"github.com/go-task/task/v3/taskfile/ast"
++)
++
++func writeFile(t *testing.T, path string) {
++	t.Helper()
++	require.NoError(t, os.MkdirAll(filepath.Dir(path), 0o755))
++	require.NoError(t, os.WriteFile(path, []byte("content"), 0o644))
++}
++
++func TestTimestampCheckerGeneratesRemoved(t *testing.T) {
++	t.Parallel()
++
++	dir := t.TempDir()
++	writeFile(t, filepath.Join(dir, "src.txt"))
++
++	task := &ast.Task{
++		Task:      "build",
++		Dir:       dir,
++		Sources:   []*ast.Glob{{Glob: "src.txt"}},
++		Generates: []*ast.Glob{{Glob: "out.txt"}},
++	}
++
++	checker := NewTimestampChecker(filepath.Join(dir, ".task"), false)
++
++	// The generated file was never produced, so the task is not up-to-date.
++	upToDate, err := checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.False(t, upToDate)
++
++	// Simulate the task running and producing its generated file.
++	writeFile(t, filepath.Join(dir, "out.txt"))
++
++	upToDate, err = checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.True(t, upToDate)
++
++	// The generated file is removed (e.g. by a clean task). Even though the
++	// sources are untouched and older than the last execution, the task must
++	// run again.
++	require.NoError(t, os.Remove(filepath.Join(dir, "out.txt")))
++
++	upToDate, err = checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.False(t, upToDate)
++
++	// Once the file is generated again, the task is up-to-date once more.
++	writeFile(t, filepath.Join(dir, "out.txt"))
++
++	upToDate, err = checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.True(t, upToDate)
++}
++
++func TestTimestampCheckerGeneratesGlobRemoved(t *testing.T) {
++	t.Parallel()
++
++	dir := t.TempDir()
++	writeFile(t, filepath.Join(dir, "src.txt"))
++
++	task := &ast.Task{
++		Task:      "build",
++		Dir:       dir,
++		Sources:   []*ast.Glob{{Glob: "src.txt"}},
++		Generates: []*ast.Glob{{Glob: "dist/*.txt"}},
++	}
++
++	checker := NewTimestampChecker(filepath.Join(dir, ".task"), false)
++
++	upToDate, err := checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.False(t, upToDate)
++
++	writeFile(t, filepath.Join(dir, "dist", "out.txt"))
++
++	upToDate, err = checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.True(t, upToDate)
++
++	// A wildcard that no longer matches anything means the task must run.
++	require.NoError(t, os.RemoveAll(filepath.Join(dir, "dist")))
++
++	upToDate, err = checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.False(t, upToDate)
++}
++
++func TestTimestampCheckerWithoutGenerates(t *testing.T) {
++	t.Parallel()
++
++	dir := t.TempDir()
++	writeFile(t, filepath.Join(dir, "src.txt"))
++
++	task := &ast.Task{
++		Task:    "build",
++		Dir:     dir,
++		Sources: []*ast.Glob{{Glob: "src.txt"}},
++	}
++
++	checker := NewTimestampChecker(filepath.Join(dir, ".task"), false)
++
++	// A task without 'generates' relies solely on the internal timestamp file,
++	// which must keep working as before.
++	upToDate, err := checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.False(t, upToDate)
++
++	upToDate, err = checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.True(t, upToDate)
++}
++
++func TestTimestampCheckerNegatedGeneratesAreIgnored(t *testing.T) {
++	t.Parallel()
++
++	dir := t.TempDir()
++	writeFile(t, filepath.Join(dir, "src.txt"))
++
++	task := &ast.Task{
++		Task:    "build",
++		Dir:     dir,
++		Sources: []*ast.Glob{{Glob: "src.txt"}},
++		Generates: []*ast.Glob{
++			{Glob: "out.txt"},
++			{Glob: "excluded.txt", Negate: true},
++		},
++	}
++
++	checker := NewTimestampChecker(filepath.Join(dir, ".task"), false)
++
++	upToDate, err := checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.False(t, upToDate)
++
++	writeFile(t, filepath.Join(dir, "out.txt"))
++
++	// The excluded entry never exists, but it must not force the task to run.
++	upToDate, err = checker.IsUpToDate(task)
++	require.NoError(t, err)
++	assert.True(t, upToDate)
++}
+diff --git a/task_test.go b/task_test.go
+index a09e496f..8002a786 100644
+--- a/task_test.go
++++ b/task_test.go
+@@ -498,6 +498,68 @@ func TestGenerates(t *testing.T) {
+ 	}
+ }
+ 
++// TestStatusTimestampGeneratesRemoved ensures that a task using the timestamp
++// method runs again when its generated files were removed, even though its
++// sources are older than the last execution.
++func TestStatusTimestampGeneratesRemoved(t *testing.T) { // nolint:paralleltest // cannot run in parallel
++	const dir = "testdata/timestamp"
++
++	tests := []struct {
++		task      string
++		generated string
++	}{
++		{"build", "generated.txt"},
++		{"build-wildcard", "dist/generated.txt"},
++	}
++
++	for _, test := range tests { // nolint:paralleltest // cannot run in parallel
++		t.Run(test.task, func(t *testing.T) {
++			generated := filepathext.SmartJoin(dir, test.generated)
++			_ = os.RemoveAll(filepathext.SmartJoin(dir, ".task"))
++			_ = os.RemoveAll(filepathext.SmartJoin(dir, "dist"))
++			_ = os.Remove(generated)
++
++			var buff bytes.Buffer
++			e := task.NewExecutor(
++				task.WithDir(dir),
++				task.WithStdout(&buff),
++				task.WithStderr(&buff),
++				task.WithTempDir(task.TempDir{
++					Remote:      filepathext.SmartJoin(dir, ".task"),
++					Fingerprint: filepathext.SmartJoin(dir, ".task"),
++				}),
++			)
++			require.NoError(t, e.Setup())
++
++			upToDate := `task: Task "` + test.task + `" is up to date` + "\n"
++
++			// First run generates the file.
++			require.NoError(t, e.Run(t.Context(), &task.Call{Task: test.task}))
++			require.FileExists(t, generated)
++			assert.NotEqual(t, upToDate, buff.String())
++
++			// Second run does nothing, since nothing changed.
++			buff.Reset()
++			require.NoError(t, e.Run(t.Context(), &task.Call{Task: test.task}))
++			assert.Equal(t, upToDate, buff.String())
++
++			// Removing the generated file (as a clean task would) must make the
++			// task run again and recreate it.
++			require.NoError(t, os.Remove(generated))
++
++			buff.Reset()
++			require.NoError(t, e.Run(t.Context(), &task.Call{Task: test.task}))
++			assert.NotEqual(t, upToDate, buff.String())
++			require.FileExists(t, generated)
++
++			// And it is considered up to date again afterwards.
++			buff.Reset()
++			require.NoError(t, e.Run(t.Context(), &task.Call{Task: test.task}))
++			assert.Equal(t, upToDate, buff.String())
++		})
++	}
++}
++
+ func TestStatusChecksum(t *testing.T) { // nolint:paralleltest // cannot run in parallel
+ 	const dir = "testdata/checksum"
+ 
+diff --git a/testdata/timestamp/.gitignore b/testdata/timestamp/.gitignore
+new file mode 100644
+index 00000000..56c7ca4d
+--- /dev/null
++++ b/testdata/timestamp/.gitignore
+@@ -0,0 +1,3 @@
++.task/
++dist/
++generated.txt
+diff --git a/testdata/timestamp/Taskfile.yml b/testdata/timestamp/Taskfile.yml
+new file mode 100644
+index 00000000..2238caff
+--- /dev/null
++++ b/testdata/timestamp/Taskfile.yml
+@@ -0,0 +1,21 @@
++version: '3'
++
++tasks:
++  build:
++    cmds:
++      - cp ./source.txt ./generated.txt
++    sources:
++      - ./source.txt
++    generates:
++      - ./generated.txt
++    method: timestamp
++
++  build-wildcard:
++    cmds:
++      - mkdir -p ./dist
++      - cp ./source.txt ./dist/generated.txt
++    sources:
++      - ./source.txt
++    generates:
++      - ./dist/*.txt
++    method: timestamp
+diff --git a/testdata/timestamp/source.txt b/testdata/timestamp/source.txt
+new file mode 100644
+index 00000000..ce013625
+--- /dev/null
++++ b/testdata/timestamp/source.txt
+@@ -0,0 +1 @@
++hello
+diff --git a/website/src/docs/guide.md b/website/src/docs/guide.md
+index 9463cb44..8fb8f8b6 100644
+--- a/website/src/docs/guide.md
++++ b/website/src/docs/guide.md
+@@ -898,6 +898,14 @@ of the running the task is considered as a generate.
+ 
+ :::
+ 
++::: info
++
++If you do inform `generates`, both the `checksum` and `timestamp` methods also
++require those files to exist. A task whose generated files were removed (by a
++clean task, for example) always runs again, even if its sources didn't change.
++
++:::
++
+ ### Using programmatic checks to indicate a task is up to date
+ 
+ Alternatively, you can inform a sequence of tests as `status`. If no error is

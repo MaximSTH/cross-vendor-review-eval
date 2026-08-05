@@ -1,0 +1,3 @@
+AUTHORED_RC=0
+TESTPATCH_RC=0
+...[build-log truncated]...

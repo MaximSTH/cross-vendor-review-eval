@@ -118,6 +118,16 @@ elif not testpatch_ok:
 elif len(parsed) == 0:
     verdict, resolved = ("HARNESS-ERROR: parser reported no tests "
                          "(runner Killed/OOM or emit failure) -- verdict UNKNOWN"), False
+elif f2p_miss and ('"Action":"build-fail"' in p.stdout
+                   or "segmentation fault" in p.stdout
+                   or "core dumped" in p.stdout):
+    # pos006 incident (2026-08-05): go toolchain segfaulted under QEMU
+    # (vet/cgo on stdlib packages), so entire packages -- including the F2P's
+    # -- never built or ran. A MISSING F2P with build-fail evidence is a
+    # FAILURE TO MEASURE, never CONFIRMED DEFECTIVE (D-030/D-038).
+    verdict, resolved = ("HARNESS-ERROR: declared F2P not reported AND "
+                         "build-fail/crash markers in test output "
+                         "(emulation toolchain failure) -- verdict UNKNOWN"), False
 else:
     resolved = (len(f2p_pass) == len(f2p) and len(f2p) > 0
                 and not f2p_miss and not p2p_bad)
