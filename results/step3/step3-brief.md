@@ -240,7 +240,20 @@ appendix). **First discordant pair on the headline comparison: m = 1, b = 1
 (genuine-but-narrower species — third audit species after P-002/P-003);
 **audited row = mechanical row (A1 catch / A2 no-catch / B catch); audited
 b = 1 of m = 1; dilution parameter 0/2.** 8 sessions spent this week (sizing
-15/wk, D-057). Next look at m = 4 (§4.8 data-freeze). Cumulative screened rows toward the D-065.3
+15/wk, D-057). Next look at m = 4 (§4.8 data-freeze).
+
+**Limit-hit + idle-window record (2026-08-05, late).** Codex usage limit at
+pos011 launch (reset advertised Aug 11 10:55): session VOIDED (27s, no work,
+never a verdict; position re-queued), sessions paused until reset. Week
+closes at 10 sessions spent + 1 voided. Idle-window screening **tranche 1**
+(next 12 unscreened positions, 12–34, all python): **10 PASS / 2 FAIL**
+(`screening/screen.json`). Screen-PASS authoring queue at reset: positions
+13, 14, 15, 16, 20, 25, 27, 32, 33, 34 — plus pos011 re-run first.
+**D-065.3 trigger counter: 32 of 60 cumulative screened rows** (basis noted:
+Step-3 screens of admitted feeds — 20 validation + 12 tranche-1; pilot JS/TS
+screens excluded as pre-Step-3, already baked into the yield priors — flagged
+for supervisor visibility, adjustable by ruling). Python usable rate
+strengthening: cumulative 16/22 ≈ 73%. Cumulative screened rows toward the D-065.3
 own-harvest trigger: 21 (validation) + 0 new. Observed defect yield 0/4
 (Wilson 95% [0, 0.49]) vs the pilot's 2/5 — watched, recompute fires at 60
 screened rows. **Watch item (not yet an OQ):** go evals crash nondeterministically

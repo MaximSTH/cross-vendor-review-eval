@@ -1,0 +1,110 @@
+============================= test session starts ==============================
+collected 95 items
+
+astropy/io/fits/hdu/compressed/tests/test_compressed.py ...........s.... [ 16%]
+..s..................................................................... [ 92%]
+.....F.                                                                  [100%]
+
+=================================== FAILURES ===================================
+E   AssertionError: Got warnings: [<warnings.WarningMessage object at 0x4010243450>, <warnings.WarningMessage object at 0x4010242250>, <warnings.WarningMessage object at 0x400e56cd70>, <warnings.WarningMessage object at 0x400e56ce60>, <warnings.WarningMessage object at 0x400e8d90f0>, <warnings.WarningMessage object at 0x400e4d5550>, <warnings.WarningMessage object at 0x400e122820>, <warnings.WarningMessage object at 0x400e4c01d0>, <warnings.WarningMessage object at 0x400e4c1b50>]
+    assert 9 == 0
+     +  where 9 = len([<warnings.WarningMessage object at 0x4010243450>, <warnings.WarningMessage object at 0x4010242250>, <warnings.Warning...0x400e56ce60>, <warnings.WarningMessage object at 0x400e8d90f0>, <warnings.WarningMessage object at 0x400e4d5550>, ...])
+/testbed/astropy/io/fits/hdu/compressed/tests/test_compressed.py:1532: AssertionError: Got warnings: [<warnings.WarningMessage object at 0x4010243450>, <warnings.WarningMessage object at 0x4010242250>, <warnings.WarningMessage object at 0x400e56cd70>, <warnings.WarningMessage object at 0x400e56ce60>, <warnings.WarningMessage object at 0x400e8d90f0>, <warnings.WarningMessage object at 0x400e4d5550>, <warnings.WarningMessage object at 0x400e122820>, <warnings.WarningMessage object at 0x400e4c01d0>, <warnings.WarningMessage object at 0x400e4c1b50>]
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_empty
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[<-data0-RICE_1-16]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[<-data1-GZIP_1--0.01]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[<-data2-GZIP_2--0.01]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[<-data3-HCOMPRESS_1-16]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[<-data4-PLIO_1-16]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[>-data0-RICE_1-16]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[>-data1-GZIP_1--0.01]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[>-data2-GZIP_2--0.01]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[>-data3-HCOMPRESS_1-16]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image[>-data4-PLIO_1-16]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image_hcompression_1_invalid_data
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image_hcompress_image_stack
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_subtractive_dither_seed
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_disable_image_compression
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_open_comp_image_in_update_mode
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_update_comp_image_header
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_comp_hdu_direct_from_existing
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_rewriting_large_scaled_image_compressed
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_scale_back_compressed
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_lossless_gzip_compression
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compression_column_tforms
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compression_update_header
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compression_update_header_with_reserved
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compression_header_append
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compression_header_append2
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compression_header_insert
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compression_header_set_before_after
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compression_header_append_commentary
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compression_with_gzip_column
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_duplicate_compression_header_keywords
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_scale_bzero_with_compressed_int_data
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_scale_back_compressed_uint_assignment
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_header_double_extname
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_header_extname
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_header_minimal
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_scaled_float[BSCALE-uint8-float32]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_scaled_float[BSCALE-int16-float32]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_scaled_float[BSCALE-int32-float64]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_scaled_float[BZERO-uint8-float32]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_scaled_float[BZERO-int16-float32]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_scaled_float[BZERO-int32-float64]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_integers[uint8]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_integers[int16]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_integers[uint16]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_integers[int32]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_integers[uint32]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[NOCOMPRESS-f]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[NOCOMPRESS-i4]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[RICE_1-f]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[RICE_1-i4]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[GZIP_1-f]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[GZIP_1-i4]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[GZIP_2-f]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[GZIP_2-i4]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[PLIO_1-f]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[PLIO_1-i4]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[HCOMPRESS_1-f]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_write_non_contiguous_data[HCOMPRESS_1-i4]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_slice_and_write_comp_hdu
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image_properties_default
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_comp_image_properties_set
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_compressed_optional_prefix_tform
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_info
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_shape
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_inplace_data_modify
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_summary_noload
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompressedImage::test_fileinfo
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompHDUSections::test_section_slicing
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompHDUSections::test_section_slicing_scaling
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::TestCompHDUSections::test_section_properties
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_comphdu_fileobj
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_comphdu_bscale
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_image_write_readonly
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_uint_option
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_incorrect_bzero
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_custom_extname
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_pickle
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_compression_settings_delayed_data
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_header_assignment_issue
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_section_unwritten
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_section_scaling
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_header
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_rice_one_alias
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_header_order
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_hdu_lazy_loading
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_compression_options_with_mutated_data[quantize_level_w_data]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_compression_options_with_mutated_data[quantize_level_wo_data]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_compression_options_with_mutated_data[quantize_level_dither_seed_w_data]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_compression_options_with_mutated_data[quantize_level_dither_seed_wo_data]
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_reserved_keywords_stripped
+PASSED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_compimghdu_with_primary_header_no_dual_keywords
+SKIPPED [1] ../opt/conda/envs/testbed/lib/python3.13/site-packages/pytest_remotedata/plugin.py:81: need --remote-data option to run
+SKIPPED [1] astropy/io/fits/hdu/compressed/tests/test_compressed.py:257: need --run-slow option to run
+FAILED astropy/io/fits/hdu/compressed/tests/test_compressed.py::test_compimghdu_with_primary_header_verify_fix
+=================== 1 failed, 92 passed, 2 skipped in 37.63s ===================

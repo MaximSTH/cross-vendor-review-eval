@@ -1,0 +1,191 @@
+============================= test session starts ==============================
+collecting ... collected 17 items
+
+tests/test_sci_tools.py::test_valid_selection_no_brd PASSED              [  5%]
+tests/test_sci_tools.py::test_selection_regionmask PASSED                [ 11%]
+tests/test_sci_tools.py::test_valid_selection PASSED                     [ 17%]
+tests/test_sci_tools.py::test_missing_lat_lon PASSED                     [ 23%]
+tests/test_sci_tools.py::test_missing_lat_lon_coords PASSED              [ 29%]
+tests/test_sci_tools.py::test_missing_data PASSED                        [ 35%]
+tests/test_sci_tools.py::test_select_season PASSED                       [ 41%]
+tests/test_sci_tools.py::test_generate_quarter_months PASSED             [ 47%]
+tests/test_sci_tools.py::test_check_seasonal_chunk_completeness PASSED   [ 52%]
+tests/test_sci_tools.py::test_full_globe_selection[sample_data_180-lon_limits0] FAILED [ 58%]
+tests/test_sci_tools.py::test_full_globe_selection[sample_data_180-lon_limits1] FAILED [ 64%]
+tests/test_sci_tools.py::test_full_globe_selection[sample_data_360-lon_limits2] PASSED [ 70%]
+tests/test_sci_tools.py::test_full_globe_selection[sample_data_360-lon_limits3] PASSED [ 76%]
+tests/test_sci_tools.py::test_partial_lon_selection[sample_data_180-lon_limits0-expected_in0-expected_out0] FAILED [ 82%]
+tests/test_sci_tools.py::test_partial_lon_selection[sample_data_180-lon_limits1-expected_in1-expected_out1] FAILED [ 88%]
+tests/test_sci_tools.py::test_partial_lon_selection[sample_data_180-lon_limits2-expected_in2-expected_out2] PASSED [ 94%]
+tests/test_sci_tools.py::test_partial_lon_selection[sample_data_360-lon_limits3-expected_in3-expected_out3] PASSED [100%]
+
+=================================== FAILURES ===================================
+E   assert 20 == 32
+     +  where 20 = len(array([0.7376542 , 0.18494447, 0.87230249, 0.02507236, 0.11151427,\n       0.56915503, 0.61923551, 0.20425681, 0.91989548, 0.08091525,\n       0.41019653, 0.69672264, 0.71076088, 0.34207552, 0.26930672,\n       0.22443473, 0.96100834, 0.61248504, 0.05456753, 0.0496591 ]))
+     +  and   32 = <xarray.DataArray (lat: 4, lon: 8)> Size: 256B\narray([[0.60262962, 0.69143954, 0.83581886, 0.7376542 , 0.18494447,\n        0.87230249, 0.02507236, 0.11151427],\n       [0.16501417, 0.9288265 , 0.12120975, 0.56915503, 0.61923551,\n        0.20425681, 0.91989548, 0.08091525],\n       [0.69475666, 0.9013803 , 0.73468605, 0.41019653, 0.69672264,\n        0.71076088, 0.34207552, 0.26930672],\n       [0.77624076, 0.66742286, 0.46982291, 0.22443473, 0.96100834,\n        0.61248504, 0.05456753, 0.0496591 ]])\nCoordinates:\n  * lat      (lat) int64 32B -45 -15 15 45\n  * lon      (lon) int64 64B -135 -45 -30 0 30 45 90 135.size
+/testbed/tests/test_sci_tools.py:199: assert 20 == 32
+E   assert 20 == 32
+     +  where 20 = len(array([0.7376542 , 0.18494447, 0.87230249, 0.02507236, 0.11151427,\n       0.56915503, 0.61923551, 0.20425681, 0.91989548, 0.08091525,\n       0.41019653, 0.69672264, 0.71076088, 0.34207552, 0.26930672,\n       0.22443473, 0.96100834, 0.61248504, 0.05456753, 0.0496591 ]))
+     +  and   32 = <xarray.DataArray (lat: 4, lon: 8)> Size: 256B\narray([[0.60262962, 0.69143954, 0.83581886, 0.7376542 , 0.18494447,\n        0.87230249, 0.02507236, 0.11151427],\n       [0.16501417, 0.9288265 , 0.12120975, 0.56915503, 0.61923551,\n        0.20425681, 0.91989548, 0.08091525],\n       [0.69475666, 0.9013803 , 0.73468605, 0.41019653, 0.69672264,\n        0.71076088, 0.34207552, 0.26930672],\n       [0.77624076, 0.66742286, 0.46982291, 0.22443473, 0.96100834,\n        0.61248504, 0.05456753, 0.0496591 ]])\nCoordinates:\n  * lat      (lat) int64 32B -45 -15 15 45\n  * lon      (lon) int64 64B -135 -45 -30 0 30 45 90 135.size
+/testbed/tests/test_sci_tools.py:199: assert 20 == 32
+E   AssertionError: lon=-45 should be selected but is NaN
+    assert not np.True_
+     +  where np.True_ = <ufunc 'isnan'>(array(nan))
+     +    where <ufunc 'isnan'> = np.isnan
+     +    and   array(nan) = <xarray.DataArray ()> Size: 8B\narray(nan)\nCoordinates:\n    lat      int64 8B -45\n    lon      int64 8B -45\nAttributes:\n    history:  \n2026-08-05 22:17:42 AQUA💧: Area selection: lat=[-90, 90], lon....values
+     +      where <xarray.DataArray ()> Size: 8B\narray(nan)\nCoordinates:\n    lat      int64 8B -45\n    lon      int64 8B -45\nAttributes:\n    history:  \n2026-08-05 22:17:42 AQUA💧: Area selection: lat=[-90, 90], lon... = sel(lat=-45, lon=-45)
+     +        where sel = <xarray.DataArray (lat: 4, lon: 8)> Size: 256B\narray([[       nan,        nan,        nan, 0.7376542 , 0.18494447,\n        0.87230249, 0.02507236,        nan],\n       [       nan,        nan,        nan, 0.56915503, 0.61923551,\n        0.20425681, 0.91989548,        nan],\n       [       nan,        nan,        nan, 0.41019653, 0.69672264,\n        0.71076088, 0.34207552,        nan],\n       [       nan,        nan,        nan, 0.22443473, 0.96100834,\n        0.61248504, 0.05456753,        nan]])\nCoordinates:\n  * lat      (lat) int64 32B -45 -15 15 45\n  * lon      (lon) int64 64B -135 -45 -30 0 30 45 90 135\nAttributes:\n    history:  \n2026-08-05 22:17:42 AQUA💧: Area selection: lat=[-90, 90], lon....sel
+/testbed/tests/test_sci_tools.py:224: AssertionError: lon=-45 should be selected but is NaN
+E   AssertionError: lon=-30 should be selected but is NaN
+    assert not np.True_
+     +  where np.True_ = <ufunc 'isnan'>(array(nan))
+     +    where <ufunc 'isnan'> = np.isnan
+     +    and   array(nan) = <xarray.DataArray ()> Size: 8B\narray(nan)\nCoordinates:\n    lat      int64 8B -45\n    lon      int64 8B -30\nAttributes:\n    history:  \n2026-08-05 22:17:42 AQUA💧: Area selection: lat=[-90, 90], lon....values
+     +      where <xarray.DataArray ()> Size: 8B\narray(nan)\nCoordinates:\n    lat      int64 8B -45\n    lon      int64 8B -30\nAttributes:\n    history:  \n2026-08-05 22:17:42 AQUA💧: Area selection: lat=[-90, 90], lon... = sel(lat=-45, lon=-30)
+     +        where sel = <xarray.DataArray (lat: 4, lon: 8)> Size: 256B\narray([[nan, nan, nan, nan, nan, nan, nan, nan],\n       [nan, nan, nan, nan, nan, nan, nan, nan],\n       [nan, nan, nan, nan, nan, nan, nan, nan],\n       [nan, nan, nan, nan, nan, nan, nan, nan]])\nCoordinates:\n  * lat      (lat) int64 32B -45 -15 15 45\n  * lon      (lon) int64 64B -135 -45 -30 0 30 45 90 135\nAttributes:\n    history:  \n2026-08-05 22:17:42 AQUA💧: Area selection: lat=[-90, 90], lon....sel
+/testbed/tests/test_sci_tools.py:224: AssertionError: lon=-30 should be selected but is NaN
+==================================== PASSES ====================================
+__________________________ test_selection_regionmask ___________________________
+----------------------------- Captured stderr call -----------------------------
+[32m2026-08-05 22:17:40 :: AreaSelection :: INFO     -> A region was provided for area selection, lon/lat selection will be ignored.[0m
+____________________ test_check_seasonal_chunk_completeness ____________________
+----------------------------- Captured stderr call -----------------------------
+[37m2026-08-05 22:17:41 :: timmean_chunking :: DEBUG    -> Data frequency detected as: 1D[0m
+[32m2026-08-05 22:17:41 :: timmean_chunking :: INFO     -> 2 chunks from 2000-12-01 00:00:00 to 2001-03-01 00:00:00 at QS-DEC frequency to be analysed[0m
+[32m2026-08-05 22:17:41 :: timmean_seasonal_completeness :: INFO     -> Data is sub-monthly (1D), first checking monthly completeness...[0m
+[37m2026-08-05 22:17:41 :: timmean_chunking :: DEBUG    -> Data frequency detected as: 1D[0m
+[32m2026-08-05 22:17:41 :: timmean_chunking :: INFO     -> 6 chunks from 2000-12-01 00:00:00 to 2001-05-01 00:00:00 at MS frequency to be analysed[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Processing chunk from 2000-12-01 00:00:00 to 2001-01-01 00:00:00[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Expected chunk length: 31, Effective chunk length: 31[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Processing chunk from 2001-01-01 00:00:00 to 2001-02-01 00:00:00[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Expected chunk length: 31, Effective chunk length: 0[0m
+[33m2026-08-05 22:17:41 :: timmean_chunk_completeness :: WARNING  -> Chunk 2001-01-01 00:00:00->2001-01-31 00:00:00 for has 0 elements instead of expected 31, timmean() will exclude this[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Processing chunk from 2001-02-01 00:00:00 to 2001-03-01 00:00:00[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Expected chunk length: 28, Effective chunk length: 28[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Processing chunk from 2001-03-01 00:00:00 to 2001-04-01 00:00:00[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Expected chunk length: 31, Effective chunk length: 31[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Processing chunk from 2001-04-01 00:00:00 to 2001-05-01 00:00:00[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Expected chunk length: 30, Effective chunk length: 30[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Processing chunk from 2001-05-01 00:00:00 to 2001-06-01 00:00:00[0m
+[37m2026-08-05 22:17:41 :: timmean_chunk_completeness :: DEBUG    -> Expected chunk length: 31, Effective chunk length: 31[0m
+[37m2026-08-05 22:17:41 :: timmean_seasonal_completeness :: DEBUG    -> Complete months available: [Timestamp('2000-12-01 00:00:00'), Timestamp('2001-02-01 00:00:00'), Timestamp('2001-03-01 00:00:00'), Timestamp('2001-04-01 00:00:00'), Timestamp('2001-05-01 00:00:00')][0m
+[37m2026-08-05 22:17:41 :: timmean_seasonal_completeness :: DEBUG    -> Processing seasonal chunk from 2000-12-01 00:00:00 to 2001-03-01 00:00:00[0m
+[33m2026-08-05 22:17:41 :: timmean_seasonal_completeness :: WARNING  -> Seasonal chunk 2000-12 (DJF) incomplete: expected months [1, 2, 12], found [2, 12], timmean() will exclude this[0m
+[37m2026-08-05 22:17:41 :: timmean_seasonal_completeness :: DEBUG    -> Processing seasonal chunk from 2001-03-01 00:00:00 to 2001-06-01 00:00:00[0m
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.13-final-0 _______________
+
+Name                                        Stmts   Miss Branch BrPart  Cover
+-----------------------------------------------------------------------------
+aqua/core/accessor.py                          57     27      0      0    53%
+aqua/core/analysis/analysis.py                 85     85     32      0     0%
+aqua/core/analysis/cli_checker.py              59     59     10      0     0%
+aqua/core/configurer/configpath.py            233    179    112      8    18%
+aqua/core/configurer/locator.py                28      2     12      5    82%
+aqua/core/console/analysis.py                 148    148     52      0     0%
+aqua/core/console/builder.py                   60     60     10      0     0%
+aqua/core/console/catalog.py                  162    162     46      0     0%
+aqua/core/console/catgen.py                   192    192     50      0     0%
+aqua/core/console/drop.py                     105    105     28      0     0%
+aqua/core/console/files.py                     76     76     26      0     0%
+aqua/core/console/install.py                  281    281    142      0     0%
+aqua/core/console/main.py                      58     58     12      0     0%
+aqua/core/console/parser.py                    58     58      2      0     0%
+aqua/core/console/util.py                      18     18     10      0     0%
+aqua/core/data_model/coord_utils.py            50     32      2      0    35%
+aqua/core/data_model/coordidentifier.py       223    200    122      0     7%
+aqua/core/data_model/coordtransformer.py      132    117     62      0     8%
+aqua/core/data_model/datamodel.py              18      9      0      0    50%
+aqua/core/drop/catalog_entry_builder.py        57     45     14      0    17%
+aqua/core/drop/drop.py                        406    355    138      0     9%
+aqua/core/drop/drop_util.py                    21     16      8      0    17%
+aqua/core/drop/output_path_builder.py          47     36      8      0    20%
+aqua/core/exceptions.py                        20     10      0      0    50%
+aqua/core/fixer/evaluate_formula.py           107     92     48      0    10%
+aqua/core/fixer/fixer.py                      206    188     96      0     6%
+aqua/core/fixer/fixer_configure.py             83     74     42      0     7%
+aqua/core/fixer/fixer_datamodel.py             52     45     22      0     9%
+aqua/core/fixer/fixer_operator.py              94     79     38      0    11%
+aqua/core/fldstat/area_selection.py            51      1     14      3    94%
+aqua/core/fldstat/fldstat.py                  118    100     58      0    10%
+aqua/core/graphics/boxplot.py                  90     78     28      0    10%
+aqua/core/graphics/gregory.py                 120    112     28      0     5%
+aqua/core/graphics/gridlines.py                11      8      4      0    20%
+aqua/core/graphics/histogram.py                76     68     46      0     7%
+aqua/core/graphics/hovmoller.py                95     87     46      0     6%
+aqua/core/graphics/index_plot.py               43     37     18      0    10%
+aqua/core/graphics/lat_lon_profiles.py         45     39     24      0     9%
+aqua/core/graphics/multiple_maps.py            79     69     26      0    10%
+aqua/core/graphics/seasonal_means.py           41     36     24      0     8%
+aqua/core/graphics/single_map.py              147    132     58      0     7%
+aqua/core/graphics/styles.py                   27     19      4      0    26%
+aqua/core/graphics/timeseries.py              113    101     56      0     7%
+aqua/core/graphics/util_timeseries.py          60     53     28      0     8%
+aqua/core/graphics/vertical_line.py            51     44     18      0    10%
+aqua/core/graphics/vertical_profiles.py        65     56     26      0    10%
+aqua/core/gridbuilder/basegridbuilder.py      114     93     38      0    14%
+aqua/core/gridbuilder/extragridbuilder.py      50     27     10      0    38%
+aqua/core/gridbuilder/gridbuilder.py           85     72     18      0    13%
+aqua/core/gridbuilder/gridentrymanager.py      82     66     36      0    14%
+aqua/core/gsv/intake_gsv.py                   493    439    190      0     8%
+aqua/core/gsv/timeutil.py                     107     93     50      0     9%
+aqua/core/histogram/histogram.py               53     46     28      0     9%
+aqua/core/lock/safelock.py                     67     52     10      0    19%
+aqua/core/logger.py                            62     10     20      5    77%
+aqua/core/reader/catalog.py                     4      2      0      0    50%
+aqua/core/reader/reader.py                    571    498    262      0     9%
+aqua/core/reader/reader_utils.py               37     33     28      0     6%
+aqua/core/reader/streaming.py                  43     34     20      0    14%
+aqua/core/reader/trender.py                    48     35      8      0    23%
+aqua/core/regridder/griddicthandler.py         58     50     34      0     9%
+aqua/core/regridder/regridder.py              259    220    100      0    11%
+aqua/core/regridder/regridder_util.py          10      7      6      0    19%
+aqua/core/timstat/timstat.py                   92     78     42      0    10%
+aqua/core/util/catalog_entry.py                37     32     22      0     8%
+aqua/core/util/checksum.py                     61     61     28      0     0%
+aqua/core/util/cli_util.py                     16     14      0      0    12%
+aqua/core/util/eccodes.py                      58     47      8      0    17%
+aqua/core/util/graphics.py                    238    209     94      0     9%
+aqua/core/util/io_util.py                     120    101     48      0    11%
+aqua/core/util/projections.py                   8      5      2      0    30%
+aqua/core/util/realizations.py                 24     19     16      0    12%
+aqua/core/util/sci_util.py                     58     20     32      6    58%
+aqua/core/util/string.py                       74     61     34      1    13%
+aqua/core/util/time.py                        180     59     58     13    61%
+aqua/core/util/units.py                        85     75     38      0     8%
+aqua/core/util/util.py                         44     29     22      1    27%
+aqua/core/util/yaml.py                         90     66     44      4    21%
+aqua/core/util/zarr.py                         28     21      2      0    23%
+aqua/core/version.py                            1      0      0      0   100%
+-----------------------------------------------------------------------------
+TOTAL                                        7725   6522   2998     46    12%
+============================= slowest 10 durations =============================
+4.46s call     tests/test_sci_tools.py::test_selection_regionmask
+0.43s call     tests/test_sci_tools.py::test_check_seasonal_chunk_completeness
+0.10s call     tests/test_sci_tools.py::test_select_season
+0.09s call     tests/test_sci_tools.py::test_partial_lon_selection[sample_data_180-lon_limits0-expected_in0-expected_out0]
+0.07s call     tests/test_sci_tools.py::test_partial_lon_selection[sample_data_180-lon_limits2-expected_in2-expected_out2]
+0.06s call     tests/test_sci_tools.py::test_valid_selection_no_brd
+0.06s call     tests/test_sci_tools.py::test_full_globe_selection[sample_data_180-lon_limits0]
+0.05s call     tests/test_sci_tools.py::test_partial_lon_selection[sample_data_180-lon_limits1-expected_in1-expected_out1]
+0.04s call     tests/test_sci_tools.py::test_full_globe_selection[sample_data_180-lon_limits1]
+0.04s call     tests/test_sci_tools.py::test_partial_lon_selection[sample_data_360-lon_limits3-expected_in3-expected_out3]
+=========================== short test summary info ============================
+PASSED tests/test_sci_tools.py::test_valid_selection_no_brd
+PASSED tests/test_sci_tools.py::test_selection_regionmask
+PASSED tests/test_sci_tools.py::test_valid_selection
+PASSED tests/test_sci_tools.py::test_missing_lat_lon
+PASSED tests/test_sci_tools.py::test_missing_lat_lon_coords
+PASSED tests/test_sci_tools.py::test_missing_data
+PASSED tests/test_sci_tools.py::test_select_season
+PASSED tests/test_sci_tools.py::test_generate_quarter_months
+PASSED tests/test_sci_tools.py::test_check_seasonal_chunk_completeness
+PASSED tests/test_sci_tools.py::test_full_globe_selection[sample_data_360-lon_limits2]
+PASSED tests/test_sci_tools.py::test_full_globe_selection[sample_data_360-lon_limits3]
+PASSED tests/test_sci_tools.py::test_partial_lon_selection[sample_data_180-lon_limits2-expected_in2-expected_out2]
+PASSED tests/test_sci_tools.py::test_partial_lon_selection[sample_data_360-lon_limits3-expected_in3-expected_out3]
+FAILED tests/test_sci_tools.py::test_full_globe_selection[sample_data_180-lon_limits0]
+FAILED tests/test_sci_tools.py::test_full_globe_selection[sample_data_180-lon_limits1]
+FAILED tests/test_sci_tools.py::test_partial_lon_selection[sample_data_180-lon_limits0-expected_in0-expected_out0]
+FAILED tests/test_sci_tools.py::test_partial_lon_selection[sample_data_180-lon_limits1-expected_in1-expected_out1]
+======================== 4 failed, 13 passed in 19.05s =========================

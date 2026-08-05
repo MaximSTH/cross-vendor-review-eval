@@ -1,0 +1,338 @@
+============================= test session starts ==============================
+collected 57 items
+
+server/tests/test_docker_endpoint.py .....FF.                            [ 14%]
+server/tests/test_docker_service.py ............FFFF.................... [ 77%]
+.............                                                            [100%]
+
+=================================== FAILURES ===================================
+E   fastapi.exceptions.HTTPException: 501: {'code': 'DOCKER::NETWORK_MODE_ENDPOINT_UNAVAILABLE', 'message': "Endpoint resolution for Docker network mode 'my-app-net' is not implemented yet."}
+---------------------------- Captured stderr setup -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+/testbed/server/src/services/docker.py:1542: fastapi.exceptions.HTTPException: 501: {'code': 'DOCKER::NETWORK_MODE_ENDPOINT_UNAVAILABLE', 'message': "Endpoint resolution for Docker network mode 'my-app-net' is not implemented yet."}
+E   AssertionError: assert '172.17.0.3:8080' == '192.168.100.5:8080'
+      
+      - 192.168.100.5:8080
+      + 172.17.0.3:8080
+---------------------------- Captured stderr setup -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+/testbed/server/tests/test_docker_endpoint.py:210: AssertionError: assert '172.17.0.3:8080' == '192.168.100.5:8080'
+E   ValueError: Unsupported Docker network_mode 'my-custom-net'.
+/testbed/server/src/services/docker.py:142: ValueError: Unsupported Docker network_mode 'my-custom-net'.
+E   ValueError: Unsupported Docker network_mode 'missing-net'.
+/testbed/server/src/services/docker.py:142: ValueError: Unsupported Docker network_mode 'missing-net'.
+E   ValueError: Unsupported Docker network_mode 'my-app-net'.
+/testbed/server/src/services/docker.py:142: ValueError: Unsupported Docker network_mode 'my-app-net'.
+E   AttributeError: 'DockerSandboxService' object has no attribute '_validate_network_exists'
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+/testbed/server/tests/test_docker_service.py:463: AttributeError: 'DockerSandboxService' object has no attribute '_validate_network_exists'
+=============================== warnings summary ===============================
+server/src/config.py:87
+  /testbed/server/src/config.py:87: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class GatewayRouteModeConfig(BaseModel):
+
+server/src/api/schema.py:67
+  /testbed/server/src/api/schema.py:67: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    root: Dict[str, str] = Field(
+
+server/src/api/schema.py:73
+  /testbed/server/src/api/schema.py:73: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class NetworkRule(BaseModel):
+
+server/src/api/schema.py:89
+  /testbed/server/src/api/schema.py:89: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class NetworkPolicy(BaseModel):
+
+server/src/api/schema.py:131
+  /testbed/server/src/api/schema.py:131: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class PVC(BaseModel):
+
+server/src/api/schema.py:159
+  /testbed/server/src/api/schema.py:159: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class Volume(BaseModel):
+
+server/src/api/schema.py:219
+  /testbed/server/src/api/schema.py:219: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class SandboxStatus(BaseModel):
+
+server/src/api/schema.py:273
+  /testbed/server/src/api/schema.py:273: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    entrypoint: List[str] = Field(
+
+server/src/api/schema.py:249
+  /testbed/server/src/api/schema.py:249: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class CreateSandboxRequest(BaseModel):
+
+server/src/api/schema.py:303
+  /testbed/server/src/api/schema.py:303: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class CreateSandboxResponse(BaseModel):
+
+server/src/api/schema.py:320
+  /testbed/server/src/api/schema.py:320: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class Sandbox(BaseModel):
+
+server/src/api/schema.py:357
+  /testbed/server/src/api/schema.py:357: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class PaginationRequest(BaseModel):
+
+server/src/api/schema.py:385
+  /testbed/server/src/api/schema.py:385: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class PaginationInfo(BaseModel):
+
+server/src/api/schema.py:411
+  /testbed/server/src/api/schema.py:411: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class RenewSandboxExpirationRequest(BaseModel):
+
+server/src/api/schema.py:425
+  /testbed/server/src/api/schema.py:425: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class RenewSandboxExpirationResponse(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+_________________________ test_get_endpoint_host_mode __________________________
+---------------------------- Captured stderr setup -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+______________________ test_get_endpoint_bridge_http_port ______________________
+---------------------------- Captured stderr setup -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+________________ test_get_endpoint_bridge_other_port_via_execd _________________
+---------------------------- Captured stderr setup -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+_________________ test_get_endpoint_bridge_internal_resolution _________________
+---------------------------- Captured stderr setup -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+____ test_get_endpoint_bridge_uses_docker_host_ip_when_server_in_container _____
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+_______ test_extract_bridge_ip_falls_back_when_named_network_ip_missing ________
+---------------------------- Captured stderr setup -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+____________________ test_parse_memory_limit_handles_units _____________________
+----------------------------- Captured stderr call -----------------------------
+[33mWARNING[0m:  2026-08-05 22:16:14+0000 [-] src.services.helpers: Invalid memory limit format 'invalid'; ignoring.
+_____________________________ test_parse_nano_cpus _____________________________
+----------------------------- Captured stderr call -----------------------------
+[33mWARNING[0m:  2026-08-05 22:16:14+0000 [-] src.services.helpers: Invalid CPU limit format 'bad'; ignoring.
+_________________ test_env_allows_empty_string_and_skips_none __________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+________________ test_create_sandbox_applies_security_defaults _________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=b29d6ff7-71b4-4d34-833e-63e83f7aab95 | action=create sandbox container | duration=0.21
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=b29d6ff7-71b4-4d34-833e-63e83f7aab95 | action=start sandbox container | duration=1.34
+_____ test_prepare_runtime_failure_triggers_cleanup[runtime_exc0-500-True] _____
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=05e0a46e-d362-41c4-88a8-18a4bd975cd8 | action=create sandbox container | duration=0.21
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=05e0a46e-d362-41c4-88a8-18a4bd975cd8 | action=cleanup sandbox container | duration=1.35
+____ test_prepare_runtime_failure_triggers_cleanup[runtime_exc1-409-False] _____
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=dd5e8322-9eca-4a36-80c0-9cab599e8dce | action=create sandbox container | duration=0.21
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=dd5e8322-9eca-4a36-80c0-9cab599e8dce | action=cleanup sandbox container | duration=1.35
+_________________ test_create_sandbox_rejects_invalid_metadata _________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+___________________ test_create_sandbox_requires_entrypoint ____________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+__________________ test_network_policy_rejected_on_host_mode ___________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+__________________ test_network_policy_requires_egress_image ___________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+________________ test_egress_sidecar_injection_and_capabilities ________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=5468251a-c256-4949-b5d6-990cea12791a | action=create egress sidecar | duration=0.19
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=5468251a-c256-4949-b5d6-990cea12791a | action=start egress sidecar | duration=1.29
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=5468251a-c256-4949-b5d6-990cea12791a | action=create sandbox container | duration=0.18
+[32mINFO[0m:     2026-08-05 22:16:14+0000 [-] src.services.docker: sandbox=5468251a-c256-4949-b5d6-990cea12791a | action=start sandbox container | duration=1.26
+__________________________ test_expire_cleans_sidecar __________________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+______________________ test_restore_cleans_orphan_sidecar ______________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+________________ test_create_sandbox_async_returns_provisioning ________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+____________________ test_get_sandbox_returns_pending_state ____________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+____________ test_list_sandboxes_deduplicates_container_and_pending ____________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[33mWARNING[0m:  2026-08-05 22:16:15+0000 [-] src.services.docker: Sandbox sandbox-123 missing expires-at label; skipping expiration scheduling.
+_______________ test_get_sandbox_prefers_container_over_pending ________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+__________ test_async_worker_cleans_up_leftover_container_on_failure ___________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+_____________ TestBuildVolumeBinds.test_none_volumes_returns_empty _____________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+____________ TestBuildVolumeBinds.test_empty_volumes_returns_empty _____________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+_______________ TestBuildVolumeBinds.test_single_host_volume_rw ________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+_______________ TestBuildVolumeBinds.test_single_host_volume_ro ________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+______________ TestBuildVolumeBinds.test_host_volume_with_subpath ______________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+_______________ TestBuildVolumeBinds.test_multiple_host_volumes ________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+________________ TestBuildVolumeBinds.test_single_pvc_volume_rw ________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+________________ TestBuildVolumeBinds.test_single_pvc_volume_ro ________________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+______________ TestBuildVolumeBinds.test_pvc_volume_with_subpath _______________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+__________ TestBuildVolumeBinds.test_pvc_volume_with_subpath_readonly __________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+_____________ TestBuildVolumeBinds.test_mixed_host_and_pvc_volumes _____________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+________ TestDockerVolumeValidation.test_pvc_volume_not_found_rejected _________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+____ TestDockerVolumeValidation.test_pvc_volume_inspect_failure_returns_500 ____
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+______ TestDockerVolumeValidation.test_pvc_volume_binds_passed_to_docker _______
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=dd78c9dd-bf8c-4e64-9d24-ba02a8d8949a | action=create sandbox container | duration=0.20
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=dd78c9dd-bf8c-4e64-9d24-ba02a8d8949a | action=start sandbox container | duration=1.31
+__ TestDockerVolumeValidation.test_pvc_volume_readonly_binds_passed_to_docker __
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=612f8650-3a39-4479-b797-7e4fb3964d01 | action=create sandbox container | duration=0.19
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=612f8650-3a39-4479-b797-7e4fb3964d01 | action=start sandbox container | duration=1.31
+____ TestDockerVolumeValidation.test_pvc_subpath_non_local_driver_rejected _____
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+_____ TestDockerVolumeValidation.test_pvc_subpath_symlink_escape_rejected ______
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+___ TestDockerVolumeValidation.test_pvc_subpath_binds_resolved_to_mountpoint ___
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=da253a68-2a82-4144-816d-f9f34a636618 | action=create sandbox container | duration=1.20
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=da253a68-2a82-4144-816d-f9f34a636618 | action=start sandbox container | duration=1.33
+_________ TestDockerVolumeValidation.test_host_path_not_found_rejected _________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+_____ TestDockerVolumeValidation.test_host_path_not_in_allowlist_rejected ______
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+_________ TestDockerVolumeValidation.test_no_volumes_passes_validation _________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=0f4250fe-b0f0-492c-9684-48376f186046 | action=create sandbox container | duration=0.19
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=0f4250fe-b0f0-492c-9684-48376f186046 | action=start sandbox container | duration=1.32
+______ TestDockerVolumeValidation.test_host_volume_binds_passed_to_docker ______
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=9b6b80e7-2c35-4e6c-81d0-5b70f8c877b6 | action=create sandbox container | duration=0.19
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=9b6b80e7-2c35-4e6c-81d0-5b70f8c877b6 | action=start sandbox container | duration=1.32
+_ TestDockerVolumeValidation.test_host_volume_with_subpath_resolved_correctly __
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=5c0c46c0-0d81-4002-8696-ca5bda731288 | action=create sandbox container | duration=1.32
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=5c0c46c0-0d81-4002-8696-ca5bda731288 | action=start sandbox container | duration=1.33
+__________ TestDockerVolumeValidation.test_host_subpath_auto_created ___________
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[36mDEBUG[0m:    2026-08-05 22:16:15+0000 [-] src.services.docker: Sandbox 1eb0caaf-5e45-4508-937a-b2aa548177c9 using cached image python:3.11
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=1eb0caaf-5e45-4508-937a-b2aa548177c9 | action=inspect image python:3.11 | duration=2.17
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=1eb0caaf-5e45-4508-937a-b2aa548177c9 | action=create sandbox container | duration=0.20
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Found execd image ghcr.io/opensandbox/platform:latest locally; skipping pull
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=execd-cache | action=execd cache create container | duration=1.43
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Created sandbox execd archive for container <MagicMock name='docker.from_env().containers.create().id' id='275009434160'>
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=execd-cache | action=execd cache start container | duration=5.80
+[33mWARNING[0m:  2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=execd-cache | action=execd cache read archive | duration=2.23 | error=not enough values to unpack (expected 2, got 0)
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=execd-cache | action=execd cache cleanup container | duration=1.33
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=1eb0caaf-5e45-4508-937a-b2aa548177c9 | action=cleanup sandbox container | duration=1.34
+____ TestDockerVolumeValidation.test_empty_allowlist_permits_any_host_path _____
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=0a2dc266-c76d-4018-ac78-750514837f4d | action=create sandbox container | duration=0.20
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=0a2dc266-c76d-4018-ac78-750514837f4d | action=start sandbox container | duration=1.33
+___ TestDockerVolumeValidation.test_no_volumes_omits_binds_from_host_config ____
+----------------------------- Captured stderr call -----------------------------
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: Docker service initialized from environment
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=c13d0fd5-46a4-4575-8c03-a30b9c45c54a | action=create sandbox container | duration=0.19
+[32mINFO[0m:     2026-08-05 22:16:15+0000 [-] src.services.docker: sandbox=c13d0fd5-46a4-4575-8c03-a30b9c45c54a | action=start sandbox container | duration=1.33
+=========================== short test summary info ============================
+PASSED server/tests/test_docker_endpoint.py::test_get_endpoint_host_mode
+PASSED server/tests/test_docker_endpoint.py::test_get_endpoint_bridge_http_port
+PASSED server/tests/test_docker_endpoint.py::test_get_endpoint_bridge_other_port_via_execd
+PASSED server/tests/test_docker_endpoint.py::test_get_endpoint_bridge_internal_resolution
+PASSED server/tests/test_docker_endpoint.py::test_get_endpoint_bridge_uses_docker_host_ip_when_server_in_container
+PASSED server/tests/test_docker_endpoint.py::test_extract_bridge_ip_falls_back_when_named_network_ip_missing
+PASSED server/tests/test_docker_service.py::test_parse_memory_limit_handles_units
+PASSED server/tests/test_docker_service.py::test_parse_nano_cpus
+PASSED server/tests/test_docker_service.py::test_parse_timestamp_defaults_on_invalid
+PASSED server/tests/test_docker_service.py::test_env_allows_empty_string_and_skips_none
+PASSED server/tests/test_docker_service.py::test_create_sandbox_applies_security_defaults
+PASSED server/tests/test_docker_service.py::test_prepare_runtime_failure_triggers_cleanup[runtime_exc0-500-True]
+PASSED server/tests/test_docker_service.py::test_prepare_runtime_failure_triggers_cleanup[runtime_exc1-409-False]
+PASSED server/tests/test_docker_service.py::test_create_sandbox_rejects_invalid_metadata
+PASSED server/tests/test_docker_service.py::test_create_sandbox_requires_entrypoint
+PASSED server/tests/test_docker_service.py::test_network_policy_rejected_on_host_mode
+PASSED server/tests/test_docker_service.py::test_network_policy_requires_egress_image
+PASSED server/tests/test_docker_service.py::test_egress_sidecar_injection_and_capabilities
+PASSED server/tests/test_docker_service.py::test_expire_cleans_sidecar
+PASSED server/tests/test_docker_service.py::test_restore_cleans_orphan_sidecar
+PASSED server/tests/test_docker_service.py::test_create_sandbox_async_returns_provisioning
+PASSED server/tests/test_docker_service.py::test_get_sandbox_returns_pending_state
+PASSED server/tests/test_docker_service.py::test_list_sandboxes_deduplicates_container_and_pending
+PASSED server/tests/test_docker_service.py::test_get_sandbox_prefers_container_over_pending
+PASSED server/tests/test_docker_service.py::test_async_worker_cleans_up_leftover_container_on_failure
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_none_volumes_returns_empty
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_empty_volumes_returns_empty
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_single_host_volume_rw
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_single_host_volume_ro
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_host_volume_with_subpath
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_multiple_host_volumes
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_single_pvc_volume_rw
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_single_pvc_volume_ro
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_pvc_volume_with_subpath
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_pvc_volume_with_subpath_readonly
+PASSED server/tests/test_docker_service.py::TestBuildVolumeBinds::test_mixed_host_and_pvc_volumes
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_pvc_volume_not_found_rejected
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_pvc_volume_inspect_failure_returns_500
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_pvc_volume_binds_passed_to_docker
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_pvc_volume_readonly_binds_passed_to_docker
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_pvc_subpath_non_local_driver_rejected
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_pvc_subpath_symlink_escape_rejected
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_pvc_subpath_binds_resolved_to_mountpoint
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_host_path_not_found_rejected
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_host_path_not_in_allowlist_rejected
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_no_volumes_passes_validation
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_host_volume_binds_passed_to_docker
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_host_volume_with_subpath_resolved_correctly
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_host_subpath_auto_created
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_empty_allowlist_permits_any_host_path
+PASSED server/tests/test_docker_service.py::TestDockerVolumeValidation::test_no_volumes_omits_binds_from_host_config
+FAILED server/tests/test_docker_endpoint.py::test_get_endpoint_user_defined_network_external
+FAILED server/tests/test_docker_endpoint.py::test_get_endpoint_user_defined_network_internal_prefers_configured_network
+FAILED server/tests/test_docker_service.py::test_network_policy_rejected_on_user_defined_network
+FAILED server/tests/test_docker_service.py::test_create_sandbox_fails_when_user_defined_network_not_found
+FAILED server/tests/test_docker_service.py::test_create_sandbox_user_defined_network_uses_correct_network_mode
+FAILED server/tests/test_docker_service.py::test_validate_network_skipped_for_builtin_modes
+================== 6 failed, 51 passed, 15 warnings in 1.55s ===================

@@ -1,0 +1,194 @@
+{
+  "python:conan-io__conan-19735_interface": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 29,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 21,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 28,
+    "position": 12
+  },
+  "python:koxudaxi__datamodel-code-generator-3046": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 520,
+    "F2P": {
+      "n": 4,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 514,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 122,
+    "position": 13
+  },
+  "python:alibaba__opensandbox-426": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 57,
+    "F2P": {
+      "n": 6,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 51,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 19,
+    "position": 14
+  },
+  "python:destine-climate-dt__aqua-2768": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 17,
+    "F2P": {
+      "n": 4,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 13,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 102,
+    "position": 15
+  },
+  "python:pycqa__isort-2491": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 74,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 73,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 17,
+    "position": 16
+  },
+  "python:conan-io__conan-19750": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 19,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 18,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 18,
+    "position": 20
+  },
+  "python:sqlfluff__sqlfluff-7615": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 25,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 24,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 21,
+    "position": 25
+  },
+  "python:dagster-io__dagster-33605": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 29,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 28,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 74,
+    "position": 27
+  },
+  "python:sqlfluff__sqlfluff-7617": {
+    "verdict": "FAIL",
+    "reason": "F2P not all-failing at base, and/or P2P empty or not all-passing",
+    "parsed_tests": 40,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 1
+    },
+    "P2P": {
+      "n": 30,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 21,
+    "position": 29
+  },
+  "python:astropy__astropy-19438": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 95,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 92,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 63,
+    "position": 32
+  },
+  "python:sqlfluff__sqlfluff-7622": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 33,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 29,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 30,
+    "position": 33
+  },
+  "python:scikit-learn__scikit-learn-33565": {
+    "verdict": "PASS",
+    "reason": "",
+    "parsed_tests": 90,
+    "F2P": {
+      "n": 1,
+      "PASS_at_base": 0,
+      "not_reported": 0
+    },
+    "P2P": {
+      "n": 76,
+      "not_pass_at_base": 0
+    },
+    "wall_s": 44,
+    "position": 34
+  }
+}

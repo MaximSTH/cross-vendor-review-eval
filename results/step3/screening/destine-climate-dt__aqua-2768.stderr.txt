@@ -1,0 +1,5 @@
+<stdin>:96: trailing whitespace.
+@pytest.mark.parametrize("data_fixture, lon_limits, expected_in, expected_out", 
+warning: 1 line adds whitespace errors.
+[33m2026-08-05 22:17:36 :: ConfigPath :: WARNING  -> No available catalogs found[0m
+[33m2026-08-05 22:17:55 :: ConfigPath :: WARNING  -> No available catalogs found[0m

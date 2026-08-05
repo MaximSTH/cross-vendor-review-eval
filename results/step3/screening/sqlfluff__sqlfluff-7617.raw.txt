@@ -1,0 +1,106 @@
+============================= test session starts ==============================
+collected 40 items
+
+test/core/templaters/python_test.py .................................... [ 90%]
+.FFF                                                                     [100%]
+
+=================================== FAILURES ===================================
+E   KeyError: 'start_date'
+
+During handling of the above exception, another exception occurred:
+E   sqlfluff.core.errors.SQLTemplaterError: Failure in Python templating: 'start_date'. Have you configured your variables? https://docs.sqlfluff.com/en/stable/perma/variables.html
+/testbed/src/sqlfluff/core/templaters/python.py:281: sqlfluff.core.errors.SQLTemplaterError: Failure in Python templating: 'start_date'. Have you configured your variables? https://docs.sqlfluff.com/en/stable/perma/variables.html
+E   KeyError: 'sqlfluff'
+
+During handling of the above exception, another exception occurred:
+E   sqlfluff.core.errors.SQLTemplaterError: Failure in Python templating: magic key 'sqlfluff' missing from context.  This key is required for template variables containing '.'. https://docs.sqlfluff.com/en/stable/perma/python_templating.html
+/testbed/src/sqlfluff/core/templaters/python.py:263: sqlfluff.core.errors.SQLTemplaterError: Failure in Python templating: magic key 'sqlfluff' missing from context.  This key is required for template variables containing '.'. https://docs.sqlfluff.com/en/stable/perma/python_templating.html
+E   KeyError: 'foo.bar'
+
+During handling of the above exception, another exception occurred:
+E   sqlfluff.core.errors.SQLTemplaterError: Failure in Python templating: 'foo.bar' key missing from 'sqlfluff' dict in context. Template variables containing '.' are required to use the 'sqlfluff' magic fixed context key. https://docs.sqlfluff.com/en/stable/perma/python_templating.html
+/testbed/src/sqlfluff/core/templaters/python.py:273: sqlfluff.core.errors.SQLTemplaterError: Failure in Python templating: 'foo.bar' key missing from 'sqlfluff' dict in context. Template variables containing '.' are required to use the 'sqlfluff' magic fixed context key. https://docs.sqlfluff.com/en/stable/perma/python_templating.html
+==================================== PASSES ====================================
+_ test__templater_python_split_uniques_coalesce_rest[split_file0-raw_occurrences0-templated_occurrences0--result0] _
+------------------------------ Captured log call -------------------------------
+DEBUG    sqlfluff.templater:python.py:670     _split_uniques_coalesce_rest: []
+_ test__templater_python_split_uniques_coalesce_rest[split_file1-raw_occurrences1-templated_occurrences1-foo-result1] _
+------------------------------ Captured log call -------------------------------
+DEBUG    sqlfluff.templater:python.py:670     _split_uniques_coalesce_rest: [IntermediateFileSlice(intermediate_type='invariant', source_slice=slice(0, 3, None), templated_slice=slice(0, 3, None), slice_buffer=[RawFileSlice(raw='foo', slice_type='literal', source_idx=0, block_idx=0, tag=None)])]
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='literal', source_slice=slice(0, 3, None), templated_slice=slice(0, 3, None))
+_ test__templater_python_split_uniques_coalesce_rest[split_file2-raw_occurrences2-templated_occurrences2-SELECT nothing, 435.24 as foo, spam, '{}' as convertible from something-result2] _
+------------------------------ Captured log call -------------------------------
+DEBUG    sqlfluff.templater:python.py:670     _split_uniques_coalesce_rest: [IntermediateFileSlice(intermediate_type='invariant', source_slice=slice(0, 7, None), templated_slice=slice(0, 7, None), slice_buffer=[RawFileSlice(raw='SELECT ', slice_type='literal', source_idx=0, block_idx=0, tag=None)]), IntermediateFileSlice(intermediate_type='compound', source_slice=slice(7, 24, None), templated_slice=slice(7, 22, None), slice_buffer=[RawFileSlice(raw='{blah}', slice_type='templated', source_idx=7, block_idx=0, tag=None), RawFileSlice(raw=', ', slice_type='literal', source_idx=13, block_idx=0, tag=None), RawFileSlice(raw='{foo:.2f}', slice_type='templated', source_idx=15, block_idx=0, tag=None)]), IntermediateFileSlice(intermediate_type='invariant', source_slice=slice(24, 33, None), templated_slice=slice(22, 31, None), slice_buffer=[RawFileSlice(raw=' as foo, ', slice_type='literal', source_idx=22, block_idx=0, tag=None)]), IntermediateFileSlice(intermediate_type='simple', source_slice=slice(33, 38, None), templated_slice=slice(31, 35, None), slice_buffer=[RawFileSlice(raw='{bar}', slice_type='templated', source_idx=33, block_idx=0, tag=None)]), IntermediateFileSlice(intermediate_type='invariant', source_slice=slice(38, 41, None), templated_slice=slice(35, 38, None), slice_buffer=[RawFileSlice(raw=", '", slice_type='literal', source_idx=35, block_idx=0, tag=None)]), IntermediateFileSlice(intermediate_type='compound', source_slice=slice(41, 45, None), templated_slice=slice(38, 40, None), slice_buffer=[RawFileSlice(raw='{{', slice_type='escaped', source_idx=41, block_idx=0, tag=None), RawFileSlice(raw='}}', slice_type='escaped', source_idx=43, block_idx=0, tag=None)]), IntermediateFileSlice(intermediate_type='invariant', source_slice=slice(45, 76, None), templated_slice=slice(40, 71, None), slice_buffer=[RawFileSlice(raw="' as convertible from something", slice_type='literal', source_idx=40, block_idx=0, tag=None)])]
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='literal', source_slice=slice(0, 7, None), templated_slice=slice(0, 7, None))
+DEBUG    sqlfluff.templater:python.py:722         Intermediate Slice: IntermediateFileSlice(intermediate_type='compound', source_slice=slice(7, 24, None), templated_slice=slice(7, 22, None), slice_buffer=[RawFileSlice(raw='{blah}', slice_type='templated', source_idx=7, block_idx=0, tag=None), RawFileSlice(raw=', ', slice_type='literal', source_idx=13, block_idx=0, tag=None), RawFileSlice(raw='{foo:.2f}', slice_type='templated', source_idx=15, block_idx=0, tag=None)])
+DEBUG    sqlfluff.templater:python.py:755         Intermediate Slice [post trim]: IntermediateFileSlice(intermediate_type='compound', source_slice=slice(7, 24, None), templated_slice=slice(7, 22, None), slice_buffer=[RawFileSlice(raw='{blah}', slice_type='templated', source_idx=7, block_idx=0, tag=None), RawFileSlice(raw=', ', slice_type='literal', source_idx=13, block_idx=0, tag=None), RawFileSlice(raw='{foo:.2f}', slice_type='templated', source_idx=15, block_idx=0, tag=None)]): 'nothing, 435.24'
+DEBUG    sqlfluff.templater:python.py:760         One Way Uniques: [', ']
+DEBUG    sqlfluff.templater:python.py:761         Two Way Uniques: [', ']
+DEBUG    sqlfluff.templater:python.py:792             Handling Unique: ', ', 0, (13, 14), RawFileSlice(raw=', ', slice_type='literal', source_idx=13, block_idx=0, tag=None)
+DEBUG    sqlfluff.templater:python.py:670     _split_uniques_coalesce_rest: [IntermediateFileSlice(intermediate_type='compound', source_slice=slice(7, 13, None), templated_slice=slice(7, 14, None), slice_buffer=[RawFileSlice(raw='{blah}', slice_type='templated', source_idx=7, block_idx=0, tag=None)])]
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='templated', source_slice=slice(7, 13, None), templated_slice=slice(7, 14, None))
+DEBUG    sqlfluff.templater:python.py:670     _split_uniques_coalesce_rest: [IntermediateFileSlice(intermediate_type='compound', source_slice=slice(15, 24, None), templated_slice=slice(16, 22, None), slice_buffer=[RawFileSlice(raw='{foo:.2f}', slice_type='templated', source_idx=15, block_idx=0, tag=None)])]
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='templated', source_slice=slice(15, 24, None), templated_slice=slice(16, 22, None))
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='literal', source_slice=slice(24, 33, None), templated_slice=slice(22, 31, None))
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='templated', source_slice=slice(33, 38, None), templated_slice=slice(31, 35, None))
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='literal', source_slice=slice(38, 41, None), templated_slice=slice(35, 38, None))
+DEBUG    sqlfluff.templater:python.py:722         Intermediate Slice: IntermediateFileSlice(intermediate_type='compound', source_slice=slice(41, 45, None), templated_slice=slice(38, 40, None), slice_buffer=[RawFileSlice(raw='{{', slice_type='escaped', source_idx=41, block_idx=0, tag=None), RawFileSlice(raw='}}', slice_type='escaped', source_idx=43, block_idx=0, tag=None)])
+DEBUG    sqlfluff.templater:python.py:748         No Anchors or Uniques. Yielding Whole: TemplatedFileSlice(slice_type='escaped', source_slice=slice(41, 45, None), templated_slice=slice(38, 40, None))
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='literal', source_slice=slice(45, 76, None), templated_slice=slice(40, 71, None))
+_ test__templater_python_split_uniques_coalesce_rest[split_file3-raw_occurrences3-templated_occurrences3-foo , bar-result3] _
+------------------------------ Captured log call -------------------------------
+DEBUG    sqlfluff.templater:python.py:670     _split_uniques_coalesce_rest: [IntermediateFileSlice(intermediate_type='compound', source_slice=slice(0, 13, None), templated_slice=slice(0, 9, None), slice_buffer=[RawFileSlice(raw='{foo}', slice_type='templated', source_idx=0, block_idx=0, tag=None), RawFileSlice(raw=' , ', slice_type='literal', source_idx=5, block_idx=0, tag=None), RawFileSlice(raw='{bar}', slice_type='templated', source_idx=8, block_idx=0, tag=None)])]
+DEBUG    sqlfluff.templater:python.py:722         Intermediate Slice: IntermediateFileSlice(intermediate_type='compound', source_slice=slice(0, 13, None), templated_slice=slice(0, 9, None), slice_buffer=[RawFileSlice(raw='{foo}', slice_type='templated', source_idx=0, block_idx=0, tag=None), RawFileSlice(raw=' , ', slice_type='literal', source_idx=5, block_idx=0, tag=None), RawFileSlice(raw='{bar}', slice_type='templated', source_idx=8, block_idx=0, tag=None)])
+DEBUG    sqlfluff.templater:python.py:755         Intermediate Slice [post trim]: IntermediateFileSlice(intermediate_type='compound', source_slice=slice(0, 13, None), templated_slice=slice(0, 9, None), slice_buffer=[RawFileSlice(raw='{foo}', slice_type='templated', source_idx=0, block_idx=0, tag=None), RawFileSlice(raw=' , ', slice_type='literal', source_idx=5, block_idx=0, tag=None), RawFileSlice(raw='{bar}', slice_type='templated', source_idx=8, block_idx=0, tag=None)]): 'foo , bar'
+DEBUG    sqlfluff.templater:python.py:760         One Way Uniques: [',']
+DEBUG    sqlfluff.templater:python.py:761         Two Way Uniques: [',']
+DEBUG    sqlfluff.templater:python.py:792             Handling Unique: ',', 1, (6, 4), RawFileSlice(raw=' , ', slice_type='literal', source_idx=5, block_idx=0, tag=None)
+DEBUG    sqlfluff.templater:python.py:670     _split_uniques_coalesce_rest: [IntermediateFileSlice(intermediate_type='compound', source_slice=slice(0, 5, None), templated_slice=slice(0, 3, None), slice_buffer=[RawFileSlice(raw='{foo}', slice_type='templated', source_idx=0, block_idx=0, tag=None)])]
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='templated', source_slice=slice(0, 5, None), templated_slice=slice(0, 3, None))
+DEBUG    sqlfluff.templater:python.py:670     _split_uniques_coalesce_rest: [IntermediateFileSlice(intermediate_type='compound', source_slice=slice(8, 13, None), templated_slice=slice(6, 9, None), slice_buffer=[RawFileSlice(raw='{bar}', slice_type='templated', source_idx=8, block_idx=0, tag=None)])]
+DEBUG    sqlfluff.templater:python.py:697         Yielding Simple: TemplatedFileSlice(slice_type='templated', source_slice=slice(8, 13, None), templated_slice=slice(6, 9, None))
+___________________ test__templater_python_large_file_check ____________________
+------------------------------ Captured log call -------------------------------
+WARNING  sqlfluff.templater:base.py:58 The config value large_file_skip_char_limit was found set. This feature will be removed in a future release, please use the more efficient 'large_file_skip_byte_limit' instead.
+=========================== short test summary info ============================
+PASSED test/core/templaters/python_test.py::test__templater_python
+PASSED test/core/templaters/python_test.py::test__templater_python_error
+PASSED test/core/templaters/python_test.py::test__templater_python_intermediate__trim[int_slice0-foo-head_test0-tail_test0-int_test0]
+PASSED test/core/templaters/python_test.py::test__templater_python_intermediate__trim[int_slice1-foo-head_test1-tail_test1-int_test1]
+PASSED test/core/templaters/python_test.py::test__templater_python_intermediate__trim[int_slice2-foo1bar-head_test2-tail_test2-int_test2]
+PASSED test/core/templaters/python_test.py::test__templater_python_intermediate__trim[int_slice3-foofoofoobarfoofoobarbar-head_test3-tail_test3-int_test3]
+PASSED test/core/templaters/python_test.py::test__templater_python_substring_occurrences[-substrings0-positions0]
+PASSED test/core/templaters/python_test.py::test__templater_python_substring_occurrences[a-substrings1-positions1]
+PASSED test/core/templaters/python_test.py::test__templater_python_substring_occurrences[foobar-substrings2-positions2]
+PASSED test/core/templaters/python_test.py::test__templater_python_substring_occurrences[bar foo bar foo-substrings3-positions3]
+PASSED test/core/templaters/python_test.py::test__templater_python_sorted_occurrence_tuples[test0-result0]
+PASSED test/core/templaters/python_test.py::test__templater_python_sorted_occurrence_tuples[test1-result1]
+PASSED test/core/templaters/python_test.py::test__templater_python_sorted_occurrence_tuples[test2-result2]
+PASSED test/core/templaters/python_test.py::test__templater_python_slice_template[-result0]
+PASSED test/core/templaters/python_test.py::test__templater_python_slice_template[foo-result1]
+PASSED test/core/templaters/python_test.py::test__templater_python_slice_template[foo {bar} z {{ y-result2]
+PASSED test/core/templaters/python_test.py::test__templater_python_split_invariants[raw_sliced0-literals0-raw_occurrences0-templated_occurrences0-0-result0]
+PASSED test/core/templaters/python_test.py::test__templater_python_split_invariants[raw_sliced1-literals1-raw_occurrences1-templated_occurrences1-3-result1]
+PASSED test/core/templaters/python_test.py::test__templater_python_split_uniques_coalesce_rest[split_file0-raw_occurrences0-templated_occurrences0--result0]
+PASSED test/core/templaters/python_test.py::test__templater_python_split_uniques_coalesce_rest[split_file1-raw_occurrences1-templated_occurrences1-foo-result1]
+PASSED test/core/templaters/python_test.py::test__templater_python_split_uniques_coalesce_rest[split_file2-raw_occurrences2-templated_occurrences2-SELECT nothing, 435.24 as foo, spam, '{}' as convertible from something-result2]
+PASSED test/core/templaters/python_test.py::test__templater_python_split_uniques_coalesce_rest[split_file3-raw_occurrences3-templated_occurrences3-foo , bar-result3]
+PASSED test/core/templaters/python_test.py::test__templater_python_slice_file[--True-result0]
+PASSED test/core/templaters/python_test.py::test__templater_python_slice_file[foo-foo-True-result1]
+PASSED test/core/templaters/python_test.py::test__templater_python_slice_file[SELECT {blah}, {foo:.2f} as foo, {bar}, '{{}}' as convertible from something-SELECT nothing, 435.24 as foo, spam, '{}' as convertible from something-True-result2]
+PASSED test/core/templaters/python_test.py::test__templater_python_slice_file[SELECT {blah} FROM something-WITH wrap AS (SELECT nothing FROM something) SELECT * FROM wrap-True-result3]
+PASSED test/core/templaters/python_test.py::test__templater_python_slice_file[SELECT {blah} FROM something-WITH wrap AS (SELECT nothing FROM something) SELECT * FROM wrap-False-result4]
+PASSED test/core/templaters/python_test.py::test__templater_python_large_file_check
+PASSED test/core/templaters/python_test.py::test__templater_python_dot_notation_variables[-]
+PASSED test/core/templaters/python_test.py::test__templater_python_dot_notation_variables[SELECT * FROM {foo.bar}-SELECT * FROM foobar]
+PASSED test/core/templaters/python_test.py::test__templater_python_dot_notation_variables[SELECT {foo} FROM {foo.bar}-SELECT bar FROM foobar]
+PASSED test/core/templaters/python_test.py::test__templater_python_dot_notation_variables[SELECT {num:.2f} FROM blah-SELECT 123.00 FROM blah]
+PASSED test/core/templaters/python_test.py::test__templater_python_dot_notation_variables[SELECT {self.number:.1f} FROM blah-SELECT 42.0 FROM blah]
+PASSED test/core/templaters/python_test.py::test__templater_python_dot_notation_variables[SELECT * FROM {obj.schema}.{obj.table}-SELECT * FROM my_schema.my_table]
+PASSED test/core/templaters/python_test.py::test__templater_python_dot_notation_fail[context0-magic key 'sqlfluff' missing from context.  This key is required for template variables containing '.'.]
+PASSED test/core/templaters/python_test.py::test__templater_python_dot_notation_fail[context1-'foo.bar' key missing from 'sqlfluff' dict in context. Template variables containing '.' are required to use the 'sqlfluff' magic fixed context key.]
+PASSED test/core/templaters/python_test.py::test__templater_python_ignore_templating[SELECT * FROM {start_date}--None-None-expected_violation0]
+FAILED test/core/templaters/python_test.py::test__templater_python_ignore_templating[SELECT * FROM {start_date}-templating-None-SELECT * FROM start_date-None]
+FAILED test/core/templaters/python_test.py::test__templater_python_ignore_templating[SELECT * FROM {foo.bar}-templating-None-SELECT * FROM foo_bar-None]
+FAILED test/core/templaters/python_test.py::test__templater_python_ignore_templating[SELECT * FROM {foo.bar}-templating-context3-SELECT * FROM foo_bar-None]
+========================= 3 failed, 37 passed in 6.12s =========================

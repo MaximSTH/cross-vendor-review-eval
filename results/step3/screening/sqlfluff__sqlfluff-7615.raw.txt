@@ -1,0 +1,40 @@
+============================= test session starts ==============================
+collected 25 items
+
+test/core/templaters/placeholder_test.py ........F................       [100%]
+
+=================================== FAILURES ===================================
+E   AssertionError: assert '\n          ...n            ' == '\n          ...n            '
+      
+      Skipping 98 identical leading characters in diff, use -v to show
+      - ND city = 'London'::text
+      + ND city = city_name::text
+/testbed/test/core/templaters/placeholder_test.py:403: AssertionError: assert '\n          ...n            ' == '\n          ...n            '
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED test/core/templaters/placeholder_test.py::test__templater_raw
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[no_changes]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[colon_simple_substitution]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[colon_accept_block_at_end]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[colon_tuple_substitution]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[colon_quoted]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[colon_nospaces]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[colon_nospaces_double_colon_ignored]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[question_mark]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[numeric_colon]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[pyformat]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[dollar]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[numeric_dollar]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[numeric_dollar_with_braces]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[numeric_dollar_with_braces_and_string]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[dollar_surround]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[percent]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[ampersand]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[flyway_var0]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[flyway_var1]
+PASSED test/core/templaters/placeholder_test.py::test__templater_param_style[params_not_specified]
+PASSED test/core/templaters/placeholder_test.py::test__templater_custom_regex
+PASSED test/core/templaters/placeholder_test.py::test__templater_setup
+PASSED test/core/templaters/placeholder_test.py::test__templater_styles
+FAILED test/core/templaters/placeholder_test.py::test__templater_param_style[colon_double_colon_cast]
+========================= 1 failed, 24 passed in 6.28s =========================

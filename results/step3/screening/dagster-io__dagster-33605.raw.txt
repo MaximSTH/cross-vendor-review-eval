@@ -1,0 +1,650 @@
+============================= test session starts ==============================
+collected 29 items
+
+python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py . [  3%]
+...........................F                                             [100%]
+
+=================================== FAILURES ===================================
+E   dagster._core.errors.DagsterInvariantViolationError: Cannot access partition_key for a non-partitioned run
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - RUN_START - Started execution of run for "__ASSET_JOB".
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - partitioned_upstream - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - partitioned_upstream - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - partitioned_upstream - STEP_START - Started execution of step "partitioned_upstream".
+2026-08-05 22:20:08 +0000 - dagster - INFO - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - partitioned_upstream - Materializing partition 2024-01-01
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - partitioned_upstream - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - partitioned_upstream - Writing file at: /tmp/tmp1cnzf71n/storage/partitioned_upstream/2024-01-01 using PickledObjectFilesystemIOManager...
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - partitioned_upstream - ASSET_MATERIALIZATION - Materialized value partitioned_upstream.
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - partitioned_upstream - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - partitioned_upstream - STEP_SUCCESS - Finished execution of step "partitioned_upstream" in 41ms.
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 67ms
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ASSET_JOB - 347309b1-ebb7-4fa3-bec7-cc71a5ef96f9 - 33 - RUN_SUCCESS - Finished execution of run for "__ASSET_JOB".
+2026-08-05 22:20:09 +0000 - dagster - DEBUG - __ASSET_JOB - e6153b14-44d5-499a-8c2a-a29055d1827d - 33 - RUN_START - Started execution of run for "__ASSET_JOB".
+2026-08-05 22:20:09 +0000 - dagster - DEBUG - __ASSET_JOB - e6153b14-44d5-499a-8c2a-a29055d1827d - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:09 +0000 - dagster - DEBUG - __ASSET_JOB - e6153b14-44d5-499a-8c2a-a29055d1827d - 33 - my_multi_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:09 +0000 - dagster - DEBUG - __ASSET_JOB - e6153b14-44d5-499a-8c2a-a29055d1827d - 33 - my_multi_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:09 +0000 - dagster - DEBUG - __ASSET_JOB - e6153b14-44d5-499a-8c2a-a29055d1827d - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:09 +0000 - dagster - DEBUG - __ASSET_JOB - e6153b14-44d5-499a-8c2a-a29055d1827d - 33 - my_multi_asset - STEP_START - Started execution of step "my_multi_asset".
+2026-08-05 22:20:09 +0000 - dagster - ERROR - __ASSET_JOB - e6153b14-44d5-499a-8c2a-a29055d1827d - 33 - my_multi_asset - STEP_FAILURE - Execution of step "my_multi_asset" failed.
+
+dagster._core.errors.DagsterInvariantViolationError: Cannot access partition_key for a non-partitioned run
+
+Stack Trace:
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_plan.py", line 247, in dagster_event_sequence_for_step
+    yield from check.generator(step_events)
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_step.py", line 460, in core_dagster_event_sequence_for_step
+    step_context.fetch_external_input_asset_version_info()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 929, in fetch_external_input_asset_version_info
+    return self._data_version_cache.fetch_external_input_asset_version_info()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/data_version_cache.py", line 92, in fetch_external_input_asset_version_info
+    self._fetch_input_asset_version_info(all_dep_keys)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/data_version_cache.py", line 112, in _fetch_input_asset_version_info
+    subset = self._context.asset_partitions_subset_for_input(
+        input_name, require_valid_partitions=False
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 1092, in asset_partitions_subset_for_input
+    partitions_def, self.partition_key_range
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 1018, in partition_key_range
+    raise DagsterInvariantViolationError(
+        "Cannot access partition_key for a non-partitioned run"
+    )
+
+2026-08-05 22:20:09 +0000 - dagster - ERROR - __ASSET_JOB - e6153b14-44d5-499a-8c2a-a29055d1827d - 33 - RUN_FAILURE - Execution of run for "__ASSET_JOB" failed. An exception was thrown during execution.
+
+dagster._core.errors.DagsterInvariantViolationError: Cannot access partition_key for a non-partitioned run
+
+Stack Trace:
+  File "/testbed/python_modules/dagster/dagster/_core/execution/api.py", line 742, in job_execution_iterator
+    for event in job_context.executor.execute(job_context, execution_plan):
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/executor/in_process.py", line 71, in execute
+    yield from iter(
+    ...<15 lines>...
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/execution/api.py", line 873, in __iter__
+    yield from self.iterator(
+    ...<2 lines>...
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/executor/in_process.py", line 28, in inprocess_execution_iterator
+    yield from inner_plan_execution_iterator(
+    ...<3 lines>...
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_plan.py", line 89, in inner_plan_execution_iterator
+    for step_event in check.generator(dagster_event_sequence_for_step(step_context)):
+                      ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_plan.py", line 345, in dagster_event_sequence_for_step
+    raise error
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_plan.py", line 247, in dagster_event_sequence_for_step
+    yield from check.generator(step_events)
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_step.py", line 460, in core_dagster_event_sequence_for_step
+    step_context.fetch_external_input_asset_version_info()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 929, in fetch_external_input_asset_version_info
+    return self._data_version_cache.fetch_external_input_asset_version_info()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/data_version_cache.py", line 92, in fetch_external_input_asset_version_info
+    self._fetch_input_asset_version_info(all_dep_keys)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/data_version_cache.py", line 112, in _fetch_input_asset_version_info
+    subset = self._context.asset_partitions_subset_for_input(
+        input_name, require_valid_partitions=False
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 1092, in asset_partitions_subset_for_input
+    partitions_def, self.partition_key_range
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 1018, in partition_key_range
+    raise DagsterInvariantViolationError(
+        "Cannot access partition_key for a non-partitioned run"
+    )
+
+/testbed/python_modules/dagster/dagster/_core/execution/context/system.py:1018: dagster._core.errors.DagsterInvariantViolationError: Cannot access partition_key for a non-partitioned run
+==================================== PASSES ====================================
+______________________ test_single_partitioned_asset_job _______________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - my_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - my_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - my_asset - STEP_START - Started execution of step "my_asset".
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - my_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - my_asset - ASSET_MATERIALIZATION - Materialized value my_asset.
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - my_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - my_asset - STEP_SUCCESS - Finished execution of step "my_asset" in 35ms.
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 107ms
+2026-08-05 22:19:52 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 835c7a75-4209-441e-b10c-8c2ca6be460e - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+_______________________ test_two_partitioned_assets_job ________________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - upstream - STEP_START - Started execution of step "upstream".
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - upstream - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - upstream - ASSET_MATERIALIZATION - Materialized value upstream.
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - upstream - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - upstream - STEP_SUCCESS - Finished execution of step "upstream" in 28ms.
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - downstream - STEP_START - Started execution of step "downstream".
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - downstream - LOADED_INPUT - Loaded input "upstream" using input manager "io_manager", from output "result" of step "upstream"
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - downstream - STEP_INPUT - Got input "upstream" of type "Any". (Type check passed).
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - downstream - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - downstream - ASSET_MATERIALIZATION - Materialized value downstream.
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - downstream - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - downstream - STEP_SUCCESS - Finished execution of step "downstream" in 92ms.
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 158ms
+2026-08-05 22:19:53 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb774a50-307c-466e-8836-cb405c96d780 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+______ test_access_partition_keys_from_context_only_one_asset_partitioned ______
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - upstream_asset - STEP_START - Started execution of step "upstream_asset".
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - upstream_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - upstream_asset - ASSET_MATERIALIZATION - Materialized value upstream_asset.
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - upstream_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - upstream_asset - STEP_SUCCESS - Finished execution of step "upstream_asset" in 29ms.
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - downstream_asset - STEP_START - Started execution of step "downstream_asset".
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - downstream_asset - LOADED_INPUT - Loaded input "upstream_asset" using input manager "io_manager", from output "result" of step "upstream_asset"
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - downstream_asset - STEP_INPUT - Got input "upstream_asset" of type "Any". (Type check passed).
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - downstream_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - downstream_asset - ASSET_MATERIALIZATION - Materialized value downstream_asset.
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - downstream_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - downstream_asset - STEP_SUCCESS - Finished execution of step "downstream_asset" in 65ms.
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - double_downstream_asset - STEP_START - Started execution of step "double_downstream_asset".
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - double_downstream_asset - LOADED_INPUT - Loaded input "downstream_asset" using input manager "io_manager", from output "result" of step "downstream_asset"
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - double_downstream_asset - STEP_INPUT - Got input "downstream_asset" of type "Any". (Type check passed).
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - double_downstream_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - double_downstream_asset - ASSET_MATERIALIZATION - Materialized value double_downstream_asset.
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - double_downstream_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - double_downstream_asset - STEP_SUCCESS - Finished execution of step "double_downstream_asset" in 49ms.
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 190ms
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - eb49156a-150f-49d5-96c1-b02ea38bd761 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - downstream_asset - STEP_START - Started execution of step "downstream_asset".
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - downstream_asset - LOADED_INPUT - Loaded input "upstream_asset" using input manager "io_manager"
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - downstream_asset - STEP_INPUT - Got input "upstream_asset" of type "Any". (Type check passed).
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - downstream_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - downstream_asset - ASSET_MATERIALIZATION - Materialized value downstream_asset.
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - downstream_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - downstream_asset - STEP_SUCCESS - Finished execution of step "downstream_asset" in 63ms.
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - double_downstream_asset - STEP_START - Started execution of step "double_downstream_asset".
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - double_downstream_asset - LOADED_INPUT - Loaded input "downstream_asset" using input manager "io_manager", from output "result" of step "downstream_asset"
+2026-08-05 22:19:54 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - double_downstream_asset - STEP_INPUT - Got input "downstream_asset" of type "Any". (Type check passed).
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - double_downstream_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - double_downstream_asset - ASSET_MATERIALIZATION - Materialized value double_downstream_asset.
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - double_downstream_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - double_downstream_asset - STEP_SUCCESS - Finished execution of step "double_downstream_asset" in 46ms.
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 143ms
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4a201416-8bad-4b77-9452-b7c4f7841e7f - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+_______________ test_output_context_asset_partitions_time_window _______________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - my_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - my_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - my_asset - STEP_START - Started execution of step "my_asset".
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - my_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - my_asset - ASSET_MATERIALIZATION - Materialized value my_asset.
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - my_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - my_asset - STEP_SUCCESS - Finished execution of step "my_asset" in 33ms.
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 61ms
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 44312211-de7c-4e44-af66-1a0d2b69f397 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+_______________ test_input_context_asset_partitions_time_window ________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - upstream_asset - STEP_START - Started execution of step "upstream_asset".
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - upstream_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - upstream_asset - ASSET_MATERIALIZATION - Materialized value upstream_asset.
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - upstream_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - upstream_asset - STEP_SUCCESS - Finished execution of step "upstream_asset" in 32ms.
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - downstream_asset - STEP_START - Started execution of step "downstream_asset".
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - downstream_asset - LOADED_INPUT - Loaded input "upstream_asset" using input manager "io_manager", from output "result" of step "upstream_asset"
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - downstream_asset - STEP_INPUT - Got input "upstream_asset" of type "Any". (Type check passed).
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - downstream_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - downstream_asset - ASSET_MATERIALIZATION - Materialized value downstream_asset.
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - downstream_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - downstream_asset - STEP_SUCCESS - Finished execution of step "downstream_asset" in 69ms.
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 136ms
+2026-08-05 22:19:55 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - c51d5b90-6a50-46d5-bb29-94e1ca1acf18 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - downstream_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - downstream_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - downstream_asset - STEP_START - Started execution of step "downstream_asset".
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - downstream_asset - LOADED_INPUT - Loaded input "upstream_asset" using input manager "io_manager"
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - downstream_asset - STEP_INPUT - Got input "upstream_asset" of type "Any". (Type check passed).
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - downstream_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - downstream_asset - ASSET_MATERIALIZATION - Materialized value downstream_asset.
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - downstream_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - downstream_asset - STEP_SUCCESS - Finished execution of step "downstream_asset" in 70ms.
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 96ms
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 5a8fb852-475c-44df-b26a-42203b23df50 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+_____________________ test_cross_job_different_partitions ______________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - daily_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - daily_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - daily_asset - STEP_START - Started execution of step "daily_asset".
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - daily_asset - LOADED_INPUT - Loaded input "hourly_asset" using input manager "io_manager"
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - daily_asset - STEP_INPUT - Got input "hourly_asset" of type "Any". (Type check passed).
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - daily_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - daily_asset - ASSET_MATERIALIZATION - Materialized value daily_asset.
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - daily_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - daily_asset - STEP_SUCCESS - Finished execution of step "daily_asset" in 66ms.
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 90ms
+2026-08-05 22:19:56 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - df1d0a60-9e57-46bd-98fa-c89a0fa0e8c8 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+_________________________ test_source_asset_partitions _________________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - daily_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - daily_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - daily_asset - STEP_START - Started execution of step "daily_asset".
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - daily_asset - LOADED_INPUT - Loaded input "hourly_asset" using input manager "io_manager"
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - daily_asset - STEP_INPUT - Got input "hourly_asset" of type "Any". (Type check passed).
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - daily_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - daily_asset - ASSET_MATERIALIZATION - Materialized value daily_asset.
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - daily_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - daily_asset - STEP_SUCCESS - Finished execution of step "daily_asset" in 64ms.
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 90ms
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 1ce56640-1f25-4c82-97a0-fdde70fe0efd - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+___________________ test_single_partitioned_multi_asset_job ____________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - STEP_START - Started execution of step "my_asset".
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - STEP_OUTPUT - Yielded output "out1" of type "Any". (Type check passed).
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - ASSET_MATERIALIZATION - Materialized value my_asset_1.
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - HANDLED_OUTPUT - Handled output "out1" using IO manager "io_manager"
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - STEP_OUTPUT - Yielded output "out2" of type "Any". (Type check passed).
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - ASSET_MATERIALIZATION - Materialized value my_asset_2.
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - HANDLED_OUTPUT - Handled output "out2" using IO manager "io_manager"
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - my_asset - STEP_SUCCESS - Finished execution of step "my_asset" in 51ms.
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 77ms
+2026-08-05 22:19:57 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 70255e15-ad41-4bac-8004-739a29d11898 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+_______________ test_multi_asset_with_different_partitions_defs ________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - my_assets - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - my_assets - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - my_assets - STEP_START - Started execution of step "my_assets".
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - my_assets - STEP_OUTPUT - Yielded output "my_asset_1" of type "Nothing". (Type check passed).
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - my_assets - ASSET_MATERIALIZATION - Materialized value my_asset_1.
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - my_assets - STEP_SUCCESS - Finished execution of step "my_assets" in 29ms.
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 207ms
+2026-08-05 22:19:58 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 938c2f31-9ee9-44d9-9847-e9a5599e853c - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+_____ test_multi_asset_with_different_partitions_defs_partition_key_range ______
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - my_assets - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - my_assets - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - my_assets - STEP_START - Started execution of step "my_assets".
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - my_assets - STEP_OUTPUT - Yielded output "my_asset_1" of type "Nothing". (Type check passed).
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - my_assets - ASSET_MATERIALIZATION - Materialized value my_asset_1.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - my_assets - ASSET_MATERIALIZATION - Materialized value my_asset_1.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - my_assets - ASSET_MATERIALIZATION - Materialized value my_asset_1.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - my_assets - STEP_SUCCESS - Finished execution of step "my_assets" in 92ms.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 119ms
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 509b7c07-bd46-499f-a1cf-583198463238 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+____________________ test_two_partitioned_multi_assets_job _____________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - upstream_asset - STEP_START - Started execution of step "upstream_asset".
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - upstream_asset - STEP_OUTPUT - Yielded output "out1" of type "Any". (Type check passed).
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - upstream_asset - ASSET_MATERIALIZATION - Materialized value upstream_asset_1.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - upstream_asset - HANDLED_OUTPUT - Handled output "out1" using IO manager "io_manager"
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - upstream_asset - STEP_OUTPUT - Yielded output "out2" of type "Any". (Type check passed).
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - upstream_asset - ASSET_MATERIALIZATION - Materialized value upstream_asset_2.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - upstream_asset - HANDLED_OUTPUT - Handled output "out2" using IO manager "io_manager"
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - upstream_asset - STEP_SUCCESS - Finished execution of step "upstream_asset" in 53ms.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_1 - STEP_START - Started execution of step "downstream_asset_1".
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_1 - LOADED_INPUT - Loaded input "upstream_asset_1" using input manager "io_manager", from output "out1" of step "upstream_asset"
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_1 - STEP_INPUT - Got input "upstream_asset_1" of type "Int". (Type check passed).
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_1 - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_1 - ASSET_MATERIALIZATION - Materialized value downstream_asset_1.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_1 - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_1 - STEP_SUCCESS - Finished execution of step "downstream_asset_1" in 63ms.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_2 - STEP_START - Started execution of step "downstream_asset_2".
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_2 - LOADED_INPUT - Loaded input "upstream_asset_2" using input manager "io_manager", from output "out2" of step "upstream_asset"
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_2 - STEP_INPUT - Got input "upstream_asset_2" of type "Int". (Type check passed).
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_2 - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_2 - ASSET_MATERIALIZATION - Materialized value downstream_asset_2.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_2 - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - downstream_asset_2 - STEP_SUCCESS - Finished execution of step "downstream_asset_2" in 54ms.
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 215ms
+2026-08-05 22:19:59 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 896c74d5-7361-4358-933e-91a7a12d5074 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+____________________ test_job_config_with_asset_partitions _____________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - RUN_START - Started execution of run for "job".
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - asset1 - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - asset1 - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - asset1 - STEP_START - Started execution of step "asset1".
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - asset1 - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - asset1 - ASSET_MATERIALIZATION - Materialized value asset1.
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - asset1 - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - asset1 - STEP_SUCCESS - Finished execution of step "asset1" in 29ms.
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 57ms
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 832b29d1-52f1-4a44-bc5d-a928465efe5a - 33 - RUN_SUCCESS - Finished execution of run for "job".
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - RUN_START - Started execution of run for "job".
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - asset1 - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - asset1 - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - asset1 - STEP_START - Started execution of step "asset1".
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - asset1 - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - asset1 - ASSET_MATERIALIZATION - Materialized value asset1.
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - asset1 - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - asset1 - STEP_SUCCESS - Finished execution of step "asset1" in 29ms.
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 55ms
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - 8ba7d3b0-011c-48cf-a5b9-2e47fe5aa43b - 33 - RUN_SUCCESS - Finished execution of run for "job".
+______________ test_job_partitioned_config_with_asset_partitions _______________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - RUN_START - Started execution of run for "job".
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - asset1 - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - asset1 - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:00 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - asset1 - STEP_START - Started execution of step "asset1".
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - asset1 - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - asset1 - ASSET_MATERIALIZATION - Materialized value asset1.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - asset1 - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - asset1 - STEP_SUCCESS - Finished execution of step "asset1" in 28ms.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 54ms
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - e2a40cdd-35ad-4eff-a89f-d58a30a435fe - 33 - RUN_SUCCESS - Finished execution of run for "job".
+_______________________ test_partition_range_single_run ________________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - RUN_START - Started execution of run for "job".
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - upstream_asset - STEP_START - Started execution of step "upstream_asset".
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - upstream_asset - STEP_OUTPUT - Yielded output "result" of type "Nothing". (Type check passed).
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - upstream_asset - ASSET_MATERIALIZATION - Materialized value upstream_asset.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - upstream_asset - ASSET_MATERIALIZATION - Materialized value upstream_asset.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - upstream_asset - ASSET_MATERIALIZATION - Materialized value upstream_asset.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - upstream_asset - STEP_SUCCESS - Finished execution of step "upstream_asset" in 55ms.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - downstream_asset - STEP_START - Started execution of step "downstream_asset".
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - downstream_asset - STEP_OUTPUT - Yielded output "result" of type "Nothing". (Type check passed).
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - downstream_asset - ASSET_MATERIALIZATION - Materialized value downstream_asset.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - downstream_asset - ASSET_MATERIALIZATION - Materialized value downstream_asset.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - downstream_asset - ASSET_MATERIALIZATION - Materialized value downstream_asset.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - downstream_asset - STEP_SUCCESS - Finished execution of step "downstream_asset" in 77ms.
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 167ms
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - 83717346-b9a5-48aa-8faf-cf943f41d70f - 33 - RUN_SUCCESS - Finished execution of run for "job".
+_____________________ test_multipartition_range_single_run _____________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - RUN_START - Started execution of run for "job".
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - multipartitioned_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - multipartitioned_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - multipartitioned_asset - STEP_START - Started execution of step "multipartitioned_asset".
+2026-08-05 22:20:01 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - multipartitioned_asset - STEP_OUTPUT - Yielded output "result" of type "Nothing". (Type check passed).
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - multipartitioned_asset - ASSET_MATERIALIZATION - Materialized value multipartitioned_asset.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - multipartitioned_asset - ASSET_MATERIALIZATION - Materialized value multipartitioned_asset.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - multipartitioned_asset - ASSET_MATERIALIZATION - Materialized value multipartitioned_asset.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - multipartitioned_asset - STEP_SUCCESS - Finished execution of step "multipartitioned_asset" in 51ms.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 76ms
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - ad61ef4d-d664-45db-bc33-51a5de9f2ec6 - 33 - RUN_SUCCESS - Finished execution of run for "job".
+______________ test_multipartitioned_asset_partitions_time_window ______________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - multipartitioned_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - multipartitioned_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - multipartitioned_asset - STEP_START - Started execution of step "multipartitioned_asset".
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - multipartitioned_asset - STEP_OUTPUT - Yielded output "result" of type "Nothing". (Type check passed).
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - multipartitioned_asset - ASSET_MATERIALIZATION - Materialized value multipartitioned_asset.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - multipartitioned_asset - STEP_SUCCESS - Finished execution of step "multipartitioned_asset" in 25ms.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 51ms
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7ec6e04c-fb2c-451c-b4e3-c6693f07a393 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+___________________ test_dynamic_partition_range_single_run ____________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - RUN_START - Started execution of run for "job".
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - dynamicpartitioned_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - dynamicpartitioned_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - dynamicpartitioned_asset - STEP_START - Started execution of step "dynamicpartitioned_asset".
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - dynamicpartitioned_asset - STEP_OUTPUT - Yielded output "result" of type "Nothing". (Type check passed).
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - dynamicpartitioned_asset - ASSET_MATERIALIZATION - Materialized value dynamicpartitioned_asset.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - dynamicpartitioned_asset - ASSET_MATERIALIZATION - Materialized value dynamicpartitioned_asset.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - dynamicpartitioned_asset - ASSET_MATERIALIZATION - Materialized value dynamicpartitioned_asset.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - dynamicpartitioned_asset - STEP_SUCCESS - Finished execution of step "dynamicpartitioned_asset" in 65ms.
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 90ms
+2026-08-05 22:20:02 +0000 - dagster - DEBUG - job - 68d6be3f-b8d4-44cf-bedb-2b62d4a1d543 - 33 - RUN_SUCCESS - Finished execution of run for "job".
+_________________ test_error_on_nonexistent_upstream_partition _________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:03 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - bca0e4bd-b47f-42d4-aabd-84f0b99bf064 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:03 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - bca0e4bd-b47f-42d4-aabd-84f0b99bf064 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:03 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - bca0e4bd-b47f-42d4-aabd-84f0b99bf064 - 33 - downstream_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:03 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - bca0e4bd-b47f-42d4-aabd-84f0b99bf064 - 33 - downstream_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:03 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - bca0e4bd-b47f-42d4-aabd-84f0b99bf064 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:03 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - bca0e4bd-b47f-42d4-aabd-84f0b99bf064 - 33 - downstream_asset - STEP_START - Started execution of step "downstream_asset".
+2026-08-05 22:20:03 +0000 - dagster - ERROR - __ephemeral_asset_job__ - bca0e4bd-b47f-42d4-aabd-84f0b99bf064 - 33 - downstream_asset - STEP_FAILURE - Execution of step "downstream_asset" failed.
+
+dagster._core.errors.DagsterInvariantViolationError: Partition key range PartitionKeyRange(start='2020-01-02-05:00', end='2020-01-02-05:00') in downstream_asset depends on invalid partitions TimeWindowPartitionsSubset([PartitionKeyRange(start='2020-01-02', end='2020-01-02')]) in upstream asset AssetKey(['upstream_asset'])
+
+Stack Trace:
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_plan.py", line 247, in dagster_event_sequence_for_step
+    yield from check.generator(step_events)
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_step.py", line 469, in core_dagster_event_sequence_for_step
+    for event_or_input_value in step_input.source.load_input_object(
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        step_context, input_def
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/inputs.py", line 142, in load_input_object
+    load_input_context = step_context.for_input_manager(
+        input_def.name,
+    ...<16 lines>...
+        ),
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 618, in for_input_manager
+    self.asset_partitions_subset_for_input(name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 1116, in asset_partitions_subset_for_input
+    raise DagsterInvariantViolationError(
+    ...<4 lines>...
+    )
+
+2026-08-05 22:20:03 +0000 - dagster - ERROR - __ephemeral_asset_job__ - bca0e4bd-b47f-42d4-aabd-84f0b99bf064 - 33 - RUN_FAILURE - Execution of run for "__ephemeral_asset_job__" failed. An exception was thrown during execution.
+
+dagster._core.errors.DagsterInvariantViolationError: Partition key range PartitionKeyRange(start='2020-01-02-05:00', end='2020-01-02-05:00') in downstream_asset depends on invalid partitions TimeWindowPartitionsSubset([PartitionKeyRange(start='2020-01-02', end='2020-01-02')]) in upstream asset AssetKey(['upstream_asset'])
+
+Stack Trace:
+  File "/testbed/python_modules/dagster/dagster/_core/execution/api.py", line 742, in job_execution_iterator
+    for event in job_context.executor.execute(job_context, execution_plan):
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/executor/in_process.py", line 71, in execute
+    yield from iter(
+    ...<15 lines>...
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/execution/api.py", line 873, in __iter__
+    yield from self.iterator(
+    ...<2 lines>...
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/executor/in_process.py", line 28, in inprocess_execution_iterator
+    yield from inner_plan_execution_iterator(
+    ...<3 lines>...
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_plan.py", line 89, in inner_plan_execution_iterator
+    for step_event in check.generator(dagster_event_sequence_for_step(step_context)):
+                      ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_plan.py", line 345, in dagster_event_sequence_for_step
+    raise error
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_plan.py", line 247, in dagster_event_sequence_for_step
+    yield from check.generator(step_events)
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/execute_step.py", line 469, in core_dagster_event_sequence_for_step
+    for event_or_input_value in step_input.source.load_input_object(
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        step_context, input_def
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/plan/inputs.py", line 142, in load_input_object
+    load_input_context = step_context.for_input_manager(
+        input_def.name,
+    ...<16 lines>...
+        ),
+    )
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 618, in for_input_manager
+    self.asset_partitions_subset_for_input(name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/testbed/python_modules/dagster/dagster/_core/execution/context/system.py", line 1116, in asset_partitions_subset_for_input
+    raise DagsterInvariantViolationError(
+    ...<4 lines>...
+    )
+
+_______________________ test_partitioned_asset_metadata ________________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:05 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - dc9c55e3-ef19-4d1f-ab71-c963250fe5ed - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:05 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - dc9c55e3-ef19-4d1f-ab71-c963250fe5ed - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:05 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - dc9c55e3-ef19-4d1f-ab71-c963250fe5ed - 33 - partitioned_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:05 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - dc9c55e3-ef19-4d1f-ab71-c963250fe5ed - 33 - partitioned_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:05 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - dc9c55e3-ef19-4d1f-ab71-c963250fe5ed - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:05 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - dc9c55e3-ef19-4d1f-ab71-c963250fe5ed - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 383ms
+2026-08-05 22:20:05 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - dc9c55e3-ef19-4d1f-ab71-c963250fe5ed - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+________________ test_time_partitioned_asset_get_partition_key _________________
+----------------------------- Captured stderr call -----------------------------
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - daily_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - daily_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - daily_asset - STEP_START - Started execution of step "daily_asset".
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - daily_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - daily_asset - ASSET_MATERIALIZATION - Materialized value daily_asset.
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - daily_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - daily_asset - STEP_SUCCESS - Finished execution of step "daily_asset" in 30ms.
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 56ms
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 14d610ca-c99b-40b4-9ee1-88b627fa2d50 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - hourly_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - hourly_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - hourly_asset - STEP_START - Started execution of step "hourly_asset".
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - hourly_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - hourly_asset - ASSET_MATERIALIZATION - Materialized value hourly_asset.
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - hourly_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - hourly_asset - STEP_SUCCESS - Finished execution of step "hourly_asset" in 28ms.
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 52ms
+2026-08-05 22:20:06 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 15880c41-95e1-4b40-8e46-d87c9422df24 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - daily_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - daily_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - daily_asset - STEP_START - Started execution of step "daily_asset".
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - daily_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - daily_asset - ASSET_MATERIALIZATION - Materialized value daily_asset.
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - daily_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - daily_asset - STEP_SUCCESS - Finished execution of step "daily_asset" in 27ms.
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 50ms
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 9862a532-4da0-43b1-afec-c14b28fbe7d8 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - hourly_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - hourly_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - hourly_asset - STEP_START - Started execution of step "hourly_asset".
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - hourly_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - hourly_asset - ASSET_MATERIALIZATION - Materialized value hourly_asset.
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - hourly_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - hourly_asset - STEP_SUCCESS - Finished execution of step "hourly_asset" in 29ms.
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 57ms
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 7c95052b-dcbb-4078-bfd9-7a17fd7e5cd7 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - daily_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - daily_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - daily_asset - STEP_START - Started execution of step "daily_asset".
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - daily_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - daily_asset - ASSET_MATERIALIZATION - Materialized value daily_asset.
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - daily_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - daily_asset - STEP_SUCCESS - Finished execution of step "daily_asset" in 29ms.
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 55ms
+2026-08-05 22:20:07 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 975ad1fe-0f97-4658-8df0-5871d8199645 - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - RUN_START - Started execution of run for "__ephemeral_asset_job__".
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - ENGINE_EVENT - Executing steps in process (pid: 33)
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - hourly_asset - RESOURCE_INIT_STARTED - Starting initialization of resources [io_manager].
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - hourly_asset - RESOURCE_INIT_SUCCESS - Finished initialization of resources [io_manager].
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - LOGS_CAPTURED - Started capturing logs in process (pid: 33).
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - hourly_asset - STEP_START - Started execution of step "hourly_asset".
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - hourly_asset - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - hourly_asset - ASSET_MATERIALIZATION - Materialized value hourly_asset.
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - hourly_asset - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - hourly_asset - STEP_SUCCESS - Finished execution of step "hourly_asset" in 30ms.
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - ENGINE_EVENT - Finished steps in process (pid: 33) in 55ms
+2026-08-05 22:20:08 +0000 - dagster - DEBUG - __ephemeral_asset_job__ - 4cb378e8-9366-43b9-a64d-b97428edd2eb - 33 - RUN_SUCCESS - Finished execution of run for "__ephemeral_asset_job__".
+=========================== short test summary info ============================
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_assets_with_same_partitioning
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_single_partitioned_asset_job
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_two_partitioned_assets_job
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_assets_job_with_different_partitions_defs
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_access_partition_keys_from_context_direct_invocation
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_access_partition_keys_from_context_only_one_asset_partitioned
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_output_context_asset_partitions_time_window
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_input_context_asset_partitions_time_window
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_cross_job_different_partitions
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_source_asset_partitions
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_multi_assets_with_same_partitioning
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_single_partitioned_multi_asset_job
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_multi_asset_with_different_partitions_defs
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_multi_asset_with_differrent_partitions_def_and_top_level_group_name
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_multi_asset_with_differrent_group_names_and_top_level_partitions_def
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_multi_asset_with_different_partitions_defs_partition_key_range
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_two_partitioned_multi_assets_job
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_job_config_with_asset_partitions
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_job_partitioned_config_with_asset_partitions
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_mismatched_job_partitioned_config_with_asset_partitions
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_partition_range_single_run
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_multipartition_range_single_run
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_multipartitioned_asset_partitions_time_window
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_dynamic_partition_range_single_run
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_error_on_nonexistent_upstream_partition
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_asset_spec_partitions_def
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_partitioned_asset_metadata
+PASSED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_time_partitioned_asset_get_partition_key
+FAILED python_modules/dagster/dagster_tests/asset_defs_tests/test_partitioned_assets.py::test_non_partitioned_spec_in_mixed_multi_asset_does_not_raise_partition_key_error
+======================== 1 failed, 28 passed in 21.65s =========================

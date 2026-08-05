@@ -1,0 +1,110 @@
+============================= test session starts ==============================
+collected 90 items
+
+sklearn/linear_model/tests/test_base.py ..F............................. [ 35%]
+.........................................XXxXXx...XXxXXxs.               [100%]
+
+=================================== FAILURES ===================================
+E   assert np.float32(59.0387) == 24.38689422607422 ± 2.4e-05
+      
+      comparison failed
+      Obtained: 59.038700103759766
+      Expected: 24.38689422607422 ± 2.4e-05
+/testbed/sklearn/linear_model/tests/test_base.py:85: assert np.float32(59.0387) == 24.38689422607422 ± 2.4e-05
+==================================== PASSES ====================================
+____________________________ test_linear_regression ____________________________
+---------------------------- Captured stdout setup -----------------------------
+I: Seeding RNGs with 108092449
+=================================== XPASSES ====================================
+=========================== short test summary info ============================
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_vs_lstsq[float64]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weights[42-True-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weights[42-True-csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weights[42-True-csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weights[42-False-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weights[42-False-csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weights[42-False-csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_raises_value_error_if_positive_and_sparse
+PASSED sklearn/linear_model/tests/test_base.py::test_raises_value_error_if_sample_weights_greater_than_1d[2-3]
+PASSED sklearn/linear_model/tests/test_base.py::test_raises_value_error_if_sample_weights_greater_than_1d[3-2]
+PASSED sklearn/linear_model/tests/test_base.py::test_fit_intercept
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sparse[42]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sparse_equal_dense[csr_matrix-True]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sparse_equal_dense[csr_matrix-False]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sparse_equal_dense[csr_array-True]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sparse_equal_dense[csr_array-False]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_multiple_outcome
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sparse_multiple_outcome[42-coo_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sparse_multiple_outcome[42-coo_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_positive
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_positive_multiple_outcome[42]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_positive_vs_nonpositive[42]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_positive_vs_nonpositive_when_positive[42]
+PASSED sklearn/linear_model/tests/test_base.py::test_inplace_data_preprocessing[42-True-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_inplace_data_preprocessing[42-True-csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_inplace_data_preprocessing[42-True-csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_inplace_data_preprocessing[42-False-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_inplace_data_preprocessing[42-False-csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_inplace_data_preprocessing[42-False-csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_pd_sparse_dataframe_warning
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data[42]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data_multioutput[42-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data_multioutput[42-csc_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data_multioutput[42-csc_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data_weighted[42-None-False]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data_weighted[42-None-True]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data_weighted[42-csr_matrix-False]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data_weighted[42-csr_matrix-True]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data_weighted[42-csr_array-False]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_data_weighted[42-csr_array-True]
+PASSED sklearn/linear_model/tests/test_base.py::test_sparse_preprocess_data_offsets[42-lil_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_sparse_preprocess_data_offsets[42-lil_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_csr_preprocess_data[csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_csr_preprocess_data[csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[False-True-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[False-True-csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[False-True-csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[False-False-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[False-False-csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[False-False-csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[True-True-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[True-True-csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[True-True-csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[True-False-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[True-False-csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_preprocess_copy_data_no_checks[True-False-csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_dtype_preprocess_data[42-False-False]
+PASSED sklearn/linear_model/tests/test_base.py::test_dtype_preprocess_data[42-False-True]
+PASSED sklearn/linear_model/tests/test_base.py::test_dtype_preprocess_data[42-True-False]
+PASSED sklearn/linear_model/tests/test_base.py::test_dtype_preprocess_data[42-True-True]
+PASSED sklearn/linear_model/tests/test_base.py::test_rescale_data[42-None-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_rescale_data[42-None-2]
+PASSED sklearn/linear_model/tests/test_base.py::test_rescale_data[42-csr_matrix-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_rescale_data[42-csr_matrix-2]
+PASSED sklearn/linear_model/tests/test_base.py::test_rescale_data[42-csr_array-None]
+PASSED sklearn/linear_model/tests/test_base.py::test_rescale_data[42-csr_array-2]
+PASSED sklearn/linear_model/tests/test_base.py::test_fused_types_make_dataset[csr_matrix]
+PASSED sklearn/linear_model/tests/test_base.py::test_fused_types_make_dataset[csr_array]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-False-None-X_shape0]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-False-None-X_shape1]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-False-None-X_shape2]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-True-None-X_shape0]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-True-None-X_shape1]
+PASSED sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-True-None-X_shape2]
+PASSED sklearn/linear_model/tests/test_base.py::test_predict_proba_lr_large_values
+SKIPPED [1] sklearn/linear_model/tests/test_base.py:888: SCIPY_ARRAY_API not set, or versions of NumPy/SciPy too old.
+XFAIL sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-False-csr_matrix-X_shape2] - Known to fail for CSR arrays, see issue #30131.
+XFAIL sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-False-csr_array-X_shape2] - Known to fail for CSR arrays, see issue #30131.
+XFAIL sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-True-csr_matrix-X_shape2] - Known to fail for CSR arrays, see issue #30131.
+XFAIL sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-True-csr_array-X_shape2] - Known to fail for CSR arrays, see issue #30131.
+XPASS sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-False-csr_matrix-X_shape0] - Known to fail for CSR arrays, see issue #30131.
+XPASS sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-False-csr_matrix-X_shape1] - Known to fail for CSR arrays, see issue #30131.
+XPASS sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-False-csr_array-X_shape0] - Known to fail for CSR arrays, see issue #30131.
+XPASS sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-False-csr_array-X_shape1] - Known to fail for CSR arrays, see issue #30131.
+XPASS sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-True-csr_matrix-X_shape0] - Known to fail for CSR arrays, see issue #30131.
+XPASS sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-True-csr_matrix-X_shape1] - Known to fail for CSR arrays, see issue #30131.
+XPASS sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-True-csr_array-X_shape0] - Known to fail for CSR arrays, see issue #30131.
+XPASS sklearn/linear_model/tests/test_base.py::test_linear_regression_sample_weight_consistency[42-True-csr_array-X_shape1] - Known to fail for CSR arrays, see issue #30131.
+FAILED sklearn/linear_model/tests/test_base.py::test_linear_regression_vs_lstsq[float32]
+======== 1 failed, 76 passed, 1 skipped, 4 xfailed, 8 xpassed in 6.74s =========

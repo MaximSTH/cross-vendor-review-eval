@@ -1,0 +1,51 @@
+============================= test session starts ==============================
+collected 33 items
+
+test/core/config/fluffconfig_test.py ..................F..............   [100%]
+
+=================================== FAILURES ===================================
+E   Failed: DID NOT RAISE <class 'ValueError'>
+/testbed/test/core/config/fluffconfig_test.py:260: Failed: DID NOT RAISE <class 'ValueError'>
+==================================== PASSES ====================================
+_______________________ test__config__warn_unknown_rule ________________________
+------------------------------ Captured log call -------------------------------
+WARNING  sqlfluff.rules:base.py:1130 Rule configuration contain a section for unexpected rule 'NOT_A_RULE'. These values will be ignored.
+WARNING  sqlfluff.rules:base.py:1130 Rule configuration contain a section for unexpected rule 'L001'. These values will be ignored.
+WARNING  sqlfluff.rules:base.py:1147 The reference was however found as a match for rule LT01 with name 'layout.spacing'. SQLFluff assumes configuration for this rule will be specified in 'sqlfluff:rules:layout.spacing'.
+WARNING  sqlfluff.rules:base.py:1130 Rule configuration contain a section for unexpected rule 'layout'. These values will be ignored.
+WARNING  sqlfluff.rules:base.py:1154 The reference was found as a match for multiple rules: {'LT15', 'LT04', 'LT01', 'LT09', 'LT10', 'LT14', 'LT07', 'LT05', 'LT13', 'LT03', 'LT02', 'LT08', 'LT11', 'LT12', 'LT06'}. Config should be specified by the name of the relevant rule e.g. 'sqlfluff:rules:capitalisation.keywords'.
+=========================== short test summary info ============================
+PASSED test/core/config/fluffconfig_test.py::test__config__from_strings
+PASSED test/core/config/fluffconfig_test.py::test__config__nested_config_tests
+PASSED test/core/config/fluffconfig_test.py::test__config__templater_selection[raw-RawTemplater-False]
+PASSED test/core/config/fluffconfig_test.py::test__config__templater_selection[jinja-JinjaTemplater-False]
+PASSED test/core/config/fluffconfig_test.py::test__config__templater_selection[python-PythonTemplater-False]
+PASSED test/core/config/fluffconfig_test.py::test__config__templater_selection[placeholder-PlaceholderTemplater-False]
+PASSED test/core/config/fluffconfig_test.py::test__config__templater_selection[afefhlsakufe-None-True]
+PASSED test/core/config/fluffconfig_test.py::test__config__templater_selection[-None-True]
+PASSED test/core/config/fluffconfig_test.py::test__config__glob_exclude_config_tests
+PASSED test/core/config/fluffconfig_test.py::test__config__glob_include_config_tests
+PASSED test/core/config/fluffconfig_test.py::test__config__rules_set_to_none
+PASSED test/core/config/fluffconfig_test.py::test__config__rules_group_with_exclude
+PASSED test/core/config/fluffconfig_test.py::test__config__get_section
+PASSED test/core/config/fluffconfig_test.py::test__config__get
+PASSED test/core/config/fluffconfig_test.py::test__config__from_kwargs
+PASSED test/core/config/fluffconfig_test.py::test__config__from_string
+PASSED test/core/config/fluffconfig_test.py::test__config_missing_dialect
+PASSED test/core/config/fluffconfig_test.py::test__config__validate_configs_indirect
+PASSED test/core/config/fluffconfig_test.py::test__config__validate_configs_inline_layout[-- sqlfluff:layout:types:comma:line_position:leading\nSELECT 1]
+PASSED test/core/config/fluffconfig_test.py::test__config__validate_configs_inline_layout[-- sqlfluff:layout:foo:bar\nSELECT 1]
+PASSED test/core/config/fluffconfig_test.py::test__config__validate_configs_inline_layout[-- sqlfluff:layout:type:comma:bar\nSELECT 1]
+PASSED test/core/config/fluffconfig_test.py::test__config__validate_configs_inline_layout[-- sqlfluff:layout:type:comma:foo:bar\nSELECT 1]
+PASSED test/core/config/fluffconfig_test.py::test__config__validate_configs_inline_layout[--sqlfluff:layout:type:comma:foo:bar\nSELECT 1]
+PASSED test/core/config/fluffconfig_test.py::test__config__warn_unknown_rule
+PASSED test/core/config/fluffconfig_test.py::test__process_inline_config
+PASSED test/core/config/fluffconfig_test.py::test__process_raw_file_for_config[-- sqlfluff:max_line_length:25\n-- sqlfluff:rules:LT05,LT06\n-- sqlfluff:exclude_rules:LT01,LT02\nSELECT 1]
+PASSED test/core/config/fluffconfig_test.py::test__api__immutable_config
+PASSED test/core/config/fluffconfig_test.py::test_resolve_path_glob_patterns
+PASSED test/core/config/fluffconfig_test.py::test_resolve_path_exact_files
+PASSED test/core/config/fluffconfig_test.py::test_resolve_path_no_matches
+PASSED test/core/config/fluffconfig_test.py::test_resolve_paths_in_config_comma_separated
+PASSED test/core/config/fluffconfig_test.py::test_resolve_paths_in_config_no_matches_fallback
+FAILED test/core/config/fluffconfig_test.py::test__config__invalid_prefer_quoted_keyword_style
+======================== 1 failed, 32 passed in 13.55s =========================
