@@ -1,0 +1,62 @@
+[
+ {
+  "lang": "python",
+  "instance_id": "conan-io__conan-19735_interface",
+  "position": 12
+ },
+ {
+  "lang": "python",
+  "instance_id": "koxudaxi__datamodel-code-generator-3046",
+  "position": 13
+ },
+ {
+  "lang": "python",
+  "instance_id": "alibaba__opensandbox-426",
+  "position": 14
+ },
+ {
+  "lang": "python",
+  "instance_id": "destine-climate-dt__aqua-2768",
+  "position": 15
+ },
+ {
+  "lang": "python",
+  "instance_id": "pycqa__isort-2491",
+  "position": 16
+ },
+ {
+  "lang": "python",
+  "instance_id": "conan-io__conan-19750",
+  "position": 20
+ },
+ {
+  "lang": "python",
+  "instance_id": "sqlfluff__sqlfluff-7615",
+  "position": 25
+ },
+ {
+  "lang": "python",
+  "instance_id": "dagster-io__dagster-33605",
+  "position": 27
+ },
+ {
+  "lang": "python",
+  "instance_id": "sqlfluff__sqlfluff-7617",
+  "position": 29
+ },
+ {
+  "lang": "python",
+  "instance_id": "astropy__astropy-19438",
+  "position": 32
+ },
+ {
+  "lang": "python",
+  "instance_id": "sqlfluff__sqlfluff-7622",
+  "position": 33
+ },
+ {
+  "lang": "python",
+  "instance_id": "scikit-learn__scikit-learn-33565",
+  "position": 34
+ }
+]

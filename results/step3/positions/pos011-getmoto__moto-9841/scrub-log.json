@@ -2,5 +2,5 @@
  "task": "getmoto__moto-9841",
  "rule": "prereg 4.4 (D-035b)",
  "removed": [],
- "note": "pointer scan: ['pull/9745']"
+ "note": "pointer scan hit pull/9745 + issues/9724: CAUSE references (the PR the reporter believes introduced the regression), not pointers to this issue's fix -- kept per D-035b scope (strip fix pointers; keep bug description/causal context). Nothing removed."
 }

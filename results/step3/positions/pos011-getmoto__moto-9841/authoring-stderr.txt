@@ -1,0 +1,54 @@
+2026-08-05T22:10:30.498746Z ERROR codex_models_manager::cache: failed to load models cache: missing field `supports_reasoning_summaries` at line 86 column 5
+OpenAI Codex v0.144.5
+--------
+workdir: /private/tmp/claude-501/-Users-maximst-hilaire-Projects-cross-vendor-review-eval/53b4a7e3-7561-49a7-b878-c5384e98d6df/scratchpad/step3/pos011/authoring
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019fd3fa-6784-7ed2-9348-2f91e6e21638
+--------
+user
+Suport for cloudformation AWS::KMS::Alias resource does not support Full ARN as TargetKeyId
+Hi Team, 
+
+we've recently upgraded moto from 5.1.21 to 5.1.22 (renovate) and our testing framework broke with the following error:
+
+```
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <moto.kms.models.KmsBackend object at 0x10b3b1fd0>
+target_key_id = 'arn:aws:kms:ap-southeast-2:123456789012:key/26fe9350-25da-4bac-91f8-796abadaee5e'
+alias_name = 'alias/test-alias'
+
+    def update_alias(self, target_key_id: str, alias_name: str) -> Alias:
+        for key in self.keys.values():
+            if alias_name in key.aliases and target_key_id != key.id:
+                # Updating the Key that this is an alias of
+                alias = key.aliases.pop(alias_name)
+                self.keys[target_key_id].aliases[alias_name] = alias
+                return alias
+        # TargetKeyId hasn't changed - nothing to update
+>       return self.keys[target_key_id].aliases[alias_name]
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'arn:aws:kms:ap-southeast-2:123456789012:key/26fe9350-25da-4bac-91f8-796abadaee5e'
+
+.venv/lib/python3.14/site-packages/moto/kms/models.py:521: KeyError
+```
+
+Upon investigation of the release notes and code, this seems related to:
+- https://github.com/getmoto/moto/pull/9745
+- https://github.com/getmoto/moto/issues/9724
+
+where support for `AWS::KMS::Alias` was added to the cloudformation sub-module, which seem to only accept a KeyId and not the full ARN.
+
+The full ARN is officially supported by AWS (https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-kms-alias.html), support should probably be added to moto as well. 
+
+For now, I'll downgrade the moto version back to 5.1.21 to pass my unit / integration tests.
+
+---
+Implement a fix for this issue in the current working tree. Leave your changes uncommitted when done.
+ERROR: You've hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Aug 11th, 2026 10:55 AM.
+ERROR: You've hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Aug 11th, 2026 10:55 AM.
